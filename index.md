@@ -28,3 +28,5 @@ A placeholder
 Some notes:
 
 * [Frog simulation](STA447H1S_190110_Rosenthal_frog.html)
+
+$$\int_{0}^{1} x dx = \frac{1}{2}$$
