@@ -1,3 +1,5 @@
-theme: jekyll-theme-cayman
-title: Junkyu Park
+title: |
+ | \large{Junkyu Park}
+ | \small{a placeholder}
 description: This is a website currently under construction.
+theme: jekyll-theme-cayman
