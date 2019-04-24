@@ -18,7 +18,12 @@ All of them are placeholders:
 * Project 3
 
 
-## Notes
+## News
+
+A placeholder
+
+
+## Course notes
 
 Some notes:
 
