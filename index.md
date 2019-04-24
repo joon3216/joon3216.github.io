@@ -1,13 +1,25 @@
 
 Testing testing
 
-[Alias naming](STA447H1S_190110_Rosenthal_frog.html) for the link.
 
 
-## Title 1
+## CV
 
-Testing...
+To be written
 
-## Title 2
 
-Another test
+
+## Projects
+
+All of them are placeholders:
+
+* Project 1
+* Project 2
+* Project 3
+
+
+## Notes
+
+Some notes:
+
+* [Frog simulation](STA447H1S_190110_Rosenthal_frog.html)
