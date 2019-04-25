@@ -25,6 +25,49 @@
   gtag('config', 'UA-139050237-1');
 </script>
 
+<!-- Sidebar -->
+
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
 
 
 
@@ -46,14 +89,18 @@
 
 
 <section class="main-content">
+<p>Go back to <a href="index.html">home</a></p>
 <p>Some course notes at U of T</p>
-<div id="sta447" class="section level1">
-<h1>STA447</h1>
+<div id="winter-2019" class="section level1">
+<h1>Winter 2019</h1>
+<div id="sta447" class="section level2">
+<h2>STA447</h2>
 <ul>
 <li><a href="frog.html">Frog simulation</a></li>
 </ul>
 <p>Math expression test:</p>
 <p><span class="math display">\[\int_{0}^{1} x dx = \frac{1}{2}\]</span></p>
+</div>
 </div>
 </section>
 
