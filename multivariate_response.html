@@ -268,6 +268,7 @@ C &amp;= \mathbf{Y}^T \mathbf{Y} - \mathbf{B}^T \mathbf{X}^T \mathbf{Y} - \mathb
 </div>
 <div id="mle-for-sigma" class="section level3">
 <h3>MLE for <span class="math inline">\(\Sigma\)</span></h3>
+<p>Refer to <a href="matrix_derivatives.html">justifications on matrix derivatives</a> here.</p>
 <span class="math display">\[\begin{align*}
 \ell (\Sigma; \hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) &amp;\propto -\frac{n}{2} \ln \det(\Sigma) - \frac{1}{2} \text{tr} \big(\Sigma^{-1} C \big) \\
 &amp;= \frac{n}{2} \ln \det(\Sigma^{-1}) - \frac{1}{2} \text{tr} \big(\Sigma^{-1} C \big) \\
@@ -275,13 +276,22 @@ C &amp;= \mathbf{Y}^T \mathbf{Y} - \mathbf{B}^T \mathbf{X}^T \mathbf{Y} - \mathb
 &amp;= \frac{n}{2} \Sigma - \frac{1}{2} C \\
 &amp;= \frac{n}{2} \Sigma - \frac{1}{2} \Big( \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \Big)
 \end{align*}\]</span>
-<p>since <span class="math inline">\((\hat{\mathbf{B}} - \hat{\mathbf{B}})^T \mathbf{X}^T \mathbf{X} (\hat{\mathbf{B}} - \hat{\mathbf{B}}) = \mathbf{O}_{q \times q}\)</span>. So the maximizer <span class="math inline">\(\hat{\Sigma}\)</span> satisfies: <span class="math display">\[\nabla_{\Sigma^{-1}} \ell (\Sigma; \hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) = \mathbf{O}\]</span> or:</p>
+<p>since <span class="math inline">\((\hat{\mathbf{B}} - \hat{\mathbf{B}})^T \mathbf{X}^T \mathbf{X} (\hat{\mathbf{B}} - \hat{\mathbf{B}}) = \mathbf{O}_{q \times q}\)</span>. So the maximizer <span class="math inline">\(\hat{\Sigma}\)</span> satisfies: <span class="math display">\[\nabla_{\Sigma^{-1}} \ell (\hat{\Sigma}; \hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) = \mathbf{O}\]</span> or:</p>
 <span class="math display">\[\begin{align*}
 &amp;\frac{n}{2} \hat{\Sigma} - \frac{1}{2} \Big( \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \Big) = \mathbf{O} \\
 \implies &amp;n \hat{\Sigma} = \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} = \mathbf{Y}^T (I_n - H) \mathbf{Y} \\
 \implies &amp;\therefore \text{ } \hat{\Sigma} = \frac{1}{n} \mathbf{Y}^T (I_n - H) \mathbf{Y}
 \end{align*}\]</span>
 <p>Does it look familiar?</p>
+<p><strong>Aside 1</strong>: the total variability in <span class="math inline">\(Y_i\)</span>’s in <span class="math inline">\(\mathbf{Y}\)</span> can be written as the unbiased sample variance of <span class="math inline">\(Y_i\)</span>’s, or:</p>
+<span class="math display">\[\begin{align*}
+\frac{1}{n - 1} \sum_{i = 1}^{n} (Y_i - \overline{Y})(Y_i - \overline{Y})^T &amp;= \frac{1}{n - 1} \Big[ \big[ \sum_{i = 1}^{n} Y_i Y_i^T \big] - n \overline{Y} \overline{Y}^T \Big] \\
+&amp;= \frac{1}{n - 1} \Big[ \mathbf{Y}^T \mathbf{Y} - n (\frac{1}{n} \mathbf{Y}^T \mathbf{1}_{n \times 1})(\frac{1}{n} \mathbf{Y}^T \mathbf{1}_{n \times 1})^T \Big] \\
+&amp;= \frac{1}{n - 1} \Big[ \mathbf{Y}^T \mathbf{Y} - \frac{1}{n} ( \mathbf{Y}^T \mathbf{1}_{n \times 1})(\mathbf{1}_{n \times 1}^T \mathbf{Y}) \Big] \\
+&amp;= \frac{1}{n - 1} \Big[ \mathbf{Y}^T \mathbf{Y} - \frac{1}{n} \mathbf{Y}^T \mathbf{1} \mathbf{1}^T \mathbf{Y} \Big] \\
+&amp;= \frac{1}{n - 1} \mathbf{Y}^T (I_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T ) \mathbf{Y}
+\end{align*}\]</span>
+<p>Does that also look familiar?</p>
 </div>
 </div>
 <div id="distributions" class="section level2">
@@ -410,6 +420,22 @@ Cov(Z_{sv}, Z_{tw}) &amp;= E\Big[ u_s^T \boldsymbol{\mathcal{E}} e_v e_w^T \bold
 <p>That is, <span class="math inline">\(Z_s \stackrel{iid}{\sim} N_q(\mathbf{0}, \Sigma)\)</span>. Therefore, <span class="math inline">\(C\)</span> has the <a href="https://en.wikipedia.org/wiki/Wishart_distribution">Wishart distribution</a>, or: <span class="math display">\[n \hat{\Sigma} = C = \sum_{s = 1}^{n - k} Z_s Z_s^T \sim W_q(\Sigma, n - k)\]</span></p>
 <p>and so: <span class="math display">\[E(n \hat{\Sigma}) = (n - k)\Sigma\]</span> or: <span class="math display">\[E(\hat{\Sigma}) = \frac{n - k}{n} \Sigma\]</span></p>
 <p>So the MLE for <span class="math inline">\(\Sigma\)</span> is biased. Similar to the univariate case, <span class="math inline">\(\widetilde{\Sigma} := \frac{n}{n - k} \hat{\Sigma}\)</span> is unbiased.</p>
+<p><strong>Aside 2</strong>: So far, we’ve seen the following unbiased estimates of variabilities:</p>
+<ul>
+<li>the total variability: <span class="math inline">\(S_\mathbf{Y} := \frac{1}{n - 1} \mathbf{Y}^T (I_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T) \mathbf{Y}\)</span></li>
+<li>the variability in error terms: <span class="math inline">\(\widetilde{\Sigma} = \frac{n}{n - k} \hat{\Sigma} = \frac{1}{n - k} \mathbf{Y}^T (I_n - H) \mathbf{Y}\)</span></li>
+</ul>
+<p>Given these two, we can make another one:</p>
+<span class="math display">\[\begin{align*}
+(n - 1) S_{\mathbf{Y}} &amp;= \mathbf{Y}^T (I_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T) \mathbf{Y} \\
+&amp;= \mathbf{Y}^T (I_n - H + H - \frac{1}{n} \mathbf{1} \mathbf{1}^T) \mathbf{Y} \\
+&amp;= \mathbf{Y}^T \big( (I_n - H)\mathbf{Y} + (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y} \big) \\
+&amp;= \mathbf{Y}^T (I_n - H)\mathbf{Y} + \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y} \\
+&amp;= (n - k) \widetilde{\Sigma} + \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y}
+\end{align*}\]</span>
+<p>Say <span class="math inline">\(M := \frac{1}{k - 1} \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y}\)</span>. Then: <span class="math display">\[(n - 1) S_{\mathbf{Y}} = (n - k) \widetilde{\Sigma} + (k - 1) M\]</span></p>
+<p>This <span class="math inline">\(M\)</span> is, in fact, the variability explained by the chosen covariates (or the “model”).</p>
+<p><strong>Aside 3</strong>: There is a proposition which states that if <span class="math inline">\(X_i \stackrel{iid}{\sim} N_d(\mu, \Sigma)\)</span>, then <span class="math inline">\(\overline{X} \sim N_d(\mu, \frac{1}{n}\Sigma)\)</span> and <span class="math inline">\((n - 1)S = \sum_{i = 1}^{n} (X_i - \overline{X})(X_i - \overline{X})^T \sim W_d(\Sigma, n - 1)\)</span> are independent. By this proposition, <span class="math inline">\(\overline{Y}\)</span> and <span class="math inline">\((n - 1)S_{\mathbf{Y}} \sim W_q(\Sigma, n - 1)\)</span> are independent.</p>
 </div>
 </div>
 </div>
@@ -447,7 +473,7 @@ H &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> <
 I_n &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span>, n)
 C_ &lt;-<span class="st"> </span><span class="kw">t</span>(Y) <span class="op">%*%</span><span class="st"> </span>(I_n <span class="op">-</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span>Y <span class="co"># n * SigmaHat</span>
 k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</code></pre></div>
-<p>We can now compute <span class="math inline">\(\hat{\mathbf{B}} = A \mathbf{X}^T \mathbf{Y}\)</span> and <span class="math inline">\(\widetilde{\Sigma} = S = \frac{n}{n - k} \hat{\Sigma} = \frac{1}{n - k} C\)</span>:</p>
+<p>We can now compute <span class="math inline">\(\hat{\mathbf{B}} = A \mathbf{X}^T \mathbf{Y}\)</span> and <span class="math inline">\(\widetilde{\Sigma} = S = \frac{n}{n - k} \hat{\Sigma} = \frac{1}{n - k} C_{\text{_}}\)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(B &lt;-<span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y)</code></pre></div>
 <pre><code>##              Petal.Length Petal.Width
 ## int             -2.524762  -1.5634923
@@ -462,7 +488,7 @@ k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</code></pre></di
 <span class="kw">coef</span>(mod_pl)</code></pre></div>
 <pre><code>##  (Intercept) Sepal.Length  Sepal.Width 
 ##    -2.524762     1.775593    -1.338623</code></pre>
-<p>The variance of <span class="math inline">\(\boldsymbol{\beta}_{P.L.}\)</span>, which can be obtained by <code>vcov(mod_pl)</code>, is exactly equal to <span class="math inline">\(S_{11} A\)</span>:</p>
+<p>The variance of <span class="math inline">\(\hat{\boldsymbol{\beta}}_{P.L.}\)</span>, which can be obtained by <code>vcov(mod_pl)</code>, is exactly equal to <span class="math inline">\(S_{11} A\)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vcov</span>(mod_pl) <span class="co"># variance matrix of the parameter estimates</span></code></pre></div>
 <pre><code>##              (Intercept)  Sepal.Length   Sepal.Width
 ## (Intercept)   0.31746425 -0.0270708209 -0.0511864936
