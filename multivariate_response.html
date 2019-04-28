@@ -434,7 +434,7 @@ Cov(Z_{sv}, Z_{tw}) &amp;= E\Big[ u_s^T \boldsymbol{\mathcal{E}} e_v e_w^T \bold
 \end{align*}\]</span>
 <p>Say <span class="math inline">\(M := \frac{1}{k - 1} \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y}\)</span>. Then: <span class="math display">\[(n - 1) S_{\mathbf{Y}} = (n - k) \widetilde{\Sigma} + (k - 1) M\]</span></p>
 <p>This <span class="math inline">\(M\)</span> is, in fact, the variability explained by the chosen covariates (or the “model”).</p>
-<p><strong>Aside 3</strong>: There is a proposition which states that if <span class="math inline">\(X_i \stackrel{iid}{\sim} N_d(\mu, \Sigma)\)</span>, then <span class="math inline">\(\overline{X} \sim N_d(\mu, \frac{1}{n}\Sigma)\)</span> and <span class="math inline">\((n - 1)S = \sum_{i = 1}^{n} (X_i - \overline{X})(X_i - \overline{X})^T \sim W_d(\Sigma, n - 1)\)</span> are independent. By this proposition, <span class="math inline">\(\overline{Y}\)</span> and <span class="math inline">\((n - 1)S_{\mathbf{Y}} \sim W_q(\Sigma, n - 1)\)</span> are independent.</p>
+<p><strong>Aside 3</strong>: There is a proposition which states that if <span class="math inline">\(X_i \stackrel{iid}{\sim} N_d(\mu, \Sigma)\)</span>, then <span class="math inline">\(\overline{X} \sim N_d(\mu, \frac{1}{n}\Sigma)\)</span> and <span class="math inline">\((n - 1)S = \sum_{i = 1}^{n} (X_i - \overline{X})(X_i - \overline{X})^T \sim W_d(\Sigma, n - 1)\)</span> are independent. It is tempting to say the same for <span class="math inline">\(\overline{Y}\)</span> and <span class="math inline">\((n - 1)S_{\mathbf{Y}}\)</span>, but we can’t do that; <span class="math inline">\(Y_i\)</span>’s are mutually independent, but not identically distributed.</p>
 </div>
 </div>
 </div>
