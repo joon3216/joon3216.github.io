@@ -95,7 +95,7 @@ nav #toggle
         padding: 0;
         background: rgba(28, 44, 56, 0.99);
         width: 100vw;
-        height: 250%;
+        height: 29vh;
     }
     nav.black .menu ul
     {
@@ -103,7 +103,7 @@ nav #toggle
         margin: 0;
         padding: 0;
         width: 100vw;
-        height: 250%;
+        height: 22vh;
     }
     nav .menu ul li a
     {
