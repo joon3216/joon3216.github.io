@@ -162,7 +162,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#imputation">2. Imputation</a><ul>
+<li><a href="#terminology">Terminology</a></li>
 <li><a href="#the-algorithm">The algorithm</a><ul>
+<li><a href="#how-it-works">How it works</a></li>
 <li><a href="#e-step">E-step</a></li>
 <li><a href="#m-step">M-step</a></li>
 </ul></li>
@@ -182,34 +184,153 @@ gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather
 separate &lt;-<span class="st"> </span>tidyr<span class="op">::</span>separate</code></pre></div>
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
-<p>This note demonstrates the procedure to impute missing components in each data point using the EM algorithm, assuming normality of the data. We will first simulate iid multivariate normal samples, randomly replace some of the components in the data with <code>NA</code>’s, and apply EM algorithm to impute those components. We will compare values of the original parameter, the estimate computed by the imputed data, and the other estimate computed by the original data to measure a performance of imputation.</p>
+<p>Assuming normality of the data, this note demonstrates the procedure to impute missing components in each data point using the EM algorithm. We will first simulate iid multivariate normal samples, randomly replace some of the components in the data with <code>NA</code>’s, and apply EM algorithm to impute those components. We will compare values of the original parameter, the estimate computed by imputed data, and the estimate computed using only the observed data to measure a performance of imputation.</p>
 </div>
 <div id="imputation" class="section level1">
 <h1>2. Imputation</h1>
-<p>Before generating the data to fiddle with, I will first describe how this algorithm works.</p>
+<div id="terminology" class="section level2">
+<h2>Terminology</h2>
+<p>In this note, the following terms will be used in a following context:</p>
+<p><img src="data:image/png;base64,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" width="100%" style="display: block; margin: auto;" /></p>
+<ul>
+<li>data point: an entire row in a table (a green box)</li>
+<li>data or dataset: the table itself (a big black box)</li>
+<li>component: a subset of data point (e.g. a lightblue grey box)</li>
+</ul>
+</div>
 <div id="the-algorithm" class="section level2">
 <h2>The algorithm</h2>
-<p>Assuming <span class="math inline">\(X_i = (X_{i1}, \dots, X_{ij}, \dots, X_{ip}) \stackrel{iid}{\sim} N_p(\mu, \Sigma)\)</span>, we define: <span class="math display">\[C_{ij} := \begin{cases} 1 &amp; X_{ij} \text{ is observed} \\ 0 &amp; X_{ij} \text{ is missing} \end{cases}\]</span></p>
+<p>Before generating the data to fiddle with, I will first describe how this algorithm works.</p>
+<p>Assuming <span class="math inline">\(X_i = (X_{i1}, \dots, X_{ij}, \dots, X_{ip}) \stackrel{iid}{\sim} N_p(\mu, \Sigma)\)</span>, let’s define: <span class="math display">\[C_{ij} := \begin{cases} 1 &amp; X_{ij} \text{ is observed} \\ 0 &amp; X_{ij} \text{ is missing} \end{cases}\]</span></p>
 <p>and <span class="math inline">\(O_i\)</span> and <span class="math inline">\(M_i\)</span> as:</p>
 <span class="math display">\[\begin{align*}
 O_i &amp;:= \{j \text{ | } C_{ij} = 1 \} \\
 M_i &amp;:= \{j \text{ | } C_{ij} = 0 \}
 \end{align*}\]</span>
 <p>i.e. <span class="math inline">\(O_i\)</span> and <span class="math inline">\(M_i\)</span> are sets of <span class="math inline">\(j\)</span> values in <span class="math inline">\(X_i\)</span> that are observed and missing respectively. Since every component in <span class="math inline">\(X_i\)</span> is either observed or missing, we see that: <span class="math display">\[O_i \cup M_i = \{1, 2, \dots, n \}\]</span> and also: <span class="math display">\[O_i \cap M_i = \varnothing\]</span> Assume <span class="math inline">\(|M_i| &lt; n\)</span> for all <span class="math inline">\(i\)</span> (where <span class="math inline">\(|M_i|\)</span> denotes the cardinality of <span class="math inline">\(M_i\)</span>), i.e. no data points have all the components missing, i.e. every data point has at least one component that is observed. For example, if <span class="math inline">\(n = 5\)</span>, <span class="math inline">\(p = 4\)</span>, <span class="math inline">\(X_i \stackrel{iid}{\sim} N_4 (\mu, \Sigma)\)</span> for some <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\Sigma\)</span>, and: <span class="math display">\[\mathbf{X} := \begin{bmatrix} X_1^T \\ X_2^T \\ X_3^T \\ X_4^T \\ X_5^T \end{bmatrix}_{5 \times 4} = \begin{bmatrix} \text{NA} &amp; \text{NA} &amp; 0.7213 &amp; \text{NA} \\ 1.2607 &amp; \text{NA} &amp; -2.0860 &amp; \text{NA} \\ \text{NA} &amp; 0.2322 &amp;  \text{NA} &amp;  2.1117 \\ -1.3510 &amp; -1.4308 &amp; -0.1900 &amp; 0.9055 \\ -0.4004 &amp; \text{NA} &amp; 0.1413 &amp; 0.0657 \end{bmatrix}_{5 \times 4}\]</span> then: <span class="math display">\[C = \begin{bmatrix} 0 &amp; 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 1 &amp; 1 \\ 1 &amp; 0 &amp; 1 &amp; 1 \end{bmatrix} \implies \begin{cases} O_1 = \{3 \}, &amp; M_1 = \{1, 2, 4 \} \\ O_2 = \{1, 3 \}, &amp; M_2 = \{2, 4 \} \\ O_3 = \{2, 4 \}, &amp; M_3 = \{1, 3 \} \\ O_4 = \{1, 2, 3, 4 \}, &amp; M_4 = \{ \} \\ O_5 = \{1, 3, 4 \}, &amp; M_5 = \{ 2 \} \end{cases}\]</span></p>
-<p>Assume that we somehow have <span class="math inline">\(\theta^{(0)} = (\mu^{(0)}, \Sigma^{(0)})\)</span>, the initial estimate for parameters.</p>
+<p>That is, the assumption prevents us to consider data points that look like <span class="math inline">\(\text{(NA, NA, NA, NA)}\)</span> in <span class="math inline">\(\mathbf{X}\)</span>. Notice that in the example above, no <span class="math inline">\(M_i\)</span> is equal to <span class="math inline">\(\{1, 2, 3, 4 \}\)</span>.</p>
+<p>Let’s also suppose that we somehow have <span class="math inline">\(\theta^{(0)} = (\mu^{(0)}, \Sigma^{(0)})\)</span>, the initial estimate for parameters. We may get this by computing estimates using the observed components only. Details for the initial estimate will be discussed in a moment.</p>
+<div id="how-it-works" class="section level3">
+<h3>How it works</h3>
+<p>“E” stands for the expectation, and “M” stands for the maximization. The EM algorithm is an optimization algorithm that maximizes the “expected complete data log likelihood” by some iterative means under the (conditional) distribution of unobserved components. In other words, the expectation step (or E-step) at iteration <span class="math inline">\(t\)</span> computes:</p>
+<span class="math display">\[\begin{align*}
+Q(\theta \text{ | } \theta^{(t)}) &amp;:= E_{\theta^{(t)}} \big[ \log L(\theta ; \mathbf{Y}_{O}, \mathbf{Y}_{M} ) \text{ | } \mathbf{Y}_{O} = \mathbf{y}_O \big] \\
+&amp;= \sum_{i = 1}^{n} E_{\theta^{(t)}} \big[ \log L(\theta ; Y_{iO_i}, Y_{iM_i} ) \text{ | } Y_{i O_i} = y_{i O_i} \big]
+\end{align*}\]</span>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{Y} = (\mathbf{Y}_O, \mathbf{Y}_M)\)</span>: a complete data, or a collection of all <span class="math inline">\(n\)</span> data points</li>
+<li><span class="math inline">\(\mathbf{Y}_O\)</span>: a collection of all observed components</li>
+<li><span class="math inline">\(\mathbf{Y}_M\)</span>: a collection of all missing (or unobserved) components</li>
+<li><span class="math inline">\(Y_i = (Y_{i O_i}, Y_{i M_i})\)</span>: a complete <span class="math inline">\(i\)</span><sup>th</sup> data point</li>
+<li><span class="math inline">\(Y_{i O_i}\)</span>: an observed component of the <span class="math inline">\(i\)</span><sup>th</sup> data point</li>
+<li><span class="math inline">\(Y_{i M_i}\)</span>: a missing component of the <span class="math inline">\(i\)</span><sup>th</sup> data point</li>
+</ul>
+<p><span class="math inline">\(E_{\theta^{(t)}}(\cdot \text{ | } Y_O = y_O)\)</span> means an expectation under <span class="math inline">\(Y_{M} \text{ | } (Y_O = y_O, \theta^{(t)})\)</span>. And due to the iid assumption of data points, we have <span class="math inline">\(\log f(\mathbf{Y}) = \sum_{i = 1}^{n} \log f(Y_i)\)</span>.</p>
+<p>The maximization step (or M-step) at iteration <span class="math inline">\(t\)</span> finds: <span class="math display">\[\theta^{(t + 1)} := \underset{\theta}{\text{argmax}} \{ Q(\theta \text{ | } \theta^{(t)}) \}\]</span> These two steps are repeated until the parameter estimate converges.</p>
+</div>
 <div id="e-step" class="section level3">
 <h3>E-step</h3>
-<p>Given <span class="math inline">\(\theta^{(t)} = (\mu^{(t)}, \Sigma^{(t)})\)</span> at iteration <span class="math inline">\(t\)</span>, we have that for all <span class="math inline">\(i\)</span>’s with <span class="math inline">\(|M_i| \neq 0\)</span>: <span class="math display">\[X_{iM_i} \text{ | } \big( X_{i O_i} = x_{i O_i}, \theta^{(t)} \big) \sim N_{|M_i|} \big(\mu_{M_i}^{(t)} + \Sigma_{M_i O_i}^{(t)} (\Sigma_{O_i O_i}^{-1})^{(t)} (x_{i O_i} - \mu_{O_i}^{(t)}), \Sigma_{M_i M_i \cdot O_i}^{(t)} \big)\]</span> where <span class="math inline">\(\Sigma_{M_i M_i \cdot O_i}^{(t)} := \Sigma_{M_i M_i}^{(t)} - \Sigma_{M_i O_i}^{(t)} (\Sigma_{O_i O_i}^{-1})^{(t)} \Sigma_{O_i M_i}^{(t)}\)</span>.</p>
+<p>Say we’re at iteration <span class="math inline">\(t\)</span> with <span class="math inline">\(\theta^{(t)} = (\mu^{(t)}, \Sigma^{(t)})\)</span>. For each <span class="math inline">\(X_i \sim N_p (\mu, \Sigma)\)</span>, let <span class="math inline">\(Q_i(\theta \text{ | } \theta^{(t)})\)</span> be the expected log likelihood. This is equal to:</p>
+<span class="math display">\[\begin{align*}
+&amp;E_{\theta^{(t)}} \big[ -\frac{1}{2} \log |2 \pi \Sigma | - \frac{1}{2} (X_i - \mu)^T \Sigma^{-1} (X_i - \mu)  \text{ | } X_{i O_i} = x_{i O_i} \big] \\
+=&amp; -\frac{1}{2} \log | 2 \pi \Sigma | - \frac{1}{2} E_{\theta^{(t)}} \big[ (X_i - \mu)^T \Sigma^{-1} (X_i - \mu)  \text{ | } X_{i O_i} = x_{i O_i} \big] \\
+=&amp; -\frac{1}{2} \log | 2 \pi \Sigma | - \frac{1}{2} E_{\theta^{(t)}} \big[ (J_{\sigma_i} X_i - J_{\sigma_i} \mu)^T J_{\sigma_i} \Sigma^{-1} J_{\sigma_i}^T (J_{\sigma_i} X_i - J_{\sigma_i} \mu)  \text{ | } X_{i O_i} = x_{i O_i} \big]
+\end{align*}\]</span>
+<p>where <span class="math inline">\(J_{\sigma_i}\)</span> is a <span class="math inline">\(p \times p\)</span> permutation matrix for <span class="math inline">\(X_i\)</span> so that <span class="math inline">\(J_{\sigma_i} X_i = (X_{i M_i}, X_{i O_i})\)</span>. For example: if <span class="math inline">\(X_i = (\text{NA}, 2, 3, \text{NA})\)</span>, then we may let: <span class="math display">\[J_{\sigma_i} = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \end{bmatrix}\]</span> so that: <span class="math display">\[J_{\sigma_i} X_i = \begin{bmatrix} \text{NA} \\ \text{NA} \\ 2 \\ 3 \end{bmatrix}\]</span></p>
+<p>Also, for any <span class="math inline">\(\sigma_i\)</span> (permutation), we get <span class="math inline">\(J_{\sigma_i}^T J_{\sigma_i} = I_p\)</span> (i.e. <span class="math inline">\(J_{\sigma_i}^{-1} = J_{\sigma_i}^T\)</span>). Now:</p>
+<span class="math display">\[\begin{align*}
+&amp;E_{\theta^{(t)}} \big[ (J_{\sigma_i} X_i - J_{\sigma_i} \mu)^T J_{\sigma_i} \Sigma^{-1} J_{\sigma_i}^T (J_{\sigma_i} X_i - J_{\sigma_i} \mu)  \text{ | } X_{i O_i} = x_{i O_i} \big] \\
+=&amp; E_{\theta^{(t)}} \Big[ \begin{bmatrix} X_{i M_i} - \mu_{M_i} \\  X_{i O_i} - \mu_{O_i} \end{bmatrix}^T \begin{bmatrix} (\Sigma^{-1})_{M_i M_i} &amp; (\Sigma^{-1})_{M_i O_i} \\ (\Sigma^{-1})_{O_i M_i} &amp; (\Sigma^{-1})_{O_i O_i} \end{bmatrix} \begin{bmatrix} X_{i M_i} - \mu_{M_i} \\  X_{i O_i} - \mu_{O_i} \end{bmatrix}  \text{ | } X_{i O_i} = x_{i O_i} \Big] \\
+=&amp;\hspace{16pt} E_{\theta^{(t)}} \Big[ ( X_{i M_i} - \mu_{M_i})^T (\Sigma^{-1})_{M_i M_i} ( X_{i M_i} - \mu_{M_i}) \text{ | } X_{i O_i} = x_{i O_i} \Big] \\ 
+&amp;+ 2 E_{\theta^{(t)}} \Big[ ( X_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i M_i} ( X_{i M_i} - \mu_{M_i}) \text{ | } X_{i O_i} = x_{i O_i} \Big] \\ 
+&amp;+ \hspace{5pt} E_{\theta^{(t)}} \Big[ ( X_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i O_i} (  X_{i O_i} - \mu_{O_i}) \text{ | } X_{i O_i} = x_{i O_i} \Big] \\
+=&amp;\hspace{16pt} E_{\theta^{(t)}} \Big[ ( X_{i M_i} - \mu_{M_i})^T (\Sigma^{-1})_{M_i M_i} ( X_{i M_i} - \mu_{M_i}) \text{ | } X_{i O_i} = x_{i O_i} \Big] \\ 
+&amp;+ 2 ( x_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i M_i} E_{\theta^{(t)}} \Big[  X_{i M_i} - \mu_{M_i} \text{ | } X_{i O_i} = x_{i O_i} \Big] \\ 
+&amp;+ \hspace{5pt} ( x_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i O_i} (  x_{i O_i} - \mu_{O_i})
+\end{align*}\]</span>
+<p>Given <span class="math inline">\(\theta^{(t)} = (\mu^{(t)}, \Sigma^{(t)})\)</span> at iteration <span class="math inline">\(t\)</span>, we have that for all <span class="math inline">\(i\)</span>’s with <span class="math inline">\(|M_i| \neq 0\)</span>: <span class="math display">\[X_{iM_i} \text{ | } \big( X_{i O_i} = x_{i O_i}, \theta^{(t)} \big) \sim N_{|M_i|} \big(\mu_{M_i}^{(t)} + \Sigma_{M_i O_i}^{(t)} (\Sigma_{O_i O_i}^{(t)})^{-1} (x_{i O_i} - \mu_{O_i}^{(t)}), \Sigma_{M_i M_i \cdot O_i}^{(t)} \big)\]</span> where <span class="math inline">\(\Sigma_{M_i M_i \cdot O_i}^{(t)} := \Sigma_{M_i M_i}^{(t)} - \Sigma_{M_i O_i}^{(t)} (\Sigma_{O_i O_i}^{(t)})^{-1} \Sigma_{O_i M_i}^{(t)}\)</span>. Define: <span class="math display">\[\widetilde{\mu}_{i M_i}^{(t)} := \mu_{M_i}^{(t)} + \Sigma_{M_i O_i}^{(t)} (\Sigma_{O_i O_i}^{(t)})^{-1} (x_{i O_i} - \mu_{O_i}^{(t)})\]</span> so that we can write: <span class="math display">\[X_{iM_i} \text{ | } \big( X_{i O_i} = x_{i O_i}, \theta^{(t)} \big) \sim N_{|M_i|} \big(\widetilde{\mu}_{i M_i}^{(t)}, \Sigma_{M_i M_i \cdot O_i}^{(t)} \big)\]</span> That is: <span class="math display">\[X_{iM_i} - \mu_{M_i} \text{ | } \big( X_{i O_i} = x_{i O_i}, \theta^{(t)} \big) \sim N_{|M_i|} \big(\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}, \Sigma_{M_i M_i \cdot O_i}^{(t)} \big)\]</span> Furthermore, we obtain the distribution of: <span class="math display">\[[(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}(X_{iM_i} - \mu_{M_i}) \text{ | } \big( X_{i O_i} = x_{i O_i}, \theta^{(t)} \big)\]</span> which is: <span class="math display">\[N_{|M_i|} \Big( [(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}(\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}), \text{ }[(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}} \Sigma_{M_i M_i \cdot O_i}^{(t)} [(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}} \Big)\]</span> since <span class="math inline">\([(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}\)</span> is symmetric.</p>
+<p>Using the fact that <span class="math inline">\(E(WW^T) = Var(W) + E(W)E(W)^T\)</span>, we get:</p>
+<span class="math display">\[\begin{align*}
+&amp;E_{\theta^{(t)}} \Big[ ( X_{i M_i} - \mu_{M_i})^T (\Sigma^{-1})_{M_i M_i} ( X_{i M_i} - \mu_{M_i}) \text{ | } X_{i O_i} = x_{i O_i} \Big] \\
+=&amp; E_{X_{i O_i} = x_{i O_i}, \theta^{(t)}} \Big[ \big[[(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}(X_{iM_i} - \mu_{M_i}) \big]^T \big[[(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}(X_{iM_i} - \mu_{M_i}) \big] \Big] \\
+=&amp; E_{X_{i O_i} = x_{i O_i}, \theta^{(t)}} \Big[ W_i^T W_i \Big] \\
+=&amp; \text{tr} \Big( E_{X_{i O_i} = x_{i O_i}, \theta^{(t)}} \big[ W_i W_i^T \big] \Big) \\
+=&amp;\hspace{11pt} \text{tr} \Big( [(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}} \Sigma_{M_i M_i \cdot O_i}^{(t)} [(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}} \Big) \\
+&amp;+ \text{tr} \Big( \big[ [(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}(\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}) \big] \big[ [(\Sigma^{-1})_{M_i M_i}]^{\frac{1}{2}}(\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}) \big]^T \Big) \\
+=&amp;\hspace{11pt} \text{tr} \Big( [(\Sigma^{-1})_{M_i M_i}] \Sigma_{M_i M_i \cdot O_i}^{(t)} \Big) \\
+&amp;+ (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i})^T [(\Sigma^{-1})_{M_i M_i}] (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i})
+\end{align*}\]</span>
+<p>and hence:</p>
+<span class="math display">\[\begin{align*}
+&amp;E_{\theta^{(t)}} \big[ (J_{\sigma_i} X_i - J_{\sigma_i} \mu)^T J_{\sigma_i} \Sigma^{-1} J_{\sigma_i}^T (J_{\sigma_i} X_i - J_{\sigma_i} \mu)  \text{ | } X_{i O_i} = x_{i O_i} \big] \\
+=&amp; \text{tr} \Big( [(\Sigma^{-1})_{M_i M_i}] \Sigma_{M_i M_i \cdot O_i}^{(t)} \Big) + (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i})^T [(\Sigma^{-1})_{M_i M_i}] (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}) \\
+&amp;+ 2 ( x_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i M_i} (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}) \\ 
+&amp;+ \hspace{5pt} ( x_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i O_i} (  x_{i O_i} - \mu_{O_i})
+\end{align*}\]</span>
+<p>Therefore:</p>
+<span class="math display">\[\begin{align*}
+Q_i(\theta \text{ | } \theta^{(t)}) = &amp;-\frac{1}{2} \log |2 \pi \Sigma| - \frac{1}{2} \Big[ \text{tr} \big( [(\Sigma^{-1})_{M_i M_i}] \Sigma_{M_i M_i \cdot O_i}^{(t)} \big) \\
+&amp;\hspace{15pt} + (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i})^T (\Sigma^{-1})_{M_i M_i} (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}) \\
+&amp;\hspace{15pt} + 2 ( x_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i M_i} (\widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}) \\ 
+&amp;\hspace{15pt} + \hspace{5pt} ( x_{i O_i} - \mu_{O_i})^T (\Sigma^{-1})_{O_i O_i} (  x_{i O_i} - \mu_{O_i}) \Big] \\
+= &amp;-\frac{1}{2} \log |2 \pi \Sigma| - \frac{1}{2} \Big[ \text{tr} \big( [(\Sigma^{-1})_{M_i M_i}] \Sigma_{M_i M_i \cdot O_i}^{(t)} \big) \\
+&amp;\hspace{10pt} + \begin{bmatrix} \widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i} \\ x_{i O_i} - \mu_{O_i} \end{bmatrix}^T \begin{bmatrix} (\Sigma^{-1})_{M_i M_i} &amp; (\Sigma^{-1})_{M_i O_i} \\ (\Sigma^{-1})_{O_i M_i} &amp; (\Sigma^{-1})_{O_i O_i} \end{bmatrix} \begin{bmatrix} \widetilde{\mu}_{i M_i}^{(t)} - \mu_{M_i}\\ x_{i O_i} - \mu_{O_i} \end{bmatrix} \Big] \\
+= &amp;-\frac{1}{2} \log |2 \pi \Sigma| - \frac{1}{2} \Big[ \text{tr} \big( [(\Sigma^{-1})_{M_i M_i}] \Sigma_{M_i M_i \cdot O_i}^{(t)} \big) \\
+&amp;\hspace{10pt} + (\widetilde{x}_i^{(t)} - \mu)^T \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) \Big]
+\end{align*}\]</span>
+<p>where <span class="math inline">\(\widetilde{x}_i^{(t)} = (x_{i1}^{(t)}, \dots, x_{ip}^{(t)})\)</span> is the data point such that <span class="math inline">\(x_{i M_i}^{(t)} = (x_{ij}^{(t)})_{j \in M_i}\)</span> is replaced with <span class="math inline">\(\widetilde{\mu}_{i M_i}^{(t)}\)</span> (and that <span class="math inline">\(x_{i O_i}^{(t)} = x_{i O_i}\)</span> always stays the same since it is observed and not subject to imputation). Note that at <span class="math inline">\(t = 0\)</span>, <span class="math inline">\(x_{i M_i}^{(0)}\)</span> is just a vector of missing values. And finally: <span class="math display">\[Q(\theta \text{ | } \theta^{(t)}) = \sum_{i = 1}^{n} Q_i(\theta \text{ | } \theta^{(t)})\]</span></p>
 </div>
 <div id="m-step" class="section level3">
 <h3>M-step</h3>
-<p>For each <span class="math inline">\(X_i^{(t)} = x_i^{(t)}\)</span>, replace <span class="math inline">\(x_{i M_i}^{(t)}\)</span> by <span class="math inline">\(\widetilde{\mu}_{i M_i}^{(t)} := \mu_{i M_i}^{(t)} + \Sigma_{M_i O_i}^{(t)} (\Sigma_{O_i O_i}^{-1})^{(t)} (x_{i O_i} - \mu_{i O_i}^{(t)})\)</span>. Denote the imputed <span class="math inline">\(x_{i}^{(t)}\)</span>’s as <span class="math inline">\(\widetilde{x}_i^{(t)}\)</span>. Estimate parameters as:</p>
+<p>Differentiating <span class="math inline">\(Q(\theta \text{ | } \theta^{(t)})\)</span> with respect to <span class="math inline">\(\mu\)</span> yields:</p>
+<span class="math display">\[\begin{align*}
+\nabla_{\mu} Q(\theta \text{ | } \theta^{(t)}) &amp;= \sum_{i = 1}^{n} \nabla_{\mu} Q_i (\theta \text{ | } \theta^{(t)}) \\
+&amp;= \sum_{i = 1}^{n} \nabla_{\mu} \Big( -\frac{1}{2} (\widetilde{x}_i^{(t)} - \mu)^T \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) \Big) \\
+&amp;= -\frac{1}{2} \sum_{i = 1}^{n} \nabla_{\mu} (\widetilde{x}_i^{(t)} - \mu)^T \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) \\
+&amp;= -\frac{1}{2} \sum_{i = 1}^{n} 2 \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) \nabla_{\mu} (\widetilde{x}_i^{(t)} - \mu) \\
+&amp;= -\frac{1}{2} \sum_{i = 1}^{n} 2 \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) (O - I_p) \\
+&amp;= \Sigma^{-1} \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu)
+\end{align*}\]</span>
+<p>The maximizer <span class="math inline">\(\mu^{(t + 1)}\)</span> must satisfy <span class="math inline">\(\Sigma^{-1} \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu^{(t + 1)}) = \mathbf{0}\)</span> since <span class="math inline">\(Q(\theta \text{ | } \theta^{(t)})\)</span> is a concave function with respect to <span class="math inline">\(\mu\)</span>. Given that <span class="math inline">\(\Sigma^{-1}\)</span> is postivie-definite:</p>
+<span class="math display">\[\begin{align*}
+&amp;\Sigma^{-1} \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu^{(t + 1)}) = \mathbf{0} \\
+\iff&amp; \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu^{(t + 1)}) = \mathbf{0} \\
+\iff&amp; \sum_{i = 1}^{n} \widetilde{x}_i^{(t)} = n \mu^{(t + 1)} \\
+\iff&amp; \mu^{(t + 1)} = \frac{1}{n} \sum_{i = 1}^{n} \widetilde{x}_i^{(t)} =: \overline{\widetilde{x}}^{(t)}
+\end{align*}\]</span>
+<p>See <a href="03_research_materials_2019_matrix_derivatives.html">here</a> for matrix derivatives. Differentiating <span class="math inline">\(Q(\theta \text{ | } \theta^{(t)})\)</span> with respect to <span class="math inline">\(\Sigma^{-1}\)</span> yields:</p>
+<span class="math display">\[\begin{align*}
+\nabla_{\Sigma^{-1}} Q(\theta \text{ | } \theta^{(t)}) &amp;= \sum_{i = 1}^{n} \nabla_{\Sigma^{-1}} Q_i (\theta \text{ | } \theta^{(t)}) \\
+&amp;= \sum_{i = 1}^{n} \frac{1}{2} \nabla_{\Sigma^{-1}} \log |\Sigma^{-1}| - \frac{1}{2} \nabla_{\Sigma^{-1}} \text{tr} \big( (\Sigma^{-1})_{M_i M_i} \Sigma_{M_i M_i \cdot O_i}^{(t)} \big) \\
+&amp;\hspace{10pt} - \sum_{i = 1}^{n} \frac{1}{2} \nabla_{\Sigma^{-1}} (\widetilde{x}_i^{(t)} - \mu)^T \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) \\
+&amp;= \frac{1}{2} \sum_{i = 1}^{n} \nabla_{\Sigma^{-1}} \log |\Sigma^{-1}| - \nabla_{\Sigma^{-1}} \text{tr} \big( (\Sigma^{-1})_{M_i M_i} \Sigma_{M_i M_i \cdot O_i}^{(t)} \big) \\
+&amp;\hspace{10pt} - \frac{1}{2} \sum_{i = 1}^{n} \nabla_{\Sigma^{-1}} \text{tr} \big( (\widetilde{x}_i^{(t)} - \mu)^T \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu) \big)
+\end{align*}\]</span>
+<p>since <span class="math inline">\((\widetilde{x}_i^{(t)} - \mu)^T \Sigma^{-1} (\widetilde{x}_i^{(t)} - \mu)\)</span> is a constant. Let’s continue:</p>
+<span class="math display">\[\begin{align*}
+\nabla_{\Sigma^{-1}} Q(\theta \text{ | } \theta^{(t)}) &amp;= \frac{1}{2} \big[ \sum_{i = 1}^{n} \Sigma -  \widetilde{\Sigma}_{i}^{(t)} \big] - \frac{1}{2} \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu)(\widetilde{x}_i^{(t)} - \mu)^T \\
+&amp;= \frac{1}{2} \big[ n \Sigma - \sum_{i = 1}^{n} \widetilde{\Sigma}_{i}^{(t)} \big] - \frac{1}{2} \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu)(\widetilde{x}_i^{(t)} - \mu)^T
+\end{align*}\]</span>
+<p>where <span class="math inline">\(\widetilde{\Sigma}_i^{(t)}\)</span> is a <span class="math inline">\(p \times p\)</span> matrix having zero everywhere except <span class="math inline">\(M_i M_i\)</span> component replaced by <span class="math inline">\(\Sigma_{M_i M_i \cdot O_i}^{(t)}\)</span>.</p>
+<p>The maximizer <span class="math inline">\(\theta^{(t + 1)} = (\mu^{(t + 1)}, \Sigma^{(t + 1)})\)</span> should satisfy: <span class="math display">\[\nabla_{\Sigma^{-1}} Q(\theta^{(t + 1)} \text{ | } \theta^{(t)}) = O\]</span> That is:</p>
+<span class="math display">\[\begin{align*}
+O &amp;= \frac{1}{2} \big[ n \Sigma^{(t + 1)} - \sum_{i = 1}^{n} \widetilde{\Sigma}_{i}^{(t)} \big] - \frac{1}{2} \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu^{(t + 1)})(\widetilde{x}_i^{(t)} - \mu^{(t + 1)})^T \\
+&amp;= \big[ n \Sigma^{(t + 1)} - \sum_{i = 1}^{n} \widetilde{\Sigma}_{i}^{(t)} \big] - \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu^{(t + 1)})(\widetilde{x}_i^{(t)} - \mu^{(t + 1)})^T \\
+\iff n \Sigma^{(t + 1)} &amp;= \sum_{i = 1}^{n} \widetilde{\Sigma}_{i}^{(t)} + \sum_{i = 1}^{n} (\widetilde{x}_i^{(t)} - \mu^{(t + 1)})(\widetilde{x}_i^{(t)} - \mu^{(t + 1)})^T \\
+\iff \Sigma^{(t + 1)} &amp;= \frac{1}{n} \sum_{i = 1}^{n} \Big[ \widetilde{\Sigma}_{i}^{(t)} + (\widetilde{x}_i^{(t)} - \mu^{(t + 1)})(\widetilde{x}_i^{(t)} - \mu^{(t + 1)})^T \Big]
+\end{align*}\]</span>
+<p>Therefore, the maximizers are:</p>
 <span class="math display">\[\begin{align*}
 \mu^{(t + 1)} &amp;= \overline{\widetilde{x}}^{(t)} = \frac{1}{n}\sum_{i = 1}^{n} \widetilde{x}_i^{(t)} \\
 \Sigma^{(t + 1)} &amp;= \frac{1}{n} \sum_{i = 1}^{n} \big[ (\widetilde{x}_i^{(t)} - \mu^{(t + 1)})(\widetilde{x}_i^{(t)} - \mu^{(t + 1)})^T + \widetilde{\Sigma}_i^{(t)} \big]
 \end{align*}\]</span>
-<p>where <span class="math inline">\(\widetilde{\Sigma}_i^{(t)}\)</span> is a <span class="math inline">\(p \times p\)</span> matrix having zero everywhere except <span class="math inline">\(M_i M_i\)</span> component replaced by <span class="math inline">\(\Sigma_{M_i M_i \cdot O_i}^{(t)}\)</span>.</p>
-<p>With <span class="math inline">\(\theta^{(t + 1)} = (\mu^{(t + 1)}, \Sigma^{(t + 1)})\)</span>, repeat E-step and M-step until the log-likelihood <span class="math display">\[\text{(expression to be updated)}\]</span> does not increase by more than a certain threshold.</p>
+<p>With <span class="math inline">\(\theta^{(t + 1)} = (\mu^{(t + 1)}, \Sigma^{(t + 1)})\)</span>, repeat E-step and M-step until convergence. We can test the convergence by either:</p>
+<ul>
+<li>checking the log-likelihood <span class="math inline">\(Q(\theta \text{ | } \theta^{(t)})\)</span> and the amount of increase; if it does not increase by more than a certain threshold, claim the convergence.</li>
+<li>checking some sort of metric <span class="math inline">\(d(\mu^{(t + 1)}, \mu^{(t)})\)</span> and <span class="math inline">\(d(\Sigma^{(t + 1)}, \Sigma^{(t)})\)</span> (e.g. <span class="math inline">\(L_2\)</span>-norm); if both of them are close to <span class="math inline">\(0\)</span>, claim the convergence.</li>
+</ul>
+<p>The second method works because for every <span class="math inline">\(s\)</span>, <span class="math inline">\(\mu^{(s)}\)</span> and <span class="math inline">\(\Sigma^{(s)}\)</span> are elements of a complete space (in particular, <span class="math inline">\(\mathbb{R}^{p}\)</span> and <span class="math inline">\(\mathbb{R}^{p \times p}\)</span>). In a complete space, a sequence converges if and only if it is Cauchy, and both of <span class="math inline">\(\{ d(\mu^{(t + 1)}, \mu^{(t)}) \}_{t = 0}^{\infty}\)</span> and <span class="math inline">\(\{ d(\Sigma^{(t + 1)}, \Sigma^{(t)})\}_{t = 0}^{\infty}\)</span> are Cauchy sequences.</p>
 </div>
 </div>
 <div id="simulating-nas" class="section level2">
@@ -226,7 +347,8 @@ M_i &amp;:= \{j \text{ | } C_{ij} = 0 \}
 mu &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>)
 Sigma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">118</span>, <span class="dv">62</span>, <span class="dv">44</span>, <span class="dv">62</span>, <span class="dv">49</span>, <span class="dv">17</span>, <span class="dv">44</span>, <span class="dv">17</span>, <span class="dv">21</span>), <span class="dt">nrow =</span> <span class="dv">3</span>)
 X_truth &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(<span class="dt">n =</span> <span class="dv">400</span>, <span class="dt">mu =</span> mu, <span class="dt">Sigma =</span> Sigma)</code></pre></div>
-<p>We will then manually set some values in each <span class="math inline">\(X_i\)</span> to be <code>NA</code> so that the proportion of missing data points in a dataset is approximately <code>na_rate</code>, where <code>na_rate</code> is some value I specified. Note that we need to make sure not all coordinates in <span class="math inline">\(X_i\)</span> are <code>NA</code>’s:</p>
+<p><code>X_truth</code> stores a complete data.</p>
+<p>We will then manually set some components in each <span class="math inline">\(X_i\)</span> to be <code>NA</code> so that the proportion of missing components in a dataset is approximately <code>na_rate</code>, where <code>na_rate</code> is some value the user can specify. Note that we need to make sure not all coordinates in <span class="math inline">\(X_i\)</span> are <code>NA</code>’s:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simulate_na &lt;-<span class="st"> </span><span class="cf">function</span>(X_complete, na_rate) {
     <span class="co"># X_complete: a data frame or a matrix with no NA's</span>
     <span class="co"># na_rate: a number in (0, 1)</span>
@@ -235,33 +357,157 @@ X_truth &lt;-<span class="st"> </span><span class="kw">mvrnorm</span>(<span clas
     nr &lt;-<span class="st"> </span><span class="kw">nrow</span>(X_complete); nc &lt;-<span class="st"> </span><span class="kw">ncol</span>(X_complete)
     C &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(nr <span class="op">*</span><span class="st"> </span>nc) <span class="op">&gt;</span><span class="st"> </span>na_rate, <span class="dt">nrow =</span> nr)
     
-    <span class="co"># Check for which i's we have all coordinates become missing</span>
+    <span class="co"># Check for which i's we have all components become missing</span>
     checker &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rowSums</span>(C) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) 
     <span class="cf">if</span> (<span class="kw">length</span>(checker) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {
-        <span class="co"># Every X_i has at least one coordinate that is observed, </span>
+        <span class="co"># Every X_i has at least one component that is observed, </span>
         <span class="co"># which is what we want</span>
         X_complete[<span class="op">!</span>C] &lt;-<span class="st"> </span><span class="ot">NA</span>
     } <span class="cf">else</span> {
+        <span class="co"># Otherwise, randomly &quot;revive&quot; some components in such X_i's</span>
         <span class="cf">for</span> (i <span class="cf">in</span> checker) {
             C[i, <span class="kw">sample</span>(nc, <span class="kw">ceiling</span>(<span class="kw">runif</span>(<span class="dv">1</span>, <span class="dt">max =</span> nc)))] &lt;-<span class="st"> </span><span class="ot">TRUE</span>
         }
         X_complete[<span class="op">!</span>C] &lt;-<span class="st"> </span><span class="ot">NA</span>
     }
     <span class="kw">list</span>(
-        <span class="dt">X =</span> X_complete, <span class="dt">C =</span> C,
-        <span class="dt">na_rate =</span> na_rate, <span class="dt">na_rate_actual =</span> <span class="kw">sum</span>(<span class="op">!</span>C) <span class="op">/</span><span class="st"> </span>(nr <span class="op">*</span><span class="st"> </span>nc)
+        <span class="dt">X =</span> X_complete, 
+        <span class="dt">C =</span> C,
+        <span class="dt">na_rate =</span> na_rate, 
+        <span class="dt">na_rate_actual =</span> <span class="kw">sum</span>(<span class="op">!</span>C) <span class="op">/</span><span class="st"> </span>(nr <span class="op">*</span><span class="st"> </span>nc)
     )
 }</code></pre></div>
-<p>I will set <code>na_rate</code> to be <span class="math inline">\(.4\)</span>. This choice is completely arbitrary:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">simulate_na</span>(X_truth, <span class="dt">na_rate =</span> .<span class="dv">4</span>)</code></pre></div>
-<p>Since we always require <span class="math inline">\(|M_i| &lt; n\)</span> for all i</p>
+<p>I will set <code>na_rate</code> to be <span class="math inline">\(.4\)</span>, a completely arbitrary choice:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">simulate_na</span>(X_truth, <span class="dt">na_rate =</span> .<span class="dv">4</span>)
+X &lt;-<span class="st"> </span>result<span class="op">$</span>X</code></pre></div>
+<p><code>X</code> is the data with missing components.</p>
+<p>Since we always require <span class="math inline">\(|M_i| &lt; n\)</span> for all <span class="math inline">\(i\)</span> (and thereby randomly “reviving” some values in <code>simulate_na</code>), we will almost always see <code>na_rate_actual</code> being less than <code>na_rate</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result<span class="op">$</span>na_rate_actual</code></pre></div>
+<pre><code>## [1] 0.3441667</code></pre>
+<p>It is possible to add some correction measure to make <code>na_rate_actual</code> closer to <code>na_rate</code>, but I won’t do that in this note. It just seems unnecessary.</p>
 </div>
 <div id="imputing-nas" class="section level2">
 <h2>Imputing <code>NA</code>s</h2>
+<p>Now, let’s impute.</p>
+<p>We start with <span class="math inline">\(\mu^{(0)}\)</span> and <span class="math inline">\(\Sigma^{(0)}\)</span> as sample mean and (unbiased) sample variance of observed <span class="math inline">\(X_i\)</span>’s. If <span class="math inline">\(\Sigma^{(0)}\)</span> returns <code>NA</code> values in its entries (which happens if every <span class="math inline">\(X_i\)</span> has at least one component missing), then we will take <span class="math inline">\(\Sigma^{(0)} = \text{diag}(S_1^2, S_2^2, \dots, S_p^2)\)</span>, where <span class="math inline">\(S_j^2\)</span>’s are computed with <code>NA</code> values being omitted in each <span class="math inline">\(j\)</span><sup>th</sup> column.</p>
+<p>We then compute the conditional mean and variance of <span class="math inline">\(X_{i M_i}\)</span> given <span class="math inline">\((X_{i O_i}, \theta^{(0)})\)</span>, impute the conditional mean into <span class="math inline">\(X_{i M_i}\)</span>, and update <span class="math inline">\(\theta\)</span> into <span class="math inline">\(\theta^{(1)} = (\mu^{(1)}, \Sigma^{(1)})\)</span>. We continue doing this until either:</p>
+<ul>
+<li><span class="math inline">\(t =\)</span> <code>max_iter</code> is met, or</li>
+<li><span class="math inline">\(||\mu^{(t - 1)} - \mu^{(t)}||_2 &lt;\)</span> <code>eps</code> and <span class="math inline">\(||\Sigma^{(t - 1)} - \Sigma^{(t)}||_2 &lt;\)</span> <code>eps</code> are both satisfied.</li>
+</ul>
+<p>As a side note, the <span class="math inline">\(L_2\)</span>-norm of a square matrix <span class="math inline">\(A\)</span> is the largest eigenvalue of <span class="math inline">\(A^T A\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">impute_em &lt;-<span class="st"> </span><span class="cf">function</span>(X, <span class="dt">max_iter =</span> <span class="dv">3000</span>, <span class="dt">eps =</span> <span class="fl">1e-08</span>) {
+    <span class="co"># X: a data frame or a matrix with at least one NA</span>
+    <span class="co"># max_iter: a natural number; 3000 by default</span>
+    <span class="co"># eps: a positive real number; 1e-08 by default</span>
+    
+    nr &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)
+    nc &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)
+    C &lt;-<span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(X) <span class="co"># the C matrix</span>
+    
+    <span class="co"># Collect M_i and O_i's</span>
+    Ms &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="dv">1</span><span class="op">:</span>nc <span class="op">*</span><span class="st"> </span><span class="kw">t</span>(<span class="op">!</span>C))
+    Os &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="dv">1</span><span class="op">:</span>nc <span class="op">*</span><span class="st"> </span><span class="kw">t</span>(C))
+    M &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span>nr, <span class="cf">function</span>(d) {Ms[d, ][Ms[d, ] <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>]})
+    O &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span>nr, <span class="cf">function</span>(d) {Os[d, ][Os[d, ] <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>]})
+    
+    <span class="co"># Generate Mu_0 and Sigma_0</span>
+    Mu &lt;-<span class="st"> </span><span class="kw">colMeans</span>(X, <span class="dt">na.rm =</span> T)
+    S &lt;-<span class="st"> </span><span class="kw">var</span>(X, <span class="dt">na.rm =</span> T)
+    <span class="cf">if</span> (<span class="kw">is.na</span>(<span class="kw">sum</span>(S))) { <span class="co"># S contains at least one NA</span>
+        S &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">apply</span>(X, <span class="dv">2</span>, var, <span class="dt">na.rm =</span> T))
+    }
+    Mu_tilde &lt;-<span class="st"> </span>S_tilde &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">'list'</span>, <span class="dt">length =</span> nr)
+    X_tilde &lt;-<span class="st"> </span>X
+    no_conv &lt;-<span class="st"> </span>T
+    iter &lt;-<span class="st"> </span><span class="dv">0</span>
+    <span class="cf">while</span> (no_conv <span class="op">&amp;</span><span class="st"> </span>iter <span class="op">&lt;</span><span class="st"> </span>max_iter) {
+        <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nr) {
+            S_tilde[[i]] &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">0</span>, nc<span class="op">^</span><span class="dv">2</span>), <span class="dt">nrow =</span> nc)
+            <span class="cf">if</span> (<span class="kw">length</span>(O[[i]]) <span class="op">!=</span><span class="st"> </span>nc) { <span class="co"># consider only nonempty M[[i]]'s</span>
+                S_MM &lt;-<span class="st"> </span>S[M[[i]], M[[i]]]
+                S_MO &lt;-<span class="st"> </span><span class="kw">matrix</span>(S[M[[i]], O[[i]]], <span class="dt">nrow =</span> <span class="kw">length</span>(M[[i]]))
+                S_OM &lt;-<span class="st"> </span><span class="kw">t</span>(S_MO)
+                S_OO &lt;-<span class="st"> </span>S[O[[i]], O[[i]]]
+                Mu_tilde[[i]] &lt;-<span class="st"> </span>Mu[M[[i]]] <span class="op">+</span><span class="st"> </span>
+<span class="st">                    </span>S_MO <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(S_OO) <span class="op">%*%</span><span class="st"> </span>(X[i, O[[i]]] <span class="op">-</span><span class="st"> </span>Mu[O[[i]]])
+                X_tilde[i, M[[i]]] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(Mu_tilde[[i]])
+                S_MM.O &lt;-<span class="st"> </span>S_MM <span class="op">-</span><span class="st"> </span>S_MO <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(S_OO) <span class="op">%*%</span><span class="st"> </span>S_OM
+                zero_matrix &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">0</span>, nc<span class="op">^</span><span class="dv">2</span>), <span class="dt">nrow =</span> nc)
+                zero_matrix[M[[i]], M[[i]]] &lt;-<span class="st"> </span>S_MM.O
+                S_tilde[[i]] &lt;-<span class="st"> </span>zero_matrix
+            }
+        }
+        Mu_new &lt;-<span class="st"> </span><span class="kw">colMeans</span>(X_tilde)
+        S_new &lt;-<span class="st"> </span>((nr <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span>nr) <span class="op">*</span><span class="st"> </span><span class="kw">var</span>(X_tilde) <span class="op">+</span><span class="st"> </span><span class="kw">Reduce</span>(<span class="st">'+'</span>, S_tilde) <span class="op">/</span><span class="st"> </span>nr
+        no_conv &lt;-<span class="st"> </span><span class="op">!</span>(
+            <span class="kw">norm</span>(Mu <span class="op">-</span><span class="st"> </span>Mu_new, <span class="dt">type =</span> <span class="st">'2'</span>) <span class="op">&lt;</span><span class="st"> </span>eps <span class="op">&amp;&amp;</span><span class="st"> </span>
+<span class="st">                </span><span class="kw">norm</span>(S <span class="op">-</span><span class="st"> </span>S_new, <span class="dt">type =</span> <span class="st">'2'</span>) <span class="op">&lt;</span><span class="st"> </span>eps
+        )
+        Mu &lt;-<span class="st"> </span>Mu_new
+        S &lt;-<span class="st"> </span>S_new
+        iter &lt;-<span class="st"> </span>iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+    }
+    <span class="kw">list</span>(<span class="dt">mu =</span> Mu, <span class="dt">Sigma =</span> S, <span class="dt">X_imputed =</span> X_tilde, <span class="dt">C =</span> C, <span class="dt">iter =</span> iter)
+}</code></pre></div>
+<p>The higher the <code>max_iter</code> and/or the lower the <code>eps</code> in <code>impute_em</code>, the more accurate the parameter estimates become.</p>
+<p>At last, we can impute the missing components:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result_imputed &lt;-<span class="st"> </span><span class="kw">impute_em</span>(X)</code></pre></div>
+<p>How does the estimated parameters look like? Here are comparisons with the true values:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result_imputed<span class="op">$</span>mu <span class="co"># estimate using the imputed data</span></code></pre></div>
+<pre><code>## [1] 0.7778396 1.9862441 5.8779341</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mu <span class="co"># truth</span></code></pre></div>
+<pre><code>## [1] 1 2 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result_imputed<span class="op">$</span>Sigma <span class="co"># estimate using the imputed data</span></code></pre></div>
+<pre><code>##           [,1]     [,2]     [,3]
+## [1,] 121.39607 67.49941 45.74490
+## [2,]  67.49941 54.34867 19.01493
+## [3,]  45.74490 19.01493 21.82605</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Sigma <span class="co"># truth</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]  118   62   44
+## [2,]   62   49   17
+## [3,]   44   17   21</code></pre>
+<p>This is interesting. While the parameters of <code>mu</code> are underestimed, the parameters of <code>Sigma</code> are overestimated. We shall check if this is a mere coincidence in the next section.</p>
+<p>Here’s how the first six rows of <code>X</code> have been imputed:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(X) <span class="co"># data with missing components</span></code></pre></div>
+<pre><code>##            [,1]       [,2]       [,3]
+## [1,]         NA  -8.451185         NA
+## [2,]         NA         NA  9.2563177
+## [3,] -20.795378 -12.621417  1.0554090
+## [4,]  -9.818160  -4.273634         NA
+## [5,]   5.106661   1.925457         NA
+## [6,]         NA -14.007992 -0.6723725</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(result_imputed<span class="op">$</span>X_imputed) <span class="co"># imputed data</span></code></pre></div>
+<pre><code>##            [,1]       [,2]       [,3]
+## [1,] -12.185133  -8.451185  2.2261991
+## [2,]   7.858545   4.929503  9.2563177
+## [3,] -20.795378 -12.621417  1.0554090
+## [4,]  -9.818160  -4.273634  2.0256911
+## [5,]   5.106661   1.925457  8.4512592
+## [6,] -20.478451 -14.007992 -0.6723725</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(X_truth) <span class="co"># truth</span></code></pre></div>
+<pre><code>##            [,1]       [,2]       [,3]
+## [1,]  -4.690880  -8.451185  4.3832914
+## [2,]  -1.869142  -5.782317  9.2563177
+## [3,] -20.795378 -12.621417  1.0554090
+## [4,]  -9.818160  -4.273634  3.1777676
+## [5,]   5.106661   1.925457  5.5076653
+## [6,] -20.481210 -14.007992 -0.6723725</code></pre>
+<p>Some components are close to the true value, and the others are not so much. For example, The entry <code>[1, 1]</code> is imputed with the value -12.1851325, but the true value is -4.69088.</p>
 </div>
 </div>
 <div id="performance" class="section level1">
 <h1>3. Performance</h1>
+<p>I will take <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\Sigma_{11}\)</span> as representatives. Let’s look at how the estimates of these two change as <code>na_rate</code> increases. The following quantities are to be compared:</p>
+<ul>
+<li>the true parameter
+<ul>
+<li>In our case, <span class="math inline">\(\mu_1 = 1\)</span> and <span class="math inline">\(\Sigma_{11} = 118\)</span></li>
+</ul></li>
+<li>the estimate using only observed data</li>
+<li>the estimate using imputed data</li>
+</ul>
 </div>
 </section>
 
