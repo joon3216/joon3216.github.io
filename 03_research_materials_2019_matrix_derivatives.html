@@ -124,7 +124,7 @@ body {
 <ul>
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#some-derivatives">2. Some derivatives</a><ul>
-<li><a href="#nabla_x-texttrxa_n-times-m-at"><span class="math inline">\(\nabla_{X} \text{tr}(XA_{n \times m}) = A^T\)</span></a></li>
+<li><a href="#nabla_x-texttrx_m-times-n-a_n-times-m-at"><span class="math inline">\(\nabla_{X} \text{tr}(X_{m \times n} A_{n \times m}) = A^T\)</span></a></li>
 <li><a href="#nabla_x-detx_n-times-n-detx-x-1t"><span class="math inline">\(\nabla_X \det(X_{n \times n}) = \det(X) (X^{-1})^T\)</span></a></li>
 <li><a href="#nabla_x-log-detx_n-times-n-x-1t"><span class="math inline">\(\nabla_{X} \log( \det(X_{n \times n})) = (X^{-1})^T\)</span></a></li>
 </ul></li>
@@ -140,8 +140,8 @@ body {
 <h1>2. Some derivatives</h1>
 <p>For a real-valued function <span class="math inline">\(f: \mathbb{R}^{m \times n} \to \mathbb{R}\)</span>, we can define the derivative of <span class="math inline">\(f(X)\)</span> with respect to <span class="math inline">\(X \in \mathbb{R}^{m \times n}\)</span> as: <span class="math display">\[\nabla_{X} f(X) := \Big[ \frac{\partial f(X)}{\partial X_{ij}} \Big]_{m \times n}\]</span></p>
 <p>Let’s get straight to some examples:</p>
-<div id="nabla_x-texttrxa_n-times-m-at" class="section level2">
-<h2><span class="math inline">\(\nabla_{X} \text{tr}(XA_{n \times m}) = A^T\)</span></h2>
+<div id="nabla_x-texttrx_m-times-n-a_n-times-m-at" class="section level2">
+<h2><span class="math inline">\(\nabla_{X} \text{tr}(X_{m \times n} A_{n \times m}) = A^T\)</span></h2>
 <p>Since <span class="math inline">\(\text{tr}(XA) = \sum_{\ell = 1}^{m} \sum_{k = 1}^{n} X_{\ell k} A_{k \ell}\)</span>, we obtain that: <span class="math display">\[\nabla_{X}\text{tr}(XA) = \Big[\frac{\partial}{\partial X_{ij}} \sum_{\ell = 1}^{m} \sum_{k = 1}^{n} X_{\ell k} A_{k \ell} \Big]_{m \times n}\]</span></p>
 <p>And:</p>
 <span class="math display">\[\begin{align*}
