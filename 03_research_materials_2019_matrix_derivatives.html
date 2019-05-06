@@ -132,6 +132,11 @@ body {
 </div>
 
 <section class="main-content">
+<p>The following links are pointing towards this document:</p>
+<ul>
+<li><a href="03_research_materials_2019_em_imputation.html">Imputing missing data using EM algorithm</a></li>
+<li><a href="03_research_materials_2019_multivariate_response.html">Linear regression with multivariate response</a></li>
+</ul>
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
 <p>This note introduces derivatives of some real-valued functions of a matrix.</p>
@@ -139,7 +144,7 @@ body {
 <div id="some-derivatives" class="section level1">
 <h1>2. Some derivatives</h1>
 <p>For a real-valued function <span class="math inline">\(f: \mathbb{R}^{m \times n} \to \mathbb{R}\)</span>, we can define the derivative of <span class="math inline">\(f(X)\)</span> with respect to <span class="math inline">\(X \in \mathbb{R}^{m \times n}\)</span> as: <span class="math display">\[\nabla_{X} f(X) := \Big[ \frac{\partial f(X)}{\partial X_{ij}} \Big]_{m \times n}\]</span></p>
-<p>Let’s get straight to some examples:</p>
+<p>That is, the matrix derivative of <span class="math inline">\(f\)</span> is the matrix of element-wise partial derivatives. Let’s get straight to some examples.</p>
 <div id="nabla_x-texttrx_m-times-n-a_n-times-m-at" class="section level2">
 <h2><span class="math inline">\(\nabla_{X} \text{tr}(X_{m \times n} A_{n \times m}) = A^T\)</span></h2>
 <p>Since <span class="math inline">\(\text{tr}(XA) = \sum_{\ell = 1}^{m} \sum_{k = 1}^{n} X_{\ell k} A_{k \ell}\)</span>, we obtain that: <span class="math display">\[\nabla_{X}\text{tr}(XA) = \Big[\frac{\partial}{\partial X_{ij}} \sum_{\ell = 1}^{m} \sum_{k = 1}^{n} X_{\ell k} A_{k \ell} \Big]_{m \times n}\]</span></p>
