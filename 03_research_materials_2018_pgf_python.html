@@ -178,7 +178,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="the-four" class="section level1">
 <h1>2. The four</h1>
-<p>Details of the following four functions is written in the <a href="03_research_materials_2018_pgf.html">previous note</a>.</p>
+<p>Details of the following four functions are written in the <a href="03_research_materials_2018_pgf.html">previous note</a>.</p>
 <p>First, <code>dX</code>:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">npmap <span class="op">=</span> <span class="kw">lambda</span> func, <span class="op">*</span>iterable: np.array(<span class="bu">list</span>(<span class="bu">map</span>(func, <span class="op">*</span>iterable)))
 <span class="kw">def</span> dX(x):
@@ -205,7 +205,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <span class="cf">return</span> .<span class="dv">575</span>
         <span class="cf">else</span>:
             <span class="cf">return</span> <span class="dv">0</span>
-    <span class="cf">if</span> <span class="bu">type</span>(x) <span class="op">==</span> <span class="bu">int</span>:
+    <span class="cf">if</span> <span class="bu">type</span>(x) <span class="kw">in</span> [<span class="bu">int</span>, <span class="bu">float</span>]:
         <span class="cf">return</span> pX(x)
     <span class="cf">return</span> npmap(pX, x)</code></pre></div>
 <p>To code <code>csum_N</code>, we require a <code>fft</code>-equivalent in Python. I will use <code>np.fft.fft()</code> and <code>np.fft.ifft().real</code>. Also, the word <code>lambd</code> is used instead of <code>lambda</code>, since the keyword <code>lambda</code> is used for anonymous functions in Python:</p>
