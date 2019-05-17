@@ -369,12 +369,10 @@ M &lt;-<span class="st"> </span><span class="kw">length</span>(result)
     <span class="kw">sapply</span>(
         y,
         <span class="cf">function</span>(d) {
-            <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {
+            <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>)) {
                 .<span class="dv">25</span>
             } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) {
                 .<span class="dv">5</span>
-            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">4</span>) {
-                .<span class="dv">25</span>
             } <span class="cf">else</span> {
                 <span class="dv">0</span>
             }
