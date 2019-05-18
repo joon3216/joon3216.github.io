@@ -186,7 +186,7 @@ dfruit = lambda x: dpmf(x, pmf_eg2, support_eg2)
 
 
 def rpmf(n, pmf, support, **kwargs):
-    '''(int, function, *iterable[, *kwargs]) -> np.array
+    '''(int, function, *iterable[, **kwargs]) -> np.array
     
     Precondition: 
     1. n >= 1
