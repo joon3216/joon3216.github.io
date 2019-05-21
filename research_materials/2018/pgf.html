@@ -286,7 +286,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#discrete-fourier-transform">Discrete Fourier transform</a></li>
 </ul></li>
 <li><a href="#case-studies">3. Case studies</a><ul>
-<li><a href="#the-general-strategy">The general strategy</a></li>
 <li><a href="#case-1-a-finite-sum">Case 1: a finite sum</a></li>
 <li><a href="#case-2-an-infinite-sum">Case 2: an infinite sum</a></li>
 </ul></li>
@@ -304,11 +303,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p>The following external R package is used:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre></div>
-<pre><code>## Registered S3 methods overwritten by 'ggplot2':
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
 <p>This note is about finding the probability mass function (pmf) of <span class="math inline">\(S\)</span>, a sum of iid discrete random variables <span class="math inline">\(X_i\)</span>’s where a support of <span class="math inline">\(X_i\)</span> is a subset of nonnegative integers. Using the discrete Fourier transform (DFT), the note will demonstrate how we can evaluate the pmf of <span class="math inline">\(S\)</span>, and describe the process of generating random samples from this pmf.</p>
@@ -317,7 +311,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>2. Definitions</h1>
 <div id="probability-generating-function" class="section level2">
 <h2>Probability generating function</h2>
-<p>Suppose the pmf of <span class="math inline">\(X_i\)</span> for each <span class="math inline">\(i\)</span> is <span class="math inline">\(p(x)\)</span>, where <span class="math inline">\(X_i\)</span>’s are iid. Define the <a href="https://en.wikipedia.org/wiki/Probability-generating_function">probability generating function</a> (pgf) of <span class="math inline">\(X_i\)</span> as: <span class="math display">\[g(t) := E(t^{X_i}) = \sum_{x} t^x p(x)\]</span> That is, the pgf of <span class="math inline">\(X_i\)</span> is a power series representation of <span class="math inline">\(p(x)\)</span>. <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> In this note, we will consider two types of sum of <span class="math inline">\(X_i\)</span>’s:</p>
+<p>Suppose the pmf of <span class="math inline">\(X_i\)</span> for each <span class="math inline">\(i\)</span> is <span class="math inline">\(p(x)\)</span>, where <span class="math inline">\(X_i\)</span>’s are iid. Define the <a href="https://en.wikipedia.org/wiki/Probability-generating_function">probability generating function</a> (pgf) of <span class="math inline">\(X_i\)</span> as: <span class="math display">\[g(t) := E(t^{X_i}) = \sum_{x} t^x p(x)\]</span> That is, the pgf of <span class="math inline">\(X_i\)</span> is a power series representation of <span class="math inline">\(p(x)\)</span> <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In this note, we will consider two types of sum of <span class="math inline">\(X_i\)</span>’s:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(S = \sum_{i = 1}^{n} X_i\)</span>, where <span class="math inline">\(n\)</span> is fixed</li>
 <li><span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, where <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span> and <span class="math inline">\(N\)</span> is independent of all <span class="math inline">\(X_i\)</span>’s</li>
@@ -332,30 +326,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="case-studies" class="section level1">
 <h1>3. Case studies</h1>
-<div id="the-general-strategy" class="section level2">
-<h2>The general strategy</h2>
-<p>Say <span class="math inline">\(X_i\)</span>’s are iid, <span class="math inline">\(Y = f(X_1, \dots, X_n)\)</span> has the support <span class="math inline">\(\mathcal{Y} = \{y_0, y_1, \dots, y_m \}\)</span>, <span class="math inline">\(X_i\)</span> has the support <span class="math inline">\(\mathcal{X} = \{x_0, x_1, \dots, x_\ell \}\)</span>, and <span class="math inline">\(\mathcal{X} \subset \mathcal{Y}\)</span>. Given that <span class="math inline">\(p(x)\)</span> is the pmf of <span class="math inline">\(X_i\)</span>, we can write: <span class="math display">\[g(t) = \sum_{u = 0}^{\ell} p(x_u) t^{x_u} = \sum_{v = 0}^{m} p(y_v) t^{y_v}\]</span> by letting <span class="math inline">\(p(y_v) = 0\)</span> whenever <span class="math inline">\(y_v \notin \mathcal{X}\)</span>. Then for <span class="math inline">\(k \in \{0, 1, \dots, m \}\)</span>, we can define <span class="math inline">\(t_k = \exp(-\frac{2 \pi i k}{m + 1})\)</span> so that: <span class="math display">\[g(t_k) = \sum_{v = 0}^{m} p(y_v) \cdot \exp(-\frac{2 \pi i k y_v}{m + 1})\]</span></p>
-<p>and make <span class="math inline">\(\{g(t_k) \}_{k = 0}^{m}\)</span> the DFT of a sequence <span class="math inline">\(\{ p(y_v) \}_{v = 0}^{m}\)</span>.</p>
-<p>Now, let <span class="math inline">\(p_Y(y)\)</span> be the pmf of <span class="math inline">\(Y\)</span>. Then for <span class="math inline">\(k \in \{0, 1, \dots, m \}\)</span>, we deduce:</p>
-<span class="math display">\[\begin{align*}
-g_Y(t) &amp;:= E(t^Y) = \sum_{v = 0}^{m} p_Y(y_v) \cdot t^{y_v} \\
-\implies g_Y(t_k) &amp;= \sum_{v = 0}^{m} p_Y(y_v) \cdot \exp (- \frac{2 \pi i k y_v}{m + 1}) \\
-\iff p_Y(y_v) &amp;= \frac{1}{m + 1} \sum_{k = 0}^{m} g_Y(t_k) \cdot \exp (\frac{2 \pi i k y_v}{m + 1})
-\end{align*}\]</span>
-<p>using the <a href="https://en.wikipedia.org/wiki/Discrete_Fourier_transform#Inverse_transform">inverse DFT</a>. If we can write <span class="math inline">\(g_Y(t)\)</span> as a function of <span class="math inline">\(g(t)\)</span>, namely <span class="math inline">\(g_Y(t) = h(g(t))\)</span> for some <span class="math inline">\(h\)</span>, then: <span class="math display">\[p_Y(y_v) = \frac{1}{m + 1} \sum_{k = 0}^{m} h(g(t_k)) \cdot \exp (\frac{2 \pi i k y_v}{m + 1})\]</span> at each <span class="math inline">\(y_v \in \mathcal{Y}\)</span>.</p>
-<p>The question remains whether this method actually works; that is, is <span class="math inline">\(p_Y(y_v)\)</span> really real-valued, non-negative, and summing up to 1?</p>
-</div>
+<p>For <span class="math inline">\(k = 0, 1, \dots, n \ell\)</span>, define <span class="math inline">\(t_k := \exp \big( - \frac{2 \pi i k}{n \ell + 1} \big)\)</span>.</p>
 <div id="case-1-a-finite-sum" class="section level2">
 <h2>Case 1: a finite sum</h2>
-<p>Suppose <span class="math inline">\(S = \sum_{i = 1}^{n} X_i\)</span> (and notice that the support of <span class="math inline">\(S\)</span> is <span class="math inline">\(\mathcal{S} = \{0, 1, \dots, n \ell\}\)</span>). Then due to the iid condition, the pgf of <span class="math inline">\(S\)</span>, denoted as <span class="math inline">\(g_S(t)\)</span>, becomes:</p>
+<p>Say <span class="math inline">\(X_i \stackrel{iid}{\sim} p\)</span> for some pmf <span class="math inline">\(p\)</span> with the support <span class="math inline">\(\mathcal{X} = \{0, h, 2h, \dots, \ell h \}\)</span> for some <span class="math inline">\(h &gt; 0\)</span> <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. Without loss of generality, assume <span class="math inline">\(h = 1\)</span>. Suppose <span class="math inline">\(S = \sum_{i = 1}^{n} X_i\)</span> (and notice that the support of <span class="math inline">\(S\)</span> is then <span class="math inline">\(\mathcal{S} = \{0, 1, \dots, n \ell\}\)</span> assuming <span class="math inline">\(h = 1\)</span>). Then due to the iid condition, the pgf of <span class="math inline">\(S\)</span>, denoted as <span class="math inline">\(g_S(t)\)</span>, becomes:</p>
 <span class="math display">\[\begin{align*}
 g_S(t) &amp;= E(t^S) = \sum_{x = 0}^{n \ell} t^x p_S(x) \\
 &amp;= E(t^{\sum_{i = 1}^{n} X_i}) \\
 &amp;= E(t^{X_1} t^{X_2} \dots t^{X_n}) \\
-&amp;= [g(t)]^n = h(g(t))
+&amp;= [g(t)]^n
 \end{align*}\]</span>
-<p>where <span class="math inline">\(h(x) = x^n\)</span>. That is: <span class="math display">\[p_S(x) = \frac{1}{n \ell + 1} \sum_{k = 0}^{n \ell} [g(t_k)]^n \cdot \exp(\frac{2 \pi i k x}{n \ell + 1})\]</span></p>
-<p>Note that the condition <span class="math inline">\(P(X_i \in \mathbb{N}_0) = 1\)</span>, where <span class="math inline">\(\mathbb{N}_0 := \mathbb{N} \cup \{0 \}\)</span>, guarantees that <span class="math inline">\(\mathcal{X} = \{0, 1, \dots, \ell \} \subset \mathcal{S}\)</span>.</p>
+<p>That is, for <span class="math inline">\(x \in \mathcal{S}\)</span>: <span class="math display">\[p_S(x) = \frac{1}{n \ell + 1} \sum_{k = 0}^{n \ell} [g(t_k)]^n \cdot \exp(\frac{2 \pi i k x}{n \ell + 1})\]</span></p>
+<p>by the definition of inverse DFT. Note that the condition <span class="math inline">\(P(X_i \in \mathbb{N}_0) = 1\)</span>, where <span class="math inline">\(\mathbb{N}_0 := \mathbb{N} \cup \{0 \}\)</span>, guarantees that <span class="math inline">\(\mathcal{X} = \{0, 1, \dots, \ell \} \subset \mathcal{S}\)</span> so that: <span class="math display">\[g(t) = \sum_{x \in \mathcal{X}} t^x p(x) = \sum_{x \in \mathcal{S}} t^x p(x)\]</span> by letting <span class="math inline">\(p(x) = 0\)</span> whenever <span class="math inline">\(x \in \mathcal{S} \cap \mathcal{X}^c\)</span>.</p>
 </div>
 <div id="case-2-an-infinite-sum" class="section level2">
 <h2>Case 2: an infinite sum</h2>
@@ -368,10 +350,22 @@ p_S(x) &amp;= P(S = x) \\
 &amp;= e^{-\lambda} I(x = 0) + \sum_{n = 1}^{\infty} P(N = n) p_{S_n}(x)
 \end{align*}\]</span>
 <p>where <span class="math inline">\(p_{S_n}(x)\)</span> is the pmf of <span class="math inline">\(S_n = \sum_{i = 1}^{n} X_i\)</span>, which is something we know how to compute.</p>
+<p><strong>ASIDE 1</strong>: we can also realize the distribution of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span> by computing the characteristic function of <span class="math inline">\(S\)</span>:</p>
+<span class="math display">\[\begin{align*}
+c_S(t) &amp;:= E(e^{i t S}) \\
+&amp;= E(e^{i t \sum_{i = 1}^{N} X_i}) \\
+&amp;= E \Big[ E( e^{i t \sum_{i = 1}^{N} X_i} \text{ | } N) \Big] \\
+&amp;= E \Big[ \prod_{i = 1}^{N} E(e^{i t X_i} \text{ | } N) \Big] \text{ } (\because \text{indep.}) \\
+&amp;= E \Big[ \prod_{i = 1}^{N} E(e^{i t X_i} ) \Big] \text{ } (\because X_i \perp \!\!\! \perp N) \\
+&amp;=: E \Big[ \prod_{i = 1}^{N} c_{X_i}(t) \Big] \\
+&amp;= E \Big[  \big( c_{X_i}(t) \big)^N \Big] \text{ } (\because \text{identical}) \\
+&amp;=: g_N(c_{X_i}(t))
+\end{align*}\]</span>
+<p>where <span class="math inline">\(g_N(t)\)</span> is the pgf of <span class="math inline">\(N\)</span>. Applying the inverse Laplace transform to <span class="math inline">\(g_N(c_{X_i}(t))\)</span> will yield the distribution of <span class="math inline">\(S\)</span> <span class="math inline">\(\text{}\)</span><sup><a href="pgf.html#fn2">2</a></sup>.</p>
 <div id="idea-to-cut" class="section level3">
 <h3>Idea to cut</h3>
 <p>One problem is that we cannot compute infinitely many <span class="math inline">\(p_{S_n}(x)\)</span>’s in a computer. Even if we are able to find the general expression of <span class="math inline">\(p_{S_n}(x)\)</span> in terms of <span class="math inline">\(n\)</span>, it is still a tideous work to analytically compute <span class="math inline">\(p_S(x)\)</span>. We need to implement some reasonable threshold to “cut” <span class="math inline">\(p_S(x)\)</span> at some point, and approximate <span class="math inline">\(p_S(x)\)</span> within an arbitrarily small error.</p>
-<p>To implement this idea, we can use <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov’s inequality</a>. It says that: <span class="math display">\[P(S \geq M) = P(t^{S} \geq t^M) \leq \frac{E(t^{S})}{t^M} = \frac{g_S(t)}{t^M}\]</span> for all <span class="math inline">\(t &gt; 1\)</span>. The inequality implies that there is a device to adjust <span class="math inline">\(P(S \geq M)\)</span> by adjusting <span class="math inline">\(M\)</span>. In particular, assume we want to see <span class="math inline">\(P(S \geq M) &lt; \varepsilon\)</span> for some small <span class="math inline">\(\varepsilon &gt; 0\)</span> that fits our needs. Then: <span class="math display">\[P(S \geq M) \leq \min \big(\varepsilon, \frac{g_S(t)}{t^M} \big)\]</span> That is, adjusting <span class="math inline">\(M\)</span> allows us to make <span class="math inline">\(P(S \geq M)\)</span> as small as we want. To ensure <span class="math inline">\(P(S \geq M) &lt; \varepsilon\)</span>, we let <span class="math inline">\(\min \big(\varepsilon, \frac{g_S(t)}{t^M} \big) = \frac{g_S(t)}{t^M}\)</span>, or: <span class="math display">\[\varepsilon \geq \frac{g_S(t)}{t^M}\]</span></p>
+<p>To implement this idea, we can use <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov’s inequality</a>. It says that for a nonnegative <span class="math inline">\(S\)</span>: <span class="math display">\[P(S \geq M) = P(t^{S} \geq t^M) \leq \frac{E(t^{S})}{t^M} = \frac{g_S(t)}{t^M}\]</span> for all <span class="math inline">\(t &gt; 1\)</span>. The inequality implies that there is a device to adjust <span class="math inline">\(P(S \geq M)\)</span> by adjusting <span class="math inline">\(M\)</span>. In particular, assume we want to see <span class="math inline">\(P(S \geq M) &lt; \varepsilon\)</span> for some small <span class="math inline">\(\varepsilon &gt; 0\)</span> that fits our needs. Then: <span class="math display">\[P(S \geq M) \leq \min \big(\varepsilon, \frac{g_S(t)}{t^M} \big)\]</span> That is, adjusting <span class="math inline">\(M\)</span> allows us to make <span class="math inline">\(P(S \geq M)\)</span> as small as we want. To ensure <span class="math inline">\(P(S \geq M) &lt; \varepsilon\)</span>, we let <span class="math inline">\(\min \big(\varepsilon, \frac{g_S(t)}{t^M} \big) = \frac{g_S(t)}{t^M}\)</span>, or: <span class="math display">\[\varepsilon \geq \frac{g_S(t)}{t^M}\]</span></p>
 </div>
 <div id="pgf-of-an-infinite-sum" class="section level3">
 <h3>pgf of an infinite sum</h3>
@@ -419,14 +413,8 @@ g_N(t) &amp;= E(t^N) = \sum_{n = 0}^{\infty} t^n p_N(n) \\
 <li>Compute <span class="math inline">\(\{ p_S(x) \}_{x \in \mathcal{S}^*}\)</span>, the inverse DFT of <span class="math inline">\(\{g_S(t_k) \}_{k = 0}^{M - 1}\)</span>.</li>
 </ol>
 <p>This approximation actually yields the conditional pmf of <span class="math inline">\(S\)</span>, i.e. <span class="math inline">\(P(S = x \text{ | } S &lt; M)\)</span>. Notice that as <span class="math inline">\(M \to \infty\)</span>, we get <span class="math inline">\(P(S \geq M) \to 0\)</span> and <span class="math inline">\(P(S = x \text{ | } S &lt; M) \to P(S = x) = p_S(x)\)</span> for each <span class="math inline">\(x \in \mathcal{S}^*\)</span>.</p>
-<p><strong>ASIDE 1</strong>: If <span class="math inline">\(N \sim \text{Geom}(p)\)</span> so that <span class="math inline">\(p_N(n) = p (1 - p)^{n - 1}\)</span>, <span class="math inline">\(n \in \mathbb{N}\)</span>, then we can use <span class="math inline">\(g_N(t) = m_N(\ln(t)) = \frac{p t}{1 - (1 - p) t}\)</span> instead of <span class="math inline">\(g_N(t) = \exp(-\lambda(1 - t))\)</span>. Also, you don’t need to worry about whether <span class="math inline">\(\mathcal{X} \subset \mathcal{S}^*\)</span> will be satisfied, because <span class="math inline">\(P(N = 1) &gt; 0\)</span> so it is guaranteed to be.</p>
-<p><strong>ASIDE 2</strong>: If <span class="math inline">\(\mathcal{X} = \{x_0, x_1, \dots, x_\ell \}\)</span> (<span class="math inline">\(x_u \geq 0\)</span> for all <span class="math inline">\(u\)</span>) and not <span class="math inline">\(\mathcal{X} = \{0, 1, \dots, \ell \}\)</span>, then with <span class="math inline">\(M\)</span> computed in the same manner, we can define <span class="math inline">\(\mathcal{S}^* = \{x_0, x_1, \dots, x_\ell, x_{\ell + 1}, \dots, x_{W} \}\)</span>, all elements being distinct, and <span class="math inline">\(\{ p(x) \}_{x \in \mathcal{S}^*} := \{p(x_u) \}_{u = 0}^{W}\)</span> where <span class="math inline">\(p(x_u) = 0\)</span> whenever <span class="math inline">\(u \geq \ell + 1\)</span>. We may find <span class="math inline">\(x_{\ell + 1}, \dots, x_{W}\)</span> by investigating all the possible linear combinations of <span class="math inline">\(x_0, x_1, \dots, x_\ell\)</span> that are less than <span class="math inline">\(M\)</span>, i.e. find all the constant vectors <span class="math inline">\((c_0, c_1, \dots, c_\ell) \in \mathbb{N}_0^{\ell + 1}\)</span> to populate <span class="math inline">\(\mathcal{S}^*\)</span> with <span class="math inline">\(x_s = \sum_{j = 0}^{\ell} c_j x_j &lt; M\)</span>, <span class="math inline">\(s = \ell + 1, \dots, W\)</span> for some <span class="math inline">\(W\)</span> with <span class="math inline">\(x_W &lt; M\)</span>. In other words, we should populate <span class="math inline">\(\mathcal{S}^*\)</span> with linear combinations of <span class="math inline">\(x_0, x_1, \dots, x_\ell\)</span> until we reach to the point where for some <span class="math inline">\(W\)</span>, <span class="math inline">\(x_W = \mathbf{d}_W^T \mathbf{x} &lt; M\)</span>, <span class="math inline">\(x_{W + 1} = \mathbf{d}_{W + 1}^T \mathbf{x} \geq M\)</span> with <span class="math inline">\(\mathbf{d}_{W + 1} = \mathbf{d}_{W} + e_j\)</span> for some <span class="math inline">\(e_j\)</span> in the canonical basis of <span class="math inline">\(\mathbb{R}^{\ell + 1}\)</span>. It is important to have <span class="math inline">\(x_u \geq 0\)</span> for all <span class="math inline">\(u\)</span> because Markov’s inequality works for a nonnegative random variable (and thereby justifying the choice of <span class="math inline">\(M\)</span>).</p>
-<p><strong>ASIDE 2.1</strong>: Note three things from ASIDE 2:</p>
-<ol style="list-style-type: decimal">
-<li>We look into <span class="math inline">\(\mathbb{N}_0^{\ell + 1}\)</span> instead of <span class="math inline">\(\mathbb{R}^{\ell + 1}\)</span> since we are interested in the pmf of summation <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>.</li>
-<li>Under the assumption of <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, <span class="math inline">\(0\)</span> must always be an element of <span class="math inline">\(\mathcal{S}^*\)</span> since <span class="math inline">\(P(N = 0) &gt; 0\)</span>.</li>
-<li>If <span class="math inline">\(N \sim \text{Geom}(p)\)</span>, then <span class="math inline">\(0 \in \mathcal{S}^*\)</span> iff <span class="math inline">\(0 \in \mathcal{X}\)</span>. After populating <span class="math inline">\(\mathcal{S}^*\)</span> using the same technique in ASIDE 2, we should remove <span class="math inline">\(0\)</span> from <span class="math inline">\(\mathcal{S}^*\)</span> if <span class="math inline">\(0 \notin \mathcal{X}\)</span>.</li>
-</ol>
+<p><strong>ASIDE 2</strong>: If <span class="math inline">\(N \sim \text{Geom}(p)\)</span> so that <span class="math inline">\(p_N(n) = p (1 - p)^{n - 1}\)</span>, <span class="math inline">\(n \in \mathbb{N}\)</span>, then we can use <span class="math inline">\(g_N(t) = m_N(\ln(t)) = \frac{p t}{1 - (1 - p) t}\)</span> instead of <span class="math inline">\(g_N(t) = \exp(-\lambda(1 - t))\)</span>. Also, you don’t need to worry about whether <span class="math inline">\(\mathcal{X} \subset \mathcal{S}^*\)</span> will be satisfied, because <span class="math inline">\(P(N = 1) &gt; 0\)</span> so it is guaranteed to be.</p>
+<p><strong>ASIDE 3</strong>: If <span class="math inline">\(\mathcal{X} \subsetneq \{n h \}_{n = 0}^{\ell}\)</span>, e.g. <span class="math inline">\(h = .5\)</span> and <span class="math inline">\(\mathcal{X} = \{1, 1.5, 2, 3 \}\)</span> (i.e. <span class="math inline">\(\ell = 6\)</span>), then we can “extend” <span class="math inline">\(\mathcal{X}\)</span> so that <span class="math inline">\(\mathcal{X}^* = \{n h \}_{n = 0}^{\ell}\)</span> is our new “support”. So if <span class="math inline">\(\mathcal{X} = \{1, 1.5, 2, 3 \}\)</span>, then <span class="math inline">\(\mathcal{X}^* = \{0, 0.5, 1, 1.5, 2, 2.5, 3 \}\)</span> and <span class="math inline">\(p(x) = 0\)</span> whenever <span class="math inline">\(x = 0, 0.5\)</span>, or <span class="math inline">\(2.5\)</span>. We can find <span class="math inline">\(M\)</span> by first transforming <span class="math inline">\(\mathcal{X}^* = \{n h \}_{n = 0}^{\ell}\)</span> into <span class="math inline">\(\frac{1}{h}\mathcal{X}^* = \{ n\}_{n = 0}^{\ell}\)</span> and then using the above method. Transform <span class="math inline">\(\frac{1}{h}\mathcal{S}^* =\{ n \}_{n = 0}^{M - 1}\)</span> to <span class="math inline">\(\mathcal{S}^* = \{ nh \}_{n = 0}^{M - 1}\)</span>.</p>
 </div>
 </div>
 </div>
@@ -457,7 +445,6 @@ g_N(t) &amp;= E(t^N) = \sum_{n = 0}^{\infty} t^n p_N(n) \\
 <ol style="list-style-type: decimal">
 <li><code>pmf</code> is the pmf of each (iid) <span class="math inline">\(X_i\)</span>’s.</li>
 <li><code>support</code> consists of all the nonnegative integers up to the largest element in <span class="math inline">\(\mathcal{X}\)</span>. In our case, <code>support = 0:5</code>.</li>
-<li><span class="math inline">\(\mathcal{S}^*\)</span>, the truncated support of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, will be <span class="math inline">\(\mathcal{X} \cup \{x_u \}_{u = \ell + 1}^{M - 1}\)</span> for some appropriate integer <span class="math inline">\(M\)</span>, i.e. there will be exactly <span class="math inline">\(M - (\ell + 1)\)</span> more elements in <span class="math inline">\(\mathcal{S}^*\)</span> than <span class="math inline">\(\mathcal{X}\)</span>.</li>
 <li><code>eps</code> is the value in <span class="math inline">\((0, 1)\)</span>; <span class="math inline">\(10^{-5}\)</span> by default.</li>
 <li><code>lambda</code> is the mean of <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, and <span class="math inline">\(N\)</span> is independent of all <span class="math inline">\(X_i\)</span>’s.</li>
 </ol>
@@ -701,13 +688,14 @@ samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class
 <ol style="list-style-type: decimal">
 <li>With <span class="math inline">\(X_i \stackrel{iid}{\sim} p(x)\)</span> having a support <span class="math inline">\(\mathcal{X} = \{0, 1, \dots, \ell \}\)</span>, you can compute the pmf of <span class="math inline">\(S = \sum_{i = 1}^{n} X_i \sim p_S(x)\)</span> as: <span class="math display">\[p_S(x) = \frac{1}{n \ell + 1} \sum_{k = 0}^{n \ell}[g(t_k)]^n \cdot \exp\big(\frac{2 \pi i k x}{n \ell + 1}\big)\]</span> where the support of <span class="math inline">\(S\)</span> is <span class="math inline">\(\mathcal{S} = \{ 0, 1, \dots, \ell, \ell + 1, \dots, n \ell \}\)</span>.</li>
 <li>If <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span> with <span class="math inline">\(X_i \perp \!\!\! \perp N\)</span> for all <span class="math inline">\(i\)</span>, then we can approximate <span class="math inline">\(p_S(x) = P(S = x)\)</span> by <span class="math inline">\(p_S(x \text{ | } S &lt; M) = P(S = x \text{ | } S &lt; M)\)</span> using some large <span class="math inline">\(M\)</span> and the DFT.</li>
-<li><code>csum_N</code> function computes the pmf of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, at each <span class="math inline">\(x = 0, 1, \dots, M - 1\)</span>. Even if <span class="math inline">\(\mathcal{X}\)</span> of your pmf doesn’t have a form <span class="math inline">\(\{0, 1, \dots, \ell \}\)</span>, you can still use this function to find the pmf of <span class="math inline">\(S\)</span> if <span class="math inline">\(S\)</span> is guaranteed to have <span class="math inline">\(\mathcal{S}^* = \{0, 1, \dots, M - 1 \}\)</span>.</li>
+<li><code>csum_N</code> function computes the pmf of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, at each <span class="math inline">\(x = 0, 1, \dots, M - 1\)</span>. Even if <span class="math inline">\(\mathcal{X}\)</span> of your pmf doesn’t have a form <span class="math inline">\(\{0, 1, \dots, \ell \}\)</span>, you can still use this function to find the pmf of <span class="math inline">\(S\)</span> given that <span class="math inline">\(\mathcal{X} \subsetneq \{n \}_{n = 0}^{\ell}\)</span> so that the extension <span class="math inline">\(\mathcal{X}^*\)</span> has a form <span class="math inline">\(\{ n \}_{n = 0}^{\ell}\)</span>.</li>
 </ol>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn1"><p>Wikipedia contributors. (2019, January 22). Probability-generating function. In Wikipedia, The Free Encyclopedia. Retrieved 01:48, May 12, 2019, from <a href="https://en.wikipedia.org/w/index.php?title=Probability-generating_function&amp;oldid=879564048" class="uri">https://en.wikipedia.org/w/index.php?title=Probability-generating_function&amp;oldid=879564048</a><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Embrechts, P. and Frei, M. (2010, July 08). Panjer recursion versus FFT for compound distributions. Retrieved May 20, 2019, from the ETH Zurich Department of Mathematics Archives, <a href="https://people.math.ethz.ch/~embrecht/ftp/PanjerVsFFTcorrected.pdf" class="uri">https://people.math.ethz.ch/~embrecht/ftp/PanjerVsFFTcorrected.pdf</a><a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
 </section>
