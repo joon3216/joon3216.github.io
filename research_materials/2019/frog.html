@@ -356,7 +356,7 @@ comparison_df &lt;-<span class="st"> </span>comparison_df <span class="op">%&gt;
 <p>We shall now <code>left_join</code> <code>state_df</code> and <code>comparison_df</code> using <code>state_space</code> and <code>iterations</code> columns, and create the whole <code>states_df</code> that is ready for generating a .gif file:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">states_df &lt;-<span class="st"> </span>state_df <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">left_join</span>(comparison_df, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;state_space&quot;</span>, <span class="st">&quot;iterations&quot;</span>))</code></pre></div>
-<p>In our <code>gganimate</code> usage, we are basically creating a fast slide show of all the facets. <code>iterations</code> is our facetting variable, which is used in <code>transition_states</code>. Whenever the frog is located at the pad, the image will denote such a state with a red dot, and the rest of the pads will be coloured as black.</p>
+<p>In our <code>gganimate</code> usage, we are basically creating a fast slide show of all the facets. <code>iterations</code> is our facetting variable, which is used in <code>transition_time</code>. Whenever the frog is located at the pad, the image will denote such a state with a red dot, and the rest of the pads will be coloured as black.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anim &lt;-<span class="st"> </span><span class="kw">ggplot</span>(
     states_df, 
     <span class="kw">aes</span>(
