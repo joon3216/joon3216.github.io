@@ -14,8 +14,7 @@ git add .
 git commit -m "description of commit"
 git push origin master
 
-4. If "Updates were rejected because the remote contains work that you do
-hint: not have locally." appears, try:
+4. If "Updates were rejected because the remote contains work that you do not have locally." appears, try:
 
 git pull origin master
 git push origin master
