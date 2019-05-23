@@ -1,0 +1,16 @@
+1. Get to this directory and initialize (skip if done already):
+
+cd <path_to_this_folder>
+git init
+
+2. Check if you're able to fetch and push (skip if done already):
+
+git remote add origin https://github.com/joon3216/joon3216.github.io.git
+git remote -v
+
+3. Add files, commit, and push:
+
+git add .
+git commit -m "description of commit"
+git push origin master
+
