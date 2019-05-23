@@ -1,0 +1,140 @@
+---
+title: "Research materials"
+author: written by Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - style/all_ga_script.html
+        - style/all_navbar_head_3.html
+        - style/all_orange_jp_00_lvl.html
+      before_body:
+        - style/all_navbar_body_3_00_lvl.html
+      after_body:
+        - style/all_footer.html
+---
+
+
+These are the materials that I find either:
+
+* useful, or at least deemed to be useful;
+* hard to understand;
+* fun to work with, or
+* all of the above.
+
+
+# **2019**
+
+<!-- ## Mathematical Statistics -->
+
+
+## Machine Learning
+
+* [Cross-validation for fusion estimates](research_materials/2019/cross_validation_fs.html)
+* [Imputation using EM: Python implementation](research_materials/2019/em_imputation_python.html)
+
+
+## Methods for Multivariate Data
+
+
+* Canonical correlation analysis
+* [Imputing missing data using EM algorithm](research_materials/2019/em_imputation.html)
+* [Justifying matrix derivatives](research_materials/2019/matrix_derivatives.html)
+* [Linear regression with multivariate response](research_materials/2019/multivariate_response.html)
+* PCA on correlation matrix
+
+
+## Stochastic Processes
+
+* [Animation in R: a jumping frog](research_materials/2019/frog.html)
+* [Animation in R: the largest value until the current roll](research_materials/2019/largest_roll.html)
+* Martingale and option pricing
+
+
+# **2018**
+
+
+## Methods of Applied Statistics
+
+* Binarization of data using `data.table` in R
+* [Censored data](research_materials/2018/censored_data.html)
+* Linear mixed effects model
+* [Visualizing confidence regions](research_materials/2018/visualizing_confidence_regions.html)
+
+
+
+## Ordinary Differential Equations
+
+* Visualizing Mankiw-Romer-Weil growth model
+
+
+<!-- ## Probability -->
+
+<!-- (01) Randomness -->
+<!-- (02) Probability and functions -->
+<!-- (03) Bernoulli and beyond -->
+<!-- (04) Gamma and beyond -->
+<!-- (05) Normal and beyond -->
+<!-- (06) Conditional expectations -->
+<!-- (07) Towards multivariate cases -->
+<!-- (08) Dirichlet and more -->
+<!-- (09) Characteristic functions -->
+<!-- (10) Multivariate normal -->
+<!-- (11) Rotational invariance -->
+
+
+## Statistical Computation
+
+* Boundary estimation
+* [Dealing with a non-separable penalty term](research_materials/2018/non_separable_penalty.html)
+* [Evaluating a hard-to-evaluate pmf using pgf and DFT](research_materials/2018/pgf.html)
+* [Using pgf and DFT: Python implementation](research_materials/2018/pgf_python.html)
+
+
+## Time Series Analysis
+
+* [Study note 1: weak stationarity, ARIMA, Dickey-Fuller](files/study_note1.pdf)
+* [Study note 2: TFNM](files/study_note2.pdf)
+* [Study note 3: VAR, Granger causality, cointegration, multivariate times series](files/study_note3.pdf)
+* [Study note 4: state-space model, bootstrap](files/study_note4.pdf)
+* [Study note 5: problems, summary](files/study_note5.pdf)
+
+<!-- 1. Weak stationarity -->
+<!--     + Functions: mean, variance, AVCF, ACF, and CCF -->
+<!--     + Definition of weak stationarity -->
+<!--     + PACF -->
+<!--     + White noise -->
+<!-- 2. Modeling -->
+<!--     + Decomposition of time series -->
+<!--     + Steps to time series modeling -->
+<!--     + Three stages of Box-Jenkins Approach -->
+<!--     + $\text{ARMA}(p, q)$ -->
+<!--         + Wold decomposition -->
+<!--         + $\text{AR}(p)$ -->
+<!--         + $\text{MA}(q)$ -->
+<!--         + Causal and invertible processes -->
+<!--         + $\text{ARMA}(p, q)$ -->
+<!--     + Diagnostics -->
+<!--         + Portmanteau tests -->
+<!--     + Model selection -->
+<!--     + $\text{ARIMA}(p, d, q)$ -->
+<!--         + $I(d)$ and Dickey-Fuller test -->
+<!--         + Selection of $p$, the lag length -->
+<!-- 3. TFNM -->
+<!-- 4. Vector autoregression -->
+<!-- 5. Granger causality -->
+<!-- 6. Cointergration -->
+<!--     + Definition -->
+<!--     + Error correction model -->
+<!--     + Granger representation theorem -->
+<!--     + The procedure of Engle and Granger (1987) -->
+<!--     + An example: pairs trading -->
+<!-- 7. Multivariate times series -->
+<!-- 8. State-space model -->
+    
+    
+    
+
+
