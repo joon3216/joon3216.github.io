@@ -1,20 +1,61 @@
-1. Get to this directory and initialize (skip if done already):
+# Introduction
 
-cd <path_to_this_folder>
-git init
+1. Open Git Bash in an empty folder you want to copy a git repository 
+(note: README.md must exist in a repository):
 
-2. Check if you're able to fetch and push (skip if done already):
+git clone <https_or_ssh_git_directory>
 
-git remote add origin https://github.com/joon3216/joon3216.github.io.git
+2. Enter into the directory copied:
+
+cd <name_of_repository>
+
+3. Check what files exist in a repository, and to which it fetches and pushes:
+
+ls
 git remote -v
 
-3. Add files, commit, and push:
+
+
+# Actions
+
+
+1) Upload a file
+
+1. Find the directory of a file you want to add and save it to the location you want to save:
+
+e.g. Copy empty.txt in a folder named joon3216.github.io.local that exists two directories above.
+
+cp ../../joon3216.github.io.local/empty.txt empty.txt
+
+2. Add it, commit it, and push:
 
 git add .
-git commit -m "description of commit"
+git commit -m "Add empty.txt"
 git push origin master
 
-4. If "Updates were rejected because the remote contains work that you do not have locally." appears, try:
 
-git pull origin master
+2) Upload a folder
+
+Similar.
+
+
+3) Remove a file
+
+e.g. Remove empty.txt
+
+git rm -r empty.txt
+git commit -m "Remove empty.txt"
 git push origin master
+
+
+
+4) Remove a folder
+
+git rm -r folder-name
+git commit -m "Remove a folder"
+git push origin master
+
+
+
+
+
