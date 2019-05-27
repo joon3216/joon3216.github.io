@@ -23,7 +23,7 @@ git remote -v
 
 1. Find the directory of a file you want to add and save it to the location you want to save:
 
-e.g. Copy empty.txt in a folder named joon3216.github.io.local that exists two directories above.
+e.g. Copy empty.txt in a folder named joon3216.github.io.local that exists two directories above, and save as empty.txt
 
 cp ../../joon3216.github.io.local/empty.txt empty.txt
 
