@@ -75,7 +75,7 @@ header nav ul li
 }
 header nav ul li.sub-menu:before
 {
-    content: '▼'; /* nabla */
+    content: '▼'; /* ▼ nabla */
     font-size: 16pt;
     font-family: sans-serif;
     position: absolute;
@@ -87,7 +87,7 @@ header nav ul li.sub-menu:before
 }
 header nav ul li.active.sub-menu:before
 {
-    content: '▲';  /* Delta */
+    content: '▲';  /* ▲ Delta */
     font-size: 16pt;
     top: -1pt;
     right: -2px;
@@ -180,7 +180,7 @@ header nav ul li a:hover
     }
     header nav ul li.sub-menu:before
     {
-        content: '▼'; /* nabla */
+        content: '+'; /* old: ▼ nabla */
         font-size: 20pt;
         font-family: sans-serif;
         position: absolute;
@@ -192,8 +192,8 @@ header nav ul li a:hover
     }
     header nav ul li.active.sub-menu:before
     {
-        content: '▲';  /* Delta */
-        font-size: 20pt;
+        content: '-';  /* new: ▲ Delta */
+        font-size: 24pt;
         top: 5pt;
         right: 25px;
         cursor: pointer;
