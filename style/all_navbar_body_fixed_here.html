@@ -1,15 +1,16 @@
 <!-- A new navigation bar -->
 <header>
     <div class="logo"><a href="../index.html"><img src="all_orange_jp.png"></a></div>
-    <nav class="active">
+    <nav>
         <ul>
             <li><a href="../cv.html">About</a></li>
             <li><a href="../projects.html">Projects</a></li>
-            <li class="sub-menu"><a href="../research_materials.html">Research materials</a></li>
+            <li class="sub-menu"><a href="../research_materials.html">Research materials</a>
                 <ul>
                     <li><a href="../research_materials/2018.html">2018</a></li>
                     <li><a href="../research_materials/2019.html">2019</a></li>
                 </ul>
+            </li>
             <li><a href="../news.html">News</a></li>
         </ul>
     </nav>
@@ -21,7 +22,7 @@
         $('.menu-toggle').click(function(){
             $('nav').toggleClass('active')
         })
-        $('ul li.').click(function(){
+        $('ul li').click(function(){
             $(this).siblings().removeClass('active');
             $(this).toggleClass('active');
         })

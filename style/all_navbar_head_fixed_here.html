@@ -39,28 +39,37 @@ header nav ul
 }
 header nav ul li
 {
+    padding: 0;
     list-style: none;
     position: relative;
 }
 header nav ul li.sub-menu:before
 {
-    content: '+';
+    content: '&#9660'; /* nabla */
+    font-size: 16pt;
     font-family: sans-serif;
     position: absolute;
     line-height: 30px;
     color: #ffffff;
-    right: 5px;
+    top: -1pt;
+    right: -2px;
+    cursor: pointer;
 }
 header nav ul li.active.sub-menu:before
 {
-    content: '-';
+    content: '&#9650';  /* Delta */
+    font-size: 16pt;
+    top: -1pt;
+    right: -2px;
+    cursor: pointer;
 }
 header nav ul li ul
 {
     position: absolute;
     left: 0;
-    background: rgba(28, 44, 56, 0.99);
-    /*display: none;*/
+    top: 40px; /* controls the box position of 2018 and 2019 under Research materials */
+    background: rgba(57, 143, 209, 0.99);
+    display: none;
 }
 header nav ul li.active ul
 {
@@ -69,7 +78,7 @@ header nav ul li.active ul
 header nav ul li ul li
 {
     display: block;
-    width: 20px;
+    width: 200px;
 }
 header nav ul li a
 {
@@ -129,6 +138,42 @@ header nav ul li a:hover
         height: 50px;
         line-height: 50px;
         padding: 0 20px;
+    }
+    header nav ul li.active ul
+    {
+        position: relative;
+    }
+    header nav ul li ul li
+    {
+        width: 100%;
+    }
+    header nav ul li.sub-menu:before
+    {
+        content: '&#9660'; /* nabla */
+        font-size: 16pt;
+        font-family: sans-serif;
+        position: absolute;
+        line-height: 30px;
+        color: #ffffff;
+        top: 5pt;
+        right: 25px;
+        cursor: pointer;
+    }
+    header nav ul li.active.sub-menu:before
+    {
+        content: '&#9650';  /* Delta */
+        font-size: 16pt;
+        top: 5pt;
+        right: 25px;
+        cursor: pointer;
+    }
+    header nav ul li ul
+    {
+        position: absolute;
+        left: 0;
+        top: 0px; /* controls the box position of 2018 and 2019 under Research materials */
+        background: rgba(57, 143, 209, 0.99);
+        display: none;
     }
 }
 </style>
