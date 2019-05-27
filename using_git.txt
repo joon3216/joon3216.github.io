@@ -1,7 +1,7 @@
 # Introduction
 
 1. Open Git Bash in an empty folder you want to copy a git repository 
-(note: README.md must exist in a repository):
+(note: README.md must exist in a repository for "git clone" to work):
 
 git clone <https_or_ssh_git_directory>
 
