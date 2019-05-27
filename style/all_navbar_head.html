@@ -86,10 +86,16 @@ header nav ul li a
 {
     height: 30px;
     line-height: 30px;
-    padding: 0 20px;
+    padding: 0; /* old: 0 20px; why change: to make text the only clickable object */
+    margin: 0 20px;
     color: #ffffff;
     text-decoration: none;
     /*display: block;*/
+}
+/* new: news; why add: to make News go to the right */
+header nav ul li.sub-menu2
+{
+    margin: 0 0 0 20px;
 }
 header nav ul li a:hover
 {

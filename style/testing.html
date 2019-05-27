@@ -114,10 +114,16 @@ header nav ul li a
 {
     height: 30px;
     line-height: 30px;
-    padding: 0 20px;
+    padding: 0; /* old: 0 20px; why change: to make text the only clickable object */
+    margin: 0 20px;
     color: #ffffff;
     text-decoration: none;
     /*display: block;*/
+}
+/* new: news; why add: to make News go to the right */
+header nav ul li.sub-menu2
+{
+    margin: 0 0 0 20px;
 }
 header nav ul li a:hover
 {
@@ -272,7 +278,7 @@ header.black
                     <li><a href="../research_materials/2019.html">2019</a></li>
                 </ul>
             </li>
-            <li><a href="../news.html">News</a></li>
+            <li class="sub-menu2"><a href="../news.html">News</a></li>
         </ul>
     </nav>
     <div class="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></div>
