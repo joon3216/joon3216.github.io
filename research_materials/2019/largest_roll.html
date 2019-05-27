@@ -26,7 +26,7 @@
 
   gtag('config', 'UA-139050237-1');
 </script>
-<!-- <link rel="stylesheet" type="text/css" href="all_navbar_style_3.css"> -->
+<!-- A new navigation bar style settings -->
 <style type="text/css">
 body
 {
@@ -34,159 +34,187 @@ body
     padding: 0;
     font-family: sans-serif;
 }
-nav
+/* at the top */
+header
 {
-    position: sticky; /* old: fixed */
+    position: sticky;
     top: 0;
-    left : 0;
+    left: 0;
+    padding: 10px 25px;
+    background: rgba(28, 44, 56, 0.99);
     width: 100%;
     height: 50px;
-    padding: 5px 30px; /* old: 10px 100px */
     box-sizing: border-box;
-    transition: .5s;
-    background: rgba(28, 44, 56, 0.99); /* new: Added */
     border-bottom: 1px solid #EAEAEB;
-}
-nav .menu ul
-{
-    float: left; /* old: right */
-    margin: 0 10px;
-    padding: 0;
-    display: flex;
-}
-nav .menu ul li
-{
-    list-style: none;
-    /*position: sticky;*/
-}
-nav .menu ul li a
-{
-    line-height: 40px;
-    color: #f7ecec; /* old: #262626 */
-    padding: 0 10px;
-    font-family: sans-serif;
-    transition: .5s;
-    /*display: block;*/
-}
-nav label
-{
-    margin: 0;
-    padding: 5px 25px;
-    font-size: 26px;
-    line-height: 40px;
-    display: none;
-    width: 26px;
-    float: right;
-    color: #f7ecec;
-}
-nav.black label
-{
     transition: .5s;
 }
-nav #toggle
-{
-    display: none;
-}
-@media only screen and (max-width: 550px) 
-{
-    nav label
-    {
-        line-height: 26px;
-        display: block;
-        cursor: pointer;
-        float: right;
-    }
-    nav.black label
-    {
-        font-size: 26px;
-        margin: 0;
-        padding: 0px 25px;
-    }
-    nav .menu
-    {
-        float: right;
-        text-align: center;
-        width: 100vw;
-        display: none;
-        padding: 0 0 0 30px;
-    }
-    nav.black .menu
-    {
-        float: right;
-        text-align: center;
-        width: 100vw;
-        display: none;
-        padding: 0 0 0 25px;
-    }
-    nav .menu ul
-    {
-        display: block;
-        margin: 0;
-        padding: 0;
-        background: rgba(28, 44, 56, 0.99);
-        width: 100vw;
-        height: 35vh;
-    }
-    nav.black .menu ul
-    {
-        background: rgb(21, 92, 148);
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        height: 22vh;
-    }
-    nav .menu ul li a
-    {
-        margin: 0;
-        display: block;
-        border-bottom: 1px solid #EAEAEB;
-    }
-    nav.black .menu ul li a
-    {
-        margin: 0;
-        display: block;
-        border-bottom: 1px solid #EAEAEB;
-    }
-    nav #toggle:checked + .menu
-    {
-        display: block;
-        width: 100vw;
-        height: 250%;
-    }
-}
-nav.black
-{
-    background: rgba(21, 92, 148, .7); /* old: .8*/
-    height: 50px;
-    padding: 10px 25px; /* old: 10px 50px */
-}
-nav .logo
+header .logo
 {
     float: left;
 }
-nav .logo img
-{
-    height: 40px;
-    transition: .5s;
-}
-nav.black .logo img
+header .logo img
 {
     height: 30px;
 }
-nav.black .menu ul li a
+header nav
 {
-    color: #f7ecec; /* old: rbg(0, 0, 0); */
+    float: left;
+}
+header nav ul
+{
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+}
+header nav ul li
+{
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+header nav ul li.sub-menu:before
+{
+    content: '&#9660'; /* nabla */
+    font-size: 16pt;
+    font-family: sans-serif;
+    position: absolute;
     line-height: 30px;
+    color: #ffffff;
+    top: -1pt;
+    right: -2px;
+    cursor: pointer;
 }
-nav .menu ul li a:hover
+header nav ul li.active.sub-menu:before
 {
-    color: #fff; /* old: #fff; */
-    background: rgba(21, 92, 148, 0.01); /* old: 0.01 */
+    content: '&#9650';  /* Delta */
+    font-size: 16pt;
+    top: -1pt;
+    right: -2px;
+    cursor: pointer;
 }
-nav.black .menu ul li a:hover
+header nav ul li ul
 {
-    color: rgb(0, 0, 0); /* old: #fff; */
-    background: rgba(21, 92, 148, 0.01); /* old: 0.01 */
+    position: absolute;
+    left: 0;
+    top: 40px; /* controls the box position of 2018 and 2019 under Research materials */
+    background: rgba(57, 143, 209, 0.99);
+    display: none;
+}
+header nav ul li.active ul
+{
+    display: block;
+}
+header nav ul li ul li
+{
+    display: block;
+    width: 200px;
+}
+header nav ul li a
+{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+}
+header nav ul li a:hover
+{
+    color: #ffffff;
+}
+.menu-toggle
+{
+    color: #ffffff;
+    float: right;
+    line-height: 30px;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+@media (max-width: 991px)
+{
+    /* at the top */
+    header
+    {
+        padding: 10px 25px;
+    }
+    .menu-toggle
+    {
+        display: block;
+    }
+    header nav
+    {
+        /*display: none;*/
+        position: absolute;
+        width: 100%;
+        height: calc(100vh - 50px);
+        background: rgba(28, 44, 56, 0.99);
+        top: 50px;
+        left: -100%;
+        transition: .5s;
+    }
+    header nav.active
+    {
+        left: 0;
+    }
+    header nav ul
+    {
+        display: block;
+        text-align: center;
+    }
+    header nav ul li a
+    {
+        border-bottom: 1px solid rgba(255, 255, 255, .5);
+        height: 50px;
+        line-height: 50px;
+        padding: 0 20px;
+    }
+    header nav ul li.active ul
+    {
+        position: relative;
+    }
+    header nav ul li ul li
+    {
+        width: 100%;
+    }
+    header nav ul li.sub-menu:before
+    {
+        content: '&#9660'; /* nabla */
+        font-size: 16pt;
+        font-family: sans-serif;
+        position: absolute;
+        line-height: 30px;
+        color: #ffffff;
+        top: 5pt;
+        right: 25px;
+        cursor: pointer;
+    }
+    header nav ul li.active.sub-menu:before
+    {
+        content: '&#9650';  /* Delta */
+        font-size: 16pt;
+        top: 5pt;
+        right: 25px;
+        cursor: pointer;
+    }
+    header nav ul li ul
+    {
+        position: absolute;
+        left: 0;
+        top: 0px; /* controls the box position of 2018 and 2019 under Research materials */
+        background: rgba(57, 143, 209, 0.99);
+        display: none;
+    }
+
+    /* while scrolling */
+
+}
+
+/* while scrolling */
+header.black
+{
+    background: rgba(21, 92, 148, .7);
 }
 </style>
 
@@ -194,11 +222,11 @@ nav.black .menu ul li a:hover
 <script type="text/javascript">
     $(window).on('scroll', function(){
         if ($(window).scrollTop()){
-            $('nav').addClass('black');
+            $('header').addClass('black');
         }
         else
         {
-            $('nav').removeClass('black');
+            $('header').removeClass('black');
         }
     })
 </script>
@@ -253,23 +281,78 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <body>
 
 
-<nav>
+<!-- A new navigation bar -->
+<header>
+    <div class="logo"><a href="../../index.html"><img src="../../style/all_orange_jp.png"></a></div>
+    <nav>
+        <ul>
+            <li><a href="../../cv.html">About</a></li>
+            <li><a href="../../projects.html">Projects</a></li>
+            <li class="sub-menu"><a href="../../research_materials.html">Research materials</a>
+                <ul>
+                    <li><a href="../../research_materials/2018.html">2018</a></li>
+                    <li><a href="../../research_materials/2019.html">2019</a></li>
+                </ul>
+            </li>
+            <li><a href="../../news.html">News</a></li>
+        </ul>
+    </nav>
+    <div class="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></div>
+</header>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.menu-toggle').click(function(){
+            $('nav').toggleClass('active')
+        })
+        $('ul li').click(function(){
+            $(this).siblings().removeClass('active');
+            $(this).toggleClass('active');
+        })
+    })
+</script>
+
+
+
+
+
+
+
+
+<!-- Old ver. -->
+<!-- block comment in VS code: ctrl + k + c -->
+<!-- <nav>
     <div class="logo">
-        <a href="../../index.html">
-            <img src="../../style/all_orange_jp.png">
+        <a href="../index.html">
+            <img src="all_orange_jp.png">
         </a>
     </div>
     <label for="toggle">&#9776;</label>
     <input type="checkbox" id="toggle"/>
     <div class="menu">
         <ul>
-            <li><a href="../../cv.html">About</a></li>
-            <li><a href="../../projects.html">Projects</a></li>
-            <li><a href="../../research_materials.html">Research materials</a></li>
-            <li><a href="../../news.html">News</a></li>
+            <li><a href="../cv.html">About</a></li>
+            <li><a href="../projects.html">Projects</a></li>
+            <li><a href="../research_materials.html">Research materials</a>
+                <ul class="dropdown" style="display: block;">
+                    <li class="mega_menu">
+                        <h6>
+                            <a href="../research_materials/2018.html">2018</a>
+                        </h6>
+                    </li>
+                    <li class="mega_menu">
+                        <h6>
+                            <a href="../research_materials/2019.html">2019</a>
+                        </h6>
+                    </li>
+                </ul>
+                <a class="expansion_when_clicked" href="#" style="font-size: 24px">+</a>
+                <a class="contraction_when_clicked" href="#" style="font-size: 24px">-</a>
+            </li>
+            <li><a href="../news.html">News</a></li>
         </ul>
     </div>
-</nav>
+</nav> -->
 
 
 <section class="page-header">
@@ -368,7 +451,7 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
     <span class="dt">start_pause =</span> <span class="dv">5</span>,
     <span class="dt">end_pause =</span> <span class="dv">5</span>
 )</code></pre></div>
-<p><img src="largest_roll_files/figure-html/animation-1.gif" style="display: block; margin: auto;" /></p>
+<p><img src="largest_roll.gif" style="display: block; margin: auto;" /></p>
 <p>Indeed, <span class="math inline">\(P(X_n = 6) \stackrel{p}{\to} 1\)</span>.</p>
 </div>
 <div id="session-info" class="section level1">
@@ -397,16 +480,15 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 ##  [4] plyr_1.8.4        prettyunits_1.0.2 prettydoc_0.2.1  
 ##  [7] tools_3.6.0       progress_1.2.2    digest_0.6.18    
 ## [10] jsonlite_1.6      evaluate_0.13     tibble_2.1.1     
-## [13] gtable_0.3.0      png_0.1-7         pkgconfig_2.0.2  
-## [16] rlang_0.3.4       yaml_2.2.0        xfun_0.7         
-## [19] withr_2.1.2       stringr_1.4.0     knitr_1.23       
-## [22] hms_0.4.2         grid_3.6.0        tidyselect_0.2.5 
-## [25] glue_1.3.1        R6_2.4.0          gifski_0.8.6     
-## [28] rmarkdown_1.12    purrr_0.3.2       tweenr_1.0.1     
-## [31] farver_1.1.0      tidyr_0.8.3       magrittr_1.5     
-## [34] scales_1.0.0      htmltools_0.3.6   assertthat_0.2.1 
-## [37] colorspace_1.4-1  labeling_0.3      stringi_1.4.3    
-## [40] lazyeval_0.2.2    munsell_0.5.0     crayon_1.3.4</code></pre>
+## [13] gtable_0.3.0      pkgconfig_2.0.2   rlang_0.3.4      
+## [16] yaml_2.2.0        xfun_0.7          withr_2.1.2      
+## [19] stringr_1.4.0     knitr_1.23        hms_0.4.2        
+## [22] grid_3.6.0        tidyselect_0.2.5  glue_1.3.1       
+## [25] R6_2.4.0          rmarkdown_1.12    purrr_0.3.2      
+## [28] tweenr_1.0.1      farver_1.1.0      tidyr_0.8.3      
+## [31] magrittr_1.5      scales_1.0.0      htmltools_0.3.6  
+## [34] assertthat_0.2.1  colorspace_1.4-1  stringi_1.4.3    
+## [37] lazyeval_0.2.2    munsell_0.5.0     crayon_1.3.4</code></pre>
 </div>
 <div class="footnotes">
 <hr />
@@ -416,10 +498,10 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 </div>
 </section>
 
-&nbsp;
+<!-- Footer -->
 <!-- Reference: https://holtzy.github.io/Pimp-my-rmd/ -->
-
-<hr />
+&nbsp; <!-- whitespace -->
+<hr /> <!-- line -->
 <p style="text-align: center;">written by <a href="https://github.com/joon3216">Junkyu Park</a></p>
 <p style="text-align: center;"><span style="color: #555555;"><em>joon3216@gmail.com</em></span></p>
 
@@ -432,8 +514,7 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
     <a href="https://github.com/joon3216" class="fa fa-github"></a>
     <a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a>
 </p>
-
-&nbsp;
+&nbsp; <!-- whitespace -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
