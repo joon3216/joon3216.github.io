@@ -62,21 +62,24 @@ header nav ul li.sub-menu
 
 header nav ul li.sub-menu:before
 {
-    content: '▼'; /* &#9660 nabla */
+    content: '\f0d7'; /* &#9660 ▼ nabla */
+    font-family: fontAwesome; /* old: sans-serif */
     font-size: 16pt;
-    font-family: sans-serif;
     position: absolute;
-    line-height: 30px;
+    /*line-height: 30px;*/
     color: #ffffff;
-    top: 5pt;
+    top: 7pt;
     right: 10px;
     cursor: pointer;
 }
 header nav ul li.active.sub-menu:before
 {
-    content: '▲';  /* &#9650 Delta */
+    content: '\f0d8';  /* &#9650 ▲ Delta */
+    font-family: fontAwesome; /* new */
     font-size: 16pt;
-    top: 5pt;
+    position: absolute;
+    color: #ffffff;
+    top: 7pt;
     right: 10px;
     cursor: pointer;
 }
@@ -139,9 +142,11 @@ header nav ul li a:hover
     color: #ffffff;
 }
 
-/* new: research_materials; why: to make dropdown menu appear whenever mouse is above */
-
-/* end of this new attempt */
+/* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
+header nav ul li:hover ul
+{
+    display: block;
+}
 
 .menu-toggle
 {
@@ -237,6 +242,18 @@ header nav ul li a:hover
         display: none;
     }
 
+    /* new: hover and active
+    why: do not display drop down menus when mouse is over it
+    and looking in mobile, but display them when plus signs are clicked */
+    header nav ul li:hover ul
+    {
+        display: none;
+    }
+    header nav ul li.active ul
+    {
+        display: block;
+    }
+
     /* new: News; why: to make News align with the others in mobile */
     /* commented out since Research Materials uses different method
     to get more space on its right (header nav ul li.sub-menu padding) */
@@ -291,3 +308,6 @@ header.black
         })
     })
 </script>
+
+<!-- Using caret down and up symbols -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
