@@ -114,18 +114,6 @@ def csum_N(pmf, support, lambd, eps = 1e-05):
     return pS_tks
 
 
-result = csum_N(dX, np.arange(0, 6), 3)
-M = len(result)
-
-# Scatterplot: pmf of S
-#print(M, sum(result))
-#plt.scatter(np.arange(0, M), result)
-#plt.title('pmf of S')
-#plt.xlabel('x')
-#plt.ylabel('P(S = x)')
-#plt.show()
-
-
 def dpmf(x, pmf_vec, support_vec = None):
     '''(object or *iterable, *iterable[, *iterable]) -> number or np.array
     
@@ -180,11 +168,6 @@ def dpmf(x, pmf_vec, support_vec = None):
     return finder(x)
 
 
-pmf_eg2 = (.25, .4, .35)
-support_eg2 = ['apple', 'orange', 'neither']
-dfruit = lambda x: dpmf(x, pmf_eg2, support_eg2)
-
-
 def rpmf(n, pmf, support, **kwargs):
     '''(int, function, *iterable[, **kwargs]) -> np.array
     
@@ -227,33 +210,44 @@ def rpmf(n, pmf, support, **kwargs):
     return np.array(result)
 
 
-np.random.seed(2048)
-start_py = dt.now()
-samples_N = rpmf(10000, dpmf, np.arange(0, M), pmf_vec = result)
-end_py = dt.now()
-
-# Histogram: samples of S
-#plt.clf()
-#bins = np.arange(-.5, M + 1.5, step = 1)
-#plt.hist(samples_N, bins = bins, density = True)
-#plt.title('Histogram of S')
-#plt.ylabel('Mass')
-#plt.xlabel('x')
-#plt.show()
-
-
-# Histogram and the actual pmf of S
-#plt.clf()
-#plt.scatter(np.arange(0, M), result, s = 5, c = 'black')
-#plt.hist(samples_N, bins = bins, density = True, alpha = .5)
-#plt.title('Histogram vs. the actual pmf of S')
-#plt.ylabel('Mass')
-#plt.xlabel('x')
-#plt.show()
-
 
 if __name__ == '__main__':
+    result = csum_N(dX, np.arange(0, 6), 3)
+    M = len(result)
+    pmf_eg2 = (.25, .4, .35)
+    support_eg2 = ['apple', 'orange', 'neither']
+    dfruit = lambda x: dpmf(x, pmf_eg2, support_eg2)
+    # np.random.seed(2048)
+    # start_py = dt.now()
+    # samples_N = rpmf(10000, dpmf, np.arange(0, M), pmf_vec = result)
+    # end_py = dt.now()    
+    
+    
+    # Scatterplot: pmf of S
+    #print(M, sum(result))
+    #plt.scatter(np.arange(0, M), result)
+    #plt.title('pmf of S')
+    #plt.xlabel('x')
+    #plt.ylabel('P(S = x)')
+    #plt.show()    
+    
+    # Histogram: samples of S
+    #plt.clf()
+    #bins = np.arange(-.5, M + 1.5, step = 1)
+    #plt.hist(samples_N, bins = bins, density = True)
+    #plt.title('Histogram of S')
+    #plt.ylabel('Mass')
+    #plt.xlabel('x')
+    #plt.show()
+    
+    # Histogram and the actual pmf of S
+    #plt.clf()
+    #plt.scatter(np.arange(0, M), result, s = 5, c = 'black')
+    #plt.hist(samples_N, bins = bins, density = True, alpha = .5)
+    #plt.title('Histogram vs. the actual pmf of S')
+    #plt.ylabel('Mass')
+    #plt.xlabel('x')
+    #plt.show()    
+    
     import doctest
     doctest.testmod()
-
-
