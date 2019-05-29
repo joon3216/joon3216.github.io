@@ -1,7 +1,7 @@
 # Introduction
 
 1. Open Git Bash in an empty folder you want to copy a git repository 
-(note: README.md must exist in a repository for "git clone" to work):
+(note: README.md must exist in a repository):
 
 git clone <https_or_ssh_git_directory>
 
@@ -23,7 +23,7 @@ git remote -v
 
 1. Find the directory of a file you want to add and save it to the location you want to save:
 
-e.g. Copy empty.txt in a folder named joon3216.github.io.local that exists two directories above, and save as empty.txt
+e.g. Copy empty.txt in a folder named joon3216.github.io.local that exists two directories above.
 
 cp ../../joon3216.github.io.local/empty.txt empty.txt
 

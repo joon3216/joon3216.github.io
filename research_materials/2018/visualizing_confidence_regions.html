@@ -528,10 +528,10 @@ CI_collections <span class="op">%&gt;%</span><span class="st"> </span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(frets)</code></pre></div>
 <pre><code>## Observations: 25
 ## Variables: 4
-## $ l1 &lt;dbl&gt; 191, 195, 181, 183, 176, 208, 189, 197, 188, 192, 179, 183,...
-## $ b1 &lt;dbl&gt; 155, 149, 148, 153, 144, 157, 150, 159, 152, 150, 158, 147,...
-## $ l2 &lt;dbl&gt; 179, 201, 185, 188, 171, 192, 190, 189, 197, 187, 186, 174,...
-## $ b2 &lt;dbl&gt; 145, 152, 149, 149, 142, 152, 149, 152, 159, 151, 148, 147,...</code></pre>
+## $ l1 [3m[38;5;246m&lt;dbl&gt;[39m[23m 191, 195, 181, 183, 176, 208, 189, 197, 188, 192, 179, 183,...
+## $ b1 [3m[38;5;246m&lt;dbl&gt;[39m[23m 155, 149, 148, 153, 144, 157, 150, 159, 152, 150, 158, 147,...
+## $ l2 [3m[38;5;246m&lt;dbl&gt;[39m[23m 179, 201, 185, 188, 171, 192, 190, 189, 197, 187, 186, 174,...
+## $ b2 [3m[38;5;246m&lt;dbl&gt;[39m[23m 145, 152, 149, 149, 142, 152, 149, 152, 159, 151, 148, 147,...</code></pre>
 <p>The data consists of measurements of the length and breadth of the heads of pairs of adult brothers in 25 randomly sampled families. All measurements are expressed in millimetres. I will take <span class="math inline">\(x =\)</span> <code>l1</code> and <span class="math inline">\(y =\)</span> <code>b1</code>. That is, I am asking: “Is there a linear relationship between the eldest son’s breadth and length of his head?”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Int =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">25</span>), <span class="dt">l1 =</span> frets[, <span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()
 Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</code></pre></div>
@@ -647,7 +647,7 @@ plot</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.6.0 (2019-04-26)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 17763)
+## Running under: Windows &gt;= 8 x64 (build 9200)
 ## 
 ## Matrix products: default
 ## 
@@ -660,19 +660,21 @@ plot</code></pre></div>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.1.1 dplyr_0.8.1  
+## [1] ggplot2_3.1.1   dplyr_0.8.1     reticulate_1.12 rmarkdown_1.12 
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.1       pillar_1.4.0     compiler_3.6.0   plyr_1.8.4      
 ##  [5] prettydoc_0.2.1  tools_3.6.0      zeallot_0.1.0    digest_0.6.18   
-##  [9] evaluate_0.13    tibble_2.1.1     gtable_0.3.0     pkgconfig_2.0.2 
-## [13] rlang_0.3.4      cli_1.1.0        yaml_2.2.0       xfun_0.7        
-## [17] withr_2.1.2      stringr_1.4.0    knitr_1.23       vctrs_0.1.0     
-## [21] grid_3.6.0       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
-## [25] fansi_0.4.0      rmarkdown_1.12   purrr_0.3.2      tidyr_0.8.3     
-## [29] magrittr_1.5     scales_1.0.0     backports_1.1.4  htmltools_0.3.6 
-## [33] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     utf8_1.1.4      
-## [37] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
+##  [9] jsonlite_1.6     evaluate_0.13    tibble_2.1.1     gtable_0.3.0    
+## [13] lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2  rlang_0.3.4     
+## [17] Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10  yaml_2.2.0      
+## [21] xfun_0.7         ezknitr_0.6      withr_2.1.2      stringr_1.4.0   
+## [25] knitr_1.23       hms_0.4.2        vctrs_0.1.0      grid_3.6.0      
+## [29] tidyselect_0.2.5 glue_1.3.1       R6_2.4.0         fansi_0.4.0     
+## [33] readr_1.3.1      purrr_0.3.2      tidyr_0.8.3      magrittr_1.5    
+## [37] backports_1.1.4  scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1
+## [41] colorspace_1.4-1 labeling_0.3     utf8_1.1.4       stringi_1.4.3   
+## [45] lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
 </div>
 </section>
 
@@ -680,17 +682,23 @@ plot</code></pre></div>
 <!-- Reference: https://holtzy.github.io/Pimp-my-rmd/ -->
 &nbsp; <!-- whitespace -->
 <hr /> <!-- line -->
-<p style="text-align: center;">written by <a href="https://github.com/joon3216">Junkyu Park</a></p>
-<p style="text-align: center;"><span style="color: #555555;"><em>joon3216@gmail.com</em></span></p>
+<p style="text-align: center;">
+    © 2019 Junkyu Park
+    <br>
+    Powered by the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> from the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+</p>
 
 <!-- Add icon library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
+    <span style="color: #555555;"><em>joon3216@gmail.com</em></span>
+    <br>
     <a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook"></a>
     <a href="https://github.com/joon3216" class="fa fa-github"></a>
     <a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a>
+    <a href="https://twitter.com/joon3216" class="fa fa-twitter"></a>
 </p>
 &nbsp; <!-- whitespace -->
 
