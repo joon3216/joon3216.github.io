@@ -57,7 +57,9 @@ header nav ul li
 header nav ul li.sub-menu
 {
     /* why 8.5px: that's the value in header nav ul li padding */
-    padding: 8.5px 27.5px 8.5px 0; 
+    padding: 8.5px 27.5px 8.5px 0;
+    padding-bottom: 12px;
+    /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
 header nav ul li.sub-menu:before
@@ -97,18 +99,34 @@ header nav ul li.active ul
 }
 
 /* new; why: make dropdown menu box fit to the menu above */
-header nav ul li#projects.sub-menu ul li
+/* padding: 0; is for slimmer individual dropdown menu items */
+/* old */
+header nav ul li.sub-menu ul li
+{
+    display: block;
+    width: 200px;
+    padding: 5px 0;
+}
+
+/* new: header nav ul li ul li a */
+/* why: giving an indentation */
+header nav ul li ul li a
+{
+    margin: 0 40px;
+}
+
+/* header nav ul li#projects.sub-menu ul li
 {
     display: block;
     width: 115px;
-    padding: 0; /* slimmer individual dropdown menu items */
+    padding: 0;
 }
 header nav ul li#rm.sub-menu ul li
 {
     display: block;
     width: 197px;
-    padding: 0; /* slimmer individual dropdown menu items */
-}
+    padding: 0;
+} */
 
 header nav ul li a
 {
