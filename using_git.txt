@@ -56,6 +56,13 @@ git commit -m "Remove a folder"
 git push origin master
 
 
+5) Copy a file/folder and paste to here.
 
+e.g.1 Copy all files with an extension .html in the "test" folder, that is located two directories above, and paste it to the current directory.
 
+cp -r ../../test/*.html ./
+
+e.g.2 Copy all folders with "_files" in the end in the "test" folder, that is located two directories above, and paste it to "projects" folder that is a subfolder of a current directory.
+
+cp -r ../../test/*_files ./projects
 
