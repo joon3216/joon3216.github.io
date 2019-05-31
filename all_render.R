@@ -3,7 +3,7 @@
 # to apply changes in style to all .html files in the repository
 
 library(rmarkdown)
-library(purrr)
+library(itertools2)
 
 # Setting a working directory to where this script is located
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -32,6 +32,9 @@ c(
 
     ## style
     'style/testing.Rmd',
+    'style/testing_architect.Rmd',
+    'style/testing_hpstr.Rmd',
+    'style/testing_tactile.Rmd',
 
 
 
@@ -57,7 +60,8 @@ c(
     'research_materials/2019/matrix_derivatives.Rmd',
     'research_materials/2019/multivariate_response.Rmd'
 ) %>%
-    walk(render)
+    imap(function(x){render(x)}, .) %>%
+    as.list()
 
 
 
