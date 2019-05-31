@@ -20,19 +20,40 @@ output:
       after_body:
         - ../../style/all_footer.html
     df_print: paged    
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
-
-The following link is pointing towards this document:
-
-* [Justifying matrix derivatives](matrix_derivatives.html)
 
 The following R package is used in this note:
 
 ```{r packages, warning = F, message = F}
 library(dplyr)
 ```
+
+
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#the-model">2. The model</a><ul>
+<li><a href="#formulation">Formulation</a></li>
+<li><a href="#mles">MLEs</a><ul>
+<li><a href="#mle-for-mathbfb">MLE for <span class="math inline">\(\mathbf{B}\)</span></a></li>
+<li><a href="#mle-for-sigma">MLE for <span class="math inline">\(\Sigma\)</span></a></li>
+</ul></li>
+<li><a href="#distributions">Distributions</a><ul>
+<li><a href="#hatmathbfb"><span class="math inline">\(\hat{\mathbf{B}}\)</span></a></li>
+<li><a href="#hatsigma"><span class="math inline">\(\hat{\Sigma}\)</span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#an-example-iris">3. An example: <code>iris</code></a></li>
+<li><a href="#session-info">Session info</a></li>
+<li><a href="#related-page">Related page</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -518,4 +539,8 @@ R session info:
 sessionInfo()
 ```
 
+
+# Related page
+
+* [Justifying matrix derivatives](matrix_derivatives.html)
 

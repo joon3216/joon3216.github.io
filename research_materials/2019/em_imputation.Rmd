@@ -19,15 +19,9 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
-
-The following links are pointing towards this document:
-
-* [Justifying matrix derivatives](matrix_derivatives.html)
-* [Imputation using EM: Python implementation](em_imputation_python.html)
-
 
 The following external R packages/functions are used:
 
@@ -40,6 +34,29 @@ mvrnorm <- MASS::mvrnorm
 separate <- tidyr::separate
 unite <- tidyr::unite
 ```
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#imputation">2. Imputation</a><ul>
+<li><a href="#terminology">Terminology</a></li>
+<li><a href="#the-algorithm">The algorithm</a><ul>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="#e-step">E-step</a></li>
+<li><a href="#m-step">M-step</a></li>
+</ul></li>
+<li><a href="#simulating-nas">Simulating <code>NA</code>s</a></li>
+<li><a href="#imputing-nas">Imputing <code>NA</code>s</a></li>
+</ul></li>
+<li><a href="#performance">3. Performance</a></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#related-pages">Related pages</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
+
 
 
 # 1. Introduction
@@ -609,4 +626,8 @@ sessionInfo()
 ```
 
 
+# Related pages
+
+* [Justifying matrix derivatives](matrix_derivatives.html)
+* [Imputation using EM: Python implementation](em_imputation_python.html)
 

@@ -19,14 +19,10 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
-
-The following link is pointing towards this document:
-
-* [Dealing with a non-separable penalty term](../2018/non_separable_penalty.html)
 
 The following external R packages/functions are used:
 
@@ -37,7 +33,20 @@ gather <- tidyr::gather
 ```
 
 
-This note is a continuation from [Dealing with a non-separable penalty term](../2018/non_separable_penalty.html) under 2018: Statistical Computation.
+This note is a continuation from [Dealing with a non-separable penalty term](../2018/non_separable_penalty.html) under [2018](../2018.html): Statistical Computation.
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#choosing-a-tuning-parameter">2. Choosing a tuning parameter</a></li>
+<li><a href="#an-example">3. An example</a></li>
+<li><a href="#session-info">Session info</a></li>
+<li><a href="#related-page">Related page</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -332,7 +341,9 @@ R session info:
 sessionInfo()
 ```
 
+# Related page
 
+* [Dealing with a non-separable penalty term](../2018/non_separable_penalty.html)
 
 
 

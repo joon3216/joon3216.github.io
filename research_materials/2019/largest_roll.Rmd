@@ -19,7 +19,7 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
@@ -30,6 +30,17 @@ library(dplyr)
 library(gganimate)
 gather <- tidyr::gather
 ```
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#the-largest-roll-until-now">2. The largest roll until now</a></li>
+<li><a href="#session-info">Session info</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction

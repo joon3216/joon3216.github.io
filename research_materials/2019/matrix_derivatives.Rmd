@@ -19,14 +19,24 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
-The following links are pointing towards this document:
-
-* [Imputing missing data using EM algorithm](em_imputation.html)
-* [Linear regression with multivariate response](multivariate_response.html)
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#some-derivatives">2. Some derivatives</a><ul>
+<li><a href="#nabla_x-texttrx_m-times-n-a_n-times-m-at"><span class="math inline">\(\nabla_{X} \text{tr}(X_{m \times n} A_{n \times m}) = A^T\)</span></a></li>
+<li><a href="#nabla_x-detx_n-times-n-detx-x-1t"><span class="math inline">\(\nabla_X \det(X_{n \times n}) = \det(X) (X^{-1})^T\)</span></a></li>
+<li><a href="#nabla_x-log-detx_n-times-n-x-1t"><span class="math inline">\(\nabla_{X} \log( \det(X_{n \times n})) = (X^{-1})^T\)</span></a></li>
+</ul></li>
+<li><a href="#related-pages">Related pages</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -95,7 +105,10 @@ So we can write $\nabla_X \det(X_{n \times n})$ as:
 
 
 
+# Related pages
 
+* [Imputing missing data using EM algorithm](em_imputation.html)
+* [Linear regression with multivariate response](multivariate_response.html)
 
 
 

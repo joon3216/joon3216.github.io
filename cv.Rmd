@@ -14,13 +14,27 @@ output:
         - style/all_navbar_body_00_lvl.html
       after_body:
         - style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     toc_depth: 1
     self_contained: FALSE
 ---
 
 
 Last updated: May 28, 2019.
+
+<!--html_preserve-->
+&nbsp;
+<div id="TOC">
+<ul>
+<li><a href="#contact"><strong>Contact</strong></a></li>
+<li><a href="#education"><strong>Education</strong></a></li>
+<li><a href="#experience"><strong>Experience</strong></a></li>
+<li><a href="#skills"><strong>Skills</strong></a></li>
+<li><a href="#awards"><strong>Awards</strong></a></li>
+<li><a href="#languages"><strong>Languages</strong></a></li>
+</ul>
+</div>
+<!--/html_preserve-->
 
 
 # **Contact**

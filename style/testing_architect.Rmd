@@ -15,7 +15,7 @@ output:
       after_body:
         - all_footer_architect.html
     df_print: paged
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
@@ -26,6 +26,24 @@ See other testing pages with the following themes:
 * the [Architect](testing_architect.html) theme
 * the [HPSTR](testing_hpstr.html) theme
 * the [Tactile](testing_tactile.html) theme
+
+
+
+Place the table of contents here:
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:0 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#testing-styles">Testing styles</a></li>
+<li><a href="#lorem-ipsum-1">Lorem ipsum 1</a><ul>
+<li><a href="#subsection-lorem-ipsum-1">Subsection lorem ipsum 1</a></li>
+<li><a href="#subsection-lorem-ipsum-2">Subsection lorem ipsum 2</a></li>
+</ul></li>
+<li><a href="#lorem-ipsum-2">Lorem ipsum 2</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # Testing styles

@@ -19,7 +19,7 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
@@ -28,9 +28,6 @@ knitr::opts_chunk$set(python = reticulate::eng_python)
 library(reticulate)
 ```
 
-The following link is pointing towards this document:
-
-* [Cross-validation for fusion estimates](../2019/cross_validation_fs.html)
 
 The following external R packages/functions are used:
 
@@ -48,6 +45,28 @@ from datetime import datetime as dt
 from matplotlib import pyplot as plt
 import numpy as np
 ```
+
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#the-problem">2. The problem</a><ul>
+<li><a href="#the-model">The model</a></li>
+<li><a href="#change-of-variables">Change of variables</a></li>
+<li><a href="#the-minimizers">The minimizers</a></li>
+</ul></li>
+<li><a href="#an-example">3. An example</a><ul>
+<li><a href="#the-data">The data</a></li>
+<li><a href="#choosing-lambda">Choosing <span class="math inline">\(\lambda\)</span></a></li>
+<li><a href="#python-implementation">Python implementation</a></li>
+</ul></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#related-page">Related page</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -522,6 +541,8 @@ sinfo.sinfo()
 ```
 
 
+# Related page
 
+* [Cross-validation for fusion estimates](../2019/cross_validation_fs.html)
 
 

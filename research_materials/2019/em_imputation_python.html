@@ -456,28 +456,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </section>
 
 
-<div id="TOC" class="toc">
-<ul>
-<li><a href="#introduction">1. Introduction</a></li>
-<li><a href="#functions">2. Functions</a><ul>
-<li><a href="#simulating-np.nans">Simulating <code>np.nan</code>’s</a></li>
-<li><a href="#imputing-np.nans">Imputing <code>np.nan</code>’s</a></li>
-</ul></li>
-<li><a href="#comparison-with-the-r-function">3. Comparison with the R function</a></li>
-<li><a href="#session-info">Session info</a></li>
-</ul>
-</div>
 
 <section class="main-content">
-<p>The following links are pointing towards this document:</p>
-<ul>
-<li><a href="em_imputation.html">Imputing missing data using EM algorithm</a></li>
-<li><a href="../2018/pgf_python.html">Using pgf and DFT: Python implementation</a></li>
-</ul>
 <p>The following Python packages/functions are used:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="im">as</span> dt
 <span class="im">import</span> numpy <span class="im">as</span> np
 <span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></code></pre></div>
+
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#functions">2. Functions</a><ul>
+<li><a href="#simulating-np.nans">Simulating <code>np.nan</code>'s</a></li>
+<li><a href="#imputing-np.nans">Imputing <code>np.nan</code>'s</a></li>
+</ul></li>
+<li><a href="#comparison-with-the-r-function">3. Comparison with the R function</a></li>
+<li><a href="#session-info">Session info</a></li>
+<li><a href="#related-pages">Related pages</a></li>
+</ul>
+</div>
+&nbsp;
+
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
 <p>This note is about replicating R functions written in <a href="em_imputation.html">Imputing missing data using EM algorithm</a> under 2019: Methods for Multivariate Data. <code>simulate_na</code> (which will be renamed as <code>simulate_nan</code> here) and <code>impute_em</code> are going to be written in Python, and the computation time of <code>impute_em</code> will be checked in both Python and R.</p>
@@ -688,7 +687,7 @@ end <span class="op">=</span> dt.now()</code></pre></div>
 <h1>3. Comparison with the R function</h1>
 <p>It takes:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">str</span>(end <span class="op">-</span> start)</code></pre></div>
-<pre><code>## &#39;0:00:04.568824&#39;</code></pre>
+<pre><code>## &#39;0:00:03.729033&#39;</code></pre>
 <p>seconds to impute <code>X</code> in Python. Using the same <code>X</code>, let’s see how long the process takes in R. I am using a different name (<code>impute_em_R</code>) for the R function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span>py<span class="op">$</span>X
 <span class="kw">head</span>(X, <span class="dt">n =</span> <span class="dv">9</span>)</code></pre></div>
@@ -722,7 +721,7 @@ end_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></p
 ## [3,]  44.27110 19.13315 20.85078</code></pre>
 <p>They are all the same, as they should be. What about the time it took to impute in R?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end_R <span class="op">-</span><span class="st"> </span>start_R</code></pre></div>
-<pre><code>## Time difference of 1.712386 secs</code></pre>
+<pre><code>## Time difference of 1.646599 secs</code></pre>
 <p>Interestingly, R is about 2.5 times as fast as Python for this particular process. One explanation is that in <code>impute_em</code> written in Python, indices corresponding to <code>M_i</code> and <code>O_i</code> are extracted in each iteration of nested loop (for-loop inside the while-loop), whereas all of <code>M_i</code> and <code>O_i</code> are extracted using <code>lapply</code> in R before going over the loops.</p>
 </div>
 <div id="session-info" class="section level1">
@@ -762,7 +761,14 @@ sinfo.sinfo()</code></pre></div>
 ## Windows-10-10.0.17763-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-05-31 13:48</code></pre>
+## Session information updated at 2019-05-31 16:11</code></pre>
+</div>
+<div id="related-pages" class="section level1">
+<h1>Related pages</h1>
+<ul>
+<li><a href="em_imputation.html">Imputing missing data using EM algorithm</a></li>
+<li><a href="../2018/pgf_python.html">Using pgf and DFT: Python implementation</a></li>
+</ul>
 </div>
 </section>
 

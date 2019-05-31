@@ -19,7 +19,7 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
@@ -32,6 +32,20 @@ ddply <- plyr::ddply
 gather <- tidyr::gather
 data(frets, package = 'boot')
 ```
+
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#visualizations">2. Visualizations</a><ul>
+<li><a href="#case-1-confidence-interval-for-mu">Case 1: confidence interval for <span class="math inline">\(\mu\)</span></a></li>
+<li><a href="#case-2-simple-linear-regression">Case 2: simple linear regression</a></li>
+<li><a href="#case-3-normal-distribution">Case 3: Normal distribution</a></li>
+</ul></li>
+<li><a href="#session-info">Session info</a></li></ul>
+</div> 
+<!--/html_preserve-->
 
 
 # 1. Introduction

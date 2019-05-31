@@ -19,7 +19,7 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
@@ -28,10 +28,6 @@ knitr::opts_chunk$set(python = reticulate::eng_python)
 library(reticulate)
 ```
 
-The following links are pointing towards this document:
-
-* [Imputing missing data using EM algorithm](em_imputation.html)
-* [Using pgf and DFT: Python implementation](../2018/pgf_python.html)
 
 The following Python packages/functions are used:
 
@@ -40,6 +36,22 @@ from datetime import datetime as dt
 import numpy as np
 from functools import reduce
 ```
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#functions">2. Functions</a><ul>
+<li><a href="#simulating-np.nans">Simulating <code>np.nan</code>'s</a></li>
+<li><a href="#imputing-np.nans">Imputing <code>np.nan</code>'s</a></li>
+</ul></li>
+<li><a href="#comparison-with-the-r-function">3. Comparison with the R function</a></li>
+<li><a href="#session-info">Session info</a></li>
+<li><a href="#related-pages">Related pages</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -377,6 +389,11 @@ sinfo.sinfo()
 
 
 
+# Related pages
+
+
+* [Imputing missing data using EM algorithm](em_imputation.html)
+* [Using pgf and DFT: Python implementation](../2018/pgf_python.html)
 
 
 

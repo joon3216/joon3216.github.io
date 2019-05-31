@@ -19,20 +19,42 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     toc_depth: 2
     self_contained: FALSE
 ---
 
-The following link is pointing towards this document:
 
-* [Using pgf and DFT: Python implementation](pgf_python.html)
 
 The following external R package is used:
 
 ```{r loading, warning = F, message = F}
 library(ggplot2)
 ```
+
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#definitions">2. Definitions</a><ul>
+<li><a href="#probability-generating-function">Probability generating function</a></li>
+<li><a href="#discrete-fourier-transform">Discrete Fourier transform</a></li>
+</ul></li>
+<li><a href="#case-studies">3. Case studies</a><ul>
+<li><a href="#case-1-a-finite-sum">Case 1: a finite sum</a></li>
+<li><a href="#case-2-an-infinite-sum">Case 2: an infinite sum</a></li>
+</ul></li>
+<li><a href="#an-example">4. An example</a><ul>
+<li><a href="#python-implementation">Python implementation</a></li>
+</ul></li>
+<li><a href="#conclusion">5. Conclusion</a></li>
+<li><a href="#session-info">Session Info</a></li>
+<li><a href="#related-page">Related page</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -537,7 +559,11 @@ R session info:
 sessionInfo()
 ```
 
+# Related page
 
+* [Using pgf and DFT: Python implementation](pgf_python.html)
 
-
+<!--html_preserve-->
+&nbsp;
+<!--/html_preserve-->
 

@@ -19,7 +19,7 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer.html
-    toc: TRUE
+    toc: FALSE
     toc_depth: 2
     self_contained: FALSE
 ---
@@ -29,10 +29,7 @@ knitr::opts_chunk$set(python = reticulate::eng_python)
 library(reticulate)
 ```
 
-The following links are pointing towards this document:
 
-* [Evaluating a hard-to-evaluate pmf using pgf and DFT](pgf.html)
-* [Imputation using EM: Python implementation](../2019/em_imputation_python.html)
 
 The following Python packages/functions are used:
 
@@ -44,8 +41,22 @@ from scipy.optimize import fmin
 ```
 
 
-
 This note is a continuation from [Evaluating a hard-to-evaluate pmf using pgf and DFT](pgf.html) under 2018: Statistical Computation.
+
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#the-four">2. The Four</a><ul>
+<li><a href="#rpmf-comparison-with-its-r-equivalent"><code>rpmf</code> comparison with its R equivalent</a></li>
+</ul></li>
+<li><a href="#session-info">Session info</a></li>
+<li><a href="#related-pages">Related pages</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
 
 
 # 1. Introduction
@@ -446,4 +457,13 @@ Python session info:
 import sinfo
 sinfo.sinfo()
 ```
+
+
+# Related pages
+
+
+* [Evaluating a hard-to-evaluate pmf using pgf and DFT](pgf.html)
+* [Imputation using EM: Python implementation](../2019/em_imputation_python.html)
+
+
 

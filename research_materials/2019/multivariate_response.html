@@ -458,8 +458,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </section>
 
 
-<div id="TOC" class="toc">
-<ul>
+
+<section class="main-content">
+<p>The following R package is used in this note:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
+
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#the-model">2. The model</a><ul>
 <li><a href="#formulation">Formulation</a></li>
@@ -474,16 +479,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li><a href="#an-example-iris">3. An example: <code>iris</code></a></li>
 <li><a href="#session-info">Session info</a></li>
+<li><a href="#related-page">Related page</a></li>
 </ul>
 </div>
+&nbsp;
 
-<section class="main-content">
-<p>The following link is pointing towards this document:</p>
-<ul>
-<li><a href="matrix_derivatives.html">Justifying matrix derivatives</a></li>
-</ul>
-<p>The following R package is used in this note:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
 <p>The purpose of this note is to understand basics of the linear regression model having a multivariate response. I will compute parameter estimates using maximum likelihood, and the expected values of those estimators. Using <code>iris</code> dataset, we shall see that the model parameters coincide with the case of univariate response. Sum-of-squares decomposition, or inferences on model parameters (hypothesis testing, model comparisons, confidence and prediction regions) is not discussed in this note.</p>
@@ -973,6 +973,12 @@ k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</code></pre></di
 ## [21] vctrs_0.1.0      zeallot_0.1.0    glue_1.3.1       evaluate_0.13   
 ## [25] rmarkdown_1.12   stringi_1.4.3    compiler_3.6.0   pillar_1.4.0    
 ## [29] backports_1.1.4  jsonlite_1.6     pkgconfig_2.0.2</code></pre>
+</div>
+<div id="related-page" class="section level1">
+<h1>Related page</h1>
+<ul>
+<li><a href="matrix_derivatives.html">Justifying matrix derivatives</a></li>
+</ul>
 </div>
 </section>
 
