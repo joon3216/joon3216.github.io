@@ -33,9 +33,10 @@ body
     font-family: sans-serif;
 }
 /* at the top */
-header
+#navbar
 {
     position: sticky;
+    z-index: 1000; /* new; why: make navbar closest to the observer */
     top: 0;
     left: 0;
     padding: 0; /* old: 10px 25px */
@@ -46,11 +47,11 @@ header
     border-bottom: 1px solid #EAEAEB;
     transition: .5s;
 }
-header .logo
+#navbar .logo
 {
     float: left;
 }
-header .logo img
+#navbar .logo img
 {
     height: 30px;
     /* new: margin; why: so that in header, padding can be 0 */
@@ -59,18 +60,18 @@ header .logo img
     with the left margin 25px */
     margin: 10px 5px 10px 25px; 
 }
-header nav
+#navbar nav
 {
     float: left;
 }
-header nav ul
+#navbar nav ul
 {
     margin: 0;
     padding: 0;
     display: flex;
 
 }
-header nav ul li
+#navbar nav ul li
 {
     padding: 0;
     list-style: none;
@@ -80,7 +81,7 @@ header nav ul li
     padding: 8.5px 0 8.5px 0;
 }
 /* new; why: texts with arrow on the right gets more space  */
-header nav ul li.sub-menu
+#navbar nav ul li.sub-menu
 {
     /* why 8.5px: that's the value in header nav ul li padding */
     padding: 8.5px 27.5px 8.5px 0;
@@ -88,7 +89,7 @@ header nav ul li.sub-menu
     /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
-header nav ul li.sub-menu:before
+#navbar nav ul li.sub-menu:before
 {
     content: '\f0d7'; /* &#9660 ▼ nabla */
     font-family: fontAwesome; /* old: sans-serif */
@@ -100,7 +101,7 @@ header nav ul li.sub-menu:before
     right: 22.5px;
     cursor: pointer;
 }
-header nav ul li.active.sub-menu:before
+#navbar nav ul li.active.sub-menu:before
 {
     content: '\f0d8';  /* &#9650 ▲ Delta */
     font-family: fontAwesome; /* new */
@@ -111,7 +112,7 @@ header nav ul li.active.sub-menu:before
     right: 22.5px;
     cursor: pointer;
 }
-header nav ul li ul
+#navbar nav ul li ul
 {
     position: absolute;
     left: 0;
@@ -119,7 +120,7 @@ header nav ul li ul
     background: rgba(57, 143, 209, 0.99);
     display: none;
 }
-header nav ul li.active ul
+#navbar nav ul li.active ul
 {
     display: block;
 }
@@ -127,7 +128,7 @@ header nav ul li.active ul
 /* new; why: make dropdown menu box fit to the menu above */
 /* padding: 0; is for slimmer individual dropdown menu items */
 /* old */
-header nav ul li.sub-menu ul li
+#navbar nav ul li.sub-menu ul li
 {
     display: block;
     width: 200px;
@@ -136,7 +137,7 @@ header nav ul li.sub-menu ul li
 
 /* new: header nav ul li ul li a */
 /* why: giving an indentation */
-header nav ul li ul li a
+#navbar nav ul li ul li a
 {
     margin: 0 40px;
 }
@@ -154,7 +155,7 @@ header nav ul li#rm.sub-menu ul li
     padding: 0;
 } */
 
-header nav ul li a
+#navbar nav ul li a
 {
     height: 30px;
     line-height: 30px;
@@ -162,6 +163,7 @@ header nav ul li a
     margin: 0 20px;
     color: #ffffff;
     text-decoration: none;
+    text-shadow: none; /* new; why: to be compatible with the Tactile theme */
     /*display: block;*/
 }
 
@@ -181,13 +183,13 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     margin: 0 0 0 20px;
 } */
 
-header nav ul li a:hover
+#navbar nav ul li a:hover
 {
     color: #ffffff;
 }
 
 /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
-header nav ul li:hover ul
+#navbar nav ul li:hover ul
 {
     display: block;
 }
@@ -204,7 +206,7 @@ header nav ul li:hover ul
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
     /* at the top */
-    header
+    #navbar
     {
         padding: 0; /* old: 10px 25px */
     }
@@ -213,7 +215,7 @@ header nav ul li:hover ul
         display: block;
         margin: 10px 25px /* new; why: header padding is now 0 */
     }
-    header nav
+    #navbar nav
     {
         /*display: none;*/
         position: absolute;
@@ -224,39 +226,39 @@ header nav ul li:hover ul
         left: -100%;
         transition: .5s;
     }
-    header nav.active
+    #navbar nav.active
     {
         left: 0;
     }
-    header nav ul
+    #navbar nav ul
     {
         display: block;
         /*text-align: center;*/
     }
-    header nav ul li a
+    #navbar nav ul li a
     {
         border-bottom: 1px solid rgba(255, 255, 255, .5);
         height: 50px;
         line-height: 50px;
         padding: 0 20px;
     }
-    header nav ul li.active ul
+    #navbar nav ul li.active ul
     {
         position: relative;
     }
-    header nav ul li ul li
+    #navbar nav ul li ul li
     {
         width: 100%;
     }
 
     /* new: header nav ul li.sub-menu */
     /* why: so that dropdown menus fill the entire row in mobile */
-    header nav ul li.sub-menu
+    #navbar nav ul li.sub-menu
     {
         padding: 8.5px 0;
     }
 
-    header nav ul li.sub-menu:before
+    #navbar nav ul li.sub-menu:before
     {
         content: '+'; /* old: &#9660 nabla */
         font-size: 20pt;
@@ -268,7 +270,7 @@ header nav ul li:hover ul
         right: 25px;
         cursor: pointer;
     }
-    header nav ul li.active.sub-menu:before
+    #navbar nav ul li.active.sub-menu:before
     {
         content: '-';  /* new: &#9650 Delta */
         font-size: 30pt;
@@ -277,7 +279,7 @@ header nav ul li:hover ul
         line-height: 30px;
         cursor: pointer;
     }
-    header nav ul li ul
+    #navbar nav ul li ul
     {
         position: absolute;
         left: 0;
@@ -289,11 +291,11 @@ header nav ul li:hover ul
     /* new: hover and active
     why: do not display drop down menus when mouse is over it
     and looking in mobile, but display them when plus signs are clicked */
-    header nav ul li:hover ul
+    #navbar nav ul li:hover ul
     {
         display: none;
     }
-    header nav ul li.active ul
+    #navbar nav ul li.active ul
     {
         display: block;
     }
@@ -318,7 +320,7 @@ header nav ul li:hover ul
 }
 
 /* while scrolling */
-header.black
+#navbar.black
 {
     background: rgba(21, 92, 148, .7);
 }
@@ -330,11 +332,13 @@ header.black
 <script type="text/javascript">
     $(window).on('scroll', function(){
         if ($(window).scrollTop()){
-            $('header').addClass('black');
+           navbar.classList.add('black');
+           /* old: $('header').addClass('black'); */
         }
         else
         {
-            $('header').removeClass('black');
+            navbar.classList.remove('black');
+            /* old: $('header').removeClass('black'); */
         }
     })
 </script>
@@ -369,7 +373,7 @@ header.black
 
 
 <!-- A new navigation bar -->
-<header>
+<div id="navbar">
     <div class="logo">
         <a href="../index.html"><img src="../style/all_orange_jp.png"></a>
     </div>
@@ -405,7 +409,7 @@ header.black
     <div class="menu-toggle">
         <i class="fa fa-bars" aria-hidden="true"></i>
     </div>
-</header>
+</div>
 
 
 <section class="page-header">
@@ -429,7 +433,7 @@ header.black
 <p style="text-align: center;">
     © 2019 Junkyu Park
     <br>
-    Powered by the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> from the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+    Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
 </p>
 
 <!-- Add icon library -->
