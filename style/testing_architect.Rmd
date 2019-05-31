@@ -1,0 +1,126 @@
+---
+title: "Style testing: the Architect theme"
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+    includes:
+      in_header: 
+        - all_ga_script.html
+        - all_navbar_head.html
+        - all_orange_jp_here.html
+      before_body:
+        - all_navbar_body_here.html
+      after_body:
+        - all_footer_architect.html
+    df_print: paged
+    toc: TRUE
+    self_contained: FALSE
+---
+
+
+See other testing pages with the following themes:
+
+* the [Cayman](testing.html) theme (default)
+* the [Architect](testing_architect.html) theme
+* the [HPSTR](testing_hpstr.html) theme
+* the [Tactile](testing_tactile.html) theme
+
+
+# Testing styles
+
+Math expression test: $$\int_{0}^{1} x \text{ } dx = \frac{1}{2}$$
+
+Banner style in the [Cayman-themed testing page](testing.html) is from:
+
+in HTML `<head>` tag:
+
+```{css banner_style_head, eval = F}
+<style type="text/css">
+.page-header
+{
+    color: #fff;
+    text-align: center;
+    background-color: #159957;
+    background-image: linear-gradient(120deg, #155799, #159957);
+    padding: 1.5rem 2rem;
+}
+body
+{
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+</style>
+```
+
+in HTML `<body>` tag:
+
+```{css banner_style_body, eval = F}
+<section class="page-header">
+    <h1 class="title toc-ignore project-name">Style Testing</h1>
+    <h4 class="author project-author">Junkyu Park</h4>
+</section>
+```
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum [^1].
+
+[^1]: This is a random footnote with a link that goes back to the original reference in a document at the end.
+
+# Lorem ipsum 1
+
+> This is an aggregate block quote.
+> Although the line has changed in the .Rmd file,
+> the .html file display as one chunk.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum [^2].
+
+## Subsection lorem ipsum 1
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+> Block quote starts from here.
+
+> This is the second line of the block quote.
+
+> This is the third line of the block quote.
+
+> The fourth
+
+> The fifth
+
+> The minor fall and the major lift
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum $\text{}$^[2](#fn2)^.
+
+[^2]: This footnote has two references that point to here. We can add another hyperlink at the end of this footnote to go up to the second reference by directly manipulating .html document. Simply, give an id to the second reference inside of its `<a>` tag (e.g. `<a href="#fn2" id="fnref2_02">2</a>`), and add `<a href="#fnref2_02">curvedarrowsymbol</a>` at the end of this footnote.
+
+
+## Subsection lorem ipsum 2
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Table test:
+
+```{r table_example}
+data.frame(a = 1:4, b = 5:8, c = 9:12)
+```
+
+# Lorem ipsum 2
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

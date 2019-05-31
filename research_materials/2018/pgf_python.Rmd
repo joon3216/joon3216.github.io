@@ -1,0 +1,449 @@
+---
+title: "Using pgf and DFT: Python implementation"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - ../../style/all_ga_script.html
+        - ../../style/all_navbar_head.html
+        - ../../style/all_orange_jp_02_lvl.html
+      before_body:
+        - ../../style/all_navbar_body_02_lvl.html
+      after_body:
+        - ../../style/all_footer.html
+    toc: TRUE
+    toc_depth: 2
+    self_contained: FALSE
+---
+
+```{r settings, echo = F}
+knitr::opts_chunk$set(python = reticulate::eng_python)
+library(reticulate)
+```
+
+The following links are pointing towards this document:
+
+* [Evaluating a hard-to-evaluate pmf using pgf and DFT](pgf.html)
+* [Imputation using EM: Python implementation](../2019/em_imputation_python.html)
+
+The following Python packages/functions are used:
+
+```{python loading}
+from datetime import datetime as dt
+from matplotlib import pyplot as plt
+import numpy as np
+from scipy.optimize import fmin
+```
+
+
+
+This note is a continuation from [Evaluating a hard-to-evaluate pmf using pgf and DFT](pgf.html) under 2018: Statistical Computation.
+
+
+# 1. Introduction
+
+This note concerns with a replication of R functions written in the [previous note](pgf.html). Four functions --- `dX`, `csum_N`, `dpmf`, and `rpmf` --- will be written in Python, and the same plots will be produced using `matplotlib.pyplot`.
+
+
+# 2. The Four
+
+Details of the following four functions are written in the [previous note](pgf.html).
+
+First, `dX`:
+
+```{python dX}
+npmap = lambda func, *iterable: np.array(list(map(func, *iterable)))
+def dX(x):
+    '''(number or *iterable) -> number or np.array
+    
+    Return the probability assigned for x, defined by the following pmf:
+    p(0) = .05, p(1) = p(3) = p(4) = .1, p(2) = .075, p(5) = .575, 
+    and p(x) = 0 otherwise.
+    
+    >>> dX(0)
+    0.05
+    >>> dX([2, 5])
+    array([0.075, 0.575])
+    >>> dX(np.array([-1, 0, 4]))
+    array([0.  , 0.05, 0.1 ])
+    '''
+    
+    def pX(d):
+        if d == 0:
+            return .05
+        elif d in [1, 3, 4]:
+            return .1
+        elif d == 2:
+            return .075
+        elif d == 5:
+            return .575
+        else:
+            return 0
+    if not hasattr(x, '__iter__'):
+        return pX(x)
+    return npmap(pX, x)
+```
+
+```{python dy, echo = F, eval = F}
+def dY(y):
+    def pY(d):
+        if d in [1, 4]:
+            return .25
+        elif d == 2:
+            return .5
+        else:
+            return 0
+    if not hasattr(y, '__iter__'):
+        return pY(y)
+    return npmap(pY, y)
+```
+
+To code `csum_N`, we require a `fft`-equivalent in Python. I will use `np.fft.fft()` and `np.fft.ifft().real`. Also, the word `lambd` is used instead of `lambda`, since the keyword `lambda` is used for anonymous functions in Python:
+
+```{python csum_N}
+def csum_N(pmf, support, lambd, eps = 1e-05):
+    '''(function, np.array, number[, float]) -> np.array
+        
+    Preconditions:
+    1. pmf is a pmf of X_i where the random summation S = X_1 + ... + X_N 
+       with N ~ Pois(lambd) has 0, 1, ..., M - 1 as the first M element of 
+       its support.
+    2. pmf is a function whose output is np.array whenever the input is
+       np.array.
+    3. support == np.arange(0, l + 1), where l is the largest number of
+       the support of pmf.
+    4. lambd > 0
+    5. 0 < eps < 1
+        
+    Return the approximate probability mass function of S, i.e. 
+    P(S = x | S < M) for some appropriate integer M determined by 
+    P(S >= M) < eps, where S is the sum of iid X_i's with 
+    i = 1, ..., N ~ Pois(lambd), X_i ~ pmf, and X_i's support is
+    a subset of np.arange(0, l + 1) (= support) with l being the largest 
+    element of X_i's support.
+        
+    >>> def dY(y):
+    ...     def pY(d):
+    ...         if d in [1, 4]:
+    ...             return .25
+    ...         elif d == 2:
+    ...             return .5
+    ...         else:
+    ...             return 0
+    ...     if not hasattr(y, '__iter__'):
+    ...         return pY(y)
+    ...     return npmap(pY, y)
+    ...
+    >>> result_Y = csum_N(dY, np.arange(0, 5), 3)
+    >>> M_Y = len(result_Y)
+    >>> print(M_Y, sum(result_Y))
+    39 0.9999999999999998
+    >>> result_Y[0:4]
+    array([0.04978729, 0.03734044, 0.08868328, 0.05951115])
+    '''
+        
+    pmf_vec = pmf(support)
+        
+    # Define the pgf of X_i
+    g = lambda t: npmap(lambda d: sum(d ** support * pmf_vec), t)
+        
+    # Find M
+    Ms = lambda t: (-lambd * (1 - g(t)) - np.log(eps)) / np.log(t)
+    M = np.ceil(fmin(Ms, 1.001, full_output = True, disp = False)[1])
+    
+    # Append 0's
+    pmf_vec = np.append(pmf_vec, np.zeros(int(M - len(pmf_vec))))
+        
+    # Apply DFT and inverse DFT
+    gtks = np.fft.fft(pmf_vec)
+    gS_gtks = np.exp(-lambd * (1 - gtks))
+    pS_tks = np.fft.ifft(gS_gtks).real
+        
+    return pS_tks
+```
+
+Let's check if it works the same as in R:
+
+```{python csum_N_checking, fig.asp = .6, fig.align = 'center'}
+result = csum_N(dX, np.arange(0, 6), 3)
+M = len(result)
+print(M, sum(result))
+plt.scatter(np.arange(0, M), result)
+plt.title('pmf of S')
+plt.xlabel('x')
+plt.ylabel('P(S = x)')
+plt.show()
+```
+
+Yes it does.
+
+`dpmf` is written as follows:
+
+```{python dpmf}
+def dpmf(x, pmf_vec, support_vec = None):
+    '''(object or *iterable, *iterable[, *iterable]) -> number or np.array
+    
+    Preconditions:
+    1. Elements of x are of the same type as elements of support_vec,
+       if support_vec is specified. If support_vec is not specified, then
+       x must be a number or an iterable object with numeric elements.
+    2. sum(pmf_vec) == 1
+    3. len(pmf_vec) == len(support_vec) if support_vec is specified.
+    4. If support_vec is specified, then each element of support_vec 
+       must be hashable, i.e. element.__hash__ is not None
+    
+    Return the probability evaluated at each element of x based on
+    probabilities in pmf_vec and elements of support_vec if support_vec 
+    is specified (each element of support_vec is the input that corresponds
+    to the probability in pmf_vec). If not specified, then support_vec will 
+    be replaced with np.arange(0, len(pmf_vec)).
+    
+    >>> # Example 1
+    >>> pmf_eg1 = [0.25, 0.5 , 0.25]
+    >>> support_eg1 = np.array([1, 2, 4])
+    >>> dpmf(1, pmf_eg1, support_eg1)
+    0.25
+    >>> dpmf([3, 4, 6], pmf_eg1, support_eg1)
+    array([0.  , 0.25, 0.  ])
+    >>> dpmf(np.array([3, 4, 6]), pmf_eg1, support_eg1)
+    array([0.  , 0.25, 0.  ])
+    >>>
+    >>> # Example 2
+    >>> pmf_eg2 = (.25, .4, .35)
+    >>> support_eg2 = ['apple', 'orange', 'neither']
+    >>> dfruit = lambda x: dpmf(x, pmf_eg2, support_eg2)
+    >>> dfruit(['apple', 'neither'])
+    array([0.25, 0.35])
+    >>> dfruit('orange')
+    0.4
+    >>> dfruit(np.array(['orange', 'hello']))
+    array([0.4, 0. ])
+    '''
+    
+    M = len(pmf_vec)
+    if support_vec is None:
+        support_vec = np.arange(0, M)
+    D = {}
+    for i in range(len(support_vec)):
+        D[support_vec[i]] = pmf_vec[i]
+    finder = lambda d: D[d] if d in D.keys() else 0
+    if hasattr(x, '__iter__'):
+        if type(x) == str:
+            return finder(x)
+        return npmap(finder, x)
+    return finder(x)
+```
+
+And finally, `rpmf`:
+
+```{python rpmf}
+def rpmf(n, pmf, support, **kwargs):
+    '''(int, function, *iterable[, **kwargs]) -> np.array
+    
+    Precondition: 
+    1. n >= 1
+    2. support is the support of pmf.
+    
+    Return n random samples from the specified pmf with support 'support'
+    and additional arguments of pmf in **kwargs if required. Since this
+    function uses **kwargs, any additional arguments of pmf you want to
+    specify must be named.
+    
+    >>> # Example 1: dX
+    >>> np.random.seed(1024)
+    >>> rpmf(n = 20, pmf = dX, support = np.arange(0, 6))
+    array([5, 5, 5, 5, 5, 5, 1, 0, 1, 5, 5, 5, 5, 3, 5, 5, 5, 2, 5, 1])
+    >>>
+    >>> # Example 2: S_Y = Y_1 + ... + Y_N
+    >>> np.random.seed(1024)
+    >>> result_S_Y = csum_N(dY, np.arange(0, 5), 3) # in csum_N example
+    >>> result_S_Y = result_S_Y / sum(result_S_Y)
+    >>> M_S_Y = len(result_S_Y)
+    >>> rpmf(10, dpmf, np.arange(0, M_S_Y), pmf_vec = result_S_Y)
+    array([ 8, 22,  6,  8,  7,  9,  2,  0,  2,  9])
+    >>>
+    >>> # Example 3: dfruit in dpmf example
+    >>> np.random.seed(2048)
+    >>> rpmf(7, dfruit, ['apple', 'orange', 'neither'])
+    array(['orange', 'apple', 'neither', 'neither', 'neither', 'orange',
+           'apple'], dtype='<U7')
+    '''
+    
+    cmf_vec = np.append(0, np.cumsum(pmf(support, **kwargs)))
+    unif_01 = np.random.random(n)
+    result = []
+    for k in range(n):
+        for j in range(len(cmf_vec) - 1):
+            if unif_01[k] >= cmf_vec[j] and unif_01[k] < cmf_vec[j + 1]:
+                result.append(support[j])
+    return np.array(result)
+```
+
+As we did previously, let's generate 10,000 samples of $S = \sum_{i = 1}^{N} X_i$ and draw the histogram:
+
+```{python histogram, fig.align = 'center', fig.asp = .6, results = 'hide'}
+np.random.seed(2048)
+start_py = dt.now()
+samples_N = rpmf(10000, dpmf, np.arange(0, M), pmf_vec = result)
+end_py = dt.now()
+plt.clf()
+bins = np.arange(-.5, M + 1.5, step = 1)
+plt.hist(samples_N, bins = bins, density = True)
+plt.title('Histogram of S')
+plt.ylabel('Mass')
+plt.xlabel('x')
+plt.show()
+```
+
+To compare the histogram and the actual pmf, we superimpose two plots as follows:
+
+```{python superimposing, fig.align = 'center', fig.asp = .6, results = 'hide'}
+plt.clf()
+plt.scatter(np.arange(0, M), result, s = 5, c = 'black')
+plt.hist(samples_N, bins = bins, density = True, alpha = .5)
+plt.title('Histogram vs. the actual pmf of S')
+plt.ylabel('Mass')
+plt.xlabel('x')
+plt.show()
+```
+
+## `rpmf` comparison with its R equivalent
+
+It takes
+
+```{python sampling_time_py}
+str(end_py - start_py)
+```
+
+seconds to generate 10,000 samples of $S = \sum_{i = 1}^{N} X_i$. In R, it takes:
+
+```{r recalling_functions, echo = F}
+dX <- function(x) {
+    sapply(
+        x, 
+        function(d) {
+            if (d == 0) {
+                .05
+            } else if (d %in% c(1, 3, 4)) {
+                .1
+            } else if (d == 2) {
+                .075
+            } else if (d == 5) {
+                .575
+            } else {
+                0
+            }
+        }
+    )
+}
+
+csum_N <- function(pmf, support, eps = 1e-05, lambda) {
+    # pmf: a probability mass function
+    # support: an integer vector from 0 to the largest element of 
+    #          the pmf's support
+    # eps: a number in (0, 1); 1e-05 by default
+    # lambda: a positive number
+    
+    pmf_vec <- pmf(support)
+    
+    # Define the pgf of X_i
+    g <- function(t) {sapply(t, function(d) {sum(d^support * pmf_vec)})}
+    
+    # Find M
+    Ms <- function(t) {(-lambda * (1 - g(t)) - log(eps)) / log(t)}
+    M <- ceiling(optimize(Ms, interval = c(1.001, 30000))$objective)
+    
+    # Append 0's
+    pmf_vec <- c(pmf_vec, rep(0, M - length(pmf_vec)))
+    
+    # Apply DFT and inverse DFT
+    gtks <- fft(pmf_vec)
+    gS_gtks <- exp(-lambda * (1 - gtks))
+    pS_tks <- Re(fft(gS_gtks, inv = T) / M)
+    pS_tks
+}
+
+result <- csum_N(dX, support = 0:5, lambda = 3)
+M <- length(result)
+
+dpmf <- function(x, pmf_vec, support_vec) {
+    # x: a number, or a vector whose class is the same as support_vec.
+    # pmf_vec: a numeric vector, where all elements fall into (0, 1) and 
+    #          sum up to 1.
+    # support_vec: a vector with the same length as pmf_vec where
+    #              each entry of support_vec is the input that corresponds to
+    #              the probability in pmf_vec; if missing, it is replaced 
+    #              with 0:(length(pmf_vec) - 1).
+    
+    M <- length(pmf_vec)
+    if (missing(support_vec)) {
+        names(pmf_vec) <- 0:(M - 1)
+    } else {
+        names(pmf_vec) <- support_vec
+    }
+    sapply(
+        x,
+        function(d) {
+            if (d %in% names(pmf_vec)) {
+                unname(pmf_vec[as.character(d)])
+            } else {
+                0
+            }
+        }
+    )
+}
+
+rpmf <- function(n, pmf, support, ...) {
+    # n: an integer
+    # pmf, support: the same as pmf_vec and support_vec in dpmf respectively
+    # ...: additional arguments of pmf
+    
+    cdf <- c(0, cumsum(pmf(support, ...)))
+    unif_01 <- runif(n)
+    result <- numeric(length = n)
+    for (k in 1:n) {
+        for (j in 1:(length(cdf) - 1)) {
+            if (I(unif_01[k] >= cdf[j] & unif_01[k] < cdf[j + 1])) {
+                result[k] <- support[j]
+            }
+        }
+    }
+    result
+}
+```
+
+```{r sampling_time_r}
+set.seed(2048)
+start_r <- Sys.time()
+samples_N <- rpmf(10000, dpmf, 0:(M - 1), result)
+end_r <- Sys.time()
+end_r - start_r
+```
+
+Unlike what happened in [Imputation using EM: Python implementation](../2019/em_imputation_python.html), Python is significantly faster than R this time. It is evident that a nested for-loop in R, or for-loop in general, is slower than in Python.
+
+You can download the Python script for these functions [here](../../files/pgf.py). Examples within docstrings are tested with `doctest` framework.
+
+# Session info
+
+R session info:
+
+```{r session_info}
+sessionInfo()
+```
+
+Python session info:
+
+```{python sinfo}
+import sinfo
+sinfo.sinfo()
+```
+

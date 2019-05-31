@@ -1,0 +1,245 @@
+---
+title: "Visualizing confidence regions"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - ../../style/all_ga_script.html
+        - ../../style/all_navbar_head.html
+        - ../../style/all_orange_jp_02_lvl.html
+      before_body:
+        - ../../style/all_navbar_body_02_lvl.html
+      after_body:
+        - ../../style/all_footer.html
+    toc: TRUE
+    self_contained: FALSE
+---
+
+The following external R packages and data are used:
+
+```{r loadings, warning = F, message = F}
+library(dplyr)
+library(ggplot2)
+ddply <- plyr::ddply
+gather <- tidyr::gather
+data(frets, package = 'boot')
+```
+
+
+# 1. Introduction
+
+In this document, different types of confidence regions will be visualized.
+
+
+# 2. Visualizations
+
+One purpose of this document is to understand what a 95% confidence interval is.
+
+
+## Case 1: confidence interval for $\mu$
+
+Suppose $X_i \stackrel{iid}{\sim} N(\mu, \sigma^2)$. One can onstruct a 95% confidence interval for $\mu$ as: $$CI_{\mu, .95} = \Big(\overline{X} - \frac{S}{\sqrt{n}} t_{.975, n - 1}, \text{ } \overline{X} + \frac{S}{\sqrt{n}} t_{.975, n - 1}\Big)$$ where $S = \sqrt{S^2}$ and $t_{.975, n - 1} = t^*$ is the value that satisfies $P(T \leq t^*) = .975$, $T \sim t_{n - 1}$. The meaning of $P(\mu \in CI_{\mu, .95}) = .95$ is that the probability of the true parameter $\mu$ being contained in this **random** interval $CI_{\mu, .95}$ (i.e. interval constructed with random variables) is $.95$, or $95\%$.
+
+If this CI is constructed with **data** and **not random variables**, then $P(\mu \in CI_{\mu, .95}) = .95$ makes no sense because $CI_{\mu, .95}$ is then a fixed interval. When using data: $$P(\mu \in CI_{\mu, .95}) = P \Big(\mu \in (\overline{x} - \frac{s}{\sqrt{n}} t_{.975, n - 1}, \text{ } \overline{x} + \frac{s}{\sqrt{n}} t_{.975, n - 1}) \Big) = I(\mu \in CI_{\mu, .95})$$ since a constant $\mu$ is either contained in $CI_{\mu, .95}$ or not. The meaning of a 95% CI *constructed with data* is that if we replicate the same experiment or a data-generating process 100 times, and compute CIs in each replication in the same manner, then out of those 100, about 95 of them will contain the true parameter $\mu$.
+
+The plot below explains what this means. To simulate an unknown variance, I will use $\sigma^2 = u$ where $u$ is some sample generated from $\text{Unif}(.5, 1.5)$:
+
+
+```{r bunch_of_cis, fig.align = 'center', fig.asp = .6}
+set.seed(1024)
+
+# Settings
+conf_lvl <- .95
+num_of_ci <- 100
+n <- 1000
+true_mean <- 0
+true_var <- runif(1, .5, 5) # i.e. we don't know the true variance
+
+# Collect lower and upper bounds of CI's
+CI_collections <- NULL
+t_star <- qt((1 + conf_lvl) / 2, df = n - 1)
+for (i in 1:num_of_ci) {
+    X <- rnorm(n, mean = true_mean, sd = sqrt(true_var))
+    lower <- mean(X) - (sd(X) / sqrt(n)) * t_star
+    upper <- mean(X) + (sd(X) / sqrt(n)) * t_star
+    contains <- lower < true_mean && true_mean < upper
+    CI_collections <- rbind(CI_collections, c(lower, upper, contains))
+}
+
+# Plot CI's
+CI_collections %>% 
+    'colnames<-'(c('lower', 'upper', 'contains')) %>%
+    as_tibble() %>%
+    mutate(
+        CI_number = 1:num_of_ci,
+        contains = as.logical(contains)
+    ) %>%
+    gather(key, value, -(CI_number:contains)) %>%
+ggplot(aes(x = CI_number)) +
+    geom_line(aes(y = value, group = CI_number, col = contains)) +
+    labs(x = 'Dataset', y = 'CI') +
+    theme(legend.position = 'top') +
+    guides(col = guide_legend(title = 'Contains 0'))
+```
+
+100 replications are made. In each run, I generate 1000 random samples from $N(0, \sigma^2 = u)$, compute $CI_{\mu, .95}$, and see if it contains $\mu = 0$. We see that out of 100 replications, 4 of them do not contain $\mu = 0$, i.e. 96 out of 100 contain the true parameter.
+
+
+## Case 2: simple linear regression
+
+Consider a simple linear regression with `frets` dataset: $$y = \beta_0 + \beta_1 x + \varepsilon$$
+
+```{r frets}
+glimpse(frets)
+```
+
+The data consists of measurements of the length and breadth of the heads of pairs of adult brothers in 25 randomly sampled families. All measurements are expressed in millimetres. I will take $x =$ `l1` and $y =$ `b1`. That is, I am asking: "Is there a linear relationship between the eldest son's breadth and length of his head?"
+
+```{r take}
+X <- tibble(Int = rep(1, 25), l1 = frets[, 1]) %>% as.matrix()
+Y <- frets[, 2]
+```
+
+F-statistic gives a confidence **region** under $H_0: \boldsymbol{\beta} = \mathbf{c}$ vs. $H_1: \boldsymbol{\beta} \neq \mathbf{c}$: $$F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}$$ where, in our case, $k = 2$ and $n = 25$. A $\gamma$-level confidence region is the set of all $\mathbf{c}$'s where: $$F > F_{1 - \gamma} (k, n - k)$$ Assume $\gamma = .95$ and $\mathbf{c} = \mathbf{0}$ for simplicity.
+
+`F_stat` is a function that computes $F$-statistic:
+
+```{r f_stat}
+F_stat <- function(X, Y, c, level = .95) {
+    n <- nrow(X)
+    k <- ncol(X)
+    if (missing(c)) {c <- rep(0, k)}
+    Betahat <- solve(t(X) %*% X, t(X) %*% Y)
+    I_n <- diag(1, n)
+    H <- X %*% solve(t(X) %*% X) %*% t(X)
+    numer <- t(Betahat - c) %*% (t(X) %*% X) %*% (Betahat - c) / k
+    denom <- (t(Y) %*% (I_n - H) %*% Y) / (n - k)
+    f_stat <- (numer / denom)[1, 1]
+    list(
+        c = c, 
+        f_stat = f_stat, df1 = k, df2 = n - k,
+        p_val = pf(f_stat, df1 = k, df2 = n - k, lower = F)
+    )
+}
+```
+
+CI for each $\beta_i$:
+
+```{r ci_beta_i}
+CIs <- function(X, Y, c, level = .95, has_intercept = T) {
+    n <- nrow(X)
+    k <- ncol(X)
+    if (missing(c)) {c <- rep(0, k)}
+    Betahat <- solve(t(X) %*% X, t(X) %*% Y)
+    I_n <- diag(1, n)
+    H <- X %*% solve(t(X) %*% X) %*% t(X)
+    CI <- matrix(rep(0, k * 2), ncol = 2)
+    for (i in 1:k) {
+        betahat_i <- Betahat[i, ]
+        se_i <- sqrt(
+            ((t(Y) %*% (I_n - H) %*% Y) / (n - k)) *
+                solve(t(X) %*% X)[i, i]
+        )
+        t_star <- qt((1 + level) / 2, df = n - k)
+        CI[i, ] <- c(betahat_i - se_i * t_star, betahat_i + se_i * t_star) 
+    }
+    colnames(CI) <- c('lower', 'upper')
+    if (has_intercept) {
+        rowname <- paste0('b', 0:(k - 1))
+    } else {
+        rowname <- paste0('b', 1:k)
+    }
+    rownames(CI) <- rowname
+    CI
+}
+```
+
+The CIs:
+
+```{r CIs}
+(cis <- CIs(X, Y))
+```
+
+```{r draw}
+x <- seq(floor(cis[1, 1]), ceiling(cis[1, 2]), by = .1)
+y <- seq(.25, .8, by = .01)
+# x <- seq(floor(cis[1, 1]), ceiling(cis[1, 2]), length = 10)
+# y <- seq(floor(cis[2, 1]), ceiling(cis[2, 2]), length = 20)
+F_stat_sep <- function(x, y) {
+    results <- lapply(
+        x,
+        function(xd) {
+            t(sapply(
+                y,
+                function(yd) {
+                    result <- F_stat(X, Y, c(xd, yd))
+                    c(result$c, result$p_val)
+                }
+            ))
+        }
+    )
+    'colnames<-'(Reduce('rbind', results), c('b0', 'b1', 'p_val'))
+}
+results <- F_stat_sep(x, y)
+```
+
+```{r plotting, fig.asp = .7}
+ggplot(
+    as_tibble(results),
+    aes(x = b0, y = b1, col = p_val > .05)
+) +
+    geom_point() +
+    scale_colour_manual(values = c('transparent', 'blue')) +
+    labs(
+        x = 'beta_0', y = 'beta_1', title = 'Confidence region of beta',
+        subtitle = '- indicated by blue dots\n- at the significance level .05'
+    ) +
+    theme(legend.position = 'none')
+```
+
+```{r results_hull, fig.asp = .7}
+results2 <- as_tibble(results) %>% 
+    mutate(cr = ifelse(p_val > .05, T, F))
+find_hull <- function(df) {df[chull(df$b0, df$b1), ]}
+hulls <- ddply(results2, "cr", find_hull)
+
+plot <- ggplot(results2, aes(x = b0, y = b1, color = cr, fill = cr)) +
+    #geom_point() +
+    geom_polygon(data = hulls, alpha = .5) +
+    scale_colour_manual(values = c('transparent', 'blue')) +
+    scale_fill_manual(values = c('transparent', 'blue')) +
+    labs(
+        x = 'beta_0', y = 'beta_1', title = 'Confidence region of beta',
+        subtitle = '- indicated by blue dots\n- at the significance level .05'
+    ) +
+    theme_classic() +
+    theme(legend.position = 'none')
+plot
+```
+
+Source: https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2
+
+
+## Case 3: Normal distribution
+
+
+# Session info
+
+R session info:
+
+```{r session_info}
+sessionInfo()
+```
+
+
+
+
+

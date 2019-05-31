@@ -1,0 +1,521 @@
+---
+title: "Multivariate response linear regression"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - ../../style/all_ga_script.html
+        - ../../style/all_navbar_head.html
+        - ../../style/all_orange_jp_02_lvl.html
+      before_body:
+        - ../../style/all_navbar_body_02_lvl.html
+      after_body:
+        - ../../style/all_footer.html
+    df_print: paged    
+    toc: TRUE
+    self_contained: FALSE
+---
+
+The following link is pointing towards this document:
+
+* [Justifying matrix derivatives](matrix_derivatives.html)
+
+The following R package is used in this note:
+
+```{r packages, warning = F, message = F}
+library(dplyr)
+```
+
+
+# 1. Introduction
+
+The purpose of this note is to understand basics of the linear regression model having a multivariate response. I will compute parameter estimates using maximum likelihood, and the expected values of those estimators. Using `iris` dataset, we shall see that the model parameters coincide with the case of univariate response. Sum-of-squares decomposition, or inferences on model parameters (hypothesis testing, model comparisons, confidence and prediction regions) is not discussed in this note.
+
+
+# 2. The model
+
+Let's formulate the following notations: 
+
+* $e_j$ : a [conformable](https://en.wikipedia.org/wiki/Conformable_matrix) vector whose $j$^th^ element is $1$ and the rest are $0$
+* $A_{ij} := e_i^T A e_j$ : the $(i, j)$^th^ entry of $A$, where $A$ is a matrix
+
+
+## Formulation
+
+Say the response vector is $Y = (y_1, \dots, y_q)$. The multivariate linear regression model can be written as: 
+
+\begin{align*}
+Y_i \stackrel{indep}{\sim} N_q (\mathbf{B}^T x_i, \Sigma)
+\end{align*}
+
+\bigskip
+
+where: 
+
+* $i = 1, \dots, n$
+* $Y_i = (y_{i1}, \dots, y_{iq})$
+* $x_i$ is a $k-$dimensional vector of features/predictors, and
+* $\mathbf{B}_{k \times q}$ is a matrix. 
+
+
+
+In other words, the model can be written as: $$Y_i = \mathbf{B}^T x_i + \mathcal{E}_i \sim N_q(\mathbf{B}^T x_i, \Sigma)$$ where $\mathcal{E}_i = (\varepsilon_{i1}, \dots, \varepsilon_{iq}) \stackrel{iid}{\sim} N_{q} (\mathbf{0}, \Sigma)$. Or, using the fact that $e_j^T Y_i = y_{ij}$ is also normally distributed: $$y_{ij} = \boldsymbol{\beta}_j^T x_{i} + \varepsilon_{ij} = x_i^T \boldsymbol{\beta}_j + \varepsilon_{ij} \sim N(x_i^T \boldsymbol{\beta}_j, \Sigma_{jj})$$ where $\boldsymbol{\beta}_j$ is $j$^th^ column of $\mathbf{B} := \Big[ \beta_{pj} \Big]_{k \times q}$. That is, **the multivariate response linear regression is just the univariate response linear regression on each $y_{j}$, $j = 1, \dots, q$, with some extra information about the relationship between parameters** (this will be explained down below). Or, in a compact form: $$\mathbf{Y} = \mathbf{X} \mathbf{B} + \boldsymbol{\mathcal{E}}$$ where: $$\mathbf{Y} := \begin{bmatrix} Y_1^T \\ \vdots \\ Y_n^T \end{bmatrix} = \Big[ y_{ij} \Big]_{n \times q}, \text{ } \mathbf{X} := \begin{bmatrix} x_1^T \\ \vdots \\ x_n^T \end{bmatrix} = \Big[ x_{ip} \Big]_{n \times k}, \text{ } \boldsymbol{\mathcal{E}} := \begin{bmatrix} \mathcal{E}_1^T \\ \vdots \\ \mathcal{E}_n^T \end{bmatrix} = \Big[ \varepsilon_{ij} \Big]_{n \times q}$$
+
+
+The implication of this model is that:
+
+* The "true" relationship between $Y_i$ and $x_i$ is linear (and by extension, $y_{ij}$ and $x_i$), and there are "true" parameters (i.e. the same across all $i$'s), $\mathbf{B}$ and $\Sigma$, that describe the relationship.
+* $\mathbf{Y}$ is a linear transformation of $\mathbf{B}$.
+* Each observation is independent (since error vectors are assumed to be iid).
+* Error vectors are normally distributed and homoscedastic.
+* The model with an intercept is the one whose first elements of $x_i$'s are all $1$. Alternatively, it is the one where the first column of $\mathbf{X}$ is $\mathbf{1} = (1, 1, \dots, 1)$.
+
+
+
+## MLEs
+
+We may assume two things:
+
+1) $\Sigma$ is positive-definite so that writing $\Sigma^{-1}$ makes sense
+2) $(\mathbf{X}^T \mathbf{X})^{-1}$ exists (i.e. features are linearly independent)
+
+Say $f(Y_i; x_i, \mathbf{B}, \Sigma)$ is the density of $Y_i$. The log likelihood is then:
+
+\begin{align*}
+L (\mathbf{B}, \Sigma; \mathbf{Y}, \mathbf{X}) &= \prod_{i = 1}^{n} f(Y_i; x_i, \mathbf{B}, \Sigma) \\
+&= \prod_{i = 1}^{n} (2 \pi)^{- \frac{n}{2}} \det(\Sigma)^{-\frac{1}{2}} \exp \big( -\frac{1}{2} (Y_i - \mathbf{B}^T x_i)^T \Sigma^{-1} (Y_i - \mathbf{B}^T x_i) \big) \\
+&\propto \det(\Sigma)^{-\frac{n}{2}} \exp \big( -\frac{1}{2} \sum_{i = 1}^{n} (Y_i - \mathbf{B}^T x_i)^T \Sigma^{-1} (Y_i - \mathbf{B}^T x_i) \big) \\
+\implies \ell (\mathbf{B}, \Sigma; \mathbf{Y}, \mathbf{X}) &:= \ln L (\mathbf{B}, \Sigma; \mathbf{Y}, \mathbf{X}) \\
+&\propto -\frac{n}{2} \ln \det (\Sigma) - \frac{1}{2} \sum_{i = 1}^{n} (Y_i - \mathbf{B}^T x_i)^T \Sigma^{-1} (Y_i - \mathbf{B}^T x_i) \\
+&= -\frac{n}{2} \ln \det (\Sigma) - \frac{1}{2} \text{tr}\big( \sum_{i = 1}^{n} (Y_i - \mathbf{B}^T x_i)^T \Sigma^{-1} (Y_i - \mathbf{B}^T x_i) \big)
+\end{align*}
+
+since $\sum_{i = 1}^{n} (Y_i - \mathbf{B}^T x_i)^T \Sigma^{-1} (Y_i - \mathbf{B}^T x_i)$ is a constant, and $\text{tr}(c) = c$ for a constant $c$. 
+
+Trace is linear and invariant under cyclic permutations, so:
+
+\begin{align*}
+&\text{tr}\big( \sum_{i = 1}^{n} (Y_i - \mathbf{B}^T x_i)^T \Sigma^{-1} (Y_i - \mathbf{B}^T x_i) \big) \\
+&= \text{tr}\big( \sum_{i = 1}^{n} \Sigma^{-1} (Y_i - \mathbf{B}^T x_i)  (Y_i - \mathbf{B}^T x_i)^T \big) \\
+&= \text{tr}\big(\Sigma^{-1} \sum_{i = 1}^{n}  (Y_i - \mathbf{B}^T x_i)  (Y_i - \mathbf{B}^T x_i)^T \big)
+\end{align*}
+
+Let $C := \sum_{i = 1}^{n}  (Y_i - \mathbf{B}^T x_i)  (Y_i - \mathbf{B}^T x_i)^T$. Notice that:
+
+\begin{align*}
+C &= \sum_{i = 1}^{n}  (Y_i - \mathbf{B}^T x_i)  (Y_i - \mathbf{B}^T x_i)^T \\
+&= \sum_{i = 1}^{n}  (Y_i - \mathbf{B}^T x_i)  (Y_i^T - x_i^T \mathbf{B}) \\
+&= \sum_{i = 1}^{n}  Y_i Y_i^T - \mathbf{B}^T x_i Y_i^T - Y_i x_i^T \mathbf{B} + \mathbf{B}^T x_i x_i^T \mathbf{B} \\
+&= \sum_{i = 1}^{n} Y_i Y_i^T - \mathbf{B}^T \sum_{i = 1}^{n} x_i Y_i^T - \Big[ \sum_{i = 1}^{n} Y_i x_i^T \Big] \mathbf{B} + \mathbf{B}^T \Big[\sum_{i = 1}^{n} x_i x_i^T \Big] \mathbf{B}
+\end{align*}
+
+and also:
+
+* $\sum_{i = 1}^{n} Y_i Y_i^T = \begin{bmatrix} Y_1 & \dots & Y_n \end{bmatrix} \begin{bmatrix} Y_1^T \\ \vdots \\ Y_n^T \end{bmatrix} = \mathbf{Y}^T \mathbf{Y}$
+* $\sum_{i = 1}^{n} x_i Y_i^T = \begin{bmatrix} x_1 & \dots & x_n \end{bmatrix}_{k \times n} \begin{bmatrix} Y_1^T \\ \vdots \\ Y_n^T \end{bmatrix}_{n \times q} = \mathbf{X}^T \mathbf{Y}$
+* $\sum_{i = 1}^{n} Y_i x_i^T = \Big[ \sum_{i = 1}^{n} x_i Y_i^T \Big]^T = \mathbf{Y}^T \mathbf{X}$
+* $\sum_{i = 1}^{n} x_i x_i^T = \mathbf{X}^T \mathbf{X}$ likewise.
+
+Define $H := \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T$ and $\mathbf{B}^* = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$. Then:
+
+\begin{align*}
+C &= \mathbf{Y}^T \mathbf{Y} - \mathbf{B}^T \mathbf{X}^T \mathbf{Y} - \mathbf{Y}^T \mathbf{X} \mathbf{B} + \mathbf{B}^T \mathbf{X}^T \mathbf{X} \mathbf{B} \\
+&= \mathbf{Y}^T \mathbf{Y} - \mathbf{B}^T \mathbf{X}^T \mathbf{Y} - \mathbf{Y}^T \mathbf{X} \mathbf{B} + \mathbf{B}^T \mathbf{X}^T \mathbf{X} \mathbf{B} + \mathbf{Y}^T H \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \\
+&= \mathbf{B}^T \mathbf{X}^T \mathbf{X} \mathbf{B} - \mathbf{Y}^T \mathbf{X} \mathbf{B} - \mathbf{B}^T \underbrace{\mathbf{X}^T \mathbf{Y}}_{=\mathbf{X}^T \mathbf{X} \mathbf{B}^*} + \mathbf{Y}^T \underbrace{H \mathbf{Y}}_{= \mathbf{X} \mathbf{B}^*} + \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \\
+&= \big[ \mathbf{B}^T \mathbf{X}^T \mathbf{X} - \mathbf{Y}^T \mathbf{X} \big] \big[ \mathbf{B} - \mathbf{B}^* \big] + \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \\
+&= \big[ \mathbf{B}^T - \mathbf{Y}^T \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \big] \mathbf{X}^T \mathbf{X} \big[ \mathbf{B} - \mathbf{B}^* \big] + \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \\
+&= (\mathbf{B} - \mathbf{B}^*)^T \mathbf{X}^T \mathbf{X} (\mathbf{B} - \mathbf{B}^*) + \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y}
+\end{align*}
+
+
+### MLE for $\mathbf{B}$
+
+Maximizing $\ell (\mathbf{B}; \Sigma, \mathbf{Y}, \mathbf{X}) \propto -\frac{n}{2} \ln \det(\Sigma) - \frac{1}{2} \text{tr} \big(\Sigma^{-1} C \big)$ with respect to $\mathbf{B}$ is equivalent to minimizing $\text{tr} \big(\Sigma^{-1} C \big)$, or minimizing: $$\text{tr}\big(\Sigma^{-1} (\mathbf{B} - \mathbf{B}^*)^T \mathbf{X}^T \mathbf{X} (\mathbf{B} - \mathbf{B}^*)\big)$$ because $\mathbf{Y}^T \mathbf{Y}$ and $\mathbf{Y}^T H \mathbf{Y}$ are $\mathbf{B}$-invariant.
+
+The minimum possible value of this quantity is $0$ because:
+
+(1) $(\mathbf{B} - \mathbf{B}^*)^T \mathbf{X}^T \mathbf{X} (\mathbf{B} - \mathbf{B}^*)$ is positive-semidefinite:
+
+\begin{align*}
+(\mathbf{B} - \mathbf{B}^*)^T \mathbf{X}^T \mathbf{X} (\mathbf{B} - \mathbf{B}^*) &= (\mathbf{B} - \mathbf{B}^*)^T (\mathbf{X}^T \mathbf{X})^{\frac{1}{2}} (\mathbf{X}^T \mathbf{X})^{\frac{1}{2}} (\mathbf{B} - \mathbf{B}^*) \\
+&= [(\mathbf{X}^T \mathbf{X})^{\frac{1}{2}} (\mathbf{B} - \mathbf{B}^*)]^T [(\mathbf{X}^T \mathbf{X})^{\frac{1}{2}} (\mathbf{B} - \mathbf{B}^*)] \\
+&= [U \Lambda V^T]^T [U \Lambda V^T] \\
+&= V \Lambda^T \Lambda V^T \text{ } (V \in \mathbb{R}^{q \times q}, \Lambda \in \mathbb{R}^{k \times q}) \\
+&= V \text{diag}(\lambda_1^2, \dots, \lambda_q^2) V^T
+\end{align*}
+
+(using singular value decomposition)
+
+
+(2) $\Sigma$ is positive-definite, and so is:
+
+\begin{align*}
+\Sigma^{-1} &= W \Lambda^* W^T = \sum_{j = 1}^{q} \lambda_j^* w_j w_j^T \\
+&\iff \lambda_j^* > 0 \text{ } \forall j
+\end{align*}
+
+(using spectral decomposition)
+
+
+(3) $\text{tr}\big(\Sigma^{-1} (\mathbf{B} - \mathbf{B}^*)^T \mathbf{X}^T \mathbf{X} (\mathbf{B} - \mathbf{B}^*)\big)$ can be written as a sum of quadratic forms:
+
+\begin{align*}
+&\text{tr}\big(\Sigma^{-1} (\mathbf{B} - \mathbf{B}^*)^T \mathbf{X}^T \mathbf{X} (\mathbf{B} - \mathbf{B}^*)\big) \\
+&= \text{tr} \Big[ \big( \sum_{j = 1}^{q} \lambda_j^* w_j w_j^T \big) V \Lambda^T \Lambda V^T \Big] \\
+&= \sum_{j = 1}^{q} \lambda_j^* \text{tr} \big[w_j w_j^T V \Lambda^T \Lambda V^T \big] \\
+&= \sum_{j = 1}^{q} \lambda_j^* \text{tr} \big[w_j^T V \Lambda^T \Lambda V^T w_j \big] \\
+&= \sum_{j = 1}^{q} \lambda_j^* w_j^T V \Lambda^T \Lambda V^T w_j
+\end{align*}
+
+since $w_j^T V \Lambda^T \Lambda V^T w_j$ is a constant. Now, we see that $w_j^T V \Lambda^T \Lambda V^T w_j \geq 0$ since $V \Lambda^T \Lambda V^T$ is positive-semidefinite as shown in 1. That is, the quantity we want to minimize can be written as a sum of non-negative numbers. Moreover, we see that $0$ is achieved if (and only if) $\mathbf{B} = \mathbf{B}^*$. Therefore: $$\hat{\mathbf{B}} = \mathbf{B}^* = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$$ which is the same form as $\hat{\boldsymbol{\beta}}$ in the univariate case.
+
+
+### MLE for $\Sigma$
+
+Refer to [matrix derivatives](matrix_derivatives.html) here.
+
+\begin{align*}
+\ell (\Sigma; \hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) &\propto -\frac{n}{2} \ln \det(\Sigma) - \frac{1}{2} \text{tr} \big(\Sigma^{-1} C \big) \\
+&= \frac{n}{2} \ln \det(\Sigma^{-1}) - \frac{1}{2} \text{tr} \big(\Sigma^{-1} C \big) \\
+\implies \nabla_{\Sigma^{-1}} \ell (\Sigma; \hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) &= \frac{n}{2} \cdot \frac{1}{\det(\Sigma^{-1})} \cdot \det(\Sigma^{-1}) [(\Sigma^{-1})^{-1}]^T - \frac{1}{2} C^T \\
+&= \frac{n}{2} \Sigma - \frac{1}{2} C \\
+&= \frac{n}{2} \Sigma - \frac{1}{2} \Big( \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \Big)
+\end{align*}
+
+since $(\hat{\mathbf{B}} - \hat{\mathbf{B}})^T \mathbf{X}^T \mathbf{X} (\hat{\mathbf{B}} - \hat{\mathbf{B}}) = \mathbf{O}_{q \times q}$. So the maximizer $\hat{\Sigma}$ satisfies: $$\nabla_{\Sigma^{-1}} \ell (\hat{\Sigma}; \hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) = \mathbf{O}$$ or:
+
+\begin{align*}
+&\frac{n}{2} \hat{\Sigma} - \frac{1}{2} \Big( \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} \Big) = \mathbf{O} \\
+\implies &n \hat{\Sigma} = \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T H \mathbf{Y} = \mathbf{Y}^T (I_n - H) \mathbf{Y} \\
+\implies &\therefore \text{ } \hat{\Sigma} = \frac{1}{n} \mathbf{Y}^T (I_n - H) \mathbf{Y}
+\end{align*}
+
+Does it look familiar?
+
+
+**Aside 1**: the total variability in $Y_i$'s in $\mathbf{Y}$ can be written as the unbiased sample variance of $Y_i$'s, or:
+
+\begin{align*}
+\frac{1}{n - 1} \sum_{i = 1}^{n} (Y_i - \overline{Y})(Y_i - \overline{Y})^T &= \frac{1}{n - 1} \Big[ \big[ \sum_{i = 1}^{n} Y_i Y_i^T \big] - n \overline{Y} \overline{Y}^T \Big] \\
+&= \frac{1}{n - 1} \Big[ \mathbf{Y}^T \mathbf{Y} - n (\frac{1}{n} \mathbf{Y}^T \mathbf{1}_{n \times 1})(\frac{1}{n} \mathbf{Y}^T \mathbf{1}_{n \times 1})^T \Big] \\
+&= \frac{1}{n - 1} \Big[ \mathbf{Y}^T \mathbf{Y} - \frac{1}{n} \mathbf{Y}^T \mathbf{1} \mathbf{1}^T \mathbf{Y} \Big] \\
+&= \frac{1}{n - 1} \mathbf{Y}^T (I_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T ) \mathbf{Y}
+\end{align*}
+
+Does that also look familiar?
+
+
+## Distributions
+
+### $\hat{\mathbf{B}}$
+
+First, note that $\hat{\mathbf{B}}$ is unbiased:
+
+\begin{align*}
+E \big(\hat{\mathbf{B}} \big) &= E \big((\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \big) \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T E\big( \mathbf{Y} \big) \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \begin{bmatrix} E(Y_1)^T \\ \vdots \\ E(Y_n)^T \end{bmatrix} \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \begin{bmatrix} x_1^T \mathbf{B} \\ \vdots \\ x_n^T \mathbf{B} \end{bmatrix} \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \begin{bmatrix} x_1^T  \\ \vdots \\ x_n^T \end{bmatrix} \mathbf{B} \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \mathbf{B} \\
+&= \mathbf{B}
+\end{align*}
+
+Let $\hat{\boldsymbol{\beta}}_j := \hat{\mathbf{B}} e_j$, the $j$^th^ column of $\hat{\mathbf{B}}$. Then:
+
+\begin{align*}
+\hat{\boldsymbol{\beta}}_j &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} e_j \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \big[ \mathbf{X} \mathbf{B} + \boldsymbol{\mathcal{E}} \big] e_j \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \big[ \mathbf{X} \boldsymbol{\beta}_j + \boldsymbol{\mathcal{E}} e_j \big] \\
+&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \boldsymbol{\beta}_j + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\mathcal{E}} e_j \\
+&= \boldsymbol{\beta}_j + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\mathcal{E}} e_j
+\end{align*}
+
+Since $\mathcal{E}_i \stackrel{iid}{\sim} N_q(\mathbf{0}, \Sigma)$, we have $e_j^T \mathcal{E}_i = \varepsilon_{ij} \stackrel{iid}{\sim} N(0, \Sigma_{jj})$, $i = 1, \dots, n$. Thus: $$\boldsymbol{\mathcal{E}} e_j \sim N_n \big(\mathbf{0}, \Sigma_{jj} I_n \big)$$ That is: $$\hat{\boldsymbol{\beta}}_j \sim N_k(\boldsymbol{\beta}_j, \Sigma_{jj} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1}) = N_k \big(\boldsymbol{\beta}_j, \Sigma_{jj} (\mathbf{X}^T \mathbf{X})^{-1} \big)$$
+
+Here, we again confirm that the multivariate response linear regression is just the univariate response linear regression on each $y_j$. 
+
+What about "some extra information about the relationship between parameters"? Let's start with $\hat{\boldsymbol{\beta}}^i := e_i^T \hat{\mathbf{B}}$, the $i$^th^ row of $\hat{\mathbf{B}}$:
+
+\begin{align*}
+\hat{\boldsymbol{\beta}}^i &= e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \\
+&= e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \big[ \mathbf{X} \mathbf{B} + \boldsymbol{\mathcal{E}} \big] \\
+&= e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \mathbf{B} + e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\mathcal{E}} \\
+&=: \boldsymbol{\beta}^{i} + e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\mathcal{E}} \\
+\implies (\hat{\boldsymbol{\beta}}^{i})^{T} - (\boldsymbol{\beta}^{i})^T &= \boldsymbol{\mathcal{E}}^T \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} e_i \\
+&= \sum_{u = 1}^{n} \mathcal{E}_u \underbrace{x_u^T (\mathbf{X}^T \mathbf{X})^{-1} e_i}_{=\text{constant}} \\
+&= \sum_{u = 1}^{n} \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big] \mathcal{E}_u
+\end{align*}
+
+This implies:
+
+\begin{align*}
+&\mathcal{E}_u \stackrel{iid}{\sim} N_q \big(\mathbf{0}, \Sigma \big) \\
+\implies \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big] &\mathcal{E}_u \stackrel{indep}{\sim} N_q \big(\mathbf{0}, \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big]^2 \Sigma \big) \\
+\implies \sum_{u = 1}^{n} \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big] &\mathcal{E}_u \sim N_q \big(\mathbf{0}, \sum_{u = 1}^{n} \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big]^2 \Sigma \big)
+\end{align*}
+
+and:
+
+\begin{align*}
+&\sum_{u = 1}^{n} \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big]^2 \Sigma \\ 
+&= \sum_{u = 1}^{n} \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big] \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big] \Sigma \\
+&= \sum_{u = 1}^{n} \big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} x_u \big] \big[ x_u^T (\mathbf{X}^T \mathbf{X})^{-1} e_i \big] \Sigma \\
+&= \Big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \big[ \sum_{u = 1}^{n} x_u x_u^T \big] (\mathbf{X}^T \mathbf{X})^{-1} e_i \Big] \Sigma \\
+&= \Big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} e_i \Big] \Sigma \\
+&= \Big[ e_i^T (\mathbf{X}^T \mathbf{X})^{-1} e_i \Big] \Sigma \\
+&= (\mathbf{X}^T \mathbf{X})^{-1}_{ii} \Sigma
+\end{align*}
+
+Hence, $\hat{\boldsymbol{\beta}}^{i}$ has the distribution: $$(\hat{\boldsymbol{\beta}}^{i})^{T} \sim N_q\big((\boldsymbol{\beta}^{i})^T, (\mathbf{X}^T \mathbf{X})^{-1}_{ii} \Sigma \big)$$
+
+Let's interpret this a little: the multivariate response linear regression is about conducting the univariate response linear regression on $y_{.j} (:= y_j)$'s with the same set of covariates $x_{.} = (x_{.1}, x_{.2}, \dots, x_{.k})$. So for some fixed $j$, the $j$^th^ univariate response, $y_{.j}$, in $Y_{.} = (y_{.1}, \dots, y_{.q})$ will have a model: $$y_{.j} = x_{.}^T \boldsymbol{\beta}_j + \varepsilon_{.j}$$ where $\varepsilon_{.j} \sim N(0, \Sigma_{jj})$. That is, for $i = 1, \dots, n$, $y_{ij}$ has a model: $$y_{ij} = x_{i}^T \boldsymbol{\beta}_j + \varepsilon_{ij}$$ with $\varepsilon_{ij} \stackrel{iid}{\sim} N(0, \Sigma_{jj})$. 
+
+And since we are using the same set of covariates, there should be a $p$^th^ element ($p \in \{1, \dots, k\}$) in every $\boldsymbol{\beta}_j = (\dots, \text{ } \beta_{pj}, \text{ } \dots)$ for each $y_{.j}$ that corresponds to $x_{.p}$. The collection of such $p$^th^ elements, $(\beta_{p1}, \dots, \beta_{pj}, \dots, \beta_{pq})$, is the $p$^th^ row of $\mathbf{B}$, i.e. $$\boldsymbol{\beta}^{\text{ }p} = (\beta_{p1}, \dots, \beta_{pj}, \dots, \beta_{pq}) = e_p^T\mathbf{B}$$
+
+The MLE of this $\boldsymbol{\beta}^{\text{ }p}$ is $\hat{\boldsymbol{\beta}}^{\text{ }p}$ with $Var((\hat{\boldsymbol{\beta}}^{\text{ }p})^T) = (\mathbf{X}^T \mathbf{X})^{-1}_{pp} \Sigma$. That is, if we assume that each $y_{.j}$ in $Y_.$ are correlated (so that $Var(Y_.) = \Sigma$) and conduct linear regressions on each $y_{.j}$ using the same covariates, then the MLEs for the $p$^th^ parameter which corresponds to $x_{.p}$ in each regression are correlated as well. Namely, $(\hat{\boldsymbol{\beta}}^{\text{ }p})^T \sim N_q(\boldsymbol{\beta}^{\text{ }p}, (\mathbf{X}^T \mathbf{X})^{-1}_{pp} \Sigma)$.
+
+So it starts with an assumption that there is a relationship between different $y_{.j}$'s, and concludes that MLEs for the $p$^th^ parameter are correlated in linear regressions. 
+
+We shall now see $\hat{\Sigma}$, the MLE for $\Sigma$.
+
+
+### $\hat{\Sigma}$
+
+To find the distribution of $\hat{\Sigma}$ --- yes, you heard it right; the distribution of a **matrix** --- first note that:
+
+\begin{align*}
+(I_n - H) \mathbf{X} \mathbf{B} &= \mathbf{X} \mathbf{B} - H \mathbf{X} \mathbf{B} \\
+&= \mathbf{X} \mathbf{B} - \mathbf{X} ( \mathbf{X}^T  \mathbf{X})^{-1} \mathbf{X}^T  \mathbf{X} \mathbf{B} \\
+&= \mathbf{X} \mathbf{B} -  \mathbf{X} \mathbf{B} \\
+&= \mathbf{O}
+\end{align*}
+
+and: 
+
+* $(I_n - H)^T = (I_n - H^T) = (I_n -  \mathbf{X} ( \mathbf{X}^T  \mathbf{X})^{-1} \mathbf{X}^T) = I_n - H$ (i.e. symmetric)
+    + i.e. $I_n - H = U \Lambda U^T$ for some $U$ and $\Lambda$ by spectral decomposition
+* $(I_n - H)^2 = (I_n - H)(I_n - H) = I_n - 2H + H^2 = I_n - H$ (i.e. idempotent)
+    + i.e. eigenvalues of $I_n - H$ are either $0$ or $1$
+* $\text{tr}(I_n - H) = \text{tr}(I_n) - \text{tr}(H) = n - \text{tr}( (\mathbf{X}^T  \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X}) = n - k$
+    + i.e. $1$ has the multiplicity $n - k$ ($= \text{tr}(I_n - H)$), and $0$ has the multiplicity $k$
+    + i.e. $\text{rank}(I_n - H) = n - k$
+* $I_n - H = U \Lambda U^T = U \begin{bmatrix} I_{n - k} & \mathbf{O} \\ \mathbf{O} & \mathbf{O} \end{bmatrix}_{n \times n} U^T = \sum_{s = 1}^{n - k} u_s u_s^T$
+
+Also, notice that $n \hat{\Sigma} = C$, where $C = C(\hat{\mathbf{B}}, \mathbf{Y}, \mathbf{X}) = \mathbf{Y}^T (I_n - H)\mathbf{Y}$, and:
+
+\begin{align*}
+(\mathbf{Y} - \mathbf{X} \mathbf{B} )^T (I_n - H) (\mathbf{Y} - \mathbf{X} \mathbf{B}) &= (\mathbf{Y}^T - \mathbf{B}^T \mathbf{X}^T) (I_n - H) (\mathbf{Y} - \mathbf{X} \mathbf{B}) \\
+&= (\mathbf{Y}^T - \mathbf{B}^T \mathbf{X}^T) ( (I_n - H) \mathbf{Y} - \underbrace{ (I_n - H) \mathbf{X} \mathbf{B}}_{=\mathbf{O}} ) \\
+&= (\mathbf{Y}^T - \mathbf{B}^T \mathbf{X}^T)  (I_n - H) \mathbf{Y} \\
+&= \mathbf{Y}^T (I_n - H) \mathbf{Y} - \mathbf{B}^T \mathbf{X}^T (I_n - H) \mathbf{Y} \\
+&= \mathbf{Y}^T (I_n - H) \mathbf{Y} - \Big[ \underbrace{(I_n - H) \mathbf{X} \mathbf{B}}_{=\mathbf{O}} \Big]^T  \mathbf{Y} \\
+&= \mathbf{Y}^T (I_n - H) \mathbf{Y}
+\end{align*}
+
+
+That is: $$(\mathbf{Y} - \mathbf{X} \mathbf{B} )^T (I_n - H) (\mathbf{Y} - \mathbf{X} \mathbf{B}) = \boldsymbol{\mathcal{E}}^T (I_n - H) \boldsymbol{\mathcal{E}} = \mathbf{Y}^T (I_n - H) \mathbf{Y}$$
+
+Thus:
+
+\begin{align*}
+C &= \mathbf{Y}^T (I_n - H) \mathbf{Y} = \boldsymbol{\mathcal{E}}^T (I_n - H) \boldsymbol{\mathcal{E}} \\
+&= \boldsymbol{\mathcal{E}}^T \big[ \sum_{s = 1}^{n - k} u_s u_s^T \big] \boldsymbol{\mathcal{E}} \\
+&= \sum_{s = 1}^{n - k} \boldsymbol{\mathcal{E}}^T  u_s u_s^T \boldsymbol{\mathcal{E}} \\
+&= \sum_{s = 1}^{n - k} \big[ \boldsymbol{\mathcal{E}}^T  u_s \big] \big[ \boldsymbol{\mathcal{E}}^T u_s \big]^T \\
+&= \sum_{s = 1}^{n - k} Z_s Z_s^T
+\end{align*}
+
+Recall $\boldsymbol{\mathcal{E}} e_j \sim N_n (\mathbf{0}, \Sigma_{jj} I_n)$, so that $u_s^T \boldsymbol{\mathcal{E}} e_j \sim N(0, \Sigma_{jj} u_s^T u_s) = N(0,  \Sigma_{jj})$. This implies:
+
+\begin{align*}
+Z_s = \boldsymbol{\mathcal{E}}^T u_s = \begin{bmatrix} e_1^T \boldsymbol{\mathcal{E}}^T u_s \\ \vdots \\ e_q^T \boldsymbol{\mathcal{E}}^T u_s \end{bmatrix}_{q \times 1} = \begin{bmatrix} u_s^T \boldsymbol{\mathcal{E}} e_1 \\ \vdots \\ u_s^T \boldsymbol{\mathcal{E}} e_q \end{bmatrix} \sim N_q
+\end{align*}
+
+Computing $Cov(Z_{sv}, Z_{sw})$, the covariance of two arbitrary components of $Z_s$, yields:
+
+\begin{align*}
+Cov(Z_{sv}, Z_{sw}) &:= Cov(u_s^T \boldsymbol{\mathcal{E}} e_v, u_s^T \boldsymbol{\mathcal{E}} e_w) \\
+&:= Cov(u_s^T m_v, u_s^T m_w) \\
+&= u_s^T Cov(m_v, m_w) u_s \\
+&= u_s^T \Sigma_{vw} I_n u_s = \Sigma_{vw} \underbrace{u_s^T u_s}_{=1} = \Sigma_{vw}
+\end{align*}
+
+since rows of $\boldsymbol{\mathcal{E}}$ are iid. In other words: $$Z_s \sim N_q (\mathbf{0}, \Sigma)$$
+
+Lastly, we check the value of $Cov(Z_s, Z_t)$, a $q \times q$ matrix:
+
+\begin{align*}
+Cov(Z_{sv}, Z_{tw}) &= E\Big[ u_s^T \boldsymbol{\mathcal{E}} e_v e_w^T \boldsymbol{\mathcal{E}}^T u_t \Big] \\ 
+&= E\Big[ u_s^T m_v m_w^T u_t \Big] \\
+&= u_s^T E\Big[ m_v m_w^T \Big] u_t \\
+&= u_s^T \Big[ Cov(m_v, m_w) \Big] u_t \\
+&= \Sigma_{vw} \underbrace{u_s^T u_t}_{=0} = 0 \\
+\implies Cov(Z_s, Z_t) &= \mathbf{O} 
+\end{align*}
+
+Hence: $$\mathbf{Z} := \begin{bmatrix} Z_1 \\ \vdots \\ Z_{n - k} \end{bmatrix} \sim N_{q(n - k)} \Big(\mathbf{0}, \boldsymbol{\Sigma} = \begin{bmatrix} \Sigma & \mathbf{O} & \dots & \mathbf{O} \\ \mathbf{O} & \Sigma & \dots & \mathbf{O} \\ \vdots & \vdots & \ddots & \vdots \\ \mathbf{O} & \mathbf{O} & \dots & \Sigma \end{bmatrix} \Big)$$
+
+That is, $Z_s \stackrel{iid}{\sim} N_q(\mathbf{0}, \Sigma)$. Therefore, $C$ has the [Wishart distribution](https://en.wikipedia.org/wiki/Wishart_distribution), or: $$n \hat{\Sigma} = C = \sum_{s = 1}^{n - k} Z_s Z_s^T \sim W_q(\Sigma, n - k)$$
+
+and so: $$E(n \hat{\Sigma}) = (n - k)\Sigma$$ or: $$E(\hat{\Sigma}) = \frac{n - k}{n} \Sigma$$
+
+So the MLE for $\Sigma$ is biased. Similar to the univariate case, $\widetilde{\Sigma} := \frac{n}{n - k} \hat{\Sigma}$ is unbiased.
+
+**Aside 2**: So far, we've seen the following unbiased estimates of variabilities:
+
+* the total variability: $S_\mathbf{Y} := \frac{1}{n - 1} \mathbf{Y}^T (I_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T) \mathbf{Y}$
+* the variability in error terms: $\widetilde{\Sigma} = \frac{n}{n - k} \hat{\Sigma} = \frac{1}{n - k} \mathbf{Y}^T (I_n - H) \mathbf{Y}$
+
+Given these two, we can make another one:
+
+\begin{align*}
+(n - 1) S_{\mathbf{Y}} &= \mathbf{Y}^T (I_n - \frac{1}{n} \mathbf{1} \mathbf{1}^T) \mathbf{Y} \\
+&= \mathbf{Y}^T (I_n - H + H - \frac{1}{n} \mathbf{1} \mathbf{1}^T) \mathbf{Y} \\
+&= \mathbf{Y}^T \big( (I_n - H)\mathbf{Y} + (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y} \big) \\
+&= \mathbf{Y}^T (I_n - H)\mathbf{Y} + \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y} \\
+&= (n - k) \widetilde{\Sigma} + \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y}
+\end{align*}
+
+Say $M := \frac{1}{k - 1} \mathbf{Y}^T (H - \frac{1}{n} \mathbf{1} \mathbf{1}^T)\mathbf{Y}$. Then: $$(n - 1) S_{\mathbf{Y}} = (n - k) \widetilde{\Sigma} + (k - 1) M$$
+
+This $M$ is, in fact, the variability explained by the chosen covariates (or the "model").
+
+**Aside 3**: There is a proposition which states that if $X_i \stackrel{iid}{\sim} N_d(\mu, \Sigma)$, then $\overline{X} \sim N_d(\mu, \frac{1}{n}\Sigma)$ and $(n - 1)S = \sum_{i = 1}^{n} (X_i - \overline{X})(X_i - \overline{X})^T \sim W_d(\Sigma, n - 1)$ are independent. It is tempting to say the same for $\overline{Y}$ and $(n - 1)S_{\mathbf{Y}}$, but we can't do that; $Y_i$'s are mutually independent, but not identically distributed.
+
+
+# 3. An example: `iris`
+
+There are five variables in `iris` dataset:
+
+```{r 3_1}
+glimpse(iris)
+```
+
+We first see that $n = 150$. I will let $q = 2$ by setting `Petal.Length` and `Petal.Width` as a response vector, and $k = 3$ including the intercept and excluding `Species`. The following matrices will be defined: 
+
+* $\mathbf{X}$
+* $\mathbf{Y}$
+* $A := (\mathbf{X}^T \mathbf{X})^{-1}$
+* $\mathbf{H} = \mathbf{X} A \mathbf{X}^T$
+* $I_n$
+* $C_{\text{_}} = \mathbf{Y}^T (I_n - H) \mathbf{Y}$
+
+
+```{r 3_2}
+n <- nrow(iris)
+X <- iris %>% 
+    select(Sepal.Length, Sepal.Width) %>% 
+    mutate(int = rep(1, n())) %>%
+    as.matrix() %>%
+    '['(, c(3, 1, 2))
+Y <- iris %>%
+    select(Petal.Length, Petal.Width) %>%
+    as.matrix()
+A <- solve(t(X) %*% X)
+H <- X %*% A %*% t(X)
+I_n <- diag(1, n)
+C_ <- t(Y) %*% (I_n - H) %*% Y # n * SigmaHat
+k <- ncol(X)
+```
+
+
+We can now compute $\hat{\mathbf{B}} = A \mathbf{X}^T \mathbf{Y}$ and $\widetilde{\Sigma} = S = \frac{n}{n - k} \hat{\Sigma} = \frac{1}{n - k} C_{\text{_}}$:
+
+```{r 3_3}
+(B <- A %*% t(X) %*% Y)
+(S <- C_ / (n - k))
+```
+
+Notice that the first column of `B` is exactly the same as the parameters obtained by the univariate response linear regression on `Petal.Length`:
+
+```{r 3_4}
+mod_pl <- lm(Petal.Length ~ Sepal.Length + Sepal.Width, data = iris)
+coef(mod_pl)
+```
+
+The variance of $\hat{\boldsymbol{\beta}}_{P.L.}$, which can be obtained by `vcov(mod_pl)`, is exactly equal to $S_{11} A$:
+
+```{r 3_5}
+vcov(mod_pl) # variance matrix of the parameter estimates
+S[1, 1] * A # variance of the 1st column of B
+```
+
+
+The same goes for the second column of `B` as well:
+
+```{r 3_6}
+mod_pw <- lm(Petal.Width ~ Sepal.Length + Sepal.Width, data = iris)
+coef(mod_pw)
+vcov(mod_pw)
+S[2, 2] * A # 2nd column
+```
+
+The variances of the $i$^th^ row of `B`, $i = 1, 2, 3$, can be computed as $A_{11} S$, $A_{22} S$, and $A_{33} S$ respectively:
+
+```{r 3_7}
+A[1, 1] * S # 1st row, using unbiased estimator
+A[2, 2] * S # 2nd row
+A[3, 3] * S # 3rd row
+```
+
+Now let's use the built-in `lm` function:
+
+```{r 3_8}
+mod_mv <- lm(Y ~ ., data = iris[, 1:2])
+summary(mod_mv)
+```
+
+The `Std. Error` are just square roots of diagonal entries in variance estimators of $\hat{\boldsymbol{\beta}}_j$'s:
+
+```{r 3_9}
+sqrt(diag(S[1, 1] * A))
+sqrt(diag(S[2, 2] * A))
+```
+
+We can obtain `B` by:
+
+```{r 3_9_01}
+coef(mod_mv)
+```
+
+Finally, let's see what `vcov(mod_mv)` returns:
+
+```{r 3_10}
+rows <- rownames(vcov(mod_mv))
+'rownames<-'(as.data.frame(vcov(mod_mv)), rows)
+```
+
+It returns a $6 \times 6$ matrix where:
+
+* Entries with the name `(Intercept)` are the same as $A_{11} S$
+* Entries with the name `Sepal.Length` are the same as $A_{22} S$
+* Entries with the name `Sepal.Width` are the same as $A_{33} S$
+* Entries with the name `Petal.Length` are the same as $S_{11} A$ (which explains 9 entries in the upper left corner)
+* Entries with the name `Petal.Width` are the same as $S_{22} A$ (which explains 9 entries in the lower right corner)
+
+Moreover:
+
+* 9 entries in the upper right corner are the same as $S_{12} A$ (the covariance of $\hat{\boldsymbol{\beta}}_{PL}$ and $\hat{\boldsymbol{\beta}}_{PW}$) 
+* 9 entries in the lower left corner are the same as $S_{21} A = [S_{12} A]^T = S_{12} A$
+
+Basically, `vcov(mod_mv)` returns every possible pair of two individual one-dimensional estimators and their covariance.
+
+
+# Session info
+
+R session info:
+
+```{r session_info}
+sessionInfo()
+```
+
+

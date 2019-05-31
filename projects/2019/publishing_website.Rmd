@@ -1,0 +1,81 @@
+---
+title: "Publishing a website"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - ../../style/all_ga_script.html
+        - ../../style/all_navbar_head.html
+        - ../../style/all_orange_jp_02_lvl.html
+      before_body:
+        - ../../style/all_navbar_body_02_lvl.html
+      after_body:
+        - ../../style/all_footer.html
+    toc: TRUE
+    self_contained: FALSE
+---
+
+
+# Objectives
+
+* Learn about basic HTML tags and CSS features in order to make my website appear like an actual website, and to add some website functionalities such as a navigation bar
+* Learn about some basic git commands to upload and remove files via Git Bash
+
+
+# Background
+
+After learning some programming languages such as Python and R, and documentation softwares such as $\LaTeX$ and R Markdown, I realized that interacting through a GUI to conduct and document data analysis is actually making things more difficult than easier. When I decided to publish my website to show my work as a student and as a prospective data analyst, I expected that similar things will happen if I use a GUI-based website-publishing agent such as Google Sites. I made my decision to learn the basics of HTML and CSS to have control on every aspect of my website, and to gain insight into web creation and management.
+
+
+
+# How it works
+
+All of the HTML files in the [repository](https://github.com/joon3216/joon3216.github.io) except for those in *style* folder were created, and are currently maintained, by R Markdown. Based on these HTML files, I added features through YAML header in .Rmd such as a clickable logo in the top left corner, a sticky navigation bar, dropdown menu in the navigation bar, and menu bars that show up when the window width is less than some threshold (as of `r Sys.Date()`, it is set to be 800px). A footer is included in every webpage, and some animations came to life using jQuery JavaScript Library inside `<head>` tag. Math expressions are written using $\LaTeX$ syntax and MathJax provided by R Markdown. Features are first tested [here](../../style/testing.html).
+
+
+
+# Learning outcomes
+
+The most important lesson I learned is that it is crucial to apply mechanisms available on the Internet in a right way to make things work in an expected way. Since every person's specification on his/her HTML document is different, you cannot directly apply what is presented on Youtube videos or W3Schools tutorials unless you start from scratch and/or have the same starting point as them. That is, to use these resources properly, one has to first understand what he/she is working on and is asking for. 
+
+Things I learned regarding:
+
+* Git include:
+    + using basic git commands to upload/delete/edit files and folders via Git Bash
+* HTML and CSS include:
+    + referring HTML tags in CSS
+    + specifying file paths in HTML
+    + using basic CSS features such as `padding` and `margin`
+    + using basic HTML tags such as `<nav>`, `<ul>`, `<li>`, `<a>`
+    + using jQuery to do simple animations
+* R Markdown include:
+    + linking a file in a different directory
+    + specifying `knitr` chunk options
+    + writing a YAML header in .Rmd file to:
+        + apply themes and code highlights 
+        + apply styles written in separate HTML and CSS files
+        + make HTML either self-contained or not
+        + show a table of contents
+
+
+
+# Next steps
+
+* Definitely:
+    + Add a dropdown menu under Project as the year progresses
+    + Learn more about HTML, CSS, and git commands
+* Possibly:
+    + Add a comment section at the end of HTML documents
+    + Add a search bar
+    + Learn more about git commands to a level which I don't need to use a trackpad/mouse anymore
+
+
+

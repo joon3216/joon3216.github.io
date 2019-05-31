@@ -1,0 +1,382 @@
+---
+title: "EM imputation:<br>Python implementation"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header:
+        - ../../style/all_ga_script.html
+        - ../../style/all_navbar_head.html
+        - ../../style/all_orange_jp_02_lvl.html
+      before_body:
+        - ../../style/all_navbar_body_02_lvl.html
+      after_body:
+        - ../../style/all_footer.html
+    toc: TRUE
+    self_contained: FALSE
+---
+
+```{r settings, echo = F}
+knitr::opts_chunk$set(python = reticulate::eng_python)
+library(reticulate)
+```
+
+The following links are pointing towards this document:
+
+* [Imputing missing data using EM algorithm](em_imputation.html)
+* [Using pgf and DFT: Python implementation](../2018/pgf_python.html)
+
+The following Python packages/functions are used:
+
+```{python modules}
+from datetime import datetime as dt
+import numpy as np
+from functools import reduce
+```
+
+
+# 1. Introduction
+
+This note is about replicating R functions written in [Imputing missing data using EM algorithm](em_imputation.html) under 2019: Methods for Multivariate Data. `simulate_na` (which will be renamed as `simulate_nan` here) and `impute_em` are going to be written in Python, and the computation time of `impute_em` will be checked in both Python and R.
+
+
+# 2. Functions
+
+All the details of how the algorithm works is presented [here](em_imputation.html).
+
+According to the following [`pandas` documentation](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.isnull.html), missing values in Python are denoted as: 
+
+* `NaN` in numeric arrays
+* `None` or `NaN` in object arrays
+* `NaT` in datetimelike
+
+In this note, I will use `np.nan` to denote missing components since we are dealing with numeric arrays.
+
+Let's generate the data using the same parameters as in the [previous note](em_imputation.html):
+
+```{python generate_data}
+np.random.seed(1024)
+mu = np.array([1, 2, 6])
+Sigma = np.array([[118, 62, 44], [62, 49, 17], [44, 17, 21]])
+n = 400
+X_truth = np.random.multivariate_normal(mu, Sigma, n)
+```
+
+
+## Simulating `np.nan`'s
+
+Simulating `np.nan`'s in a numeric array can be done using the same workflow as in `simulate_na`:
+
+```{python simulate_nan}
+def simulate_nan(X, nan_rate):
+    '''(np.array, number) -> {str: np.array or number}
+    
+    Preconditions:
+    1. np.isnan(X_complete).any() == False
+    2. 0 <= nan_rate <= 1
+    
+    Return the dictionary with four keys where: 
+    - Key 'X' stores a np.array where some of the entries in X 
+      are replaced with np.nan based on nan_rate specified.
+    - Key 'C' stores a np.array where each entry is False if the
+      corresponding entry in the key 'X''s np.array is np.nan, and True
+      otherwise.
+    - Key 'nan_rate' stores nan_rate specified.
+    - Key 'nan_rate_actual' stores the actual proportion of np.nan
+      in the key 'X''s np.array.
+    '''
+    
+    # Create C matrix; entry is False if missing, and True if observed
+    X_complete = X.copy()
+    nr, nc = X_complete.shape
+    C = np.random.random(nr * nc).reshape(nr, nc) > nan_rate
+    
+    # Check for which i's we have all components become missing
+    checker = np.where(sum(C.T) == 0)[0]
+    if len(checker) == 0:
+        # Every X_i has at least one component that is observed,
+        # which is what we want
+        X_complete[C == False] = np.nan
+    else:
+        # Otherwise, randomly "revive" some components in such X_i's
+        for index in checker:
+            reviving_components = np.random.choice(
+                nc, 
+                int(np.ceil(nc * np.random.random())), 
+                replace = False
+            )
+            C[index, np.ix_(reviving_components)] = True
+        X_complete[C == False] = np.nan
+    
+    result = {
+        'X': X_complete,
+        'C': C,
+        'nan_rate': nan_rate,
+        'nan_rate_actual': np.sum(C == False) / (nr * nc)
+    }
+    
+    return result
+```
+
+As before, `nan_rate` is set to be $.4$:
+
+```{python simulate_nan_result}
+result = simulate_nan(X_truth, nan_rate = .4)
+X = result['X'].copy()
+```
+
+`X` is the data with missing components.
+
+Let's see if every $X_i$ has at least one observed component:
+
+```{python simulate_nan_result02}
+(sum((np.isnan(X) == False).T) == 0).any() == False
+```
+
+Yes, the array of rowsums of `C` matrix has no `0` in its element. This implies each row of `C` contains at least one $1$, i.e. every $X_i$ has at least one observed component.
+
+Here's `nan_rate_actual`:
+
+```{python nan_rate_actual}
+result['nan_rate_actual']
+```
+
+
+## Imputing `np.nan`'s
+
+In Python, `impute_em` can be written as follows:
+
+```{python impute_em}
+def impute_em(X, max_iter = 3000, eps = 1e-08):
+    '''(np.array, int, number) -> {str: np.array or int}
+    
+    Precondition: max_iter >= 1 and eps > 0
+    
+    Return the dictionary with five keys where:
+    - Key 'mu' stores the mean estimate of the imputed data.
+    - Key 'Sigma' stores the variance estimate of the imputed data.
+    - Key 'X_imputed' stores the imputed data that is mutated from X using 
+      the EM algorithm.
+    - Key 'C' stores the np.array that specifies the original missing entries
+      of X.
+    - Key 'iteration' stores the number of iteration used to compute
+      'X_imputed' based on max_iter and eps specified.
+    '''
+    
+    nr, nc = X.shape
+    C = np.isnan(X) == False
+    
+    # Collect M_i and O_i's
+    one_to_nc = np.arange(1, nc + 1, step = 1)
+    M = one_to_nc * (C == False) - 1
+    O = one_to_nc * C - 1
+    
+    # Generate Mu_0 and Sigma_0
+    Mu = np.nanmean(X, axis = 0)
+    observed_rows = np.where(np.isnan(sum(X.T)) == False)[0]
+    S = np.cov(X[observed_rows, ].T)
+    if np.isnan(S).any():
+        S = np.diag(np.nanvar(X, axis = 0))
+    
+    # Start updating
+    Mu_tilde, S_tilde = {}, {}
+    X_tilde = X.copy()
+    no_conv = True
+    iteration = 0
+    while no_conv and iteration < max_iter:
+        for i in range(nr):
+            S_tilde[i] = np.zeros(nc ** 2).reshape(nc, nc)
+            if set(O[i, ]) != set(one_to_nc - 1): # missing component exists
+                M_i, O_i = M[i, ][M[i, ] != -1], O[i, ][O[i, ] != -1]
+                S_MM = S[np.ix_(M_i, M_i)]
+                S_MO = S[np.ix_(M_i, O_i)]
+                S_OM = S_MO.T
+                S_OO = S[np.ix_(O_i, O_i)]
+                Mu_tilde[i] = Mu[np.ix_(M_i)] +\
+                    S_MO @ np.linalg.inv(S_OO) @\
+                    (X_tilde[i, O_i] - Mu[np.ix_(O_i)])
+                X_tilde[i, M_i] = Mu_tilde[i]
+                S_MM_O = S_MM - S_MO @ np.linalg.inv(S_OO) @ S_OM
+                S_tilde[i][np.ix_(M_i, M_i)] = S_MM_O
+        Mu_new = np.mean(X_tilde, axis = 0)
+        S_new = np.cov(X_tilde.T, bias = 1) +\
+            reduce(np.add, S_tilde.values()) / nr
+        no_conv =\
+            np.linalg.norm(Mu - Mu_new) >= eps or\
+            np.linalg.norm(S - S_new, ord = 2) >= eps
+        Mu = Mu_new
+        S = S_new
+        iteration += 1
+    
+    result = {
+        'mu': Mu,
+        'Sigma': S,
+        'X_imputed': X_tilde,
+        'C': C,
+        'iteration': iteration
+    }
+    
+    return result
+```
+
+
+We can now impute the missing components of `X`:
+
+```{python result_imputed}
+start = dt.now()
+result_imputed = impute_em(X)
+end = dt.now()
+```
+
+The estimates are as shown:
+
+```{python estimates}
+result_imputed['mu'] # estimate using the imputed data
+mu # truth
+result_imputed['Sigma'] # estimate using the imputed data
+Sigma # truth
+```
+
+The imputation is done as follows:
+
+```{python imputation_done}
+X[np.arange(0, 9), ] # data with missing components
+result_imputed['X_imputed'][np.arange(0, 9), ] # imputed data
+X_truth[np.arange(0, 9), ] # truth
+```
+
+
+# 3. Comparison with the R function
+
+It takes:
+
+```{python takes}
+str(end - start)
+```
+
+seconds to impute `X` in Python. Using the same `X`, let's see how long the process takes in R. I am using a different name (`impute_em_R`) for the R function:
+
+```{r impute_em_R, echo = F}
+impute_em_R <- function(X, max_iter = 3000, eps = 1e-08) {
+    # X: a data frame or a matrix, possibly with some NA's
+    # max_iter: a natural number; 3000 by default
+    # eps: a positive real number; 1e-08 by default
+    
+    nr <- nrow(X)
+    nc <- ncol(X)
+    C <- !is.na(X) # the C matrix
+    
+    # Collect M_i and O_i's
+    Ms <- t(1:nc * t(!C))
+    Os <- t(1:nc * t(C))
+    M <- lapply(1:nr, function(d) {Ms[d, ][Ms[d, ] != 0]})
+    O <- lapply(1:nr, function(d) {Os[d, ][Os[d, ] != 0]})
+    
+    # Generate Mu_0 and Sigma_0
+    Mu <- colMeans(X, na.rm = T)
+    S <- var(X, na.rm = T)
+    if (is.na(sum(S))) { # S contains at least one NA
+        S <- diag(apply(X, 2, var, na.rm = T))
+    }
+    Mu_tilde <- S_tilde <- vector('list', length = nr)
+    X_tilde <- X
+    no_conv <- T
+    iter <- 0
+    while (no_conv & iter < max_iter) {
+        for (i in 1:nr) {
+            S_tilde[[i]] <- matrix(rep(0, nc^2), nrow = nc)
+            if (length(O[[i]]) != nc) { # consider only nonempty M[[i]]'s
+                S_MM <- S[M[[i]], M[[i]]]
+                S_MO <- matrix(S[M[[i]], O[[i]]], nrow = length(M[[i]]))
+                S_OM <- t(S_MO)
+                S_OO <- S[O[[i]], O[[i]]]
+                Mu_tilde[[i]] <- Mu[M[[i]]] + 
+                    S_MO %*% solve(S_OO) %*% (X[i, O[[i]]] - Mu[O[[i]]])
+                X_tilde[i, M[[i]]] <- as.numeric(Mu_tilde[[i]])
+                S_MM.O <- S_MM - S_MO %*% solve(S_OO) %*% S_OM
+                zero_matrix <- matrix(rep(0, nc^2), nrow = nc)
+                zero_matrix[M[[i]], M[[i]]] <- S_MM.O
+                S_tilde[[i]] <- zero_matrix
+            }
+        }
+        Mu_new <- colMeans(X_tilde)
+        S_new <- ((nr - 1) / nr) * var(X_tilde) + Reduce('+', S_tilde) / nr
+        no_conv <- !(
+            norm(Mu - Mu_new, type = '2') < eps && 
+                norm(S - S_new, type = '2') < eps
+        )
+        Mu <- Mu_new
+        S <- S_new
+        iter <- iter + 1
+    }
+    list(mu = Mu, Sigma = S, X_imputed = X_tilde, C = C, iter = iter)
+}
+```
+
+```{r impute_em_R_01}
+X <- py$X
+head(X, n = 9)
+```
+
+We don't need to replace `NaN`'s with `NA`'s because `is.na(NaN)` returns `TRUE`.
+
+```{r impute_em_R_03}
+start_R <- Sys.time()
+result_imputed_R <- impute_em_R(X)
+end_R <- Sys.time()
+```
+
+Let's first check if two functions yield the same result:
+
+```{python estimates_mu0}
+result_imputed['mu']
+```
+
+```{r estimates_mu}
+result_imputed_R$mu
+```
+
+```{python estimates_Sigma0}
+result_imputed['Sigma']
+```
+
+```{r estimates_Sigma}
+result_imputed_R$Sigma
+```
+
+They are all the same, as they should be. What about the time it took to impute in R?
+
+```{r timing}
+end_R - start_R
+```
+
+Interestingly, R is about 2.5 times as fast as Python for this particular process. One explanation is that in `impute_em` written in Python, indices corresponding to `M_i` and `O_i` are extracted in each iteration of nested loop (for-loop inside the while-loop), whereas all of `M_i` and `O_i` are extracted using `lapply` in R before going over the loops.
+
+
+# Session info
+
+R session info:
+
+```{r session_info}
+sessionInfo()
+```
+
+Python session info:
+
+```{python sinfo}
+import sinfo
+sinfo.sinfo()
+```
+
+
+
+
+
+

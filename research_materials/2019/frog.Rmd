@@ -1,0 +1,217 @@
+---
+title: "Frog simulation: <br> a finite state space and a Marcov chain"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - ../../style/all_ga_script.html
+        - ../../style/all_navbar_head.html
+        - ../../style/all_orange_jp_02_lvl.html
+      before_body:
+        - ../../style/all_navbar_body_02_lvl.html
+      after_body:
+        - ../../style/all_footer.html
+    toc: TRUE
+    self_contained: FALSE
+---
+
+The following external R packages are used:
+
+```{r loadings, warning = F, message = F}
+library(dplyr)
+library(gganimate) # 'gifski' and 'png' package have to be installed
+library(tidyr)
+include_graphics <- knitr::include_graphics
+```
+
+
+# 1. Introduction
+
+This is to illustrate the "jumping frog" Markov chain [^1] using `gganimate` package.
+
+
+[^1]: Rosenthal, J. (2019, April 05). STA447/2006 (Stochastic Processes) Lecture Notes, Winter 2019. Retrieved May 21, 2019, from http://probability.ca/jeff/teaching/1819/sta447/notes.pdf
+
+
+# 2. A jumping frog
+
+
+Say there is a frog jumping across 20 lily pads numbered from 1 to 20 which are arranged clockwise in a circle. Suppose $X_n$ is the pad number at the $n$^th^ jump. Let's define the "jumping frog" Markov chain $\{ X_n \}_{n = 0}^{\infty}$ as a Markov chain whose state space is $S = \{ 1, 2, \dots, 20\}$, with the initial state $X_0 = 20$ and initial probabilities $v_{20} = P(X_0 = 20) = 1$ and $v_s = 0 \text{ }$ for all $s = 1, \dots, 19$, and trainsition probabilities $p_{ij} = P(X_n = j \text{ | } X_{n - 1} = i)= \frac{1}{3}$ whenever $j = i - 1, i$, or $i + 1$.
+
+Long story short, a [Java Applet regarding this frogwalk](http://probability.ca/jeff/java/frogwalk.html) written by [Prof. Rosenthal](http://probability.ca/jeff/) at the University of Toronto doesn't work anymore. This is the effort to simulate this Markov chain using R and `gganimate` package.
+
+
+With initial parameters below, we can simulate this Markov chain and populate `X` with some generated $X_n$'s:
+
+```{r frog_pad_generator}
+set.seed(1024)
+
+# Settings
+max_iter <- 1000 # The maximum n
+number_of_pads <- 20
+initial_state <- 20
+p_ij = rep(1, 3) / 3 # Prob of moving left, staying, and moving right
+
+# Populate X
+state_space <- 1:number_of_pads
+cmf_p_ij = cumsum(p_ij)
+X <- NULL
+X[1] <- state_space[initial_state] # initial state
+for (i in 2:(max_iter + 1)) {
+    choice <- runif(1) # choice ~ Unif(0, 1)
+    if (0 <= choice && choice < cmf_p_ij[1]) { # move left
+        if (X[i - 1] == number_of_pads) {
+            X[i] <- 1
+        } else {
+            X[i] <- X[i - 1] + 1 
+        }
+    } else if (cmf_p_ij[1] <= choice && choice < cmf_p_ij[2]) { # stay
+        X[i] <- X[i - 1]
+    } else { # move right
+        if (X[i - 1] == 1) {
+            X[i] <- number_of_pads
+        } else {
+            X[i] <- X[i - 1] - 1
+        }
+    }
+}
+```
+
+`state_df` will be used to create a tibble that indicates the pad number the frog is located at each iteration. `state_space` will be used as x-axis, `pads_point` as y-axis (which is just a dummy), and `iterations` as a facetting variable:
+
+```{r polar_pad}
+state_df <- tibble(
+  iterations = rep(
+    0:max_iter, 
+    each = number_of_pads
+  ),
+  state_space = rep(state_space, max_iter + 1),
+  pads_point = rep(1, number_of_pads * (max_iter + 1))
+)
+```
+
+`comparison_df` is a tibble that acutally indicates where the frog is at at each iteration. `state_space` and `iterations` will be variables that `state_df` and `comparison_df` have in common, and `value` will be an indicator:
+
+```{r polar_pad2}
+comparison_df <- tibble(state_space)
+for (i in 1:(max_iter + 1)) {
+  mutating_code <- paste0(
+    "comparison_df <- comparison_df %>% ",
+    "mutate(`", i - 1, "` = state_space == X[i])"
+  )
+  eval(parse(text = mutating_code))
+}
+comparison_df <- comparison_df %>% 
+    gather(iterations, value, -state_space) %>%
+    mutate(iterations = as.integer(iterations))
+```
+
+We shall now `left_join` `state_df` and `comparison_df` using `state_space` and `iterations` columns, and create the whole `states_df` that is ready for generating a .gif file:
+
+```{r polar_pad3}
+states_df <- state_df %>%
+    left_join(comparison_df, by = c("state_space", "iterations"))
+```
+
+In our `gganimate` usage, we are basically creating a fast slide show of all the facets. `iterations` is our facetting variable, which is used in `transition_time`. Whenever the frog is located at the pad, the image will denote such a state with a red dot, and the rest of the pads will be coloured as black.
+
+```{r anim_in_disguise, echo = F, warning = F, message = F}
+anim <- ggplot(
+    states_df, 
+    aes(
+        x = factor(state_space), y = pads_point, 
+        color = value
+    )
+) + 
+    geom_point() +
+    scale_color_manual(values = c("black", "red")) +
+    coord_polar(start = .15) +
+    labs(title = "Iteration: {frame_time}", x = "", y = "") +
+    theme(legend.position = "none") +
+    transition_time(iterations) +
+    enter_drift() + 
+    exit_drift()
+```
+
+```{r animation, warning = F, message = F, eval = F}
+anim <- ggplot(
+    states_df, 
+    aes(
+        x = factor(state_space), y = pads_point, 
+        color = value
+    )
+) + 
+    geom_point() +
+    scale_color_manual(values = c("black", "red")) +
+    coord_polar(start = .15) +
+    labs(title = "Iteration: {frame_time}", x = "", y = "") +
+    theme(legend.position = "none") +
+    transition_time(iterations) +
+    enter_drift() + 
+    exit_drift()
+states_gif <- animate(
+  anim, fps = 20,
+  duration = 78,
+  start_pause = 2,
+  end_pause = 2
+)
+anim_save('frog.gif', states_gif)
+```
+
+Here's the .gif file:
+
+```{r frog_fast, fig.align = 'center'}
+include_graphics('frog.gif')
+```
+
+Here's a slower version (it takes a bit of time to load... 6 seconds?):
+
+```{r frog_slow, warning = F, message = F, fig.align = 'center', eval = F}
+states_gif2 <- animate(
+  anim, fps = 20,
+  duration = 226,
+  start_pause = 2,
+  end_pause = 2
+)
+anim_save('frog_slower.gif', states_gif2)
+include_graphics('frog_slower.gif')
+```
+
+```{r frog_slow2, fig.align = 'center', echo = F}
+include_graphics('frog_slower.gif')
+```
+
+If your sole purpose is to display, then saving the image file and using `include_graphics()` is unnecessary. For that purpose, you can just use `animate()`.
+
+
+
+# Session info
+
+R session info:
+
+```{r session_info}
+sessionInfo()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

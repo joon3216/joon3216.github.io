@@ -15,8 +15,6 @@
 
 <title>Animation in R: the largest value until the current roll</title>
 
-<link href="largest_roll_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="largest_roll_files/pagedtable-1.1/js/pagedtable.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139050237-1"></script>
 <script>
@@ -35,9 +33,10 @@ body
     font-family: sans-serif;
 }
 /* at the top */
-header
+#navbar
 {
     position: sticky;
+    z-index: 1000; /* new; why: make navbar closest to the observer */
     top: 0;
     left: 0;
     padding: 0; /* old: 10px 25px */
@@ -48,11 +47,11 @@ header
     border-bottom: 1px solid #EAEAEB;
     transition: .5s;
 }
-header .logo
+#navbar .logo
 {
     float: left;
 }
-header .logo img
+#navbar .logo img
 {
     height: 30px;
     /* new: margin; why: so that in header, padding can be 0 */
@@ -61,18 +60,18 @@ header .logo img
     with the left margin 25px */
     margin: 10px 5px 10px 25px; 
 }
-header nav
+#navbar nav
 {
     float: left;
 }
-header nav ul
+#navbar nav ul
 {
     margin: 0;
     padding: 0;
     display: flex;
 
 }
-header nav ul li
+#navbar nav ul li
 {
     padding: 0;
     list-style: none;
@@ -82,7 +81,7 @@ header nav ul li
     padding: 8.5px 0 8.5px 0;
 }
 /* new; why: texts with arrow on the right gets more space  */
-header nav ul li.sub-menu
+#navbar nav ul li.sub-menu
 {
     /* why 8.5px: that's the value in header nav ul li padding */
     padding: 8.5px 27.5px 8.5px 0;
@@ -90,7 +89,7 @@ header nav ul li.sub-menu
     /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
-header nav ul li.sub-menu:before
+#navbar nav ul li.sub-menu:before
 {
     content: '\f0d7'; /* &#9660 ▼ nabla */
     font-family: fontAwesome; /* old: sans-serif */
@@ -102,7 +101,7 @@ header nav ul li.sub-menu:before
     right: 22.5px;
     cursor: pointer;
 }
-header nav ul li.active.sub-menu:before
+#navbar nav ul li.active.sub-menu:before
 {
     content: '\f0d8';  /* &#9650 ▲ Delta */
     font-family: fontAwesome; /* new */
@@ -113,7 +112,7 @@ header nav ul li.active.sub-menu:before
     right: 22.5px;
     cursor: pointer;
 }
-header nav ul li ul
+#navbar nav ul li ul
 {
     position: absolute;
     left: 0;
@@ -121,7 +120,7 @@ header nav ul li ul
     background: rgba(57, 143, 209, 0.99);
     display: none;
 }
-header nav ul li.active ul
+#navbar nav ul li.active ul
 {
     display: block;
 }
@@ -129,7 +128,7 @@ header nav ul li.active ul
 /* new; why: make dropdown menu box fit to the menu above */
 /* padding: 0; is for slimmer individual dropdown menu items */
 /* old */
-header nav ul li.sub-menu ul li
+#navbar nav ul li.sub-menu ul li
 {
     display: block;
     width: 200px;
@@ -138,7 +137,7 @@ header nav ul li.sub-menu ul li
 
 /* new: header nav ul li ul li a */
 /* why: giving an indentation */
-header nav ul li ul li a
+#navbar nav ul li ul li a
 {
     margin: 0 40px;
 }
@@ -156,7 +155,7 @@ header nav ul li#rm.sub-menu ul li
     padding: 0;
 } */
 
-header nav ul li a
+#navbar nav ul li a
 {
     height: 30px;
     line-height: 30px;
@@ -164,6 +163,7 @@ header nav ul li a
     margin: 0 20px;
     color: #ffffff;
     text-decoration: none;
+    text-shadow: none; /* new; why: to be compatible with the Tactile theme */
     /*display: block;*/
 }
 
@@ -183,13 +183,13 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     margin: 0 0 0 20px;
 } */
 
-header nav ul li a:hover
+#navbar nav ul li a:hover
 {
     color: #ffffff;
 }
 
 /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
-header nav ul li:hover ul
+#navbar nav ul li:hover ul
 {
     display: block;
 }
@@ -206,7 +206,7 @@ header nav ul li:hover ul
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
     /* at the top */
-    header
+    #navbar
     {
         padding: 0; /* old: 10px 25px */
     }
@@ -215,7 +215,7 @@ header nav ul li:hover ul
         display: block;
         margin: 10px 25px /* new; why: header padding is now 0 */
     }
-    header nav
+    #navbar nav
     {
         /*display: none;*/
         position: absolute;
@@ -226,39 +226,39 @@ header nav ul li:hover ul
         left: -100%;
         transition: .5s;
     }
-    header nav.active
+    #navbar nav.active
     {
         left: 0;
     }
-    header nav ul
+    #navbar nav ul
     {
         display: block;
         /*text-align: center;*/
     }
-    header nav ul li a
+    #navbar nav ul li a
     {
         border-bottom: 1px solid rgba(255, 255, 255, .5);
         height: 50px;
         line-height: 50px;
         padding: 0 20px;
     }
-    header nav ul li.active ul
+    #navbar nav ul li.active ul
     {
         position: relative;
     }
-    header nav ul li ul li
+    #navbar nav ul li ul li
     {
         width: 100%;
     }
 
     /* new: header nav ul li.sub-menu */
     /* why: so that dropdown menus fill the entire row in mobile */
-    header nav ul li.sub-menu
+    #navbar nav ul li.sub-menu
     {
         padding: 8.5px 0;
     }
 
-    header nav ul li.sub-menu:before
+    #navbar nav ul li.sub-menu:before
     {
         content: '+'; /* old: &#9660 nabla */
         font-size: 20pt;
@@ -270,7 +270,7 @@ header nav ul li:hover ul
         right: 25px;
         cursor: pointer;
     }
-    header nav ul li.active.sub-menu:before
+    #navbar nav ul li.active.sub-menu:before
     {
         content: '-';  /* new: &#9650 Delta */
         font-size: 30pt;
@@ -279,7 +279,7 @@ header nav ul li:hover ul
         line-height: 30px;
         cursor: pointer;
     }
-    header nav ul li ul
+    #navbar nav ul li ul
     {
         position: absolute;
         left: 0;
@@ -291,11 +291,11 @@ header nav ul li:hover ul
     /* new: hover and active
     why: do not display drop down menus when mouse is over it
     and looking in mobile, but display them when plus signs are clicked */
-    header nav ul li:hover ul
+    #navbar nav ul li:hover ul
     {
         display: none;
     }
-    header nav ul li.active ul
+    #navbar nav ul li.active ul
     {
         display: block;
     }
@@ -320,7 +320,7 @@ header nav ul li:hover ul
 }
 
 /* while scrolling */
-header.black
+#navbar.black
 {
     background: rgba(21, 92, 148, .7);
 }
@@ -332,11 +332,13 @@ header.black
 <script type="text/javascript">
     $(window).on('scroll', function(){
         if ($(window).scrollTop()){
-            $('header').addClass('black');
+           navbar.classList.add('black');
+           /* old: $('header').addClass('black'); */
         }
         else
         {
-            $('header').removeClass('black');
+            navbar.classList.remove('black');
+            /* old: $('header').removeClass('black'); */
         }
     })
 </script>
@@ -409,7 +411,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <!-- A new navigation bar -->
-<header>
+<div id="navbar">
     <div class="logo">
         <a href="../../index.html"><img src="../../style/all_orange_jp.png"></a>
     </div>
@@ -445,7 +447,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <div class="menu-toggle">
         <i class="fa fa-bars" aria-hidden="true"></i>
     </div>
-</header>
+</div>
 
 
 <section class="page-header">
@@ -524,11 +526,20 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 <span class="st">    </span><span class="kw">cbind</span>(<span class="dv">0</span><span class="op">:</span>max_n, .) <span class="op">%&gt;%</span>
 <span class="st">    &#39;colnames&lt;-&#39;</span>(<span class="kw">c</span>(<span class="st">&#39;n&#39;</span>, <span class="dv">0</span><span class="op">:</span><span class="dv">6</span>)) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">as_tibble</span>())</code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["n"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["0"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["1"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["2"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["3"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["4"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["5"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["6"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"1","3":"0.000000e+00","4":"0.000000e+00","5":"0.000000e+00","6":"0.000000e+00","7":"0.0000000000","8":"0.0000000"},{"1":"1","2":"0","3":"1.666667e-01","4":"1.666667e-01","5":"1.666667e-01","6":"1.666667e-01","7":"0.1666666667","8":"0.1666667"},{"1":"2","2":"0","3":"2.777778e-02","4":"8.333333e-02","5":"1.388889e-01","6":"1.944444e-01","7":"0.2500000000","8":"0.3055556"},{"1":"3","2":"0","3":"4.629630e-03","4":"3.240741e-02","5":"8.796296e-02","6":"1.712963e-01","7":"0.2824074074","8":"0.4212963"},{"1":"4","2":"0","3":"7.716049e-04","4":"1.157407e-02","5":"5.015432e-02","6":"1.350309e-01","7":"0.2847222222","8":"0.5177469"},{"1":"5","2":"0","3":"1.286008e-04","4":"3.986626e-03","5":"2.713477e-02","6":"1.004372e-01","7":"0.2701903292","8":"0.5981224"},{"1":"6","2":"0","3":"2.143347e-05","4":"1.350309e-03","5":"1.425326e-02","6":"7.216650e-02","7":"0.2471064815","8":"0.6651020"},{"1":"7","2":"0","3":"3.572245e-06","4":"4.536751e-04","5":"7.355253e-03","6":"5.071516e-02","7":"0.2205539838","8":"0.7209184"},{"1":"8","2":"0","3":"5.953742e-07","4":"1.518204e-04","5":"3.753834e-03","6":"3.511219e-02","7":"0.1935495971","8":"0.7674320"},{"1":"9","2":"0","3":"9.922903e-08","4":"5.070603e-05","5":"1.902320e-03","6":"2.405917e-02","7":"0.1677944046","8":"0.8061933"},{"1":"10","2":"0","3":"1.653817e-08","4":"1.691855e-05","5":"9.596274e-04","6":"1.636497e-02","7":"0.1441640530","8":"0.8384944"},{"1":"11","2":"0","3":"2.756362e-09","4":"5.642273e-06","5":"4.826362e-04","6":"1.107274e-02","7":"0.1230269658","8":"0.8654120"},{"1":"12","2":"0","3":"4.593937e-10","4":"1.881217e-06","5":"2.422589e-04","6":"7.463206e-03","7":"0.1044493082","8":"0.8878433"},{"1":"13","2":"0","3":"7.656561e-11","4":"6.271489e-07","5":"1.214431e-04","6":"5.016161e-03","7":"0.0883256479","8":"0.9065361"},{"1":"14","2":"0","3":"1.276093e-11","4":"2.090624e-07","5":"6.082608e-05","6":"3.364452e-03","7":"0.0744610784","8":"0.9221134"},{"1":"15","2":"0","3":"2.126822e-12","4":"6.968959e-08","5":"3.044789e-05","6":"2.253141e-03","7":"0.0626218133","8":"0.9350945"},{"1":"16","2":"0","3":"3.544704e-13","4":"2.323022e-08","5":"1.523556e-05","6":"1.507180e-03","7":"0.0525654541","8":"0.9459121"},{"1":"17","2":"0","3":"5.907840e-14","4":"7.743465e-09","5":"7.621651e-06","6":"1.007330e-03","7":"0.0440582849","8":"0.9549268"},{"1":"18","2":"0","3":"9.846400e-15","4":"2.581165e-09","5":"3.812116e-06","6":"6.728248e-04","7":"0.0368843973","8":"0.9624390"},{"1":"19","2":"0","3":"1.641067e-15","4":"8.603900e-10","5":"1.906488e-06","6":"4.491856e-04","7":"0.0308497710","8":"0.9686991"},{"1":"20","2":"0","3":"2.735111e-16","4":"2.867969e-10","5":"9.533875e-07","6":"2.997750e-04","7":"0.0257833246","8":"0.9739159"},{"1":"21","2":"0","3":"4.558519e-17","4":"9.559902e-11","5":"4.767416e-07","6":"2.000089e-04","7":"0.0215362253","8":"0.9782633"},{"1":"22","2":"0","3":"7.597531e-18","4":"3.186635e-11","5":"2.383867e-07","6":"1.334188e-04","7":"0.0179802687","8":"0.9818861"},{"1":"23","2":"0","3":"1.266255e-18","4":"1.062212e-11","5":"1.191987e-07","6":"8.898558e-05","7":"0.0150058335","8":"0.9849051"},{"1":"24","2":"0","3":"2.110425e-19","4":"3.540706e-12","5":"5.960110e-08","6":"5.934359e-05","7":"0.0125197120","8":"0.9874209"},{"1":"25","2":"0","3":"3.517376e-20","4":"1.180235e-12","5":"2.980114e-08","6":"3.957233e-05","7":"0.0104429939","8":"0.9895174"},{"1":"26","2":"0","3":"5.862293e-21","4":"3.934118e-13","5":"1.490077e-08","6":"2.638652e-05","7":"0.0087090953","8":"0.9912645"},{"1":"27","2":"0","3":"9.770488e-22","4":"1.311373e-13","5":"7.450449e-09","6":"1.759350e-05","7":"0.0072619796","8":"0.9927204"},{"1":"28","2":"0","3":"1.628415e-22","4":"4.371242e-14","5":"3.725247e-09","6":"1.173024e-05","7":"0.0060545832","8":"0.9939337"},{"1":"29","2":"0","3":"2.714024e-23","4":"1.457081e-14","5":"1.862631e-09","6":"7.820780e-06","7":"0.0050474416","8":"0.9949447"},{"1":"30","2":"0","3":"4.523374e-24","4":"4.856936e-15","5":"9.313177e-10","6":"5.214164e-06","7":"0.0042075051","8":"0.9957873"},{"1":"31","2":"0","3":"7.538957e-25","4":"1.618979e-15","5":"4.656597e-10","6":"3.476264e-06","7":"0.0035071235","8":"0.9964894"},{"1":"32","2":"0","3":"1.256493e-25","4":"5.396595e-16","5":"2.328301e-10","6":"2.317587e-06","7":"0.0029231823","8":"0.9970745"},{"1":"33","2":"0","3":"2.094155e-26","4":"1.798865e-16","5":"1.164151e-10","6":"1.545097e-06","7":"0.0024363716","8":"0.9975621"},{"1":"34","2":"0","3":"3.490258e-27","4":"5.996217e-17","5":"5.820760e-11","6":"1.030084e-06","7":"0.0020305672","8":"0.9979684"},{"1":"35","2":"0","3":"5.817096e-28","4":"1.998739e-17","5":"2.910381e-11","6":"6.867324e-07","7":"0.0016923110","8":"0.9983070"},{"1":"36","2":"0","3":"9.695160e-29","4":"6.662463e-18","5":"1.455191e-11","6":"4.578264e-07","7":"0.0014103736","8":"0.9985892"},{"1":"37","2":"0","3":"1.615860e-29","4":"2.220821e-18","5":"7.275955e-12","6":"3.052201e-07","7":"0.0011753877","8":"0.9988243"},{"1":"38","2":"0","3":"2.693100e-30","4":"7.402737e-19","5":"3.637978e-12","6":"2.034812e-07","7":"0.0009795406","8":"0.9990203"},{"1":"39","2":"0","3":"4.488500e-31","4":"2.467579e-19","5":"1.818989e-12","6":"1.356548e-07","7":"0.0008163177","8":"0.9991835"},{"1":"40","2":"0","3":"7.480833e-32","4":"8.225263e-20","5":"9.094946e-13","6":"9.043682e-08","7":"0.0006802874","8":"0.9993196"},{"1":"41","2":"0","3":"1.246806e-32","4":"2.741754e-20","5":"4.547473e-13","6":"6.029136e-08","7":"0.0005669212","8":"0.9994330"},{"1":"42","2":"0","3":"2.078009e-33","4":"9.139181e-21","5":"2.273737e-13","6":"4.019432e-08","7":"0.0004724444","8":"0.9995275"},{"1":"43","2":"0","3":"3.463349e-34","4":"3.046394e-21","5":"1.136868e-13","6":"2.679625e-08","7":"0.0003937104","8":"0.9996063"},{"1":"44","2":"0","3":"5.772248e-35","4":"1.015465e-21","5":"5.684342e-14","6":"1.786419e-08","7":"0.0003280964","8":"0.9996719"},{"1":"45","2":"0","3":"9.620413e-36","4":"3.384882e-22","5":"2.842171e-14","6":"1.190947e-08","7":"0.0002734167","8":"0.9997266"},{"1":"46","2":"0","3":"1.603402e-36","4":"1.128294e-22","5":"1.421085e-14","6":"7.939649e-09","7":"0.0002278492","8":"0.9997721"},{"1":"47","2":"0","3":"2.672337e-37","4":"3.760980e-23","5":"7.105427e-15","6":"5.293102e-09","7":"0.0001898757","8":"0.9998101"},{"1":"48","2":"0","3":"4.453895e-38","4":"1.253660e-23","5":"3.552714e-15","6":"3.528736e-09","7":"0.0001582306","8":"0.9998418"},{"1":"49","2":"0","3":"7.423158e-39","4":"4.178867e-24","5":"1.776357e-15","6":"2.352491e-09","7":"0.0001318594","8":"0.9998681"},{"1":"50","2":"0","3":"1.237193e-39","4":"1.392956e-24","5":"8.881784e-16","6":"1.568328e-09","7":"0.0001098833","8":"0.9998901"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+<pre><code>## # A tibble: 51 x 8
+##        n   `0`          `1`       `2`     `3`    `4`   `5`   `6`
+##    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     0     1 0            0         0       0      0     0    
+##  2     1     0 0.167        0.167     0.167   0.167  0.167 0.167
+##  3     2     0 0.0278       0.0833    0.139   0.194  0.25  0.306
+##  4     3     0 0.00463      0.0324    0.0880  0.171  0.282 0.421
+##  5     4     0 0.000772     0.0116    0.0502  0.135  0.285 0.518
+##  6     5     0 0.000129     0.00399   0.0271  0.100  0.270 0.598
+##  7     6     0 0.0000214    0.00135   0.0143  0.0722 0.247 0.665
+##  8     7     0 0.00000357   0.000454  0.00736 0.0507 0.221 0.721
+##  9     8     0 0.000000595  0.000152  0.00375 0.0351 0.194 0.767
+## 10     9     0 0.0000000992 0.0000507 0.00190 0.0241 0.168 0.806
+## # ... with 41 more rows</code></pre>
 <p>It makes sense to see <span class="math inline">\(P(X_n = 6) \to 1\)</span> as <span class="math inline">\(n\)</span> increases. Now we should manipulate <code>mu_collection</code> so that it is ready for plotting a barplot of marginal probabilities at each <span class="math inline">\(n\)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mu_tidy &lt;-<span class="st"> </span>mu_collection <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(key, value, <span class="op">-</span>n)</code></pre></div>
 <p>And here’s how marginal probabilities evolve as <span class="math inline">\(n \to \infty\)</span>:</p>
@@ -553,7 +564,7 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.6.0 (2019-04-26)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 17763)
 ## 
 ## Matrix products: default
 ## 
@@ -566,28 +577,24 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] tidyr_0.8.3     gganimate_1.0.3 ggplot2_3.1.1   dplyr_0.8.1    
-## [5] reticulate_1.12 rmarkdown_1.12 
+## [1] gganimate_1.0.3 ggplot2_3.1.1   dplyr_0.8.1    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] prettydoc_0.2.1   progress_1.2.2    tidyselect_0.2.5 
-##  [4] xfun_0.7          purrr_0.3.2       lattice_0.20-38  
-##  [7] colorspace_1.4-1  vctrs_0.1.0       htmltools_0.3.6  
-## [10] ezknitr_0.6       yaml_2.2.0        utf8_1.1.4       
-## [13] rlang_0.3.4       pillar_1.4.0      glue_1.3.1       
-## [16] withr_2.1.2       tweenr_1.0.1      plyr_1.8.4       
-## [19] stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
-## [22] evaluate_0.13     labeling_0.3      knitr_1.23       
-## [25] fansi_0.4.0       Rcpp_1.0.1        readr_1.3.1      
-## [28] scales_1.0.0      backports_1.1.4   jsonlite_1.6     
-## [31] farver_1.1.0      gridExtra_2.3     hms_0.4.2        
-## [34] png_0.1-7         digest_0.6.18     stringi_1.4.3    
-## [37] grid_3.6.0        cli_1.1.0         tools_3.6.0      
-## [40] magrittr_1.5      lazyeval_0.2.2    tibble_2.1.1     
-## [43] crayon_1.3.4      pkgconfig_2.0.2   zeallot_0.1.0    
-## [46] MASS_7.3-51.4     Matrix_1.2-17     prettyunits_1.0.2
-## [49] assertthat_0.2.1  rstudioapi_0.10   R6_2.4.0         
-## [52] compiler_3.6.0</code></pre>
+##  [1] Rcpp_1.0.1        pillar_1.4.0      compiler_3.6.0   
+##  [4] plyr_1.8.4        prettyunits_1.0.2 prettydoc_0.2.1  
+##  [7] tools_3.6.0       progress_1.2.2    zeallot_0.1.0    
+## [10] digest_0.6.18     evaluate_0.13     tibble_2.1.1     
+## [13] gtable_0.3.0      pkgconfig_2.0.2   rlang_0.3.4      
+## [16] cli_1.1.0         yaml_2.2.0        xfun_0.7         
+## [19] withr_2.1.2       stringr_1.4.0     knitr_1.23       
+## [22] vctrs_0.1.0       hms_0.4.2         grid_3.6.0       
+## [25] tidyselect_0.2.5  glue_1.3.1        R6_2.4.0         
+## [28] fansi_0.4.0       rmarkdown_1.12    purrr_0.3.2      
+## [31] tweenr_1.0.1      farver_1.1.0      tidyr_0.8.3      
+## [34] magrittr_1.5      backports_1.1.4   scales_1.0.0     
+## [37] htmltools_0.3.6   assertthat_0.2.1  colorspace_1.4-1 
+## [40] utf8_1.1.4        stringi_1.4.3     lazyeval_0.2.2   
+## [43] munsell_0.5.0     crayon_1.3.4</code></pre>
 </div>
 <div class="footnotes">
 <hr />
@@ -604,7 +611,7 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 <p style="text-align: center;">
     © 2019 Junkyu Park
     <br>
-    Powered by the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> from the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+    Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
 </p>
 
 <!-- Add icon library -->
