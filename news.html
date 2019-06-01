@@ -208,6 +208,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     font-size: 24px;
     cursor: pointer;
     display: none;
+    text-shadow: none;
 }
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
@@ -419,40 +420,73 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 </div>
 
 
-<section class="page-header">
-<h1 class="title toc-ignore project-name">News</h1>
-<h4 class="author project-author">Junkyu Park</h4>
-</section>
+<div id="container">
+<div class="inner">
+<header>
+<h1 class="title toc-ignore">News</h1>
+<h3 class="author">Junkyu Park</h3>
+</header>
+
+<hr>
 
 
 
-<section class="main-content">
-<p>Here is a collection of news.</p>
+<p>Here is a collection of news:</p>
+<ul>
+<li>the <a style="color: #D5000D">red</a> text indicates the link is <strong>NOT</strong> available</li>
+<li>the <a style="color: #1E6BB8">blue</a> text indicates the link <strong>IS</strong> available</li>
+</ul>
 
-<div class="newscenter">
-<table class="newstable">
+<div class="news_center" style="
+    display: block;
+    text-align: -webkit-center;
+    line-height: 1.6;
+    font-family: sans-serif;
+    font-size: .875em;
+">
+
+<table class="news_table" style="
+    display: table;
+    font-size: 100%;
+    margin: 1em 0;
+    background-color: #AAA;
+    border: 1px solid #AAA;
+    border-collapse: collapse;
+    color: black;
+">
+
 <tbody>
+
 <tr>
-<th colspan="30">News 2019</tr>
-<tr>
-<td><a href="#" class="not_exist" title="News 2019-01-">Jan</a></td>
-<td><a href="#" class="not_exist" title="News 2019-02-">Feb</a></td>
-<td><a href="#" class="not_exist" title="News 2019-03-">Mar</a></td>
-<td><a href="#" class="not_exist" title="News 2019-04-">Apr</a></td>
-<td><a href="#" class="not_exist" title="News 2019-05-">May</a></td>
-<td><a href="news/2019-06.html" title="News 2019-06-">Jun</a></td>
-<td><a href="#" class="not_exist" title="News 2019-07-">Jul</a></td>
-<td><a href="#" class="not_exist" title="News 2019-08-">Aug</a></td>
-<td><a href="#" class="not_exist" title="News 2019-09-">Sep</a></td>
-<td><a href="#" class="not_exist" title="News 2019-10-">Oct</a></td>
-<td><a href="#" class="not_exist" title="News 2019-11-">Nov</a></td>
-<td><a href="#" class="not_exist" title="News 2019-12-">Dec</a></td>
+<th class="table_title"colspan="30" style="text-align: center; text-shadow: none;">News 2019</th>
 </tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-01">Jan</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-02">Feb</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-03">Mar</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-04">Apr</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-05">May</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a class="available" style="color: #1E6BB8;" href="news/2019-06.html" title="News 2019-06">Jun</a></td>
+</tr>
+
+<tr class="second_row" style="
+    background-color: #F2F2F2
+">
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-07">Jul</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-08">Aug</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-09">Sep</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-10">Oct</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-11">Nov</a></td>
+<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-12">Dec</a></td>
+</tr>
+
 </tbody>
 </table>
 </div>
 
-</section>
+</div>
+</div>
 
 <!-- Footer -->
 <!-- Reference: https://holtzy.github.io/Pimp-my-rmd/ -->
@@ -465,7 +499,9 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>
-        Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        <br>
+        Current theme: the modified <a href="https://github.com/jasonlong/tactile-theme">Tactile</a>
     </p>
             
     <!-- Add icon library -->

@@ -91,6 +91,12 @@ body
     /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
+/* new; why: prepare in case of text-align: right */
+#navbar nav ul li#news
+{
+    padding: 8.5px 27.5px 8.5px 0;
+}
+
 #navbar nav ul li.sub-menu:before
 {
     content: '\f0d7'; /* &#9660 ▼ nabla */
@@ -204,6 +210,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     font-size: 24px;
     cursor: pointer;
     display: none;
+    text-shadow: none;
 }
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
@@ -220,6 +227,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav
     {
         /*display: none;*/
+        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
         position: absolute;
         width: 100%;
         height: calc(100vh - 50px);
@@ -962,27 +970,27 @@ k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</code></pre></di
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] itertools2_0.1.1 tidyr_0.8.3      gganimate_1.0.3  ggplot2_3.1.1   
-## [5] dplyr_0.8.1      reticulate_1.12  purrr_0.3.2      rmarkdown_1.12  
+## [1] tidyr_0.8.3      gganimate_1.0.3  ggplot2_3.1.1    dplyr_0.8.1     
+## [5] reticulate_1.12  magrittr_1.5     itertools2_0.1.1 rmarkdown_1.12  
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] prettydoc_0.2.1   progress_1.2.2    tidyselect_0.2.5 
-##  [4] xfun_0.7          lattice_0.20-38   colorspace_1.4-1 
-##  [7] vctrs_0.1.0       htmltools_0.3.6   yaml_2.2.0       
-## [10] utf8_1.1.4        rlang_0.3.4       pillar_1.4.0     
-## [13] glue_1.3.1        withr_2.1.2       tweenr_1.0.1     
-## [16] plyr_1.8.4        stringr_1.4.0     munsell_0.5.0    
-## [19] gtable_0.3.0      evaluate_0.13     labeling_0.3     
-## [22] knitr_1.23        fansi_0.4.0       Rcpp_1.0.1       
-## [25] readr_1.3.1       scales_1.0.0      backports_1.1.4  
-## [28] jsonlite_1.6      farver_1.1.0      gridExtra_2.3    
-## [31] hms_0.4.2         png_0.1-7         digest_0.6.18    
-## [34] stringi_1.4.3     grid_3.6.0        cli_1.1.0        
-## [37] tools_3.6.0       magrittr_1.5      lazyeval_0.2.2   
+##  [4] xfun_0.7          purrr_0.3.2       lattice_0.20-38  
+##  [7] colorspace_1.4-1  vctrs_0.1.0       htmltools_0.3.6  
+## [10] yaml_2.2.0        utf8_1.1.4        rlang_0.3.4      
+## [13] pillar_1.4.0      glue_1.3.1        withr_2.1.2      
+## [16] tweenr_1.0.1      plyr_1.8.4        stringr_1.4.0    
+## [19] munsell_0.5.0     gtable_0.3.0      evaluate_0.13    
+## [22] labeling_0.3      knitr_1.23        fansi_0.4.0      
+## [25] Rcpp_1.0.1        readr_1.3.1       scales_1.0.0     
+## [28] backports_1.1.4   jsonlite_1.6      farver_1.1.0     
+## [31] gridExtra_2.3     hms_0.4.2         png_0.1-7        
+## [34] digest_0.6.18     stringi_1.4.3     grid_3.6.0       
+## [37] cli_1.1.0         tools_3.6.0       lazyeval_0.2.2   
 ## [40] tibble_2.1.1      crayon_1.3.4      pkgconfig_2.0.2  
 ## [43] zeallot_0.1.0     MASS_7.3-51.4     Matrix_1.2-17    
-## [46] prettyunits_1.0.2 iterators_1.0.10  assertthat_0.2.1 
-## [49] rstudioapi_0.10   R6_2.4.0          compiler_3.6.0</code></pre>
+## [46] prettyunits_1.0.2 assertthat_0.2.1  rstudioapi_0.10  
+## [49] iterators_1.0.10  R6_2.4.0          compiler_3.6.0</code></pre>
 </div>
 <div id="related-page" class="section level1">
 <h1>Related page</h1>
@@ -998,9 +1006,14 @@ k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</code></pre></di
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
+        <a href="../../index.html">Home</a> · <a href="../../cv.html">About</a> · <a href="../../projects.html">Projects</a> · <a href="../../research_materials.html">Research materials</a> · <a href="../../news.html">News</a>
+    </p>
+    <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>
-        Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        <br>
+        Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

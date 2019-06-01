@@ -89,6 +89,12 @@ body
     /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
+/* new; why: prepare in case of text-align: right */
+#navbar nav ul li#news
+{
+    padding: 8.5px 27.5px 8.5px 0;
+}
+
 #navbar nav ul li.sub-menu:before
 {
     content: '\f0d7'; /* &#9660 ▼ nabla */
@@ -202,6 +208,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     font-size: 24px;
     cursor: pointer;
     display: none;
+    text-shadow: none;
 }
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
@@ -218,6 +225,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav
     {
         /*display: none;*/
+        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
         position: absolute;
         width: 100%;
         height: calc(100vh - 50px);
@@ -447,9 +455,14 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
+        <a href="index.html">Home</a> · <a href="cv.html">About</a> · <a href="projects.html">Projects</a> · <a href="research_materials.html">Research materials</a> · <a href="news.html">News</a>
+    </p>
+    <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>
-        Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        <br>
+        Current theme: the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

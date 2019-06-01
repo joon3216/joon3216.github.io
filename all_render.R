@@ -2,8 +2,9 @@
 # Why this script exists: 
 # to apply changes in style to all .html files in the repository
 
-library(rmarkdown)
 library(itertools2)
+library(magrittr)
+library(rmarkdown)
 
 # Setting a working directory to where this script is located
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -21,7 +22,7 @@ c(
 
     # 01_lvl
     ## news
-    'news/news1.Rmd',
+    'news/2019-06.Rmd',
 
     ## projects
     'projects/2019.Rmd',

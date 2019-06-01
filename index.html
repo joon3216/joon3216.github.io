@@ -207,6 +207,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     font-size: 24px;
     cursor: pointer;
     display: none;
+    text-shadow: none;
 }
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
@@ -223,6 +224,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav
     {
         /*display: none;*/
+        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
         position: absolute;
         width: 100%;
         height: calc(100vh - 50px);
@@ -416,20 +418,28 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     </div>
 </div>
 <section class="page-header" style="
-color:#fff;
-text-align:center;
-background-color:rgba(0, 0, 0, 0);
-background-image:linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('style/index_page_header.jpg');
-padding:5rem 2rem;
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover;
-position: relative;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('style/index_page_header.jpg');
+    padding: 5rem 2rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
 ">
-    <h1 class="title toc-ignore project-name">Junkyu Park</h1>
-    <h2>—</h2>
-    <h3 class="author project-author" style="opacity: 1;">Warehouse of statistics</h3>
+
+<h1 class="title toc-ignore project-name">Junkyu Park</h1>
+<h2>—</h2>
+<h3 class="author project-author" style="opacity: 1;">Warehouse of statistics</h3>
+
 </section>
+
+
+<section class="page-header">
+<h1 class="title toc-ignore project-name">Junkyu Park</h1>
+</section>
+
 
 
 <section class="main-content">
@@ -444,9 +454,14 @@ position: relative;
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
+        <a href="index.html">Home</a> · <a href="cv.html">About</a> · <a href="projects.html">Projects</a> · <a href="research_materials.html">Research materials</a> · <a href="news.html">News</a>
+    </p>
+    <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>
-        Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        <br>
+        Current theme: the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

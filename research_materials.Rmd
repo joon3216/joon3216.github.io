@@ -13,7 +13,7 @@ output:
       before_body:
         - style/all_navbar_body_00_lvl.html
       after_body:
-        - style/all_footer.html
+        - style/all_footer_00_lvl.html
     self_contained: FALSE
 ---
 

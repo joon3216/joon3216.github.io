@@ -208,6 +208,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     font-size: 24px;
     cursor: pointer;
     display: none;
+    text-shadow: none;
 }
 @media (max-width: 800px) /* old1: 991px; old2: 721px */
 {
@@ -224,6 +225,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav
     {
         /*display: none;*/
+        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
         position: absolute;
         width: 100%;
         height: calc(100vh - 50px);
@@ -418,16 +420,38 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 </div>
 
 
-<section class="page-header">
-<h1 class="title toc-ignore project-name">News: June 2019</h1>
-<h4 class="author project-author">Junkyu Park</h4>
-</section>
+<div id="container">
+<div class="inner">
+<header>
+<h1 class="title toc-ignore">News: June 2019</h1>
+<h3 class="author">Junkyu Park</h3>
+</header>
+
+<hr>
 
 
 
-<section class="main-content">
-<p>News in 2019-06.</p>
-</section>
+<p>News in 2019-06:</p>
+<div id="section" class="section level1">
+<h1>01</h1>
+<ul>
+<li>Quebec woman faked being a nurse for 20 years <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></li>
+<li>News headline 2 <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></li>
+<li>News headline 3 <a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></li>
+<li>News headline 4 <a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></li>
+</ul>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://www.cbc.ca/news/canada/montreal/woman-faked-being-nurse-jonquiere-20-years-1.5157101" class="uri">https://www.cbc.ca/news/canada/montreal/woman-faked-being-nurse-jonquiere-20-years-1.5157101</a><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>link 2<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>link 3<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>link 4<a href="#fnref4">↩</a></p></li>
+</ol>
+</div>
+</div>
+</div>
 
 <!-- Footer -->
 <!-- Reference: https://holtzy.github.io/Pimp-my-rmd/ -->
@@ -440,7 +464,9 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>
-        Powered by the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> of the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
+        <br>
+        Current theme: the modified <a href="https://github.com/jasonlong/tactile-theme">Tactile</a>
     </p>
             
     <!-- Add icon library -->
