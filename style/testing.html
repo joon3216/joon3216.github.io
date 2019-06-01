@@ -91,6 +91,12 @@ body
     /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
+/* new; why: prepare in case of text-align: right */
+#navbar nav ul li#news
+{
+    padding: 8.5px 27.5px 8.5px 0;
+}
+
 #navbar nav ul li.sub-menu:before
 {
     content: '\f0d7'; /* &#9660 ▼ nabla */
@@ -447,6 +453,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             </li>
         </ul>
     </nav>
+    <div class="social-media">
+
+    </div>    
     <div class="menu-toggle">
         <i class="fa fa-bars" aria-hidden="true"></i>
     </div>
@@ -568,6 +577,9 @@ body
 &nbsp; <!-- whitespace -->
 <hr /> <!-- line -->
 <div class="footer">
+    <p style="text-align: center;">
+        <a href="../index.html">Home</a> · <a href="../cv.html">About</a> · <a href="../projects.html">Projects</a> · <a href="../research_materials.html">Research materials</a> · <a href="../news.html">News</a>
+    </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>
