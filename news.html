@@ -89,6 +89,12 @@ body
     /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
 }
 
+/* new; why: prepare in case of text-align: right */
+#navbar nav ul li#news
+{
+    padding: 8.5px 27.5px 8.5px 0;
+}
+
 #navbar nav ul li.sub-menu:before
 {
     content: '\f0d7'; /* &#9660 ▼ nabla */
@@ -218,6 +224,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav
     {
         /*display: none;*/
+        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
         position: absolute;
         width: 100%;
         height: calc(100vh - 50px);
@@ -420,8 +427,31 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <section class="main-content">
-<p><a href="news/news1.html">News 1</a></p>
-<p>A placeholder.</p>
+<p>Here is a collection of news.</p>
+
+<div class="newscenter">
+<table class="newstable">
+<tbody>
+<tr>
+<th colspan="30">News 2019</tr>
+<tr>
+<td><a href="#" class="not_exist" title="News 2019-01-">Jan</a></td>
+<td><a href="#" class="not_exist" title="News 2019-02-">Feb</a></td>
+<td><a href="#" class="not_exist" title="News 2019-03-">Mar</a></td>
+<td><a href="#" class="not_exist" title="News 2019-04-">Apr</a></td>
+<td><a href="#" class="not_exist" title="News 2019-05-">May</a></td>
+<td><a href="news/2019-06.html" title="News 2019-06-">Jun</a></td>
+<td><a href="#" class="not_exist" title="News 2019-07-">Jul</a></td>
+<td><a href="#" class="not_exist" title="News 2019-08-">Aug</a></td>
+<td><a href="#" class="not_exist" title="News 2019-09-">Sep</a></td>
+<td><a href="#" class="not_exist" title="News 2019-10-">Oct</a></td>
+<td><a href="#" class="not_exist" title="News 2019-11-">Nov</a></td>
+<td><a href="#" class="not_exist" title="News 2019-12-">Dec</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
 </section>
 
 <!-- Footer -->
@@ -429,6 +459,9 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 &nbsp; <!-- whitespace -->
 <hr /> <!-- line -->
 <div class="footer">
+    <p style="text-align: center;">
+        <a href="index.html">Home</a> · <a href="cv.html">About</a> · <a href="projects.html">Projects</a> · <a href="research_materials.html">Research materials</a> · <a href="news.html">News</a>
+    </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park
         <br>

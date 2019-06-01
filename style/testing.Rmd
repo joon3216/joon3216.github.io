@@ -13,7 +13,7 @@ output:
       before_body:
         - all_navbar_body_here.html
       after_body:
-        - all_footer.html
+        - all_footer_01_lvl.html
     df_print: paged
     toc: FALSE
     self_contained: FALSE

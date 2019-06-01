@@ -13,13 +13,37 @@ output:
       before_body:
         - style/all_navbar_body_00_lvl.html
       after_body:
-        - style/all_footer.html
+        - style/all_footer_00_lvl.html
     self_contained: FALSE
 ---
 
-[News 1](news/news1.html)
+Here is a collection of news.
 
-A placeholder.
+<!--html_preserve-->
+<div class="newscenter">
+<table class="newstable">
+<tbody>
+<tr>
+<th colspan="30">News 2019</tr>
+<tr>
+<td><a href="#" class="not_exist" title="News 2019-01-">Jan</a></td>
+<td><a href="#" class="not_exist" title="News 2019-02-">Feb</a></td>
+<td><a href="#" class="not_exist" title="News 2019-03-">Mar</a></td>
+<td><a href="#" class="not_exist" title="News 2019-04-">Apr</a></td>
+<td><a href="#" class="not_exist" title="News 2019-05-">May</a></td>
+<td><a href="news/2019-06.html" title="News 2019-06-">Jun</a></td>
+<td><a href="#" class="not_exist" title="News 2019-07-">Jul</a></td>
+<td><a href="#" class="not_exist" title="News 2019-08-">Aug</a></td>
+<td><a href="#" class="not_exist" title="News 2019-09-">Sep</a></td>
+<td><a href="#" class="not_exist" title="News 2019-10-">Oct</a></td>
+<td><a href="#" class="not_exist" title="News 2019-11-">Nov</a></td>
+<td><a href="#" class="not_exist" title="News 2019-12-">Dec</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!--/html_preserve-->
+
 
 
 
