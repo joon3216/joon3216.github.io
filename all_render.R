@@ -6,9 +6,14 @@ library(itertools2)
 library(magrittr)
 library(rmarkdown)
 
-# Setting a working directory to where this script is located
+
+
+# Set a working directory to where this script is located
+
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
+
+# Knit the entire .Rmd files in the repository
 
 c(
     # 00_lvl, or the surface level
@@ -65,7 +70,8 @@ c(
     as.list()
 
 
+# Edit some .html files after rendering
 
-
+source('index_render.R')
 
 
