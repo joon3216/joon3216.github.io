@@ -19,8 +19,8 @@ output:
 
 Here is a collection of news: 
 
-* the <!--html_preserve--><a style="color: #D5000D">red</a><!--/html_preserve--> text indicates the link is **NOT** available
-* the <!--html_preserve--><a style="color: #1E6BB8">blue</a><!--/html_preserve--> text indicates the link **IS** available
+* a link with a <!--html_preserve--><a style="color: #D5000D">red</a><!--/html_preserve--> text is **NOT** available
+* a link with a <!--html_preserve--><a style="color: #1E6BB8">blue</a><!--/html_preserve--> text is available
 
 <!--html_preserve-->
 <div class="news_center" style="
