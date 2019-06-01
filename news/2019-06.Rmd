@@ -30,13 +30,13 @@ News in 2019-06:
 # 01
 
 * Quebec woman faked being a nurse for 20 years [^1] 
-* News headline 2 [^2]
+* Stephen Hawking's prediction on Hawking Radiation confirmed, thanks to lab-created black hole [^2]
 * News headline 3 [^3]
 * News headline 4 [^4]
 
 
 [^1]: https://www.cbc.ca/news/canada/montreal/woman-faked-being-nurse-jonquiere-20-years-1.5157101
-[^2]: link 2
+[^2]: https://www.fromthegrapevine.com/innovation/stephen-hawking-radiation-sonic-black-hole-temperature-jeff-steinhauer
 [^3]: link 3
 [^4]: link 4
 
