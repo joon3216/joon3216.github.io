@@ -1,6 +1,5 @@
 ---
-title: "Junkyu Park"
-author: Warehouse for statistics
+title: Junkyu Park
 output: 
   prettydoc::html_pretty:
     theme: cayman
@@ -12,6 +11,7 @@ output:
         - style/all_orange_jp_00_lvl.html
       before_body:
         - style/all_navbar_body_00_lvl.html
+        - style/index_page_header.html
       after_body:
         - style/all_footer.html
     self_contained: FALSE
