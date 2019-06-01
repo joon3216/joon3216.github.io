@@ -1,0 +1,341 @@
+---
+title: "Cross-validation for fusion estimates:<br> Python implementation"
+header-includes:
+ - \usepackage{cancel}
+ - \newcommand{\bX}{\mathbf{X}}
+ - \newcommand{\bx}{\mathbf{x}}
+ - \newcommand{\bY}{\mathbf{Y}}
+author: Junkyu Park
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - all_ga_script.html
+        - all_navbar_head_3.html
+        - all_orange_jp.html
+      before_body:
+        - all_navbar_body_3.html
+    df_print: paged    
+    toc: TRUE
+    toc_depth: 2
+---
+
+```{r settings, echo = F}
+knitr::opts_chunk$set(python = reticulate::eng_python)
+library(reticulate)
+```
+
+The following link is pointing towards this document:
+
+* [Cross-validation for fusion estimates](03_research_materials_2019_cross_validation_fs.html)
+
+The following external Python packages/functions are used:
+
+```{python loading}
+from datetime import datetime as dt
+from matplotlib import pyplot as plt
+import numpy as np
+```
+
+
+# 1. Introduction
+
+Notice that in R, [it takes almost 35 minutes](03_research_materials_2019_cross_validation_fs.html) to compute 50 5-fold C-V errors. This note defines equivalent Python functions of `split_data_1d`, `fusion_estimates`, `interpolate_1d`, `loss_1d_fold`, `loss_1d`, and `cv_error_1d` in an attempt to get the same results faster. Average squared errors will be plotted, and the time it took to compute the C-V errors will be checked.
+
+
+# 2. The six
+
+Description of the algorithm is written [here](03_research_materials_2019_cross_validation_fs.html).
+
+`split_data_1d` is written as follows:
+
+```{python split_data_1d}
+# split algorithm
+def split(x, partition):
+    unique_partitions = list(set(partition))
+    result = {}
+    for item in unique_partitions:
+        result[unique_partitions[item]] = []
+    for i in range(len(x)):
+        result[partition[i]].append(x[i])
+    return result
+        
+
+def split_data_1d(y, num_folds, fold):
+    ''' (np.array, int, int) -> {str: {str: np.array and str: list}}
+    
+    Precondition: 0 <= fold <= num_folds - 1 <= len(y) - 1
+    
+    Return a dictionary with two keys: 'y_fold' has a dictionary value
+    with two keys 'indices' and 'data', where 'indices' contains indices
+    of the validation data selected by 'num_folds' and 'fold' argument, 
+    and 'data' the validation data itself selected from 'y'; 
+    'y_rest' has the same structure, except it contains the remaining 
+    indices and data.
+    
+    >>> test1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+    >>> test1 = np.array(test1)
+    >>> result1 = split_data_1d(test1, 3, 2)
+    >>> np.array_equal(
+    ...     result1['y_fold']['data'], 
+    ...     np.array(['c', 'f', 'i'], dtype='<U1')
+    ... )
+    True
+    >>> np.array_equal(
+    ...     result1['y_fold']['indices'],
+    ...     np.array([2, 5, 8])
+    ... )
+    True
+    >>> np.array_equal(
+    ...     result1['y_rest']['data'],
+    ...     np.array(['a', 'b', 'd', 'e', 'g', 'h', 'j', 'k'], dtype='<U1')
+    ... )
+    True
+    >>> np.array_equal(
+    ...     result1['y_rest']['indices'],
+    ...     np.array([ 0,  1,  3,  4,  6,  7,  9, 10])
+    ... )
+    True
+    '''
+
+    n = len(y)
+    indices = np.arange(0, n)
+    assign_folds = np.tile(np.arange(0, num_folds), n // num_folds + 1)[:n]
+    partition = split(indices, assign_folds)
+    fold_indices = partition[fold]
+    rest_indices = list(set(indices).difference(fold_indices))
+    y_fold = y[fold_indices]
+    y_rest = y[rest_indices]
+    result = {
+        'y_fold': {
+            'data': y_fold,
+            'indices': np.array(fold_indices)
+        },
+        'y_rest': {
+            'data': y_rest,
+            'indices': np.array(rest_indices)
+        }
+    }
+    return result
+```
+
+Second of all, `fusion_estimates`. `lambd` is used instead of `lambda` since the word `lambda` is used for anonymous functions:
+
+```{python fusion_est}
+def fusion_estimates(y, lambd, theta = None, max_iter = 1000, eps = 1e-05):
+    '''(np.array, number[, np.array, int, number]) -> 
+        {str: np.array or number}
+    
+    Preconditions:
+    1. len(y) == len(theta) if theta specified.
+    2. lambd > 0 and eps > 0
+    3. max_iter > 1
+
+    Return the dictionary that stores: 
+    - 'theta', the fusion estimates of y iterated from theta with the
+      maximum iteration max_iter and the cost difference threshold eps.
+    - 'phi', the differences of each 'theta'
+    - 'lambd', the lambd specified
+    - 'iteration', the number of iterations, and
+    - 'costs', the cost function evaluated at each iteration where the
+      first cost is calculated at iteration 0.
+    '''
+    
+    n = len(y)
+    if theta is None:
+        theta = y.copy()
+    phi = np.diff(theta)
+    phisums_old = np.cumsum(phi)
+    theta_1_new = (sum(y) - sum(phisums_old)) / n
+    cost = sum((y - theta) ** 2) + lambd * sum(abs(phi))
+    costs = []
+    costs.append(cost)
+    there_is_a_progress = True
+    iteration = 0
+    while there_is_a_progress and iteration < max_iter:
+        phi_new = np.zeros(n)
+        for j in range(1, n):
+            phisums_new = np.cumsum(phi_new)
+            req = sum(
+                phisums_old[(j - 1):(n - 1)] -\
+                phisums_old[j - 1] + phisums_new[j - 1]
+            )
+            discri = sum(y[j:n]) - (n - (j + 1) + 1) * theta_1_new - req
+            if discri < -lambd / 2:
+                phi_new[j] = (discri + lambd / 2) / (n - (j + 1) + 1)
+            elif discri > lambd / 2:
+                phi_new[j] = (discri - lambd / 2) / (n - (j + 1) + 1)
+        phi_new = phi_new[1:]
+        phisums_new = phisums_new[1:]
+        theta = np.append(theta_1_new, theta_1_new + phisums_new)
+        cost = sum((y - theta) ** 2) + lambd * sum(abs(phi_new))
+        theta_1_new = (sum(y) - sum(phisums_new)) / n
+        phisums_old = phisums_new
+        iteration += 1
+        costs.append(cost)
+        there_is_a_progress = not (abs(costs[iteration - 1] - cost) <= eps)
+        
+    result = {
+        'theta': theta,
+        'phi': phi_new,
+        'lambd': lambd,
+        'iteration': iteration,
+        'costs': np.array(costs)
+    }
+    
+    return result
+```
+
+Let's see if it works:
+
+```{python does_it_work, fig.align = 'center', fig.asp = .6, eval = F}
+np.random.seed(1024)
+n = 1000
+t = np.arange(n) + 1
+t_0 = np.append(0, t)
+f = lambda t: t / 250 - .5
+g = lambda t: -(.25 / 449) * t + 250 / 449
+true_theta = np.concatenate((
+    np.zeros(249), f(np.arange(250, 501)), 
+    np.zeros(50) + .75, g(np.arange(551, 1001))
+))
+y = true_theta + np.random.normal(scale = .1, size = 1000)
+start = np.zeros(n) + .5
+start_fusion = dt.now()
+example1 = fusion_estimates(y = y, lambd = 1, theta = start)
+end_fusion = dt.now()
+
+plt.plot(t_0, example1['costs'])
+plt.xlabel('Iteration')
+plt.ylabel('Cost')
+plt.show()
+```
+
+```{python real, echo = F, fig.align = 'center', fig.asp = .6}
+np.random.seed(1024)
+n = 1000
+t = np.arange(n) + 1
+t_0 = np.append(0, t)
+f = lambda t: t / 250 - .5
+g = lambda t: -(.25 / 449) * t + 250 / 449
+true_theta = np.concatenate((
+    np.zeros(249), f(np.arange(250, 501)), 
+    np.zeros(50) + .75, g(np.arange(551, 1001))
+))
+y = true_theta + np.random.normal(scale = .1, size = 1000)
+start = np.zeros(n) + .5
+
+fusion_costs = np.loadtxt('fusion_costs.txt')
+fusion_theta = np.loadtxt('fusion_theta.txt')
+
+plt.plot(t_0, fusion_costs)
+plt.xlabel('Iteration')
+plt.ylabel('Cost')
+plt.show()
+```
+
+```{python real1, eval = F}
+plt.clf()
+plt.scatter(t, y, facecolors = 'none', edgecolors = '#1f77b4', alpha = .5)
+plt.plot(t, start, c = 'black', label = 'Start')
+plt.plot(t, example1['theta'], c = 'orange', label = 'Estimated theta')
+plt.legend(loc = 'upper right')
+plt.xlabel('t')
+plt.ylabel('y')
+plt.show()
+```
+
+```{python real1_disguise, echo = F, fig.align = 'center', fig.asp = .6}
+plt.clf()
+plt.scatter(t, y, facecolors = 'none', edgecolors = '#1f77b4', alpha = .5)
+plt.plot(t, start, c = 'black', label = 'Start')
+plt.plot(t, fusion_theta, c = 'orange', label = 'Estimated theta')
+plt.legend(loc = 'upper right')
+plt.xlabel('t')
+plt.ylabel('y')
+plt.show()
+```
+
+Yes it does. However, it takes:
+
+```{python time_consuming, eval = F}
+str(end_fusion - start_fusion)
+```
+
+```{python time_c_print, echo = F}
+'0:02:57.141463'
+```
+
+minutes (!) to compute the estimates, which is significantly longer time than it takes in R:
+
+```{r fusion_estimate_R, echo = F}
+fusion_estimates <- function(y, theta, lambda, max_iter = 100, eps = 1e-5) {
+    n <- length(y)
+    if (missing(theta)) {theta <- y}
+    if (length(theta) != n) {
+        stop(paste0(
+            '\nError in fusion_estimates():\n', 
+            'The length of given initial theta is ', length(theta),
+            ', which is not equal to length(y) == ', n, '.'
+        ))
+    }
+    phi <- diff(theta)
+    phisums_old <- cumsum(phi)
+    theta_1_new <- (sum(y) - sum(phisums_old)) / n
+    cost <- sum((y - theta)^2) + lambda * sum(abs(phi))
+    costs <- NULL
+    costs[1] <- cost # costs
+    there_is_a_progress <- T
+    iter <- 0
+    while (there_is_a_progress & iter < max_iter) {
+        # Store new phi_1 (= 0) to phi_n in phi_new
+        phi_new <- numeric(length = n) 
+        for (j in 2:n) {
+            phisums_new <- cumsum(phi_new)
+            req <- sum(
+                phisums_old[(j - 1):(n - 1)] - 
+                phisums_old[j - 1] + phisums_new[j - 1]
+            )
+            discri <- sum(y[j:n]) - (n - j + 1) * theta_1_new - req
+            if (discri < -lambda / 2) {
+                phi_new[j] <- (discri + lambda / 2) / (n - j + 1)
+            } else if (discri > lambda / 2) {
+                phi_new[j] <- (discri - lambda / 2) / (n - j + 1)
+            } # already 0 otherwise
+        }
+        phi_new <- phi_new[-1]
+        phisums_new <- phisums_new[-1]
+        theta <- c(theta_1_new, theta_1_new + phisums_new)
+        cost <- sum((y - theta)^2) + lambda * sum(abs(phi_new))
+        theta_1_new <- (sum(y) - sum(phisums_new)) / n
+        phisums_old <- phisums_new
+        iter <- iter + 1
+        costs[iter + 1] <- cost
+        there_is_a_progress <- !(abs(costs[iter] - cost) <= eps)
+    }
+    list(
+        theta = theta, 
+        phi = phi_new, 
+        lambda = lambda, 
+        iter = iter, 
+        costs = costs # the first cost is calculated at iteration 0
+    )
+}
+```
+
+```{r time_consuming2}
+y <- py$y # The same y from Python
+start <- py$start # The same start from Python
+start_fusion_r <- Sys.time()
+example1 <- fusion_estimates(y, theta = start, lambda = 1, max_iter = 1000)
+end_fusion_r <- Sys.time()
+end_fusion_r - start_fusion_r
+```
+
+
+
+
+
+
