@@ -7,7 +7,6 @@ library(magrittr)
 library(rmarkdown)
 
 
-
 # Set a working directory to where this script is located
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
