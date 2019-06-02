@@ -1,10 +1,5 @@
 ---
 title: "News: June 2019"
-header-includes:
- - \usepackage{cancel}
- - \newcommand{\bX}{\mathbf{X}}
- - \newcommand{\bx}{\mathbf{x}}
- - \newcommand{\bY}{\mathbf{Y}}
 author: Junkyu Park
 output: 
   prettydoc::html_pretty:
@@ -18,7 +13,7 @@ output:
       before_body:
         - ../style/all_navbar_body_01_lvl.html
       after_body:
-        - ../style/all_footer_tactile_01_lvl.html
+        - ../style/news_footer_tactile_01_lvl.html
     toc: FALSE
     self_contained: FALSE
 ---

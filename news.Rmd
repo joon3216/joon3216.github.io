@@ -13,14 +13,14 @@ output:
       before_body:
         - style/all_navbar_body_00_lvl.html
       after_body:
-        - style/all_footer_tactile_00_lvl.html
+        - style/news_footer_tactile_00_lvl.html
     self_contained: FALSE
 ---
 
-Here is a collection of news: 
+Here is a collection of news. In this section:
 
 * a <!--html_preserve--><a style="color: #D5000D">red link</a><!--/html_preserve--> indicates that the linked-to page does not exist
-* a <!--html_preserve--><a style="color: #1E6BB8">blue link</a><!--/html_preserve--> indicates that the linked-to page exists
+* a <!--html_preserve--><a style="color: #1E6BB8">blue link</a><!--/html_preserve--> indicates that the linked-to page does exist
 
 
 <!--html_preserve-->
