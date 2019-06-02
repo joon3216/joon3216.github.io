@@ -58,11 +58,12 @@ body
     /* note: header nav ul li a has margin 20px on left and right, 
     so here I let the right margin of img to be 5px so that it matches
     with the left margin 25px */
-    margin: 10px 5px 10px 25px; 
+    /* edit: 5 to 20px since it looks nicer */
+    margin: 10px 20px 10px 25px; 
 }
 #navbar nav
 {
-    float: left;
+    float: right; /* old: left; why change: to give a more standard look */
 }
 #navbar nav ul
 {
@@ -243,6 +244,16 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         display: block;
         /*text-align: center;*/
     }
+
+    /* new; why: to make sure it doesn't appear in mobile view;
+    I don't want to see it in mobile since the logo already directs you
+    to home. Adding home in mobile seems a clutter.
+    */
+    #navbar nav ul li#home
+    {
+        display: none;
+    }
+
     #navbar nav ul li a
     {
         border-bottom: 1px solid rgba(255, 255, 255, .5);
@@ -387,6 +398,9 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     </div>
     <nav>
         <ul>
+            <li id="home">
+                <a href="index.html">Home</a>
+            </li>
             <li>
                 <a href="cv.html">About</a>
             </li>
@@ -546,6 +560,9 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 &nbsp; <!-- whitespace -->
 <hr /> <!-- line -->
 <div class="footer">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <p style="text-align: center;">
         <a href="index.html">Home</a> · <a href="cv.html">About</a> · <a href="projects.html">Projects</a> · <a href="research_materials.html">Research materials</a> · <a href="news.html">News</a>
     </p>
@@ -556,10 +573,6 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         <br>
         Current theme: the modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
-            
-    <!-- Add icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
             
     <!-- Add font awesome icons -->
     <p style="text-align: center;">

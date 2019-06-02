@@ -23,22 +23,216 @@ output:
     self_contained: FALSE
 ---
 
-News in 2019-06:
 
+<!--html_preserve-->
+<div class="news_center" style="
+    display: block;
+    text-align: -webkit-center;
+    line-height: 1.6;
+    font-family: sans-serif;
+    font-size: .875em;
+">
+
+<table class="news_table" style="
+    display: table;
+    font-size: 100%;
+    margin: 1em 0;
+    background-color: #AAA;
+    border: 1px solid #AAA;
+    border-collapse: collapse;
+    color: black;
+">
+
+<tbody>
+
+<tr>
+<th class="table_title"colspan="30" style="text-align: center; text-shadow: none;">June 2019</th>
+</tr>
+
+<tr>
+<td style="text-align: center;"><a>Sun</a></td>
+<td style="text-align: center;"><a style="color: black;">Mon</a></td>
+<td style="text-align: center;"><a style="color: black;">Tue</a></td>
+<td style="text-align: center;"><a style="color: black;">Wed</a></td>
+<td style="text-align: center;"><a style="color: black;">Thu</a></td>
+<td style="text-align: center;"><a style="color: black;">Fri</a></td>
+<td style="text-align: center;"><a style="color: darkblue;">Sat</a></td>
+</tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section" style="color: #1E6BB8;">01</a></td>
+</tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-1" style="color: #1E6BB8;">02</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-2" style="color: #1E6BB8;">03</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-3" style="color: #1E6BB8;">04</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-4" style="color: #1E6BB8;">05</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-5" style="color: #1E6BB8;">06</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-6" style="color: #1E6BB8;">07</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-7" style="color: #1E6BB8;">08</a></td>
+</tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-8" style="color: #1E6BB8;">09</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-9" style="color: #1E6BB8;">10</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="section-10" style="color: #1E6BB8;">11</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-11" style="color: #1E6BB8;">12</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>13</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>14</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>15</a></td>
+</tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB;"><a>16</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>17</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>18</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>19</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>20</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>21</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>22</a></td>
+</tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB;"><a>23</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>24</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>25</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>26</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>27</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>28</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a>29</a></td>
+</tr>
+
+<tr>
+<td style="text-align: center; border: 1px solid #BBB;"><a>30</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a> </a></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+<!--/html_preserve-->
 
 
 # 01
 
-* Quebec woman faked being a nurse for 20 years [^1] 
-* Stephen Hawking's prediction on Hawking Radiation confirmed, thanks to lab-created black hole [^2]
-* News headline 3 [^3]
-* News headline 4 [^4]
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cbc.ca/news/canada/montreal/woman-faked-being-nurse-jonquiere-20-years-1.5157101">Quebec woman faked being a nurse for 20 years</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fromthegrapevine.com/innovation/stephen-hawking-radiation-sonic-black-hole-temperature-jeff-steinhauer">Stephen Hawking's prediction on Hawking Radiation confirmed, thanks to lab-created black hole</a><!--/html_preserve-->
+* News headline 3
+* News headline 4
 
 
-[^1]: https://www.cbc.ca/news/canada/montreal/woman-faked-being-nurse-jonquiere-20-years-1.5157101
-[^2]: https://www.fromthegrapevine.com/innovation/stephen-hawking-radiation-sonic-black-hole-temperature-jeff-steinhauer
-[^3]: link 3
-[^4]: link 4
+
+# 02
+
+* Headline 5
+* Headline 6
+* Headline 7
+* Headline 8
+
+
+
+
+# 03
+
+* Headline 9
+* Headline 10
+* Headline 11
+* Headline 12
+
+
+
+# 04
+
+* Headline 13
+* Headline 14
+* Headline 15
+* Headline 16
+
+
+
+# 05
+
+* Headline 17
+* Headline 18
+* Headline 19
+* Headline 20
+
+
+# 06
+
+* Headline 21
+* Headline 22
+* Headline 23
+* Headline 24
+
+
+
+# 07
+
+* Headline 25
+* Headline 26
+* Headline 27
+* Headline 28
+
+
+
+
+# 08
+
+* Headline 29
+* Headline 30
+* Headline 31
+* Headline 32
+
+
+
+
+# 09
+
+* Headline 33
+* Headline 34
+* Headline 35
+* Headline 36
+
+
+
+
+# 10
+
+* Headline 37
+* Headline 38
+* Headline 39
+* Headline 40
+
+
+# 11
+
+* Headline 41
+* Headline 42
+* Headline 43
+* Headline 44
+
+
+
+
+# 12
+
+* Headline 45
+* Headline 46
+* Headline 47
+* Headline 48
 
 
 

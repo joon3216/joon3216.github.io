@@ -19,8 +19,9 @@ output:
 
 Here is a collection of news: 
 
-* a link with a <!--html_preserve--><a style="color: #D5000D">red</a><!--/html_preserve--> text is **NOT** available
-* a link with a <!--html_preserve--><a style="color: #1E6BB8">blue</a><!--/html_preserve--> text is available
+* a <!--html_preserve--><a style="color: #D5000D">red link</a><!--/html_preserve--> indicates that the linked-to page does not exist
+* a <!--html_preserve--><a style="color: #1E6BB8">blue link</a><!--/html_preserve--> indicates that the linked-to page exists
+
 
 <!--html_preserve-->
 <div class="news_center" style="

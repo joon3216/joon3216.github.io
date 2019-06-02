@@ -58,11 +58,12 @@ body
     /* note: header nav ul li a has margin 20px on left and right, 
     so here I let the right margin of img to be 5px so that it matches
     with the left margin 25px */
-    margin: 10px 5px 10px 25px; 
+    /* edit: 5 to 20px since it looks nicer */
+    margin: 10px 20px 10px 25px; 
 }
 #navbar nav
 {
-    float: left;
+    float: right; /* old: left; why change: to give a more standard look */
 }
 #navbar nav ul
 {
@@ -243,6 +244,16 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         display: block;
         /*text-align: center;*/
     }
+
+    /* new; why: to make sure it doesn't appear in mobile view;
+    I don't want to see it in mobile since the logo already directs you
+    to home. Adding home in mobile seems a clutter.
+    */
+    #navbar nav ul li#home
+    {
+        display: none;
+    }
+
     #navbar nav ul li a
     {
         border-bottom: 1px solid rgba(255, 255, 255, .5);
@@ -387,6 +398,9 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     </div>
     <nav>
         <ul>
+            <li id="home">
+                <a href="index.html">Home</a>
+            </li>
             <li>
                 <a href="cv.html">About</a>
             </li>
@@ -433,8 +447,8 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 <p>Here is a collection of news:</p>
 <ul>
-<li>a link with a <a style="color: #D5000D">red</a> text is <strong>NOT</strong> available</li>
-<li>a link with a <a style="color: #1E6BB8">blue</a> text is available</li>
+<li>a <a style="color: #D5000D">red link</a> indicates that the linked-to page does not exist</li>
+<li>a <a style="color: #1E6BB8">blue link</a> indicates that the linked-to page exists</li>
 </ul>
 
 <div class="news_center" style="

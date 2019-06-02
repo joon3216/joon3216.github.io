@@ -58,11 +58,12 @@ body
     /* note: header nav ul li a has margin 20px on left and right, 
     so here I let the right margin of img to be 5px so that it matches
     with the left margin 25px */
-    margin: 10px 5px 10px 25px; 
+    /* edit: 5 to 20px since it looks nicer */
+    margin: 10px 20px 10px 25px; 
 }
 #navbar nav
 {
-    float: left;
+    float: right; /* old: left; why change: to give a more standard look */
 }
 #navbar nav ul
 {
@@ -243,6 +244,16 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         display: block;
         /*text-align: center;*/
     }
+
+    /* new; why: to make sure it doesn't appear in mobile view;
+    I don't want to see it in mobile since the logo already directs you
+    to home. Adding home in mobile seems a clutter.
+    */
+    #navbar nav ul li#home
+    {
+        display: none;
+    }
+
     #navbar nav ul li a
     {
         border-bottom: 1px solid rgba(255, 255, 255, .5);
@@ -425,6 +436,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     </div>
     <nav>
         <ul>
+            <li id="home">
+                <a href="../../index.html">Home</a>
+            </li>
             <li>
                 <a href="../../cv.html">About</a>
             </li>
@@ -589,7 +603,7 @@ mu_k &lt;-<span class="st"> </span><span class="cf">function</span>(v, P, k) {<s
 ## 
 ## other attached packages:
 ## [1] tidyr_0.8.3      gganimate_1.0.3  ggplot2_3.1.1    dplyr_0.8.1     
-## [5] reticulate_1.12  magrittr_1.5     itertools2_0.1.1 rmarkdown_1.12  
+## [5] reticulate_1.12  rmarkdown_1.12   magrittr_1.5     itertools2_0.1.1
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] prettydoc_0.2.1   progress_1.2.2    tidyselect_0.2.5 
