@@ -122,10 +122,10 @@ output:
 
 # 01
 
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://drdoane.com/my-rstudio-configuration/">Blog post: My RStudio Configuration</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cbc.ca/news/canada/montreal/woman-faked-being-nurse-jonquiere-20-years-1.5157101">Quebec woman faked being a nurse for 20 years</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fromthegrapevine.com/innovation/stephen-hawking-radiation-sonic-black-hole-temperature-jeff-steinhauer">Stephen Hawking's prediction on Hawking Radiation confirmed, thanks to lab-created black hole</a><!--/html_preserve-->
-* News headline 3
-* News headline 4
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.techspot.com/news/80312-t-series-beats-pewdiepie-race-hit-100-million.html">T-Series beats PewDiePie in race to hit 100 million subscribers</a><!--/html_preserve-->
 
 
 
