@@ -1,6 +1,7 @@
 ---
 title: "News: June 2019"
 author: Junkyu Park
+date: "Last updated: `r Sys.Date()`"
 output: 
   prettydoc::html_pretty:
     theme: tactile
