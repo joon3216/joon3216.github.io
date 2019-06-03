@@ -1,11 +1,5 @@
 ---
 title: "Projects: 2019"
-header-includes:
- - \usepackage{cancel}
- - \newcommand{\bX}{\mathbf{X}}
- - \newcommand{\bx}{\mathbf{x}}
- - \newcommand{\bY}{\mathbf{Y}}
-author: Junkyu Park
 output: 
   prettydoc::html_pretty:
     theme: cayman
@@ -17,6 +11,7 @@ output:
         - ../style/all_orange_jp_01_lvl.html
       before_body:
         - ../style/all_navbar_body_01_lvl.html
+        - ../style/projects_2019_page_header.html
       after_body:
         - ../style/all_footer_01_lvl.html
     self_contained: FALSE
