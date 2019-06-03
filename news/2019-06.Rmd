@@ -148,6 +148,7 @@ output:
 # 03
 
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.forbes.com/sites/tiriasresearch/2019/06/03/amd-licenses-graphics-technology-to-samsung/#7adf188e6a12">AMD licenses graphics technology to Samsung</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://nationalpost.com/news/canada/report-on-missing-and-murdered-indigenous-women-and-girls-calls-for-significant-change-to-police-services-across-canada">Report on missing, murdered Indigenous women calls for significant change to police services across Canada</a><!--/html_preserve--> 
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://toronto.ctvnews.ca/ttc-s-first-fully-electric-bus-now-in-service-in-the-city-1.4448868">TTC's first fully electric bus now in service in Toronto</a><!--/html_preserve-->
 
 
