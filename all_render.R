@@ -71,6 +71,10 @@ c(
 
 # Edit some .html files after rendering
 
-source('index_render.R')
-
+c(
+    'index_render.R',
+    'projects_render.R'
+) %>%
+    imap(function(x){source(x)}, .) %>%
+    as.list()
 

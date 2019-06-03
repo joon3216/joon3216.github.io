@@ -1,6 +1,5 @@
 ---
 title: "Projects"
-author: Junkyu Park
 output: 
   prettydoc::html_pretty:
     theme: cayman
@@ -12,19 +11,11 @@ output:
         - style/all_orange_jp_00_lvl.html
       before_body:
         - style/all_navbar_body_00_lvl.html
+        - style/projects_page_header.html
       after_body:
         - style/all_footer_00_lvl.html
     self_contained: FALSE
 ---
-
-Project [^1]:
-
-1. a piece of planned work or an activity that is finished over a period of time and intended to achieve a particular purpose.
-2. a study of a particular subject done over a period of time.
-
-[^1]: Project [B2, A2]. (n.d.). In the Cambridge English Dictionary. Retrived May 27, 2019, from https://dictionary.cambridge.org/dictionary/english/project
-
-
 
 
 # [2019](projects/2019.html)
@@ -36,7 +27,33 @@ The challenge is to learn about HTML and CSS to make my website look like a webs
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- note: (n.d.) stands for "no date" -->
+
+<!--html_preserve-->
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Project [B2]. (n.d.). In the Cambridge English Dictionary. Retrived May 27, 2019, from <a href="https://dictionary.cambridge.org/dictionary/english/project" class="uri">https://dictionary.cambridge.org/dictionary/english/project</a><a href="#fnref1">&uarr;</a></p></li>
+</ol>
+</div>
+<!--/html_preserve-->
+
+
 
 
 
