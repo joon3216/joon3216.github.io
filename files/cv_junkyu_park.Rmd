@@ -1,0 +1,96 @@
+---
+output: 
+  pdf_document:
+    toc_depth: 1
+fontsize: 12pt
+geometry: margin = 1in
+---
+
+<!-- Last updated: 2019-06-03 -->
+
+# Junkyu Park
+
+1603-580 The East Mall  
+Etobicoke, ON M9B 4A7  
+647-676-4374  
+joonjunkyu.park@mail.utoronto.ca  
+https://linkedin.com/in/asdfzxcvjkl1/  
+https://joon3216.github.io/  
+
+
+------------------------------------------------------
+
+# **Education**
+
+**H.B.Sc.: statistics specialist and math minor** \hspace*{\fill} graduated in June 2019  
+University of Toronto  
+
+* CGPA: 3.83
+
+
+# **Experience**
+
+**University of Toronto Accessibility Services** \hspace*{\fill} Sept 2016 - Apr 2019  
+Volunteer note-taker
+
+* volunteered as a note-taker for students with disabilities
+
+\bigskip        
+
+**The 15^th^ Infantry Division, Republic of Korea Army** \hspace*{\fill} Oct 2014 - July 2016  
+Assistant Squad Leader (Sergeant)
+
+* Deployed the second time to the General Outpost from June 2016 until discharged
+* Assumed the position of Assistant Squad Leader as of Dec 2015 until discharged
+* Deployed to the 38^th^ Regiment's General Outpost from Sept 2015 to Feb 2016
+
+
+# **Skills**
+
+**Certifications** 
+
+* Society of Actuaries
+    + Exam accredited: SRM
+    + Exams passed: P, FM
+    + All VEEs obtained: Economics, Applied Statistics, Corporate Finance
+
+\newpage
+
+**Programming**
+
+* Basic HTML and CSS
+    + Currently maintaining https://joon3216.github.io/
+* PostgreSQL
+    + able to use functions such as `unnest`, `array`, and `information_schema`
+    + able to combine information in tables using:
+    + if-then-else statement using `CASE`, `WHEN`, `THEN`, and `ELSE`
+    + `INNER JOIN`, `USING`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`, `CROSS JOIN`
+    + `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`
+     able to write subqueries
+* Python
+    + able to write functions to implement algorithms
+* R
+    + familiar with `ggplot2`, `dplyr`, `dbplyr`, `tidyr`, and `purrr`
+    + able to write functions to implement algorithms
+
+
+# **Awards**
+
+* Dean's List Scholar \hspace*{\fill} 2013-14, 2016-17, 2017-18, 2018-19
+* Louis Salvov Scholarship \hspace*{\fill} 2016-17
+* Awards for Excellence in Army Training Test \hspace*{\fill} May 2016
+* Math Honour Roll \hspace*{\fill} June 2014
+* University of Toronto AccessAbility Certificate of Appreciation \hspace*{\fill} Apr 2014
+* University of Toronto Entrance Scholarship \hspace*{\fill} Sept 2013
+
+
+# **Languages**
+
+* English, Korean
+
+
+
+
+
+
+
