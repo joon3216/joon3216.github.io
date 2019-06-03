@@ -35,16 +35,16 @@ data(frets, package = 'boot')
 
 
 <!--html_preserve-->
-<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
-<ul style="list-style:none;">
+<div id="TOC" class="toc" style="padding: 2rem 2rem 0 0;">
+<ul style="list-style: none;">
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#visualizations">2. Visualizations</a><ul>
 <li><a href="#case-1-confidence-interval-for-mu">Case 1: confidence interval for <span class="math inline">\(\mu\)</span></a></li>
 <li><a href="#case-2-simple-linear-regression">Case 2: simple linear regression</a></li>
-<li><a href="#case-3-normal-distribution">Case 3: Normal distribution</a></li>
 </ul></li>
-<li><a href="#session-info">Session info</a></li></ul>
-</div> 
+<li><a href="#session-info">Session info</a></li>
+</ul>
+</div>
 <!--/html_preserve-->
 
 
@@ -55,7 +55,7 @@ In this document, different types of confidence regions will be visualized.
 
 # 2. Visualizations
 
-One purpose of this document is to understand what a 95% confidence interval is.
+The purpose of this document is to understand what a 95% confidence interval/region is.
 
 
 ## Case 1: confidence interval for $\mu$
@@ -211,7 +211,7 @@ results <- read.csv('../../files/f_stats.csv')
 results <- as_tibble(results)
 ```
 
-`results` is saved as `f_stats.csv`, which can be downloaded [here](../../files/f_stats.csv).
+`results` is saved as `f_stats.csv`, which can be downloaded from [here](../../files/f_stats.csv).
 
 The following blue ellipse is a set of points whose p-values are greater than $.05$, i.e. dots that belong in the 95% confidence region under $H_0: \boldsymbol{\beta} = \mathbf{c}$:
 
@@ -228,6 +228,8 @@ ggplot(
     ) +
     theme(legend.position = 'none')
 ```
+
+Whenever the null testing value $\mathbf{c}$ in $H_0: \boldsymbol{\beta} = \mathbf{c}$ belongs to this blue region, we cannot reject the null at the significance level $.05$.
 
 The following code finds points on the boundary of the confidence region so that the plot is able to connect those dots and color the enclosed area using `fill` aesthetic [^1]:
 
@@ -277,9 +279,6 @@ ggplot(results2, aes(x = b0, y = b1, col = cr, fill = cr)) +
 ```
 
 
-## Case 3: Normal distribution
-
-Lastly, let
 
 # Session info
 

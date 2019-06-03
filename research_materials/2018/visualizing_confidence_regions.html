@@ -516,16 +516,16 @@ ddply &lt;-<span class="st"> </span>plyr<span class="op">::</span>ddply
 gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather
 <span class="kw">data</span>(frets, <span class="dt">package =</span> <span class="st">&#39;boot&#39;</span>)</code></pre></div>
 
-<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
-<ul style="list-style:none;">
+<div id="TOC" class="toc" style="padding: 2rem 2rem 0 0;">
+<ul style="list-style: none;">
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#visualizations">2. Visualizations</a><ul>
 <li><a href="#case-1-confidence-interval-for-mu">Case 1: confidence interval for <span class="math inline">\(\mu\)</span></a></li>
 <li><a href="#case-2-simple-linear-regression">Case 2: simple linear regression</a></li>
-<li><a href="#case-3-normal-distribution">Case 3: Normal distribution</a></li>
 </ul></li>
-<li><a href="#session-info">Session info</a></li></ul>
-</div> 
+<li><a href="#session-info">Session info</a></li>
+</ul>
+</div>
 
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
@@ -533,7 +533,7 @@ gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather
 </div>
 <div id="visualizations" class="section level1">
 <h1>2. Visualizations</h1>
-<p>One purpose of this document is to understand what a 95% confidence interval is.</p>
+<p>The purpose of this document is to understand what a 95% confidence interval/region is.</p>
 <div id="case-1-confidence-interval-for-mu" class="section level2">
 <h2>Case 1: confidence interval for <span class="math inline">\(\mu\)</span></h2>
 <p>Suppose <span class="math inline">\(X_i \stackrel{iid}{\sim} N(\mu, \sigma^2)\)</span>. One can onstruct a 95% confidence interval for <span class="math inline">\(\mu\)</span> as: <span class="math display">\[CI_{\mu, .95} = \Big(\overline{X} - \frac{S}{\sqrt{n}} t_{.975, n - 1}, \text{ } \overline{X} + \frac{S}{\sqrt{n}} t_{.975, n - 1}\Big)\]</span> where <span class="math inline">\(S = \sqrt{S^2}\)</span> and <span class="math inline">\(t_{.975, n - 1} = t^*\)</span> is the value that satisfies <span class="math inline">\(P(T \leq t^*) = .975\)</span>, <span class="math inline">\(T \sim t_{n - 1}\)</span>. The meaning of <span class="math inline">\(P(\mu \in CI_{\mu, .95}) = .95\)</span> is that the probability of the true parameter <span class="math inline">\(\mu\)</span> being contained in this <strong>random</strong> interval <span class="math inline">\(CI_{\mu, .95}\)</span> (i.e. interval constructed with random variables) is <span class="math inline">\(.95\)</span>, or <span class="math inline">\(95\%\)</span>.</p>
@@ -659,7 +659,7 @@ F_stats &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {
 }
 results &lt;-<span class="st"> </span><span class="kw">F_stats</span>(x, y)
 results &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(results)</code></pre></div>
-<p><code>results</code> is saved as <code>f_stats.csv</code>, which can be downloaded <a href="../../files/f_stats.csv">here</a>.</p>
+<p><code>results</code> is saved as <code>f_stats.csv</code>, which can be downloaded from <a href="../../files/f_stats.csv">here</a>.</p>
 <p>The following blue ellipse is a set of points whose p-values are greater than <span class="math inline">\(.05\)</span>, i.e. dots that belong in the 95% confidence region under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(
     results,
@@ -673,6 +673,7 @@ results &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(results)
     ) <span class="op">+</span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
 <p><img src="visualizing_confidence_regions_files/figure-html/plotting-1.png" style="display: block; margin: auto;" /></p>
+<p>Whenever the null testing value <span class="math inline">\(\mathbf{c}\)</span> in <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span> belongs to this blue region, we cannot reject the null at the significance level <span class="math inline">\(.05\)</span>.</p>
 <p>The following code finds points on the boundary of the confidence region so that the plot is able to connect those dots and color the enclosed area using <code>fill</code> aesthetic <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Finding boundary points</span>
 find_hull &lt;-<span class="st"> </span><span class="cf">function</span>(df) {df[<span class="kw">chull</span>(df<span class="op">$</span>b0, df<span class="op">$</span>b1), ]}
@@ -713,10 +714,6 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
 <p><img src="visualizing_confidence_regions_files/figure-html/using_ggconvexhull-1.png" style="display: block; margin: auto;" /></p>
 </div>
-<div id="case-3-normal-distribution" class="section level2">
-<h2>Case 3: Normal distribution</h2>
-<p>Lastly, let</p>
-</div>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
@@ -724,7 +721,7 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.6.0 (2019-04-26)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 17763)
 ## 
 ## Matrix products: default
 ## 
@@ -737,31 +734,19 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] reticulate_1.12    rmarkdown_1.12     magrittr_1.5      
-## [4] itertools2_0.1.1   ggplot2_3.1.1      dplyr_0.8.1       
-## [7] ggConvexHull_0.1.0 usethis_1.5.0      devtools_2.0.2    
+## [1] ggConvexHull_0.1.0 ggplot2_3.1.1      dplyr_0.8.1       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] prettydoc_0.2.1   tidyselect_0.2.5  xfun_0.7         
-##  [4] remotes_2.0.4     purrr_0.3.2       lattice_0.20-38  
-##  [7] vctrs_0.1.0       colorspace_1.4-1  htmltools_0.3.6  
-## [10] yaml_2.2.0        utf8_1.1.4        rlang_0.3.4      
-## [13] pkgbuild_1.0.3    pillar_1.4.0      glue_1.3.1       
-## [16] withr_2.1.2       sessioninfo_1.1.1 plyr_1.8.4       
-## [19] stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
-## [22] memoise_1.1.0     evaluate_0.13     labeling_0.3     
-## [25] knitr_1.23        callr_3.2.0       ps_1.3.0         
-## [28] curl_3.3          fansi_0.4.0       Rcpp_1.0.1       
-## [31] readr_1.3.1       scales_1.0.0      backports_1.1.4  
-## [34] desc_1.2.0        pkgload_1.0.2     jsonlite_1.6     
-## [37] fs_1.3.1          png_0.1-7         hms_0.4.2        
-## [40] digest_0.6.19     stringi_1.4.3     processx_3.3.1   
-## [43] grid_3.6.0        rprojroot_1.3-2   cli_1.1.0        
-## [46] tools_3.6.0       lazyeval_0.2.2    tibble_2.1.1     
-## [49] zeallot_0.1.0     crayon_1.3.4      tidyr_0.8.3      
-## [52] pkgconfig_2.0.2   Matrix_1.2-17     prettyunits_1.0.2
-## [55] assertthat_0.2.1  rstudioapi_0.10   iterators_1.0.10 
-## [58] R6_2.4.0          compiler_3.6.0</code></pre>
+##  [1] Rcpp_1.0.1       pillar_1.4.0     compiler_3.6.0   plyr_1.8.4      
+##  [5] prettydoc_0.2.1  tools_3.6.0      zeallot_0.1.0    digest_0.6.19   
+##  [9] evaluate_0.13    tibble_2.1.1     gtable_0.3.0     pkgconfig_2.0.2 
+## [13] rlang_0.3.4      cli_1.1.0        yaml_2.2.0       xfun_0.7        
+## [17] withr_2.1.2      stringr_1.4.0    knitr_1.23       vctrs_0.1.0     
+## [21] grid_3.6.0       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
+## [25] fansi_0.4.0      rmarkdown_1.12   purrr_0.3.2      tidyr_0.8.3     
+## [29] magrittr_1.5     scales_1.0.0     backports_1.1.4  htmltools_0.3.6 
+## [33] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     utf8_1.1.4      
+## [37] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
 </div>
 <div class="footnotes">
 <hr />
