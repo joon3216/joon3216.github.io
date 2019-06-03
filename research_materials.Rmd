@@ -51,7 +51,6 @@ These are the materials that I find either:
 
 * [Animation in R: a jumping frog](research_materials/2019/frog.html)
 * [Animation in R: the largest value until the current roll](research_materials/2019/largest_roll.html)
-* Martingale and option pricing
 
 
 # [**2018**](research_materials/2018.html)

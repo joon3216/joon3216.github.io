@@ -43,6 +43,5 @@ output:
 
 * [Animation in R: a jumping frog](2019/frog.html)
 * [Animation in R: the largest value until the current roll](2019/largest_roll.html)
-* Martingale and option pricing
 
 
