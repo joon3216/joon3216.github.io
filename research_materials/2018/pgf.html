@@ -26,12 +26,6 @@
 </script>
 <!-- A new navigation bar style settings -->
 <style type="text/css">
-body
-{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
 /* at the top */
 #navbar
 {
@@ -64,6 +58,7 @@ body
 #navbar nav
 {
     float: right; /* old: left; why change: to give a more standard look */
+    margin: 0 27.5px 0 0;
 }
 #navbar nav ul
 {
@@ -93,7 +88,16 @@ body
 /* new; why: prepare in case of text-align: right */
 #navbar nav ul li#news
 {
-    padding: 8.5px 27.5px 8.5px 0;
+    padding: 8.5px 0;
+    margin: 0;
+}
+
+/* new; why: this potentially has a different background color */
+#navbar nav ul li#home
+{
+    background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
+    border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0;
 }
 
 #navbar nav ul li.sub-menu:before
@@ -114,7 +118,7 @@ body
     font-family: fontAwesome; /* new */
     font-size: 16pt;
     position: absolute;
-    color: #ffffff;
+    color: #666;
     top: 7pt;
     right: 22.5px;
     cursor: pointer;
@@ -190,15 +194,21 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     margin: 0 0 0 20px;
 } */
 
+
 #navbar nav ul li a:hover
 {
-    color: #ffffff;
+    color: #666;
 }
 
 /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
 #navbar nav ul li:hover ul
 {
     display: block;
+}
+
+#navbar nav ul li:hover ul li:hover
+{
+    background-color: rgba(5, 83, 143, 0.99);
 }
 
 .menu-toggle
@@ -297,6 +307,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         right: 25px;
         line-height: 30px;
         cursor: pointer;
+        color: #666;
     }
     #navbar nav ul li ul
     {
@@ -308,8 +319,8 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     }
 
     /* new: hover and active
-    why: do not display drop down menus when mouse is over it
-    and looking in mobile, but display them when plus signs are clicked */
+    why: do not display drop down menus when mouse is over it in mobile, 
+    but display them when plus signs are clicked */
     #navbar nav ul li:hover ul
     {
         display: none;
@@ -335,13 +346,31 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     } */
 
     /* while scrolling */
-
+    #navbar.black nav ul li a:hover
+    {
+        color: #666;
+    }
 }
 
 /* while scrolling */
 #navbar.black
 {
-    background: rgba(21, 92, 148, .7);
+    background: rgba(21, 92, 148, .9);
+}
+#navbar.black nav ul li#home
+{
+    background-color: rgba(28, 44, 56, 0);
+    /* border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0; why commented: unnecessary */
+    transition: .2s;
+}
+#navbar.black nav ul li a:hover
+{
+    color: darkgrey;
+}
+#navbar.black nav ul li.active.sub-menu:before
+{
+    color: darkgrey;
 }
 </style>
 
@@ -911,20 +940,30 @@ samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.1.1    dplyr_0.8.1      reticulate_1.12  rmarkdown_1.12  
-## [5] magrittr_1.5     itertools2_0.1.1
+## [1] reticulate_1.12    rmarkdown_1.12     magrittr_1.5      
+## [4] itertools2_0.1.1   ggplot2_3.1.1      dplyr_0.8.1       
+## [7] ggConvexHull_0.1.0 usethis_1.5.0      devtools_2.0.2    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       compiler_3.6.0   pillar_1.4.0     plyr_1.8.4      
-##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      digest_0.6.18   
-##  [9] jsonlite_1.6     evaluate_0.13    tibble_2.1.1     gtable_0.3.0    
-## [13] lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2  rlang_0.3.4     
-## [17] Matrix_1.2-17    rstudioapi_0.10  yaml_2.2.0       xfun_0.7        
-## [21] withr_2.1.2      stringr_1.4.0    knitr_1.23       hms_0.4.2       
-## [25] grid_3.6.0       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
-## [29] readr_1.3.1      tidyr_0.8.3      purrr_0.3.2      scales_1.0.0    
-## [33] htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1 labeling_0.3    
-## [37] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
+##  [1] prettydoc_0.2.1   tidyselect_0.2.5  xfun_0.7         
+##  [4] remotes_2.0.4     purrr_0.3.2       lattice_0.20-38  
+##  [7] colorspace_1.4-1  htmltools_0.3.6   yaml_2.2.0       
+## [10] rlang_0.3.4       pkgbuild_1.0.3    pillar_1.4.0     
+## [13] glue_1.3.1        withr_2.1.2       sessioninfo_1.1.1
+## [16] plyr_1.8.4        stringr_1.4.0     munsell_0.5.0    
+## [19] gtable_0.3.0      memoise_1.1.0     evaluate_0.13    
+## [22] labeling_0.3      knitr_1.23        callr_3.2.0      
+## [25] ps_1.3.0          curl_3.3          Rcpp_1.0.1       
+## [28] readr_1.3.1       scales_1.0.0      backports_1.1.4  
+## [31] desc_1.2.0        pkgload_1.0.2     jsonlite_1.6     
+## [34] fs_1.3.1          png_0.1-7         hms_0.4.2        
+## [37] digest_0.6.19     stringi_1.4.3     processx_3.3.1   
+## [40] grid_3.6.0        rprojroot_1.3-2   cli_1.1.0        
+## [43] tools_3.6.0       lazyeval_0.2.2    tibble_2.1.1     
+## [46] crayon_1.3.4      tidyr_0.8.3       pkgconfig_2.0.2  
+## [49] Matrix_1.2-17     prettyunits_1.0.2 assertthat_0.2.1 
+## [52] rstudioapi_0.10   iterators_1.0.10  R6_2.4.0         
+## [55] compiler_3.6.0</code></pre>
 </div>
 <div id="related-page" class="section level1">
 <h1>Related page</h1>

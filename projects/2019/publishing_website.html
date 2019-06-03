@@ -26,12 +26,6 @@
 </script>
 <!-- A new navigation bar style settings -->
 <style type="text/css">
-body
-{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
 /* at the top */
 #navbar
 {
@@ -64,6 +58,7 @@ body
 #navbar nav
 {
     float: right; /* old: left; why change: to give a more standard look */
+    margin: 0 27.5px 0 0;
 }
 #navbar nav ul
 {
@@ -93,7 +88,16 @@ body
 /* new; why: prepare in case of text-align: right */
 #navbar nav ul li#news
 {
-    padding: 8.5px 27.5px 8.5px 0;
+    padding: 8.5px 0;
+    margin: 0;
+}
+
+/* new; why: this potentially has a different background color */
+#navbar nav ul li#home
+{
+    background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
+    border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0;
 }
 
 #navbar nav ul li.sub-menu:before
@@ -114,7 +118,7 @@ body
     font-family: fontAwesome; /* new */
     font-size: 16pt;
     position: absolute;
-    color: #ffffff;
+    color: #666;
     top: 7pt;
     right: 22.5px;
     cursor: pointer;
@@ -190,15 +194,21 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     margin: 0 0 0 20px;
 } */
 
+
 #navbar nav ul li a:hover
 {
-    color: #ffffff;
+    color: #666;
 }
 
 /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
 #navbar nav ul li:hover ul
 {
     display: block;
+}
+
+#navbar nav ul li:hover ul li:hover
+{
+    background-color: rgba(5, 83, 143, 0.99);
 }
 
 .menu-toggle
@@ -297,6 +307,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         right: 25px;
         line-height: 30px;
         cursor: pointer;
+        color: #666;
     }
     #navbar nav ul li ul
     {
@@ -308,8 +319,8 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     }
 
     /* new: hover and active
-    why: do not display drop down menus when mouse is over it
-    and looking in mobile, but display them when plus signs are clicked */
+    why: do not display drop down menus when mouse is over it in mobile, 
+    but display them when plus signs are clicked */
     #navbar nav ul li:hover ul
     {
         display: none;
@@ -335,13 +346,31 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     } */
 
     /* while scrolling */
-
+    #navbar.black nav ul li a:hover
+    {
+        color: #666;
+    }
 }
 
 /* while scrolling */
 #navbar.black
 {
-    background: rgba(21, 92, 148, .7);
+    background: rgba(21, 92, 148, .9);
+}
+#navbar.black nav ul li#home
+{
+    background-color: rgba(28, 44, 56, 0);
+    /* border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0; why commented: unnecessary */
+    transition: .2s;
+}
+#navbar.black nav ul li a:hover
+{
+    color: darkgrey;
+}
+#navbar.black nav ul li.active.sub-menu:before
+{
+    color: darkgrey;
 }
 </style>
 
@@ -464,7 +493,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 </div>
 <div id="how-it-works" class="section level1">
 <h1>How it works</h1>
-<p>All of the HTML files in the <a href="https://github.com/joon3216/joon3216.github.io">repository</a> except for those in <em>style</em> folder were created, and are currently maintained, by R Markdown. Based on these HTML files, I added features through YAML header in .Rmd such as a clickable logo in the top left corner, a sticky navigation bar, dropdown menu in the navigation bar, and menu bars that show up when the window width is less than some threshold (as of 2019-06-01, it is set to be 800px). A footer is included in every webpage, and some animations came to life using jQuery JavaScript Library inside <code>&lt;head&gt;</code> tag. Math expressions are written using <span class="math inline">\(\LaTeX\)</span> syntax and MathJax provided by R Markdown. Features are first tested <a href="../../style/testing.html">here</a>.</p>
+<p>All of the HTML files in the <a href="https://github.com/joon3216/joon3216.github.io">repository</a> except for those in <em>style</em> folder were created, and are currently maintained, by R Markdown. Based on these HTML files, I added features through YAML header in .Rmd such as a clickable logo in the top left corner, a sticky navigation bar, dropdown menu in the navigation bar, and menu bars that show up when the window width is less than some threshold (as of 2019-06-03, it is set to be 800px). A footer is included in every webpage, and some animations came to life using jQuery JavaScript Library inside <code>&lt;head&gt;</code> tag. Math expressions are written using <span class="math inline">\(\LaTeX\)</span> syntax and MathJax provided by R Markdown. Features are first tested <a href="../../style/testing.html">here</a>.</p>
 </div>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>

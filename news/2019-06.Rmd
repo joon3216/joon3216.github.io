@@ -141,21 +141,14 @@ output:
 
 # 02
 
-* Headline 5
-* Headline 6
-* Headline 7
-* Headline 8
-
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.nytimes.com/2019/06/02/sports/nba-finals-golden-state-warriors-toronto-raptors.html">NBA Finals: Warriors Tie Series with Raptors</a><!--/html_preserve-->
 
 
 
 # 03
 
-* Headline 9
-* Headline 10
-* Headline 11
-* Headline 12
-
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.forbes.com/sites/tiriasresearch/2019/06/03/amd-licenses-graphics-technology-to-samsung/#7adf188e6a12">AMD licenses graphics technology to Samsung</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://toronto.ctvnews.ca/ttc-s-first-fully-electric-bus-now-in-service-in-the-city-1.4448868">TTC's first fully electric bus now in service in Toronto</a><!--/html_preserve-->
 
 
 # 04

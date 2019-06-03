@@ -1,11 +1,5 @@
 <!-- A new navigation bar style settings -->
 <style type="text/css">
-body
-{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
 /* at the top */
 #navbar
 {
@@ -38,6 +32,7 @@ body
 #navbar nav
 {
     float: right; /* old: left; why change: to give a more standard look */
+    margin: 0 27.5px 0 0;
 }
 #navbar nav ul
 {
@@ -67,13 +62,14 @@ body
 /* new; why: prepare in case of text-align: right */
 #navbar nav ul li#news
 {
-    padding: 8.5px 27.5px 8.5px 0;
+    padding: 8.5px 0;
+    margin: 0;
 }
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
 {
-    background-color: rgba(28, 44, 56, 0);
+    background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
     border-bottom: 1px solid #EAEAEB;
     margin: 0 0 .5px 0;
 }
@@ -96,7 +92,7 @@ body
     font-family: fontAwesome; /* new */
     font-size: 16pt;
     position: absolute;
-    color: #ffffff;
+    color: #666;
     top: 7pt;
     right: 22.5px;
     cursor: pointer;
@@ -172,15 +168,21 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     margin: 0 0 0 20px;
 } */
 
+
 #navbar nav ul li a:hover
 {
-    color: #ffffff;
+    color: #666;
 }
 
 /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
 #navbar nav ul li:hover ul
 {
     display: block;
+}
+
+#navbar nav ul li:hover ul li:hover
+{
+    background-color: rgba(5, 83, 143, 0.99);
 }
 
 .menu-toggle
@@ -279,6 +281,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         right: 25px;
         line-height: 30px;
         cursor: pointer;
+        color: #666;
     }
     #navbar nav ul li ul
     {
@@ -290,8 +293,8 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     }
 
     /* new: hover and active
-    why: do not display drop down menus when mouse is over it
-    and looking in mobile, but display them when plus signs are clicked */
+    why: do not display drop down menus when mouse is over it in mobile, 
+    but display them when plus signs are clicked */
     #navbar nav ul li:hover ul
     {
         display: none;
@@ -317,13 +320,31 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     } */
 
     /* while scrolling */
-
+    #navbar.black nav ul li a:hover
+    {
+        color: #666;
+    }
 }
 
 /* while scrolling */
 #navbar.black
 {
-    background: rgba(21, 92, 148, .7);
+    background: rgba(21, 92, 148, .9);
+}
+#navbar.black nav ul li#home
+{
+    background-color: rgba(28, 44, 56, 0);
+    /* border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0; why commented: unnecessary */
+    transition: .2s;
+}
+#navbar.black nav ul li a:hover
+{
+    color: darkgrey;
+}
+#navbar.black nav ul li.active.sub-menu:before
+{
+    color: darkgrey;
 }
 </style>
 

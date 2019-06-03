@@ -115,14 +115,14 @@ Consider a simple linear regression with `frets` dataset: $$y = \beta_0 + \beta_
 glimpse(frets)
 ```
 
-The data consists of measurements of the length and breadth of the heads of pairs of adult brothers in 25 randomly sampled families. All measurements are expressed in millimetres. I will take $x =$ `l1` and $y =$ `b1`. That is, I am asking: "Is there a linear relationship between the eldest son's breadth and length of his head?"
+The data consists of the length and breadth of heads of an adult brother pair in 25 randomly sampled families. All measurements are expressed in millimetres. Let's take $x =$ `l1` and $y =$ `b1`, and ask: "Is there a linear relationship between the eldest son's breadth and length of his head?"
 
 ```{r take}
 X <- tibble(Int = rep(1, 25), l1 = frets[, 1]) %>% as.matrix()
 Y <- frets[, 2]
 ```
 
-F-statistic gives a confidence **region** under $H_0: \boldsymbol{\beta} = \mathbf{c}$ vs. $H_1: \boldsymbol{\beta} \neq \mathbf{c}$: $$F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}$$ where, in our case, $k = 2$ and $n = 25$. A $\gamma$-level confidence region is the set of all $\mathbf{c}$'s where: $$F > F_{1 - \gamma} (k, n - k)$$ Assume $\gamma = .95$ and $\mathbf{c} = \mathbf{0}$ for simplicity.
+F-statistic gives a confidence **region** under $H_0: \boldsymbol{\beta} = \mathbf{c}$ vs. $H_1: \boldsymbol{\beta} \neq \mathbf{c}$: $$F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}$$ where, in our case, $k = 2$ and $n = 25$. A $\gamma$-level confidence region is the set of all $\mathbf{c}$'s where: $$F > F_{1 - \gamma} (k, n - k)$$ Let $\gamma = .95$ and $\mathbf{c} = \mathbf{0}$.
 
 `F_stat` is a function that computes $F$-statistic:
 
@@ -145,7 +145,7 @@ F_stat <- function(X, Y, c, level = .95) {
 }
 ```
 
-CI for each $\beta_i$:
+CIs for each $\beta_i$ are computed with the `CIs` function:
 
 ```{r ci_beta_i}
 CIs <- function(X, Y, c, level = .95, has_intercept = T) {
@@ -176,18 +176,18 @@ CIs <- function(X, Y, c, level = .95, has_intercept = T) {
 }
 ```
 
-The CIs:
+The CIs for $\beta_0$ and $\beta_1$ are:
 
 ```{r CIs}
 (cis <- CIs(X, Y))
 ```
 
-```{r draw}
-x <- seq(floor(cis[1, 1]), ceiling(cis[1, 2]), by = .1)
-y <- seq(.25, .8, by = .01)
-# x <- seq(floor(cis[1, 1]), ceiling(cis[1, 2]), length = 10)
-# y <- seq(floor(cis[2, 1]), ceiling(cis[2, 2]), length = 20)
-F_stat_sep <- function(x, y) {
+`F_stats(x, y)` computes $F$-statistic at every $\mathbf{c}$ in the cartesian product of `x` and `y`. It computes the p-value at each $\mathbf{c}$ as well:
+
+```{r draw, eval = F}
+x <- seq(-5, 100, by = .1)
+y <- seq(.25, .85, by = .001)
+F_stats <- function(x, y) {
     results <- lapply(
         x,
         function(xd) {
@@ -202,48 +202,84 @@ F_stat_sep <- function(x, y) {
     )
     'colnames<-'(Reduce('rbind', results), c('b0', 'b1', 'p_val'))
 }
-results <- F_stat_sep(x, y)
+results <- F_stats(x, y)
+results <- as_tibble(results)
 ```
 
-```{r plotting, fig.asp = .7}
+```{r draw_real, echo = F}
+results <- read.csv('../../files/f_stats.csv')
+results <- as_tibble(results)
+```
+
+`results` is saved as `f_stats.csv`, which can be downloaded [here](../../files/f_stats.csv).
+
+The following blue ellipse is a set of points whose p-values are greater than $.05$, i.e. dots that belong in the 95% confidence region under $H_0: \boldsymbol{\beta} = \mathbf{c}$:
+
+```{r plotting, fig.asp = .7, fig.align = 'center'}
 ggplot(
-    as_tibble(results),
+    results,
     aes(x = b0, y = b1, col = p_val > .05)
 ) +
     geom_point() +
-    scale_colour_manual(values = c('transparent', 'blue')) +
+    scale_colour_manual(values = c('transparent', '#1E6BB8')) +
     labs(
         x = 'beta_0', y = 'beta_1', title = 'Confidence region of beta',
-        subtitle = '- indicated by blue dots\n- at the significance level .05'
+        subtitle = '- at the significance level .05'
     ) +
     theme(legend.position = 'none')
 ```
 
-```{r results_hull, fig.asp = .7}
-results2 <- as_tibble(results) %>% 
-    mutate(cr = ifelse(p_val > .05, T, F))
-find_hull <- function(df) {df[chull(df$b0, df$b1), ]}
-hulls <- ddply(results2, "cr", find_hull)
+The following code finds points on the boundary of the confidence region so that the plot is able to connect those dots and color the enclosed area using `fill` aesthetic [^1]:
 
-plot <- ggplot(results2, aes(x = b0, y = b1, color = cr, fill = cr)) +
-    #geom_point() +
+```{r results_hull, fig.asp = .7, fig.align = 'center'}
+# Finding boundary points
+find_hull <- function(df) {df[chull(df$b0, df$b1), ]}
+results2 <- results %>% mutate(cr = ifelse(p_val > .05, T, F))
+hulls <- results2 %>% ddply('cr', find_hull)
+
+# Connecting boundary points
+ggplot(results2, aes(x = b0, y = b1, color = cr, fill = cr)) +
+    # geom_point() +
     geom_polygon(data = hulls, alpha = .5) +
-    scale_colour_manual(values = c('transparent', 'blue')) +
-    scale_fill_manual(values = c('transparent', 'blue')) +
+    scale_colour_manual(values = c('transparent', '#1E6BB8')) +
+    scale_fill_manual(values = c('transparent', '#1E6BB8')) +
     labs(
         x = 'beta_0', y = 'beta_1', title = 'Confidence region of beta',
-        subtitle = '- indicated by blue dots\n- at the significance level .05'
+        subtitle = '- at the significance level .05'
     ) +
     theme_classic() +
     theme(legend.position = 'none')
-plot
 ```
 
-Source: https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2
+[^1]: https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2
+
+There are two points to keep in mind:
+
+* the confidence region is not a rectangle but an ellipse since $\hat{\beta}_0$ and $\hat{\beta}_1$ are correlated.
+* the interpretation of confidence region is the same as the CI's: if we replicate this experiment 100 times and compute the confidence region in the same manner (using $F$-statistic in this case), then out of those 100 regions, around 95 of them are expected to contain the true parameter $\boldsymbol{\beta} = (\beta_0, \beta_1)$.
+
+**ASIDE**: the following function from `ggConvexHull` package does the same job. Click [here](https://github.com/cmartin/ggConvexHull) to see the repository:
+
+```{r using_ggconvexhull, fig.asp = .7, fig.align = 'center'}
+# library(devtools)
+# devtools::install_github("cmartin/ggConvexHull")
+library(ggConvexHull)
+ggplot(results2, aes(x = b0, y = b1, col = cr, fill = cr)) +
+    geom_convexhull(alpha = .5) +
+    scale_colour_manual(values = c('transparent', '#1E6BB8')) +
+    scale_fill_manual(values = c('transparent', '#1E6BB8')) +
+    labs(
+        x = 'beta_0', y = 'beta_1', title = 'Confidence region of beta',
+        subtitle = '- at the significance level .05'
+    ) +
+    theme_classic() +
+    theme(legend.position = 'none')
+```
 
 
 ## Case 3: Normal distribution
 
+Lastly, let
 
 # Session info
 

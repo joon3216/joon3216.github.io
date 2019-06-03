@@ -26,12 +26,6 @@
 </script>
 <!-- A new navigation bar style settings -->
 <style type="text/css">
-body
-{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
 /* at the top */
 #navbar
 {
@@ -64,6 +58,7 @@ body
 #navbar nav
 {
     float: right; /* old: left; why change: to give a more standard look */
+    margin: 0 27.5px 0 0;
 }
 #navbar nav ul
 {
@@ -93,7 +88,16 @@ body
 /* new; why: prepare in case of text-align: right */
 #navbar nav ul li#news
 {
-    padding: 8.5px 27.5px 8.5px 0;
+    padding: 8.5px 0;
+    margin: 0;
+}
+
+/* new; why: this potentially has a different background color */
+#navbar nav ul li#home
+{
+    background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
+    border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0;
 }
 
 #navbar nav ul li.sub-menu:before
@@ -114,7 +118,7 @@ body
     font-family: fontAwesome; /* new */
     font-size: 16pt;
     position: absolute;
-    color: #ffffff;
+    color: #666;
     top: 7pt;
     right: 22.5px;
     cursor: pointer;
@@ -190,15 +194,21 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     margin: 0 0 0 20px;
 } */
 
+
 #navbar nav ul li a:hover
 {
-    color: #ffffff;
+    color: #666;
 }
 
 /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
 #navbar nav ul li:hover ul
 {
     display: block;
+}
+
+#navbar nav ul li:hover ul li:hover
+{
+    background-color: rgba(5, 83, 143, 0.99);
 }
 
 .menu-toggle
@@ -297,6 +307,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         right: 25px;
         line-height: 30px;
         cursor: pointer;
+        color: #666;
     }
     #navbar nav ul li ul
     {
@@ -308,8 +319,8 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     }
 
     /* new: hover and active
-    why: do not display drop down menus when mouse is over it
-    and looking in mobile, but display them when plus signs are clicked */
+    why: do not display drop down menus when mouse is over it in mobile, 
+    but display them when plus signs are clicked */
     #navbar nav ul li:hover ul
     {
         display: none;
@@ -335,13 +346,31 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     } */
 
     /* while scrolling */
-
+    #navbar.black nav ul li a:hover
+    {
+        color: #666;
+    }
 }
 
 /* while scrolling */
 #navbar.black
 {
-    background: rgba(21, 92, 148, .7);
+    background: rgba(21, 92, 148, .9);
+}
+#navbar.black nav ul li#home
+{
+    background-color: rgba(28, 44, 56, 0);
+    /* border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0; why commented: unnecessary */
+    transition: .2s;
+}
+#navbar.black nav ul li a:hover
+{
+    color: darkgrey;
+}
+#navbar.black nav ul li.active.sub-menu:before
+{
+    color: darkgrey;
 }
 </style>
 
@@ -557,10 +586,10 @@ CI_collections <span class="op">%&gt;%</span><span class="st"> </span>
 ## $ b1 &lt;dbl&gt; 155, 149, 148, 153, 144, 157, 150, 159, 152, 150, 158, 147,...
 ## $ l2 &lt;dbl&gt; 179, 201, 185, 188, 171, 192, 190, 189, 197, 187, 186, 174,...
 ## $ b2 &lt;dbl&gt; 145, 152, 149, 149, 142, 152, 149, 152, 159, 151, 148, 147,...</code></pre>
-<p>The data consists of measurements of the length and breadth of the heads of pairs of adult brothers in 25 randomly sampled families. All measurements are expressed in millimetres. I will take <span class="math inline">\(x =\)</span> <code>l1</code> and <span class="math inline">\(y =\)</span> <code>b1</code>. That is, I am asking: “Is there a linear relationship between the eldest son’s breadth and length of his head?”</p>
+<p>The data consists of the length and breadth of heads of an adult brother pair in 25 randomly sampled families. All measurements are expressed in millimetres. Let’s take <span class="math inline">\(x =\)</span> <code>l1</code> and <span class="math inline">\(y =\)</span> <code>b1</code>, and ask: “Is there a linear relationship between the eldest son’s breadth and length of his head?”</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Int =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">25</span>), <span class="dt">l1 =</span> frets[, <span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()
 Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</code></pre></div>
-<p>F-statistic gives a confidence <strong>region</strong> under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span> vs. <span class="math inline">\(H_1: \boldsymbol{\beta} \neq \mathbf{c}\)</span>: <span class="math display">\[F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}\]</span> where, in our case, <span class="math inline">\(k = 2\)</span> and <span class="math inline">\(n = 25\)</span>. A <span class="math inline">\(\gamma\)</span>-level confidence region is the set of all <span class="math inline">\(\mathbf{c}\)</span>’s where: <span class="math display">\[F &gt; F_{1 - \gamma} (k, n - k)\]</span> Assume <span class="math inline">\(\gamma = .95\)</span> and <span class="math inline">\(\mathbf{c} = \mathbf{0}\)</span> for simplicity.</p>
+<p>F-statistic gives a confidence <strong>region</strong> under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span> vs. <span class="math inline">\(H_1: \boldsymbol{\beta} \neq \mathbf{c}\)</span>: <span class="math display">\[F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}\]</span> where, in our case, <span class="math inline">\(k = 2\)</span> and <span class="math inline">\(n = 25\)</span>. A <span class="math inline">\(\gamma\)</span>-level confidence region is the set of all <span class="math inline">\(\mathbf{c}\)</span>’s where: <span class="math display">\[F &gt; F_{1 - \gamma} (k, n - k)\]</span> Let <span class="math inline">\(\gamma = .95\)</span> and <span class="math inline">\(\mathbf{c} = \mathbf{0}\)</span>.</p>
 <p><code>F_stat</code> is a function that computes <span class="math inline">\(F\)</span>-statistic:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">F_stat &lt;-<span class="st"> </span><span class="cf">function</span>(X, Y, c, <span class="dt">level =</span> .<span class="dv">95</span>) {
     n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)
@@ -578,7 +607,7 @@ Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</code></pre><
         <span class="dt">p_val =</span> <span class="kw">pf</span>(f_stat, <span class="dt">df1 =</span> k, <span class="dt">df2 =</span> n <span class="op">-</span><span class="st"> </span>k, <span class="dt">lower =</span> F)
     )
 }</code></pre></div>
-<p>CI for each <span class="math inline">\(\beta_i\)</span>:</p>
+<p>CIs for each <span class="math inline">\(\beta_i\)</span> are computed with the <code>CIs</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CIs &lt;-<span class="st"> </span><span class="cf">function</span>(X, Y, c, <span class="dt">level =</span> .<span class="dv">95</span>, <span class="dt">has_intercept =</span> T) {
     n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)
     k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)
@@ -605,16 +634,15 @@ Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</code></pre><
     <span class="kw">rownames</span>(CI) &lt;-<span class="st"> </span>rowname
     CI
 }</code></pre></div>
-<p>The CIs:</p>
+<p>The CIs for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(cis &lt;-<span class="st"> </span><span class="kw">CIs</span>(X, Y))</code></pre></div>
 <pre><code>##        lower      upper
 ## b0 6.9732947 89.1933836
 ## b1 0.3337337  0.7758577</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">floor</span>(cis[<span class="dv">1</span>, <span class="dv">1</span>]), <span class="kw">ceiling</span>(cis[<span class="dv">1</span>, <span class="dv">2</span>]), <span class="dt">by =</span> .<span class="dv">1</span>)
-y &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">25</span>, .<span class="dv">8</span>, <span class="dt">by =</span> .<span class="dv">01</span>)
-<span class="co"># x &lt;- seq(floor(cis[1, 1]), ceiling(cis[1, 2]), length = 10)</span>
-<span class="co"># y &lt;- seq(floor(cis[2, 1]), ceiling(cis[2, 2]), length = 20)</span>
-F_stat_sep &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {
+<p><code>F_stats(x, y)</code> computes <span class="math inline">\(F\)</span>-statistic at every <span class="math inline">\(\mathbf{c}\)</span> in the cartesian product of <code>x</code> and <code>y</code>. It computes the p-value at each <span class="math inline">\(\mathbf{c}\)</span> as well:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">100</span>, <span class="dt">by =</span> .<span class="dv">1</span>)
+y &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">25</span>, .<span class="dv">85</span>, <span class="dt">by =</span> .<span class="dv">001</span>)
+F_stats &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {
     results &lt;-<span class="st"> </span><span class="kw">lapply</span>(
         x,
         <span class="cf">function</span>(xd) {
@@ -629,41 +657,65 @@ F_stat_sep &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) 
     )
     <span class="st">&#39;colnames&lt;-&#39;</span>(<span class="kw">Reduce</span>(<span class="st">&#39;rbind&#39;</span>, results), <span class="kw">c</span>(<span class="st">&#39;b0&#39;</span>, <span class="st">&#39;b1&#39;</span>, <span class="st">&#39;p_val&#39;</span>))
 }
-results &lt;-<span class="st"> </span><span class="kw">F_stat_sep</span>(x, y)</code></pre></div>
+results &lt;-<span class="st"> </span><span class="kw">F_stats</span>(x, y)
+results &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(results)</code></pre></div>
+<p><code>results</code> is saved as <code>f_stats.csv</code>, which can be downloaded <a href="../../files/f_stats.csv">here</a>.</p>
+<p>The following blue ellipse is a set of points whose p-values are greater than <span class="math inline">\(.05\)</span>, i.e. dots that belong in the 95% confidence region under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(
-    <span class="kw">as_tibble</span>(results),
+    results,
     <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">col =</span> p_val <span class="op">&gt;</span><span class="st"> </span>.<span class="dv">05</span>)
 ) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;blue&#39;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">labs</span>(
         <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,
-        <span class="dt">subtitle =</span> <span class="st">&#39;- indicated by blue dots</span><span class="ch">\n</span><span class="st">- at the significance level .05&#39;</span>
+        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span>
     ) <span class="op">+</span>
 <span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
-<p><img src="visualizing_confidence_regions_files/figure-html/plotting-1.png" /><!-- --></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">results2 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(results) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cr =</span> <span class="kw">ifelse</span>(p_val <span class="op">&gt;</span><span class="st"> </span>.<span class="dv">05</span>, T, F))
+<p><img src="visualizing_confidence_regions_files/figure-html/plotting-1.png" style="display: block; margin: auto;" /></p>
+<p>The following code finds points on the boundary of the confidence region so that the plot is able to connect those dots and color the enclosed area using <code>fill</code> aesthetic <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Finding boundary points</span>
 find_hull &lt;-<span class="st"> </span><span class="cf">function</span>(df) {df[<span class="kw">chull</span>(df<span class="op">$</span>b0, df<span class="op">$</span>b1), ]}
-hulls &lt;-<span class="st"> </span><span class="kw">ddply</span>(results2, <span class="st">&quot;cr&quot;</span>, find_hull)
+results2 &lt;-<span class="st"> </span>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">cr =</span> <span class="kw">ifelse</span>(p_val <span class="op">&gt;</span><span class="st"> </span>.<span class="dv">05</span>, T, F))
+hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ddply</span>(<span class="st">&#39;cr&#39;</span>, find_hull)
 
-plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">color =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span>
-<span class="st">    </span><span class="co">#geom_point() +</span>
+<span class="co"># Connecting boundary points</span>
+<span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">color =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span>
+<span class="st">    </span><span class="co"># geom_point() +</span>
 <span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> hulls, <span class="dt">alpha =</span> .<span class="dv">5</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;blue&#39;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;blue&#39;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">labs</span>(
         <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,
-        <span class="dt">subtitle =</span> <span class="st">&#39;- indicated by blue dots</span><span class="ch">\n</span><span class="st">- at the significance level .05&#39;</span>
+        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span>
     ) <span class="op">+</span>
 <span class="st">    </span><span class="kw">theme_classic</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)
-plot</code></pre></div>
-<p><img src="visualizing_confidence_regions_files/figure-html/results_hull-1.png" /><!-- --></p>
-<p>Source: <a href="https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2" class="uri">https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2</a></p>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
+<p><img src="visualizing_confidence_regions_files/figure-html/results_hull-1.png" style="display: block; margin: auto;" /></p>
+<p>There are two points to keep in mind:</p>
+<ul>
+<li>the confidence region is not a rectangle but an ellipse since <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> are correlated.</li>
+<li>the interpretation of confidence region is the same as the CI’s: if we replicate this experiment 100 times and compute the confidence region in the same manner (using <span class="math inline">\(F\)</span>-statistic in this case), then out of those 100 regions, around 95 of them are expected to contain the true parameter <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1)\)</span>.</li>
+</ul>
+<p><strong>ASIDE</strong>: the following function from <code>ggConvexHull</code> package does the same job. Click <a href="https://github.com/cmartin/ggConvexHull">here</a> to see the repository:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(devtools)</span>
+<span class="co"># devtools::install_github(&quot;cmartin/ggConvexHull&quot;)</span>
+<span class="kw">library</span>(ggConvexHull)
+<span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">col =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_convexhull</span>(<span class="dt">alpha =</span> .<span class="dv">5</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(
+        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,
+        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span>
+    ) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_classic</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
+<p><img src="visualizing_confidence_regions_files/figure-html/using_ggconvexhull-1.png" style="display: block; margin: auto;" /></p>
 </div>
 <div id="case-3-normal-distribution" class="section level2">
 <h2>Case 3: Normal distribution</h2>
+<p>Lastly, let</p>
 </div>
 </div>
 <div id="session-info" class="section level1">
@@ -685,22 +737,37 @@ plot</code></pre></div>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.1.1    dplyr_0.8.1      reticulate_1.12  rmarkdown_1.12  
-## [5] magrittr_1.5     itertools2_0.1.1
+## [1] reticulate_1.12    rmarkdown_1.12     magrittr_1.5      
+## [4] itertools2_0.1.1   ggplot2_3.1.1      dplyr_0.8.1       
+## [7] ggConvexHull_0.1.0 usethis_1.5.0      devtools_2.0.2    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       compiler_3.6.0   pillar_1.4.0     plyr_1.8.4      
-##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      zeallot_0.1.0   
-##  [9] digest_0.6.18    jsonlite_1.6     evaluate_0.13    tibble_2.1.1    
-## [13] gtable_0.3.0     lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2 
-## [17] rlang_0.3.4      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
-## [21] yaml_2.2.0       xfun_0.7         withr_2.1.2      stringr_1.4.0   
-## [25] knitr_1.23       vctrs_0.1.0      hms_0.4.2        grid_3.6.0      
-## [29] tidyselect_0.2.5 glue_1.3.1       R6_2.4.0         fansi_0.4.0     
-## [33] readr_1.3.1      tidyr_0.8.3      purrr_0.3.2      backports_1.1.4 
-## [37] scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1
-## [41] labeling_0.3     utf8_1.1.4       stringi_1.4.3    lazyeval_0.2.2  
-## [45] munsell_0.5.0    crayon_1.3.4</code></pre>
+##  [1] prettydoc_0.2.1   tidyselect_0.2.5  xfun_0.7         
+##  [4] remotes_2.0.4     purrr_0.3.2       lattice_0.20-38  
+##  [7] vctrs_0.1.0       colorspace_1.4-1  htmltools_0.3.6  
+## [10] yaml_2.2.0        utf8_1.1.4        rlang_0.3.4      
+## [13] pkgbuild_1.0.3    pillar_1.4.0      glue_1.3.1       
+## [16] withr_2.1.2       sessioninfo_1.1.1 plyr_1.8.4       
+## [19] stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
+## [22] memoise_1.1.0     evaluate_0.13     labeling_0.3     
+## [25] knitr_1.23        callr_3.2.0       ps_1.3.0         
+## [28] curl_3.3          fansi_0.4.0       Rcpp_1.0.1       
+## [31] readr_1.3.1       scales_1.0.0      backports_1.1.4  
+## [34] desc_1.2.0        pkgload_1.0.2     jsonlite_1.6     
+## [37] fs_1.3.1          png_0.1-7         hms_0.4.2        
+## [40] digest_0.6.19     stringi_1.4.3     processx_3.3.1   
+## [43] grid_3.6.0        rprojroot_1.3-2   cli_1.1.0        
+## [46] tools_3.6.0       lazyeval_0.2.2    tibble_2.1.1     
+## [49] zeallot_0.1.0     crayon_1.3.4      tidyr_0.8.3      
+## [52] pkgconfig_2.0.2   Matrix_1.2-17     prettyunits_1.0.2
+## [55] assertthat_0.2.1  rstudioapi_0.10   iterators_1.0.10 
+## [58] R6_2.4.0          compiler_3.6.0</code></pre>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2" class="uri">https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2</a><a href="#fnref1">↩</a></p></li>
+</ol>
 </div>
 </section>
 
