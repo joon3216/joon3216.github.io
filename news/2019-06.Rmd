@@ -154,10 +154,9 @@ output:
 
 # 04
 
-* Headline 13
-* Headline 14
-* Headline 15
-* Headline 16
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cicnews.com/2019/06/ontario-invites-express-entry-candidates-with-work-experience-in-10-occupations-0612344.html#gs.g98xg2">Ontario invites Express Entry candidates with work experience in 10 occupations</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.dailymail.co.uk/news/article-7102137/Professor-saw-Elizabeth-Holmes-explains-men-invested-Theranos-fraud.html">Stanford professor who saw through Elizabeth Holmes and her Theranos blood testing machine explains why so many men invested in the fraud</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.bbc.com/news/world-asia-china-48516455">Tiananmen 30<sup>th</sup> anniversary: Thousands hold huge vigil in Hong Kong</a><!--/html_preserve-->
 
 
 
