@@ -58,7 +58,7 @@ These are the materials that I find either:
 
 ## Methods of Applied Statistics
 
-* Binarization of data using `data.table` in R
+* [Binarizing data using `data.table` in R](research_materials/2018/binarize.html)
 * [Censored data](research_materials/2018/censored_data.html)
 * Linear mixed effects model
 * [Visualizing confidence regions](research_materials/2018/visualizing_confidence_regions.html)

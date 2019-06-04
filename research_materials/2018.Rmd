@@ -24,7 +24,7 @@ output:
 
 # Methods of Applied Statistics
 
-* Binarization of data using `data.table` in R
+* [Binarizing data using `data.table` in R](2018/binarize.html)
 * [Censored data](2018/censored_data.html)
 * Linear mixed effects model
 * [Visualizing confidence regions](2018/visualizing_confidence_regions.html)
