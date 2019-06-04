@@ -738,7 +738,7 @@ end <span class="op">=</span> dt.now()</code></pre></div>
 <h1>3. Comparison with the R function</h1>
 <p>It takes:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">str</span>(end <span class="op">-</span> start)</code></pre></div>
-<pre><code>## &#39;0:00:03.989372&#39;</code></pre>
+<pre><code>## &#39;0:00:05.516252&#39;</code></pre>
 <p>seconds to impute <code>X</code> in Python. Using the same <code>X</code>, let’s see how long the process takes in R. I am using a different name (<code>impute_em_R</code>) for the R function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span>py<span class="op">$</span>X
 <span class="kw">head</span>(X, <span class="dt">n =</span> <span class="dv">9</span>)</code></pre></div>
@@ -772,7 +772,7 @@ end_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></p
 ## [3,]  44.27110 19.13315 20.85078</code></pre>
 <p>They are all the same, as they should be. What about the time it took to impute in R?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end_R <span class="op">-</span><span class="st"> </span>start_R</code></pre></div>
-<pre><code>## Time difference of 2.03457 secs</code></pre>
+<pre><code>## Time difference of 1.931831 secs</code></pre>
 <p>Interestingly, R is about 2.5 times as fast as Python for this particular process. One explanation is that in <code>impute_em</code> written in Python, indices corresponding to <code>M_i</code> and <code>O_i</code> are extracted in each iteration of nested loop (for-loop inside the while-loop), whereas all of <code>M_i</code> and <code>O_i</code> are extracted using <code>lapply</code> in R before going over the loops.</p>
 </div>
 <div id="session-info" class="section level1">
@@ -823,7 +823,7 @@ sinfo.sinfo()</code></pre></div>
 ## Windows-10-10.0.17763
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-06-03 23:38</code></pre>
+## Session information updated at 2019-06-03 23:48</code></pre>
 </div>
 <div id="related-pages" class="section level1">
 <h1>Related pages</h1>
@@ -843,11 +843,7 @@ sinfo.sinfo()</code></pre></div>
         <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/cv_junkyu_park.pdf" style="font-size: 11pt;">CV</a>
     </p>
     <p style="text-align: center;">
-        © 2019 Junkyu Park
-        <br>
-        Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine
-        <br>
-        Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->
