@@ -35,7 +35,7 @@ University of Toronto Accessibility Services
 
 * volunteered as a note-taker for students with disabilities
 
-\bigskip        
+\bigskip
 
 **Assistant Squad Leader** (Sergeant) \hspace*{\fill} Oct 2014 - July 2016  
 The 15^th^ Infantry Division, Republic of Korea Army
@@ -63,10 +63,10 @@ The 15^th^ Infantry Division, Republic of Korea Army
 * PostgreSQL
     + able to use functions such as `unnest`, `array`, and `information_schema`
     + able to combine information in tables using:
-    + if-then-else statement using `CASE`, `WHEN`, `THEN`, and `ELSE`
-    + `INNER JOIN`, `USING`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`, `CROSS JOIN`
-    + `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`
-     able to write subqueries
+        + if-then-else statement using `CASE`, `WHEN`, `THEN`, and `ELSE`
+        + `INNER JOIN`, `USING`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`, `CROSS JOIN`
+        + `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`
+    + able to write subqueries
 * Python
     + able to write functions to implement algorithms
 * R
