@@ -292,22 +292,28 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         content: '+'; /* old: &#9660 nabla */
         font-size: 20pt;
         font-family: sans-serif;
+        height: 40px;
         position: absolute;
-        line-height: 30px;
+        /* line-height: 30px; */
         color: #ffffff;
-        top: 5pt;
+        width: 20px;
+        /* top: 5pt; */
         right: 25px;
         cursor: pointer;
+        bottom: 18px;
     }
     #navbar nav ul li.active.sub-menu:before
     {
-        content: '-';  /* new: &#9650 Delta */
-        font-size: 30pt;
-        top: 5pt;
+        content: '–';  /* new: &#9650 Delta */
+        font-size: 20pt;
+        /* top: 5pt; */
         right: 25px;
-        line-height: 30px;
+        /* line-height: 30px; */
         cursor: pointer;
+        position: absolute;
         color: #666;
+        bottom: 18px;
+        height: 40px;
     }
     #navbar nav ul li ul
     {
@@ -328,6 +334,12 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav ul li.active ul
     {
         display: block;
+    }
+
+    /* new; why: no background color change in dropdown menu when hovering over in mobile */
+    #navbar nav ul li.sub-menu:hover ul li:hover
+    {
+        background-color: rgba(5, 83, 143, 0);
     }
 
     /* new: News; why: to make News align with the others in mobile */
@@ -888,16 +900,17 @@ plt.show()</code></pre></div>
 ## [5] magrittr_1.5     itertools2_0.1.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       compiler_3.6.0   pillar_1.4.0     plyr_1.8.4      
+##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.0   pillar_1.4.0    
 ##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      digest_0.6.19   
 ##  [9] jsonlite_1.6     evaluate_0.13    tibble_2.1.1     gtable_0.3.0    
 ## [13] lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2  rlang_0.3.4     
 ## [17] Matrix_1.2-17    rstudioapi_0.10  yaml_2.2.0       xfun_0.7        
-## [21] withr_2.1.2      stringr_1.4.0    knitr_1.23       hms_0.4.2       
-## [25] grid_3.6.0       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
-## [29] readr_1.3.1      tidyr_0.8.3      purrr_0.3.2      scales_1.0.0    
-## [33] htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1 labeling_0.3    
-## [37] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
+## [21] withr_2.1.2      stringr_1.4.0    xml2_1.2.0       knitr_1.23      
+## [25] hms_0.4.2        grid_3.6.0       tidyselect_0.2.5 glue_1.3.1      
+## [29] R6_2.4.0         readr_1.3.1      tidyr_0.8.3      purrr_0.3.2     
+## [33] scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1
+## [37] labeling_0.3     stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0   
+## [41] crayon_1.3.4</code></pre>
 <p>Python session info:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> sinfo
 sinfo.sinfo()</code></pre></div>
@@ -909,7 +922,7 @@ sinfo.sinfo()</code></pre></div>
 ## Windows-10-10.0.17763
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-06-03 23:47</code></pre>
+## Session information updated at 2019-06-04 15:09</code></pre>
 </div>
 <div id="related-page" class="section level1">
 <h1>Related page</h1>

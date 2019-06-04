@@ -26,6 +26,8 @@ c(
     # 01_lvl
     ## news
     'news/2019-06.Rmd',
+    'news/2019-07.Rmd',
+    'news/2019-08.Rmd',
 
     ## projects
     'projects/2019.Rmd',

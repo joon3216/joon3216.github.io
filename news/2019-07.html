@@ -292,22 +292,28 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
         content: '+'; /* old: &#9660 nabla */
         font-size: 20pt;
         font-family: sans-serif;
+        height: 40px;
         position: absolute;
-        line-height: 30px;
+        /* line-height: 30px; */
         color: #ffffff;
-        top: 5pt;
+        width: 20px;
+        /* top: 5pt; */
         right: 25px;
         cursor: pointer;
+        bottom: 18px;
     }
     #navbar nav ul li.active.sub-menu:before
     {
-        content: '-';  /* new: &#9650 Delta */
-        font-size: 30pt;
-        top: 5pt;
+        content: '–';  /* new: &#9650 Delta */
+        font-size: 20pt;
+        /* top: 5pt; */
         right: 25px;
-        line-height: 30px;
+        /* line-height: 30px; */
         cursor: pointer;
+        position: absolute;
         color: #666;
+        bottom: 18px;
+        height: 40px;
     }
     #navbar nav ul li ul
     {
@@ -328,6 +334,12 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     #navbar nav ul li.active ul
     {
         display: block;
+    }
+
+    /* new; why: no background color change in dropdown menu when hovering over in mobile */
+    #navbar nav ul li.sub-menu:hover ul li:hover
+    {
+        background-color: rgba(5, 83, 143, 0);
     }
 
     /* new: News; why: to make News align with the others in mobile */
