@@ -44,7 +44,7 @@ output:
 <tbody>
 
 <tr>
-<th class="table_title"colspan="7" style="text-align: center; text-shadow: none;">June 2019</th>
+<th class="table_title"colspan="7" style="text-align: center; text-shadow: none;"><a class="fas fa-angle-left" style="color: rgba(0, 0, 0, 0); font-size: 18pt;"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a style="font-size: 18pt; color: #FFF;">June 2019</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="fas fa-angle-right" title="2019-07" href="2019-07.html" style="color: #1E6BB8; font-size: 18pt;"></a></th>
 </tr>
 
 <tr>

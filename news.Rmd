@@ -62,8 +62,8 @@ Here is a collection of news. In this section:
 <tr class="second_row" style="
     background-color: #F2F2F2
 ">
-<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-07">Jul</a></td>
-<td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-08">Aug</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a class="available" style="color: #1E6BB8;" href="news/2019-07.html" title="News 2019-07">Jul</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a class="available" style="color: #1E6BB8;" href="news/2019-08.html" title="News 2019-08">Aug</a></td>
 <td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-09">Sep</a></td>
 <td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-10">Oct</a></td>
 <td style="text-align: center; border: 1px solid #BBB"><a href="#" title="News 2019-11">Nov</a></td>
