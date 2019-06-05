@@ -155,6 +155,7 @@ output:
 # 04
 
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cicnews.com/2019/06/ontario-invites-express-entry-candidates-with-work-experience-in-10-occupations-0612344.html#gs.g98xg2">Ontario invites Express Entry candidates with work experience in 10 occupations</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://phys.org/news/2019-06-machine-sensors.html">Researchers developed AIfES, an artificial intelligence (AI) concept for microcontrollers and sensors that contains a completely configurable artificial neural network</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.dailymail.co.uk/news/article-7102137/Professor-saw-Elizabeth-Holmes-explains-men-invested-Theranos-fraud.html">Stanford professor who saw through Elizabeth Holmes and her Theranos blood testing machine explains why so many men invested in the fraud</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.bbc.com/news/world-asia-china-48516455">Tiananmen 30<sup>th</sup> anniversary: Thousands hold huge vigil in Hong Kong</a><!--/html_preserve-->
 
@@ -162,10 +163,7 @@ output:
 
 # 05
 
-* Headline 17
-* Headline 18
-* Headline 19
-* Headline 20
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.tomshardware.com/news/amd-zen-china-x86-ip-license,39573.html">AMD not conducting further technology transfers of x86 IP to China JV</a><!--/html_preserve-->
 
 
 # 06

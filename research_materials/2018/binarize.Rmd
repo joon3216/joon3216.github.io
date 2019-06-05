@@ -1,5 +1,5 @@
 ---
-title: "Binarizing data using `data.table`"
+title: "Binarizing data using data.table"
 header-includes:
  - \usepackage{cancel}
  - \newcommand{\bX}{\mathbf{X}}
@@ -19,6 +19,7 @@ output:
         - ../../style/all_navbar_body_02_lvl.html
       after_body:
         - ../../style/all_footer_02_lvl.html
+    # df_print: paged
     toc: FALSE
     self_contained: FALSE
 ---
@@ -28,8 +29,9 @@ The following packages and datasets are used:
 ```{r loading, warning = F, message = F}
 library(data.table)
 library(pROC)
+as_tibble <- dplyr::as_tibble
+data(femsmoke, package = 'faraway')
 data(nodal, package = 'SMPracticals')
-data(smoking, package = 'SMPracticals')
 ```
 
 <!--html_preserve-->
@@ -49,12 +51,196 @@ data(smoking, package = 'SMPracticals')
 
 # 1. Introduction
 
+In order to fit a model using logistic regression, we require a binary response. However, if we are given categorical features, such as age group, then data can be structured so that responses are not binary, but rather a count of cases for each combination of features. As an example, consider `rich` dataset where:
+
+* `is_rich` is a response variable having 1 if the person is rich and 0 otherwise
+* `gender` is a categorical variable with two categories: `M` or `F` 
+* `criminal_record` is also a categorical variable: `yes` if the person has one, and `no` otherwise
+
+```{r eg1_1}
+set.seed(1024)
+is_rich <- rbinom(10, size = 1, prob = .5)
+gender <- rbinom(10, size = 1, prob = .5)
+criminal_record <- rbinom(10, size = 1, prob = .5)
+
+# Binary response
+(rich <- data.table(
+    gender = ifelse(gender == 1, 'M', 'F'),
+    criminal_record = ifelse(criminal_record == 1, 'yes', 'no'),
+    is_rich = is_rich
+))
+```
+
+This `rich` dataset has a binary response. However, when you are given a dataset for the first time, it may have a following form:
+
+```{r eg1_2}
+# Binomial response
+(rich_binom <- rich[
+    order(gender, criminal_record), 
+    .(rich = sum(is_rich), not_rich = sum(!is_rich)), 
+    by = "gender,criminal_record"
+])
+```
+
+or:
+
+```{r want, eval = F, echo = F}
+rich_binom %>% gather(key, value, -(gender:criminal_record))
+```
+
+```{r eg1_3}
+# Count; response variable is now 'count', not 'is_rich'
+(rich_pois <- melt(
+    rich_binom, 
+    id.vars = c('gender', 'criminal_record'),
+    variable.name = 'is_rich',
+    value.name = 'count'
+))
+```
+
+
+Forms of `rich_binom` and `rich_pois` allow us to fit binomial and poisson regression respectively, but not the logistic regression. This document is about transforming the second and third dataset into the first one, i.e. binarizing datasets.
 
 
 
 # 2. Case studies
 
+The first case concern with transformation from a binomial response to a binary response, and the second case is from a count response to a binary response.
+
+
 ## Case 1: `nodal`
+
+`nodal` is the dataset where:
+
+* `m` is just a column of ones
+* `r` is an indicator of nodal involvement
+* `aged`, `stage`, `grade`, `xray`, `acid` are categorical features
+
+See [here](https://rdrr.io/cran/SMPracticals/man/nodal.html) for more information.
+
+```{r eg2_1_1}
+setDT(nodal)
+as_tibble(nodal)
+```
+
+We can transform this into `nodal_binom`, the data that has binomial responses:
+
+```{r eg2_1_2}
+nodal_binom <- nodal[
+    , 
+    .(m = sum(m), r = sum(r)), 
+    by = c('aged', 'stage', 'grade', 'xray', 'acid')
+][
+    , 
+    c('yes_node', 'no_node', 'm', 'r') := list(r, m - r, NULL, NULL)
+][
+    order(-yes_node, -no_node)
+][]
+as_tibble(nodal_binom)
+```
+
+`nodal_binom` has a form of `rich_binom`, where the last two columns are computed from `r`, the binary response in the original `nodal` data. `yes_node` is a count of 1's in `r` in the original dataset, and `no_node` a count of 0's.
+
+The function `binarize` will convert `nodal_binom` back to `nodal`. `dpmf` and `rpmf` in [Evaluating a hard-to-evaluate pmf
+using pgf and DFT](pgf.html) are used to create random names for names of variable and value columns:
+
+```{r eg2_1_3_05, echo = F}
+dpmf <- function(x, pmf_vec, support_vec) {
+    # x: a number, or a vector whose class is the same as support_vec.
+    # pmf_vec: a numeric vector, where all elements fall into (0, 1) and 
+    #          sum up to 1.
+    # support_vec: a vector with the same length as pmf_vec where
+    #              each entry of support_vec is the input that corresponds to
+    #              the probability in pmf_vec; if missing, it is replaced 
+    #              with 0:(length(pmf_vec) - 1).
+    
+    M <- length(pmf_vec)
+    if (missing(support_vec)) {
+        names(pmf_vec) <- 0:(M - 1)
+    } else {
+        names(pmf_vec) <- support_vec
+    }
+    sapply(
+        x,
+        function(d) {
+            if (d %in% names(pmf_vec)) {
+                unname(pmf_vec[as.character(d)])
+            } else {
+                0
+            }
+        }
+    )
+}
+
+rpmf <- function(n, pmf, support, ...) {
+    # n: an integer
+    # pmf, support: the same as pmf_vec and support_vec in dpmf respectively
+    # ...: additional arguments of pmf
+    
+    cdf <- c(0, cumsum(pmf(support, ...)))
+    unif_01 <- runif(n)
+    result <- numeric(length = n)
+    for (k in 1:n) {
+        for (j in 1:(length(cdf) - 1)) {
+            if (I(unif_01[k] >= cdf[j] & unif_01[k] < cdf[j + 1])) {
+                result[k] <- support[j]
+            }
+        }
+    }
+    result
+}
+```
+
+```{r eg2_1_3, eval = F}
+binarize <- function(dat, family, responses = NULL) {
+    # dat: a data whose features are categorical
+    # family: either 'binomial' or 'poisson'; must be specified
+    # responses (must be specified): 
+    #     * If family == 'binomial', then it is a character vector of
+    #       length 2 where each element is the name of column that stores 
+    #       the counts of positive and negative responses.
+    #     * If family == 'poisson', then it is a character vector of
+    #       length 1; the character is the column name that stores counts.
+    
+    # Name generator
+    all_alphabets <- c(
+        'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f',
+        'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
+        'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r',
+        'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x',
+        'Y', 'y', 'Z', 'z'
+    )
+    dalphabet <- function(x){
+        unname(dpmf(
+            x, 
+            rep(1, length(all_alphabets)) / length(all_alphabets),
+            all_alphabets
+        ))
+    }
+    variable_name <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    value_name <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    
+    # Setup
+    col_names <- colnames(nodal_binom)
+    if (!('data.table' %in% class(dat))) {setDT(dat)}
+    if (family == 'binomial') {
+        id_vars <- col_names[!(col_names %in% responses)]
+        dat <- melt(
+            dat,
+            id.vars = id_vars,
+            variable.name = variable_name,
+            value.name = value_name
+        )
+    }
+    
+    dat[
+        ,
+        .(pop = sum(value_name)),
+        by = id_vars
+    ]
+}
+```
+
 
 
 ## Case 2: `smoking`
