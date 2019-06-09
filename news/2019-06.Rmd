@@ -183,9 +183,9 @@ output:
 
 # 08
 
-* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/womensworldcup/news/renard-heads-hosts-to-the-perfect-start#eugenie-le-sommer-of-france-celebrates-with-teammates-after-scoring-x2182">FIFA Women's World Cup France 2019; [France 4-0 Korea Republic] Hosts make the perfect start</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.bbc.com/sport/football/48568240">Euro 2020 qualifiers: Turkey 2-0 France</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/u20worldcup/news/korea-republic-complete-thrilling-comeback-on-penalties#fans-of-korea-republic-show-their-support-x5055">FIFA U-20 World Cup Poland 2019; [Korea Republic 3-3 Senegal a.e.t., 3-2 penalties] Korea Republic complete thrilling comeback on penalties</a><!--/html_preserve-->
-
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/womensworldcup/news/renard-heads-hosts-to-the-perfect-start#eugenie-le-sommer-of-france-celebrates-with-teammates-after-scoring-x2182">FIFA Women's World Cup France 2019; [France 4-0 Korea Republic] Hosts make the perfect start</a><!--/html_preserve-->
 
 
 

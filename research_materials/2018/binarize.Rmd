@@ -42,7 +42,7 @@ data(nodal, package = 'SMPracticals')
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#case-studies">2. Case studies</a><ul>
 <li><a href="#case-1-nodal">Case 1: <code>nodal</code></a></li>
-<li><a href="#case-2-smoking">Case 2: <code>smoking</code></a></li>
+<li><a href="#case-2-femsmoke">Case 2: <code>femsmoke</code></a></li>
 </ul></li>
 <li><a href="#session-info">Session info</a></li>
 </ul>
@@ -132,7 +132,7 @@ The first case concern with transformation from a binomial response to a binary 
 `nodal` is the dataset where:
 
 * `m` is just a column of ones
-* `r` is an indicator of nodal involvement
+* `r` is an indicator of nodal involvement (`1` for yes, `0` for no)
 * `aged`, `stage`, `grade`, `xray`, `acid` are categorical features
 
 See [here](https://rdrr.io/cran/SMPracticals/man/nodal.html) for more information.
@@ -160,7 +160,7 @@ as_tibble(nodal_binom)
 
 `nodal_binom` has a form of `rich_binom`, where the last two columns are computed from `r`, the binary response in the original `nodal` data. `yes_node` is a count of 1's in `r` in the original dataset, and `no_node` a count of 0's.
 
-The function `binarize` will convert `nodal_binom` back to `nodal`. `dpmf` and `rpmf` (in `funpark` package) are used to create random names for variable and value columns:
+The function `binarize` will convert `nodal_binom` back to `nodal`. `dpmf` and `rpmf` (in `funpark` package) are used to create random names for variable and value columns in order to avoid duplicate names:
 
 
 ```{r eg2_1_3, eval = F}
@@ -169,13 +169,13 @@ binarize <- function(dat, family, responses = NULL) {
     # dat: a data whose features are categorical
     # family: either 'binomial' or 'poisson'; must be specified
     # responses (must be specified): 
-    #     * If family == 'binomial', then it is a character vector of
+    #     * If family == 'binomial', then it must be a character vector of
     #       length 2 where each element is the name of column that stores 
-    #       the counts of positive and negative responses.
-    #     * If family == 'poisson', then it is a character vector of
+    #       the counts of positive and negative responses, in this order.
+    #     * If family == 'poisson', then it must be a character vector of
     #       length 1; the character is the column name that stores counts.
     
-    # Name generator to avoid the same name in features
+    # Generate random names to avoid the same names as in features
     all_alphabets <- c(
         'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f',
         'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
@@ -192,12 +192,15 @@ binarize <- function(dat, family, responses = NULL) {
     }
     variable_name <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
     value_name <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    separator <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
     
     # Setup
     col_names <- colnames(dat)
+    id_vars <- col_names[!(col_names %in% responses)]
+    id_vars_plus <- paste0(id_vars, collapse = ' + ')
     if (!('data.table' %in% class(dat))) {setDT(dat)}
     if (family == 'binomial') {
-        id_vars <- col_names[!(col_names %in% responses)]
+        # Transform into the form that is used in poisson regression
         dat <- melt(
             dat,
             id.vars = id_vars,
@@ -205,17 +208,191 @@ binarize <- function(dat, family, responses = NULL) {
             value.name = value_name
         )
     }
-    id_vars_plus <- paste0(id_vars, collapse = ' + ')
     
-    dat_wide <- eval(parse(text = paste0(
-        'dcast(dat, ', variable_name, ' ~ ', id_vars_plus,
-        ', value.var = \"', value_name, '\")'
+    dat_before <- eval(parse(text = paste0(
+        'dat[', value_name, ' != 0, ',
+        '.(united = do.call(paste, c(.SD, sep = \"', separator, '\")), ',
+        value_name, '),',
+        '.SDcols = ', id_vars[1], ':', variable_name, ']'
     )))
-    
-    lvl_collections
+    dat_before[
+        ,
+        list(
+            result = rep(
+                as.data.frame(dat_before)[, 'united'],
+                as.data.frame(dat_before)[, value_name]
+            )
+        )
+    ] %>% separate(result, c(id_vars, variable_name), sep = separator)
 }
 ```
 
+```{r eg_rich, echo = F, eval = F}
+rich_more <- cbind(rich, region = c('u', 's', 'r', 'd', 'u', 's', 'd', 'r', 's', 'u'))
+rich_binom_more <- rich_more[
+    order(gender, criminal_record), 
+    .(rich = sum(is_rich), not_rich = sum(!is_rich)), 
+    by = "gender,criminal_record,region"
+]
+rich_pois_more <- melt(
+    rich_binom_more, 
+    id.vars = c('gender', 'criminal_record', 'region'), 
+    variable.name = 'is_rich', 
+    value.name = 'count'
+)
+
+rich_wide <- dcast(
+    rich_pois, 
+    is_rich ~ gender + criminal_record, 
+    value.var = 'count'
+)
+rich_wide_more <- dcast(
+    rich_pois_more, 
+    is_rich ~ gender + criminal_record + region, 
+    value.var = 'count'
+)
+
+rich_binary <- rich_wide[
+    ,
+    list(
+        gender = rep(
+            rep(c('F', 'M'), 1),
+            c(F_no + F_yes, M_no + M_yes)
+        ),
+        criminal = rep(
+            rep(c('no', 'yes'), 2),
+            c(F_no, F_yes, M_no, M_yes)
+        )
+    ),
+    is_rich
+][]
+
+rich_binary_2 <- rich_wide[ # Not the correct form!
+    ,
+    list(
+        gender = rep(
+            c('F', 'M'),
+            c(F_no + F_yes, M_no + M_yes)
+        ),
+        criminal = rep(
+            c('no', 'yes'),
+            c(F_no + M_no, F_yes + M_yes)
+        )
+    ),
+    is_rich
+][]
+
+rich_more_binary <- rich_wide_more[
+    ,
+    list(
+        gender = rep(
+            c('F', 'M'),
+            c(F_no_d + F_no_r + F_no_u + F_yes_u +F_yes_s, 
+              M_no_r + M_no_s + M_yes_d + M_yes_u)
+        ),
+        criminal = rep(
+            c('no', 'yes', 'no', 'yes'), # f and m * no and yes
+            c(F_no_d + F_no_r + F_no_u, F_yes_u + F_yes_s,
+              M_no_r + M_no_s, M_yes_d + M_yes_u)
+        ),
+        region = rep(
+            c('d', 'r',      'u', 
+                        's', 'u',
+                   'r', 's',
+              'd',           'u'), 
+            # f and m * no and yes * four types of region
+            c(F_no_d, F_no_r,          F_no_u,
+                              F_yes_s, F_yes_u,
+                      M_no_r, M_no_s,
+              M_yes_d,                 M_yes_u)
+        )
+    ),
+    is_rich
+][]
+
+gender_lvl <- c('F', 'M')
+criminal_lvl <- c('no', 'yes')
+region_lvl <- c('d', 'r', 's', 'u')
+lvl_lst <- list(gender_lvl, criminal_lvl, region_lvl)
+wide_more_col_names <- colnames(rich_wide_more)[-1]
+all_possible_col_names <- 
+    as.data.frame(CJ(gender_lvl, criminal_lvl, region_lvl)[
+        , 
+        .(result = do.call(paste, c(.SD, sep = "_"))), 
+        .SDcols = gender_lvl:region_lvl
+    ])[, 'result']
+to_keep <- which(all_possible_col_names %in% wide_more_col_names)
+# or expand.grid instead of CJ, or tidyr::crossing
+
+# Different way
+rich_pois_step <- rich_pois[
+    count != 0,
+    .(united = do.call(paste, c(.SD, sep = 'wwnsvwepfd')), count),
+    .SDcols = gender:is_rich
+]
+rich_binary2 <- rich_pois_step[
+    ,
+    list(
+        result = rep(
+            rich_pois_step %>% pull(united), 
+            rich_pois_step %>% pull(count)
+        )
+    )
+]
+rich_binary2 %>% 
+    tidyr::separate(
+        result,
+        c('gender', 'criminal', 'is_rich'),
+        sep = 'wwnsvwepfd'
+    )
+```
+
+
+```{r eg_nodal, eval = F, echo = F}
+lvls1 <- c('0', '1')
+lvls2 <- c('0', '1')
+lvls3 <- c('0', '1')
+lvls4 <- c('0', '1')
+lvls5 <- c('0', '1')
+all_poss_lvls <- 
+    as.data.frame(
+        CJ(lvls1, lvls2, lvls3, lvls4, lvls5)[
+            ,
+            .(result = do.call(paste, c(.SD, sep = "_"))),
+            .SDcols = lvls1:lvls5
+        ]
+    )[, 'result']
+
+dat_wide_col_names <- colnames(dat_wide)[-1]
+to_keep_names <- which(all_poss_lvls %in% dat_wide_col_names)
+
+dat_binary <- dat_wide[
+    ,
+    list(
+        id_vars[1] = rep(
+            rep(),
+            c()
+        ),
+        id_vars[2] = rep(
+            rep(),
+            c()
+        ),
+        id_vars[3] = rep(
+            rep(),
+            c()
+        ),
+        id_vars[4] = rep(
+            rep(),
+            c()
+        ),
+        id_vars[5] = rep(
+            rep(),
+            c()
+        ),
+    ),
+    colnames(dat_wide)[1]
+][]
+```
 
 
 ## Case 2: `femsmoke`

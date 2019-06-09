@@ -535,7 +535,7 @@ as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#case-studies">2. Case studies</a><ul>
 <li><a href="#case-1-nodal">Case 1: <code>nodal</code></a></li>
-<li><a href="#case-2-smoking">Case 2: <code>smoking</code></a></li>
+<li><a href="#case-2-femsmoke">Case 2: <code>femsmoke</code></a></li>
 </ul></li>
 <li><a href="#session-info">Session info</a></li>
 </ul>
@@ -611,7 +611,7 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 <p><code>nodal</code> is the dataset where:</p>
 <ul>
 <li><code>m</code> is just a column of ones</li>
-<li><code>r</code> is an indicator of nodal involvement</li>
+<li><code>r</code> is an indicator of nodal involvement (<code>1</code> for yes, <code>0</code> for no)</li>
 <li><code>aged</code>, <code>stage</code>, <code>grade</code>, <code>xray</code>, <code>acid</code> are categorical features</li>
 </ul>
 <p>See <a href="https://rdrr.io/cran/SMPracticals/man/nodal.html">here</a> for more information.</p>
@@ -658,7 +658,7 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 10 1     0     1     1     1            1       0
 ## # ... with 13 more rows</code></pre>
 <p><code>nodal_binom</code> has a form of <code>rich_binom</code>, where the last two columns are computed from <code>r</code>, the binary response in the original <code>nodal</code> data. <code>yes_node</code> is a count of 1’s in <code>r</code> in the original dataset, and <code>no_node</code> a count of 0’s.</p>
-<p>The function <code>binarize</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns:</p>
+<p>The function <code>binarize</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns in order to avoid duplicate names:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
 binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, family, <span class="dt">responses =</span> <span class="ot">NULL</span>) {
     <span class="co"># dat: a data whose features are categorical</span>
