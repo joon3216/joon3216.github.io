@@ -164,30 +164,28 @@ output:
 # 05
 
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.tomshardware.com/news/amd-zen-china-x86-ip-license,39573.html">AMD not conducting further technology transfers of x86 IP to China JV</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/u20worldcup/news/sehun-heads-korea-republic-into-quarter-finals#korea-players-celebrate-victory">FIFA U-20 World Cup Poland 2019; Sehun heads Korea Republic into quarter-finals</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="http://www.aparchive.com/metadata/youtube/d4da8d0289a7ffb10059d367a2071f43">'Tank Man' statue unveiled at DC Tiananmem rally</a><!--/html_preserve-->
+
 
 # 06
 
 * <!--html_preserve--><a style="color: #1E6BB8;" href="http://www.koreaherald.com/view.php?ud=20190606000056">Memorial Day in South Korea; Moon urges national unity based on patriotism in Memorial Day speech</a><!--/html_preserve-->
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cbc.ca/sports/basketball/nba/toronto-raptors-golden-state-warriors-devin-heroux-game-4-1.5164335">Raptors' Game 3 win at Oracle Arena puts Warriors in uncharted territory</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.foxsportsasia.com/football/asian-football/1112528/watch-vietnam-players-celebrate-with-fans-after-defeating-thailand-to-reach-the-kings-cup-2019-final/">Vietnam players celebrate with fans after defeating Thailand to reach the King's Cup 2019 final</a><!--/html_preserve-->
 
 
 # 07
 
-* Headline 25
-* Headline 26
-* Headline 27
-* Headline 28
-
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.nytimes.com/2019/06/07/sports/raptors-warriors-score.html">Raptors won Game 4 and are 1 win from an NBA Championship</a><!--/html_preserve-->
 
 
 
 # 08
 
-* Headline 29
-* Headline 30
-* Headline 31
-* Headline 32
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/womensworldcup/news/renard-heads-hosts-to-the-perfect-start#eugenie-le-sommer-of-france-celebrates-with-teammates-after-scoring-x2182">FIFA Women's World Cup France 2019; [France 4-0 Korea Republic] Hosts make the perfect start</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/u20worldcup/news/korea-republic-complete-thrilling-comeback-on-penalties#fans-of-korea-republic-show-their-support-x5055">FIFA U-20 World Cup Poland 2019; [Korea Republic 3-3 Senegal a.e.t., 3-2 penalties] Korea Republic complete thrilling comeback on penalties</a><!--/html_preserve-->
+
 
 
 
