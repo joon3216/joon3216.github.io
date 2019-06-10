@@ -192,12 +192,9 @@ output:
 
 # 09
 
-* Headline 33
-* Headline 34
-* Headline 35
-* Headline 36
-
-
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.wsj.com/articles/china-warns-tech-companies-about-complying-with-trade-restrictions-11560024872">China warns tech companies about complying with trade restrictions</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cnn.com/2019/06/08/asia/hong-kong-extradition-bill-protest-intl/index.html">More than 1 million protest in Hong Kong, organizers say, over Chinese extradition law</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.euronews.com/2019/06/09/portugal-win-inaugural-uefa-nations-league-tournament">Portugal win inaugural UEFA Nations League tournament</a><!--/html_preserve-->
 
 
 # 10

@@ -538,6 +538,7 @@ as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
 <li><a href="#case-2-femsmoke">Case 2: <code>femsmoke</code></a></li>
 </ul></li>
 <li><a href="#session-info">Session info</a></li>
+<li><a href="#related-pages">Related pages</a></li>
 </ul>
 </div>
 &nbsp;
@@ -608,7 +609,7 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 <p>The first case concern with transformation from a binomial response to a binary response, and the second case is from a count response to a binary response.</p>
 <div id="case-1-nodal" class="section level2">
 <h2>Case 1: <code>nodal</code></h2>
-<p><code>nodal</code> is the dataset where:</p>
+<p><code>nodal</code> is the dataset in <code>SMPracticals</code> package where:</p>
 <ul>
 <li><code>m</code> is just a column of ones</li>
 <li><code>r</code> is an indicator of nodal involvement (<code>1</code> for yes, <code>0</code> for no)</li>
@@ -659,18 +660,21 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## # ... with 13 more rows</code></pre>
 <p><code>nodal_binom</code> has a form of <code>rich_binom</code>, where the last two columns are computed from <code>r</code>, the binary response in the original <code>nodal</code> data. <code>yes_node</code> is a count of 1’s in <code>r</code> in the original dataset, and <code>no_node</code> a count of 0’s.</p>
 <p>The function <code>binarize</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns in order to avoid duplicate names:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
-binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, family, <span class="dt">responses =</span> <span class="ot">NULL</span>) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, family, responses, value.name) {
     <span class="co"># dat: a data whose features are categorical</span>
     <span class="co"># family: either &#39;binomial&#39; or &#39;poisson&#39;; must be specified</span>
     <span class="co"># responses (must be specified): </span>
-    <span class="co">#     * If family == &#39;binomial&#39;, then it is a character vector of</span>
+    <span class="co">#     * If family == &#39;binomial&#39;, then it must be a character vector of</span>
     <span class="co">#       length 2 where each element is the name of column that stores </span>
-    <span class="co">#       the counts of positive and negative responses.</span>
-    <span class="co">#     * If family == &#39;poisson&#39;, then it is a character vector of</span>
+    <span class="co">#       the counts of positive and negative responses, in this order.</span>
+    <span class="co">#     * If family == &#39;poisson&#39;, then it must be a character vector of</span>
     <span class="co">#       length 1; the character is the column name that stores counts.</span>
+    <span class="co"># value.name: a character; if missing, then a randomly generated </span>
+    <span class="co">#             character will be used</span>
+    <span class="co"># e.g.</span>
+    <span class="co"># binarize(nodal_binom, &#39;binomial&#39;, c(&#39;yes_node&#39;, &#39;no_node&#39;), &#39;r&#39;)</span>
     
-    <span class="co"># Name generator to avoid the same name in features</span>
+    <span class="co"># Generate random names to avoid the same names as in features</span>
     all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(
         <span class="st">&#39;A&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;F&#39;</span>, <span class="st">&#39;f&#39;</span>,
         <span class="st">&#39;G&#39;</span>, <span class="st">&#39;g&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;h&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;i&#39;</span>, <span class="st">&#39;J&#39;</span>, <span class="st">&#39;j&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;k&#39;</span>, <span class="st">&#39;L&#39;</span>, <span class="st">&#39;l&#39;</span>,
@@ -685,14 +689,22 @@ binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fam
             all_alphabets
         ))
     }
+    <span class="cf">if</span> (<span class="kw">missing</span>(value.name)) {
+        value_name &lt;-<span class="st"> </span>
+<span class="st">            </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+        <span class="kw">message</span>(<span class="st">&#39;Randomly generated value name used: &#39;</span>, value_name)
+    } <span class="cf">else</span> {
+        value_name &lt;-<span class="st"> </span>value.name
+    }
     variable_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    value_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    separator &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
     
     <span class="co"># Setup</span>
     col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
+    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]
     <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}
     <span class="cf">if</span> (family <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-        id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]
+        <span class="co"># Transform into the form that is used in poisson regression</span>
         dat &lt;-<span class="st"> </span><span class="kw">melt</span>(
             dat,
             <span class="dt">id.vars =</span> id_vars,
@@ -700,15 +712,98 @@ binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fam
             <span class="dt">value.name =</span> value_name
         )
     }
-    id_vars_plus &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>)
     
-    dat_wide &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-        <span class="st">&#39;dcast(dat, &#39;</span>, variable_name, <span class="st">&#39; ~ &#39;</span>, id_vars_plus,
-        <span class="st">&#39;, value.var = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, value_name, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)&#39;</span>
+    dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
+        <span class="st">&#39;dat[&#39;</span>, value_name, <span class="st">&#39; != 0, &#39;</span>,
+        <span class="st">&#39;.(united = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>,
+        value_name, <span class="st">&#39;),&#39;</span>,
+        <span class="st">&#39;.SDcols = &#39;</span>, id_vars[<span class="dv">1</span>], <span class="st">&#39;:&#39;</span>, variable_name, <span class="st">&#39;]&#39;</span>
     )))
+    dat &lt;-<span class="st"> </span>dat[
+        ,
+        <span class="kw">list</span>(
+            <span class="dt">result =</span> <span class="kw">rep</span>(
+                <span class="kw">as.data.frame</span>(dat)[, <span class="st">&#39;united&#39;</span>],
+                <span class="kw">as.data.frame</span>(dat)[, value_name]
+            )
+        )
+    ][
+        , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span>
+        <span class="kw">c</span>(id_vars, variable_name) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)
+    ][
+        , 
+        <span class="kw">c</span>(id_vars, variable_name), 
+        with =<span class="st"> </span>F
+    ]
     
-    lvl_collections
+    <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
+        <span class="st">&#39;dat[, &#39;</span>, 
+        value_name, <span class="st">&#39; := ifelse(&#39;</span>, 
+        variable_name, <span class="st">&#39; == </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, responses[<span class="dv">1</span>], <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">, 1, 0)]&#39;</span>,
+        <span class="st">&#39;[, c(id_vars, value_name), with = F]&#39;</span>
+    )))
 }</code></pre></div>
+<p>Let’s see if it works on <code>rich_binom</code> data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich <span class="co"># original binary data</span></code></pre></div>
+<pre><code>##     gender criminal_record is_rich
+##  1:      F              no       0
+##  2:      M              no       1
+##  3:      F              no       0
+##  4:      F              no       0
+##  5:      M             yes       0
+##  6:      F             yes       1
+##  7:      M             yes       0
+##  8:      M              no       0
+##  9:      M              no       1
+## 10:      F             yes       1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_binom <span class="co"># transformed into binomial response</span></code></pre></div>
+<pre><code>##    gender criminal_record rich not_rich
+## 1:      F              no    0        3
+## 2:      F             yes    2        0
+## 3:      M              no    2        1
+## 4:      M             yes    0        2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># binarized</span>
+(rich_binary &lt;-<span class="st"> </span><span class="kw">binarize</span>(
+    <span class="dt">dat =</span> rich_binom, 
+    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, 
+    <span class="dt">responses =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>), 
+    <span class="dt">value.name =</span> <span class="st">&#39;is_rich&#39;</span>
+))</code></pre></div>
+<pre><code>##     gender criminal_record is_rich
+##  1:      F             yes       1
+##  2:      F             yes       1
+##  3:      M              no       1
+##  4:      M              no       1
+##  5:      F              no       0
+##  6:      F              no       0
+##  7:      F              no       0
+##  8:      M              no       0
+##  9:      M             yes       0
+## 10:      M             yes       0</code></pre>
+<p>Is <code>rich</code> and <code>rich_binary</code> equivalent?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setequal</span>(rich[<span class="kw">order</span>(<span class="op">-</span>is_rich, gender, criminal_record)], rich_binary)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Yes, they are. Likewise, the binarized <code>nodal_binom</code> is the same as the original <code>nodal</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_tibble</span>(<span class="kw">binarize</span>(
+    nodal_binom, 
+    <span class="st">&#39;binomial&#39;</span>, 
+    <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>)
+)) <span class="co"># value.name not specified</span></code></pre></div>
+<pre><code>## Randomly generated value name used: hSqjVjFutc</code></pre>
+<pre><code>## # A tibble: 53 x 6
+##    aged  stage grade xray  acid  hSqjVjFutc
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
+##  1 0     1     1     1     1              1
+##  2 0     1     1     1     1              1
+##  3 0     1     1     1     1              1
+##  4 0     1     1     1     1              1
+##  5 0     1     1     1     1              1
+##  6 1     1     0     0     1              1
+##  7 1     1     0     0     1              1
+##  8 0     1     1     0     1              1
+##  9 0     1     1     0     1              1
+## 10 0     0     0     0     1              1
+## # ... with 43 more rows</code></pre>
 </div>
 <div id="case-2-femsmoke" class="section level2">
 <h2>Case 2: <code>femsmoke</code></h2>
@@ -744,6 +839,12 @@ binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fam
 ## [21] purrr_0.3.2      vctrs_0.1.0      prettydoc_0.2.1  zeallot_0.1.0   
 ## [25] glue_1.3.1       evaluate_0.14    rmarkdown_1.13   stringi_1.4.3   
 ## [29] compiler_3.6.0   pillar_1.4.1     backports_1.1.4  pkgconfig_2.0.2</code></pre>
+</div>
+<div id="related-pages" class="section level1">
+<h1>Related pages</h1>
+<ul>
+<li><a href="https://stackoverflow.com/questions/18154556/split-text-string-in-a-data-table-columns">About <code>data.table::tstrsplit</code></a></li>
+</ul>
 </div>
 </section>
 

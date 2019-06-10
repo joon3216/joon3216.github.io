@@ -1,10 +1,5 @@
 ---
 title: "Binarizing data using data.table"
-header-includes:
- - \usepackage{cancel}
- - \newcommand{\bX}{\mathbf{X}}
- - \newcommand{\bx}{\mathbf{x}}
- - \newcommand{\bY}{\mathbf{Y}}
 author: Junkyu Park
 output: 
   prettydoc::html_pretty:
@@ -45,6 +40,7 @@ data(nodal, package = 'SMPracticals')
 <li><a href="#case-2-femsmoke">Case 2: <code>femsmoke</code></a></li>
 </ul></li>
 <li><a href="#session-info">Session info</a></li>
+<li><a href="#related-pages">Related pages</a></li>
 </ul>
 </div>
 &nbsp;
@@ -129,7 +125,7 @@ The first case concern with transformation from a binomial response to a binary 
 
 ## Case 1: `nodal`
 
-`nodal` is the dataset where:
+`nodal` is the dataset in `SMPracticals` package where:
 
 * `m` is just a column of ones
 * `r` is an indicator of nodal involvement (`1` for yes, `0` for no)
@@ -163,17 +159,22 @@ as_tibble(nodal_binom)
 The function `binarize` will convert `nodal_binom` back to `nodal`. `dpmf` and `rpmf` (in `funpark` package) are used to create random names for variable and value columns in order to avoid duplicate names:
 
 
-```{r eg2_1_3, eval = F}
-set.seed(1024)
-binarize <- function(dat, family, responses = NULL) {
+
+```{r eg2_1_3, eval = T}
+binarize <- function(dat, family, responses, 
+                     value.name = NULL, positive_level = NULL) {
     # dat: a data whose features are categorical
-    # family: either 'binomial' or 'poisson'; must be specified
-    # responses (must be specified): 
-    #     * If family == 'binomial', then it must be a character vector of
-    #       length 2 where each element is the name of column that stores 
-    #       the counts of positive and negative responses, in this order.
-    #     * If family == 'poisson', then it must be a character vector of
-    #       length 1; the character is the column name that stores counts.
+    # family: (must be specified) either 'binomial' or 'poisson'
+    # responses: (must be specified) a character vector of:
+    #     * length 2 if family == 'binomial'. Each element is the name of 
+    #       column that stores the counts of positive and negative responses, 
+    #       in this order.
+    #     * length 1 if if family == 'poisson'. Each element is the name of 
+    #       column that stores counts.
+    # value.name: a character; if NULL, then a randomly generated 
+    #             character will be used
+    # positive_level: (only used when family = 'poisson') a character that
+    #                 specifies a positive class
     
     # Generate random names to avoid the same names as in features
     all_alphabets <- c(
@@ -184,22 +185,33 @@ binarize <- function(dat, family, responses = NULL) {
         'Y', 'y', 'Z', 'z'
     )
     dalphabet <- function(x){
-        unname(dpmf(
+        dpmf(
             x, 
             rep(1, length(all_alphabets)) / length(all_alphabets),
             all_alphabets
-        ))
+        )
     }
-    variable_name <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
-    value_name <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
-    separator <- paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    separator <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    united <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    miss_val <- is.null(value.name)
     
     # Setup
     col_names <- colnames(dat)
     id_vars <- col_names[!(col_names %in% responses)]
-    id_vars_plus <- paste0(id_vars, collapse = ' + ')
     if (!('data.table' %in% class(dat))) {setDT(dat)}
     if (family == 'binomial') {
+        if (miss_val) {
+            value_name <- 
+                paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+            message('Randomly generated value name used: ', value_name)
+        } else {
+            value_name <- value.name
+        }
+        variable_name <- 
+            paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+
         # Transform into the form that is used in poisson regression
         dat <- melt(
             dat,
@@ -207,23 +219,58 @@ binarize <- function(dat, family, responses = NULL) {
             variable.name = variable_name,
             value.name = value_name
         )
+        id_vars <- c(id_vars, variable_name)
+    } else if (family == 'poisson') {
+        if (miss_val) {
+            value_name <- responses
+            message(
+                '\"', value_name, 
+                '\" in responses reused as the value name'
+            )
+        } else {
+            value_name <- value.name
+            setnames(dat, old = responses, new = value_name)
+        }
+    } else {
+        stop('family must be either \"binomial\" or \"poisson\"')
     }
-    
-    dat_before <- eval(parse(text = paste0(
+    dat <- eval(parse(text = paste0(
         'dat[', value_name, ' != 0, ',
-        '.(united = do.call(paste, c(.SD, sep = \"', separator, '\")), ',
-        value_name, '),',
-        '.SDcols = ', id_vars[1], ':', variable_name, ']'
+        '.(', united, ' = do.call(paste, c(.SD, sep = \"', separator, 
+        '\")), ', value_name, '),',
+        '.SDcols = ', id_vars[1], ':', id_vars[length(id_vars)], ']'
     )))
-    dat_before[
+    dat <- dat[
         ,
         list(
             result = rep(
-                as.data.frame(dat_before)[, 'united'],
-                as.data.frame(dat_before)[, value_name]
+                as.data.frame(dat)[, united],
+                as.data.frame(dat)[, value_name]
             )
         )
-    ] %>% separate(result, c(id_vars, variable_name), sep = separator)
+    ][
+        , # requires data.table ver >= 1.9.6 because of tstrsplit
+        c(id_vars) := tstrsplit(result, separator, fixed = T)
+    ][
+        , 
+        c(id_vars), 
+        with = F
+    ] 
+    if (family == 'binomial') {
+        eval(parse(text = paste0(
+            'dat[, ',
+            value_name, ' := ifelse(',
+            id_vars[length(id_vars)], ' == \"', responses[1], '\", 1, 0)]',
+            '[, c(id_vars[-length(id_vars)], value_name), with = F]'
+        )))
+    } else {
+        eval(parse(text = paste0(
+            'dat[, ',
+            value_name, ' := ifelse(',
+            id_vars[length(id_vars)], ' == \"', positive_level, '\", 1, 0)]',
+            '[, c(id_vars[-length(id_vars)], value_name), with = F]'
+        )))
+    }
 }
 ```
 
@@ -348,58 +395,59 @@ rich_binary2 %>%
 ```
 
 
-```{r eg_nodal, eval = F, echo = F}
-lvls1 <- c('0', '1')
-lvls2 <- c('0', '1')
-lvls3 <- c('0', '1')
-lvls4 <- c('0', '1')
-lvls5 <- c('0', '1')
-all_poss_lvls <- 
-    as.data.frame(
-        CJ(lvls1, lvls2, lvls3, lvls4, lvls5)[
-            ,
-            .(result = do.call(paste, c(.SD, sep = "_"))),
-            .SDcols = lvls1:lvls5
-        ]
-    )[, 'result']
+Let's see if it works on `rich_binom` data:
 
-dat_wide_col_names <- colnames(dat_wide)[-1]
-to_keep_names <- which(all_poss_lvls %in% dat_wide_col_names)
-
-dat_binary <- dat_wide[
-    ,
-    list(
-        id_vars[1] = rep(
-            rep(),
-            c()
-        ),
-        id_vars[2] = rep(
-            rep(),
-            c()
-        ),
-        id_vars[3] = rep(
-            rep(),
-            c()
-        ),
-        id_vars[4] = rep(
-            rep(),
-            c()
-        ),
-        id_vars[5] = rep(
-            rep(),
-            c()
-        ),
-    ),
-    colnames(dat_wide)[1]
-][]
+```{r eg2_1_4}
+rich # original binary data
+rich_binom # transformed into binomial response
+# binarized
+(rich_binary <- binarize(
+    dat = rich_binom, 
+    family = 'binomial', 
+    responses = c('rich', 'not_rich'), 
+    value.name = 'is_rich'
+))
 ```
+
+Is `rich` and `rich_binary` equivalent?
+
+```{r eg2_1_5}
+rich_binary[, is_rich := as.integer(is_rich)]
+setequal(rich[order(-is_rich, gender, criminal_record)], rich_binary)
+```
+
+Yes, they are. Likewise, the binarized `nodal_binom` is the same as the original `nodal`:
+
+```{r eg2_1_6}
+as_tibble(binarize(
+    nodal_binom, 
+    'binomial', 
+    c('yes_node', 'no_node')
+)) # value.name not specified
+```
+
 
 
 ## Case 2: `femsmoke`
 
+```{r eg2_2_1}
+binarize(
+    rich_pois, 
+    family = 'poisson',
+    responses = 'count',
+    positive_level = 'rich'
+)
+```
 
-
-
+```{r eg2_2_2}
+binarize(
+    femsmoke,
+    'poisson',
+    'y',
+    value.name = 'count',
+    positive_level = 'yes'
+)
+```
 
 
 # Session info
@@ -410,6 +458,11 @@ R session info:
 sessionInfo()
 ```
 
+
+
+# Related pages
+
+* [About `data.table::tstrsplit`](https://stackoverflow.com/questions/18154556/split-text-string-in-a-data-table-columns)
 
 
 
