@@ -522,9 +522,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following packages and datasets are used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(boot)
+<span class="kw">library</span>(data.table)
 <span class="co"># devtools::install_github(&#39;joon3216/funpark&#39;)</span>
 <span class="kw">library</span>(funpark)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(ggrepel)
 <span class="kw">library</span>(pROC)
 as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
 <span class="kw">data</span>(femsmoke, <span class="dt">package =</span> <span class="st">&#39;faraway&#39;</span>)
@@ -536,6 +539,10 @@ as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
 <li><a href="#case-studies">2. Case studies</a><ul>
 <li><a href="#case-1-nodal">Case 1: <code>nodal</code></a></li>
 <li><a href="#case-2-femsmoke">Case 2: <code>femsmoke</code></a></li>
+</ul></li>
+<li><a href="#applications">3. Applications</a><ul>
+<li><a href="#roc-curve">ROC curve</a></li>
+<li><a href="#confidence-interval-for-auc">Confidence interval for AUC</a></li>
 </ul></li>
 <li><a href="#session-info">Session info</a></li>
 <li><a href="#related-pages">Related pages</a></li>
@@ -659,20 +666,14 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 10 1     0     1     1     1            1       0
 ## # ... with 13 more rows</code></pre>
 <p><code>nodal_binom</code> has a form of <code>rich_binom</code>, where the last two columns are computed from <code>r</code>, the binary response in the original <code>nodal</code> data. <code>yes_node</code> is a count of 1’s in <code>r</code> in the original dataset, and <code>no_node</code> a count of 0’s.</p>
-<p>The function <code>binarize</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns in order to avoid duplicate names:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binarize &lt;-<span class="st"> </span><span class="cf">function</span>(dat, family, responses, value.name) {
+<p>The function <code>binarize_binom</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns in order to avoid duplicate names:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binarize_binom &lt;-<span class="st"> </span><span class="cf">function</span>(dat, responses, <span class="dt">variable.name =</span> <span class="ot">NULL</span>) {
     <span class="co"># dat: a data whose features are categorical</span>
-    <span class="co"># family: either &#39;binomial&#39; or &#39;poisson&#39;; must be specified</span>
-    <span class="co"># responses (must be specified): </span>
-    <span class="co">#     * If family == &#39;binomial&#39;, then it must be a character vector of</span>
-    <span class="co">#       length 2 where each element is the name of column that stores </span>
-    <span class="co">#       the counts of positive and negative responses, in this order.</span>
-    <span class="co">#     * If family == &#39;poisson&#39;, then it must be a character vector of</span>
-    <span class="co">#       length 1; the character is the column name that stores counts.</span>
-    <span class="co"># value.name: a character; if missing, then a randomly generated </span>
-    <span class="co">#             character will be used</span>
-    <span class="co"># e.g.</span>
-    <span class="co"># binarize(nodal_binom, &#39;binomial&#39;, c(&#39;yes_node&#39;, &#39;no_node&#39;), &#39;r&#39;)</span>
+    <span class="co"># responses: a character vector of length 2; each element is the name of</span>
+    <span class="co">#            column that stores the counts of positive and negative</span>
+    <span class="co">#            responses, in this order.</span>
+    <span class="co"># variable.name: a character; if NULL, then a randomly generated </span>
+    <span class="co">#                character will be used.</span>
     
     <span class="co"># Generate random names to avoid the same names as in features</span>
     all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(
@@ -683,65 +684,63 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
         <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;Z&#39;</span>, <span class="st">&#39;z&#39;</span>
     )
     dalphabet &lt;-<span class="st"> </span><span class="cf">function</span>(x){
-        <span class="kw">unname</span>(<span class="kw">dpmf</span>(
+        <span class="kw">dpmf</span>(
             x, 
             <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(all_alphabets)) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(all_alphabets),
             all_alphabets
-        ))
+        )
     }
-    <span class="cf">if</span> (<span class="kw">missing</span>(value.name)) {
-        value_name &lt;-<span class="st"> </span>
-<span class="st">            </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-        <span class="kw">message</span>(<span class="st">&#39;Randomly generated value name used: &#39;</span>, value_name)
-    } <span class="cf">else</span> {
-        value_name &lt;-<span class="st"> </span>value.name
-    }
-    variable_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    separator &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    separator &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    united &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
     
     <span class="co"># Setup</span>
     col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
     id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]
     <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}
-    <span class="cf">if</span> (family <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-        <span class="co"># Transform into the form that is used in poisson regression</span>
-        dat &lt;-<span class="st"> </span><span class="kw">melt</span>(
-            dat,
-            <span class="dt">id.vars =</span> id_vars,
-            <span class="dt">variable.name =</span> variable_name,
-            <span class="dt">value.name =</span> value_name
-        )
+    <span class="cf">if</span> (<span class="kw">is.null</span>(variable.name)) {
+        variable_name &lt;-<span class="st"> </span>
+<span class="st">            </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+        <span class="kw">message</span>(<span class="st">&#39;Randomly generated variable name used: &#39;</span>, variable_name)
+    } <span class="cf">else</span> {
+        variable_name &lt;-<span class="st"> </span>variable.name
     }
+    value_name &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+
+    <span class="co"># Transform into the form that is used in poisson regression</span>
+    dat &lt;-<span class="st"> </span><span class="kw">melt</span>(
+        dat,
+        <span class="dt">id.vars =</span> id_vars,
+        <span class="dt">variable.name =</span> variable_name,
+        <span class="dt">value.name =</span> value_name
+    )
+    id_vars &lt;-<span class="st"> </span><span class="kw">c</span>(id_vars, variable_name)
     
+    <span class="co"># Binarize</span>
     dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
         <span class="st">&#39;dat[&#39;</span>, value_name, <span class="st">&#39; != 0, &#39;</span>,
-        <span class="st">&#39;.(united = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>,
-        value_name, <span class="st">&#39;),&#39;</span>,
-        <span class="st">&#39;.SDcols = &#39;</span>, id_vars[<span class="dv">1</span>], <span class="st">&#39;:&#39;</span>, variable_name, <span class="st">&#39;]&#39;</span>
+        <span class="st">&#39;.(&#39;</span>, united, <span class="st">&#39; = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, 
+        <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>, value_name, <span class="st">&#39;), .SDcols = id_vars]&#39;</span>
     )))
     dat &lt;-<span class="st"> </span>dat[
         ,
         <span class="kw">list</span>(
             <span class="dt">result =</span> <span class="kw">rep</span>(
-                <span class="kw">as.data.frame</span>(dat)[, <span class="st">&#39;united&#39;</span>],
+                <span class="kw">as.data.frame</span>(dat)[, united],
                 <span class="kw">as.data.frame</span>(dat)[, value_name]
             )
         )
     ][
         , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span>
-        <span class="kw">c</span>(id_vars, variable_name) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)
+        <span class="kw">c</span>(id_vars) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)
     ][
         , 
-        <span class="kw">c</span>(id_vars, variable_name), 
+        <span class="kw">c</span>(id_vars), 
         with =<span class="st"> </span>F
     ]
-    
-    <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-        <span class="st">&#39;dat[, &#39;</span>, 
-        value_name, <span class="st">&#39; := ifelse(&#39;</span>, 
-        variable_name, <span class="st">&#39; == </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, responses[<span class="dv">1</span>], <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">, 1, 0)]&#39;</span>,
-        <span class="st">&#39;[, c(id_vars, value_name), with = F]&#39;</span>
-    )))
+    dat
 }</code></pre></div>
 <p>Let’s see if it works on <code>rich_binom</code> data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich <span class="co"># original binary data</span></code></pre></div>
@@ -763,50 +762,321 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 3:      M              no    2        1
 ## 4:      M             yes    0        2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># binarized</span>
-(rich_binary &lt;-<span class="st"> </span><span class="kw">binarize</span>(
+(rich_binary &lt;-<span class="st"> </span><span class="kw">binarize_binom</span>(
     <span class="dt">dat =</span> rich_binom, 
-    <span class="dt">family =</span> <span class="st">&#39;binomial&#39;</span>, 
     <span class="dt">responses =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>), 
-    <span class="dt">value.name =</span> <span class="st">&#39;is_rich&#39;</span>
+    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span>
 ))</code></pre></div>
-<pre><code>##     gender criminal_record is_rich
-##  1:      F             yes       1
-##  2:      F             yes       1
-##  3:      M              no       1
-##  4:      M              no       1
-##  5:      F              no       0
-##  6:      F              no       0
-##  7:      F              no       0
-##  8:      M              no       0
-##  9:      M             yes       0
-## 10:      M             yes       0</code></pre>
-<p>Is <code>rich</code> and <code>rich_binary</code> equivalent?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setequal</span>(rich[<span class="kw">order</span>(<span class="op">-</span>is_rich, gender, criminal_record)], rich_binary)</code></pre></div>
+<pre><code>##     gender criminal_record  is_rich
+##  1:      F             yes     rich
+##  2:      F             yes     rich
+##  3:      M              no     rich
+##  4:      M              no     rich
+##  5:      F              no not_rich
+##  6:      F              no not_rich
+##  7:      F              no not_rich
+##  8:      M              no not_rich
+##  9:      M             yes not_rich
+## 10:      M             yes not_rich</code></pre>
+<p>Are <code>rich</code> and <code>rich_binary</code> equivalent?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_binary[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]
+<span class="kw">setequal</span>(rich[<span class="kw">order</span>(<span class="op">-</span>is_rich, gender, criminal_record)], rich_binary)</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Yes, they are. Likewise, the binarized <code>nodal_binom</code> is the same as the original <code>nodal</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_tibble</span>(<span class="kw">binarize</span>(
-    nodal_binom, 
-    <span class="st">&#39;binomial&#39;</span>, 
-    <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>)
-)) <span class="co"># value.name not specified</span></code></pre></div>
-<pre><code>## Randomly generated value name used: hSqjVjFutc</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_tibble</span>(nodal_binom) <span class="co"># binomial response</span></code></pre></div>
+<pre><code>## # A tibble: 23 x 7
+##    aged  stage grade xray  acid  yes_node no_node
+##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1 0     1     1     1     1            5       1
+##  2 1     1     0     0     1            2       2
+##  3 0     1     1     0     1            2       1
+##  4 0     0     0     0     1            1       5
+##  5 1     1     0     0     0            1       2
+##  6 0     1     0     0     1            1       1
+##  7 0     0     1     0     0            1       1
+##  8 1     1     1     1     1            1       0
+##  9 1     1     0     1     1            1       0
+## 10 1     0     1     1     1            1       0
+## # ... with 13 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># variable.name not specified</span>
+<span class="kw">as_tibble</span>(<span class="kw">binarize_binom</span>(nodal_binom, <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>))) </code></pre></div>
+<pre><code>## Randomly generated variable name used: LEXhgicUWS</code></pre>
 <pre><code>## # A tibble: 53 x 6
-##    aged  stage grade xray  acid  hSqjVjFutc
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
-##  1 0     1     1     1     1              1
-##  2 0     1     1     1     1              1
-##  3 0     1     1     1     1              1
-##  4 0     1     1     1     1              1
-##  5 0     1     1     1     1              1
-##  6 1     1     0     0     1              1
-##  7 1     1     0     0     1              1
-##  8 0     1     1     0     1              1
-##  9 0     1     1     0     1              1
-## 10 0     0     0     0     1              1
+##    aged  stage grade xray  acid  LEXhgicUWS
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     
+##  1 0     1     1     1     1     yes_node  
+##  2 0     1     1     1     1     yes_node  
+##  3 0     1     1     1     1     yes_node  
+##  4 0     1     1     1     1     yes_node  
+##  5 0     1     1     1     1     yes_node  
+##  6 1     1     0     0     1     yes_node  
+##  7 1     1     0     0     1     yes_node  
+##  8 0     1     1     0     1     yes_node  
+##  9 0     1     1     0     1     yes_node  
+## 10 0     0     0     0     1     yes_node  
 ## # ... with 43 more rows</code></pre>
+<p>Note that categorical variables are changed from factors into character vectors.</p>
 </div>
 <div id="case-2-femsmoke" class="section level2">
 <h2>Case 2: <code>femsmoke</code></h2>
+<p><code>femsmoke</code> data in <code>faraway</code> package has the following columns:</p>
+<ul>
+<li><code>y</code>: observed count for given combination</li>
+<li><code>smoker</code>, <code>dead</code>, <code>age</code>: categorical features</li>
+</ul>
+<p>See <a href="https://www.rdocumentation.org/packages/faraway/versions/1.0.7/topics/femsmoke">here</a> for details:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">femsmoke</code></pre></div>
+<pre><code>##      y smoker dead   age
+## 1    2    yes  yes 18-24
+## 2    1     no  yes 18-24
+## 3    3    yes  yes 25-34
+## 4    5     no  yes 25-34
+## 5   14    yes  yes 35-44
+## 6    7     no  yes 35-44
+## 7   27    yes  yes 45-54
+## 8   12     no  yes 45-54
+## 9   51    yes  yes 55-64
+## 10  40     no  yes 55-64
+## 11  29    yes  yes 65-74
+## 12 101     no  yes 65-74
+## 13  13    yes  yes   75+
+## 14  64     no  yes   75+
+## 15  53    yes   no 18-24
+## 16  61     no   no 18-24
+## 17 121    yes   no 25-34
+## 18 152     no   no 25-34
+## 19  95    yes   no 35-44
+## 20 114     no   no 35-44
+## 21 103    yes   no 45-54
+## 22  66     no   no 45-54
+## 23  64    yes   no 55-64
+## 24  81     no   no 55-64
+## 25   7    yes   no 65-74
+## 26  28     no   no 65-74
+## 27   0    yes   no   75+
+## 28   0     no   no   75+</code></pre>
+<p>The task is to populate each (<code>smoker</code>, <code>dead</code>, <code>age</code>) combination according to the counts in <code>y</code>. For example, in the new binarized dataset, there will be two rows of (<code>smoker = yes</code>, <code>dead = yes</code>, <code>age = 18-24</code>), 64 rows of (<code>smoker = no</code>, <code>dead = yes</code>, <code>age = 75+</code>), and so on.</p>
+<p><code>binarize_pois</code> is designed to handle datasets designed for poisson regression:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binarize_pois &lt;-<span class="st"> </span><span class="cf">function</span>(dat, response) {
+    <span class="co"># dat: a data whose features are categorical</span>
+    <span class="co"># response: a character; the name of column that stores the counts</span>
+    
+    <span class="co"># Generate random names to avoid the same names as in features</span>
+    all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(
+        <span class="st">&#39;A&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;F&#39;</span>, <span class="st">&#39;f&#39;</span>,
+        <span class="st">&#39;G&#39;</span>, <span class="st">&#39;g&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;h&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;i&#39;</span>, <span class="st">&#39;J&#39;</span>, <span class="st">&#39;j&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;k&#39;</span>, <span class="st">&#39;L&#39;</span>, <span class="st">&#39;l&#39;</span>,
+        <span class="st">&#39;M&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="st">&#39;n&#39;</span>, <span class="st">&#39;O&#39;</span>, <span class="st">&#39;o&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;p&#39;</span>, <span class="st">&#39;Q&#39;</span>, <span class="st">&#39;q&#39;</span>, <span class="st">&#39;R&#39;</span>, <span class="st">&#39;r&#39;</span>,
+        <span class="st">&#39;S&#39;</span>, <span class="st">&#39;s&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;U&#39;</span>, <span class="st">&#39;u&#39;</span>, <span class="st">&#39;V&#39;</span>, <span class="st">&#39;v&#39;</span>, <span class="st">&#39;W&#39;</span>, <span class="st">&#39;w&#39;</span>, <span class="st">&#39;X&#39;</span>, <span class="st">&#39;x&#39;</span>,
+        <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;Z&#39;</span>, <span class="st">&#39;z&#39;</span>
+    )
+    dalphabet &lt;-<span class="st"> </span><span class="cf">function</span>(x){
+        <span class="kw">dpmf</span>(
+            x, 
+            <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(all_alphabets)) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(all_alphabets),
+            all_alphabets
+        )
+    }
+    separator &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    united &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    
+    <span class="co"># Setup</span>
+    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
+    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>response)]
+    <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}
+    variable_name &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    value_name &lt;-<span class="st"> </span>
+<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
+    
+    <span class="co"># Binarize</span>
+    dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
+        <span class="st">&#39;dat[&#39;</span>, response, <span class="st">&#39; != 0, &#39;</span>,
+        <span class="st">&#39;.(&#39;</span>, united, <span class="st">&#39; = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, 
+        <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>, response, <span class="st">&#39;), .SDcols = id_vars]&#39;</span>
+    )))
+    dat &lt;-<span class="st"> </span>dat[
+        ,
+        <span class="kw">list</span>(
+            <span class="dt">result =</span> <span class="kw">rep</span>(
+                <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, united, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>))),
+                <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
+            )
+        )
+    ][
+        , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span>
+        <span class="kw">c</span>(id_vars) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)
+    ][
+        , 
+        <span class="kw">c</span>(id_vars), 
+        with =<span class="st"> </span>F
+    ]
+    dat
+}</code></pre></div>
+<p>Now, recall <code>rich_pois</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_pois</code></pre></div>
+<pre><code>##    gender criminal_record  is_rich count
+## 1:      F              no     rich     0
+## 2:      F             yes     rich     2
+## 3:      M              no     rich     2
+## 4:      M             yes     rich     0
+## 5:      F              no not_rich     3
+## 6:      F             yes not_rich     0
+## 7:      M              no not_rich     1
+## 8:      M             yes not_rich     2</code></pre>
+<p>If we pass <code>rich_pois</code> into <code>binarize_pois</code>, we get:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(rich_binary2 &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(<span class="dt">dat =</span> rich_pois, <span class="dt">response =</span> <span class="st">&#39;count&#39;</span>))</code></pre></div>
+<pre><code>##     gender criminal_record  is_rich
+##  1:      F             yes     rich
+##  2:      F             yes     rich
+##  3:      M              no     rich
+##  4:      M              no     rich
+##  5:      F              no not_rich
+##  6:      F              no not_rich
+##  7:      F              no not_rich
+##  8:      M              no not_rich
+##  9:      M             yes not_rich
+## 10:      M             yes not_rich</code></pre>
+<p>Are <code>rich_binary</code> and <code>rich_binary2</code> equivalent?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_binary2[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]
+<span class="kw">setequal</span>(rich_binary, rich_binary2)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>We check that they are. We can apply <code>binarize_pois</code> to <code>femsmoke</code> as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(femsmoke_binary &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(femsmoke, <span class="st">&#39;y&#39;</span>))</code></pre></div>
+<pre><code>##       smoker dead   age
+##    1:    yes  yes 18-24
+##    2:    yes  yes 18-24
+##    3:     no  yes 18-24
+##    4:    yes  yes 25-34
+##    5:    yes  yes 25-34
+##   ---                  
+## 1310:     no   no 65-74
+## 1311:     no   no 65-74
+## 1312:     no   no 65-74
+## 1313:     no   no 65-74
+## 1314:     no   no 65-74</code></pre>
+</div>
+</div>
+<div id="applications" class="section level1">
+<h1>3. Applications</h1>
+<div id="roc-curve" class="section level2">
+<h2>ROC curve</h2>
+<p>By having a binary response, we can draw a ROC curve using <code>roc_curve</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_curve &lt;-<span class="st"> </span><span class="cf">function</span>(fmlr, dat) {
+    <span class="co"># fmlr: a formula</span>
+    <span class="co"># dat: a data with categorical features</span>
+    
+    mod &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> dat)
+    ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
+    response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
+    actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
+    roc_result &lt;-<span class="st"> </span><span class="kw">roc</span>(actual, ests)
+    roc_table &lt;-<span class="st"> </span><span class="kw">data.table</span>(
+        <span class="dt">TPR =</span> roc_result<span class="op">$</span>sensitivities,
+        <span class="dt">FPR =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>roc_result<span class="op">$</span>specificities,
+        <span class="dt">thresholds =</span> roc_result<span class="op">$</span>thresholds
+    )[
+        <span class="kw">order</span>(TPR)
+    ]
+    <span class="kw">ggplot</span>(roc_table, <span class="kw">aes</span>(FPR, TPR, <span class="dt">label =</span> <span class="kw">round</span>(thresholds, <span class="dv">4</span>))) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_label_repel</span>(
+            <span class="dt">box.padding =</span> <span class="fl">0.3</span>, 
+            <span class="dt">point.padding =</span> <span class="fl">0.3</span>, 
+            <span class="dt">segment.color =</span> <span class="st">&quot;grey50&quot;</span>
+        ) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_segment</span>(
+            <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">xend =</span> <span class="dv">1</span>, <span class="dt">yend =</span> <span class="dv">1</span>), 
+            <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>
+        ) <span class="op">+</span>
+<span class="st">        </span><span class="kw">annotate</span>(
+            <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> .<span class="dv">05</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, 
+            <span class="dt">label =</span> <span class="kw">paste0</span>(
+                <span class="st">&quot;AUC : &quot;</span>, <span class="kw">round</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(roc_result)), <span class="dv">4</span>)
+            )
+        ) <span class="op">+</span>
+<span class="st">        </span><span class="kw">labs</span>(
+            <span class="dt">x =</span> <span class="st">&quot;False positive rate&quot;</span>, 
+            <span class="dt">y =</span> <span class="st">&quot;True positive rate&quot;</span>,
+            <span class="dt">title =</span> <span class="st">&quot;ROC curve&quot;</span>, 
+            <span class="dt">subtitle =</span> <span class="kw">paste0</span>(<span class="st">&quot;- &quot;</span>, response, <span class="st">&quot; ~ &quot;</span>, <span class="kw">as.character</span>(fmlr[<span class="dv">3</span>]))
+        )
+}</code></pre></div>
+<p>Here are some examples of ROC curves:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># femsmoke_binary</span>
+femsmoke_binary[, dead <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(dead <span class="op">==</span><span class="st"> &#39;yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
+<span class="kw">roc_curve</span>(dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age, femsmoke_binary)</code></pre></div>
+<p><img src="binarize_files/figure-html/eg3_2-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rich_big</span>
+is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
+gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
+criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
+rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
+    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),
+    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),
+    <span class="dt">is_rich =</span> is_rich
+)
+<span class="kw">roc_curve</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big)</code></pre></div>
+<p><img src="binarize_files/figure-html/eg3_2-2.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># nodal</span>
+<span class="kw">roc_curve</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal)</code></pre></div>
+<p><img src="binarize_files/figure-html/eg3_2-3.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="confidence-interval-for-auc" class="section level2">
+<h2>Confidence interval for AUC</h2>
+<p>Using <code>boot::boot</code> and <code>boot::boot.ci</code>, we can compute the approximate CI for AUC:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CI_auc &lt;-<span class="st"> </span><span class="cf">function</span>(fmlr, dat, <span class="dt">R =</span> <span class="dv">500</span>, <span class="dt">type =</span> <span class="st">&#39;norm&#39;</span>, ...) {
+    <span class="co"># fmlr, dat: the same as in roc_curve</span>
+    <span class="co"># R: the same as R in boot::boot</span>
+    <span class="co"># type: the same as type in boot::boot.ci</span>
+    <span class="co"># ...: additional arguments of boot::boot.ci</span>
+    
+    AUC_boot &lt;-<span class="st"> </span><span class="cf">function</span>(dat, i) {
+        y &lt;-<span class="st"> </span>dat[i, ]
+        mod &lt;-<span class="st"> </span><span class="kw">glm</span>(fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> y)
+        ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
+        response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
+        actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;y$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
+        <span class="kw">suppressMessages</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(<span class="kw">roc</span>(actual, ests))))
+    }
+    <span class="kw">boot.ci</span>(<span class="kw">boot</span>(dat, <span class="dt">statistic =</span> AUC_boot, <span class="dt">R =</span> R), <span class="dt">type =</span> type, ...)
+}</code></pre></div>
+<p>Examples are as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age, femsmoke_binary)</code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 500 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 0.8697,  0.9077 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big, <span class="dt">R =</span> <span class="dv">200</span>)</code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 200 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 0.4969,  0.5128 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal, <span class="dt">type =</span> <span class="st">&#39;perc&#39;</span>)</code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 500 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   ( 0.7728,  0.9735 )  
+## Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>
 <div id="session-info" class="section level1">
@@ -828,17 +1098,20 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] pROC_1.15.0       funpark_0.1.0     data.table_1.12.2
+## [1] pROC_1.15.0       ggrepel_0.8.1     ggplot2_3.1.1     funpark_0.1.0    
+## [5] data.table_1.12.2 boot_1.3-22      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       knitr_1.23       magrittr_1.5     tidyselect_0.2.5
-##  [5] R6_2.4.0         rlang_0.3.4      fansi_0.4.0      stringr_1.4.0   
-##  [9] plyr_1.8.4       dplyr_0.8.1      tools_3.6.0      xfun_0.7        
-## [13] utf8_1.1.4       cli_1.1.0        htmltools_0.3.6  yaml_2.2.0      
-## [17] digest_0.6.19    assertthat_0.2.1 tibble_2.1.3     crayon_1.3.4    
-## [21] purrr_0.3.2      vctrs_0.1.0      prettydoc_0.2.1  zeallot_0.1.0   
-## [25] glue_1.3.1       evaluate_0.14    rmarkdown_1.13   stringi_1.4.3   
-## [29] compiler_3.6.0   pillar_1.4.1     backports_1.1.4  pkgconfig_2.0.2</code></pre>
+##  [1] Rcpp_1.0.1       compiler_3.6.0   pillar_1.4.1     plyr_1.8.4      
+##  [5] prettydoc_0.2.1  tools_3.6.0      zeallot_0.1.0    digest_0.6.19   
+##  [9] evaluate_0.14    tibble_2.1.3     gtable_0.3.0     pkgconfig_2.0.2 
+## [13] rlang_0.3.4      cli_1.1.0        yaml_2.2.0       xfun_0.7        
+## [17] withr_2.1.2      stringr_1.4.0    dplyr_0.8.1      knitr_1.23      
+## [21] vctrs_0.1.0      grid_3.6.0       tidyselect_0.2.5 glue_1.3.1      
+## [25] R6_2.4.0         fansi_0.4.0      rmarkdown_1.13   purrr_0.3.2     
+## [29] magrittr_1.5     backports_1.1.4  scales_1.0.0     htmltools_0.3.6 
+## [33] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     utf8_1.1.4      
+## [37] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
 </div>
 <div id="related-pages" class="section level1">
 <h1>Related pages</h1>

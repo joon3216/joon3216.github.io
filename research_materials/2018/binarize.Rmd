@@ -22,9 +22,12 @@ output:
 The following packages and datasets are used:
 
 ```{r loading, warning = F, message = F}
+library(boot)
 library(data.table)
 # devtools::install_github('joon3216/funpark')
 library(funpark)
+library(ggplot2)
+library(ggrepel)
 library(pROC)
 as_tibble <- dplyr::as_tibble
 data(femsmoke, package = 'faraway')
@@ -38,6 +41,10 @@ data(nodal, package = 'SMPracticals')
 <li><a href="#case-studies">2. Case studies</a><ul>
 <li><a href="#case-1-nodal">Case 1: <code>nodal</code></a></li>
 <li><a href="#case-2-femsmoke">Case 2: <code>femsmoke</code></a></li>
+</ul></li>
+<li><a href="#applications">3. Applications</a><ul>
+<li><a href="#roc-curve">ROC curve</a></li>
+<li><a href="#confidence-interval-for-auc">Confidence interval for AUC</a></li>
 </ul></li>
 <li><a href="#session-info">Session info</a></li>
 <li><a href="#related-pages">Related pages</a></li>
@@ -156,11 +163,90 @@ as_tibble(nodal_binom)
 
 `nodal_binom` has a form of `rich_binom`, where the last two columns are computed from `r`, the binary response in the original `nodal` data. `yes_node` is a count of 1's in `r` in the original dataset, and `no_node` a count of 0's.
 
-The function `binarize` will convert `nodal_binom` back to `nodal`. `dpmf` and `rpmf` (in `funpark` package) are used to create random names for variable and value columns in order to avoid duplicate names:
+The function `binarize_binom` will convert `nodal_binom` back to `nodal`. `dpmf` and `rpmf` (in `funpark` package) are used to create random names for variable and value columns in order to avoid duplicate names:
+
+```{r eg2_1_2_1, eval = T}
+binarize_binom <- function(dat, responses, variable.name = NULL) {
+    # dat: a data whose features are categorical
+    # responses: a character vector of length 2; each element is the name of
+    #            column that stores the counts of positive and negative
+    #            responses, in this order.
+    # variable.name: a character; if NULL, then a randomly generated 
+    #                character will be used.
+    
+    # Generate random names to avoid the same names as in features
+    all_alphabets <- c(
+        'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f',
+        'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
+        'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r',
+        'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x',
+        'Y', 'y', 'Z', 'z'
+    )
+    dalphabet <- function(x){
+        dpmf(
+            x, 
+            rep(1, length(all_alphabets)) / length(all_alphabets),
+            all_alphabets
+        )
+    }
+    separator <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    united <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    
+    # Setup
+    col_names <- colnames(dat)
+    id_vars <- col_names[!(col_names %in% responses)]
+    if (!('data.table' %in% class(dat))) {setDT(dat)}
+    if (is.null(variable.name)) {
+        variable_name <- 
+            paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+        message('Randomly generated variable name used: ', variable_name)
+    } else {
+        variable_name <- variable.name
+    }
+    value_name <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+
+    # Transform into the form that is used in poisson regression
+    dat <- melt(
+        dat,
+        id.vars = id_vars,
+        variable.name = variable_name,
+        value.name = value_name
+    )
+    id_vars <- c(id_vars, variable_name)
+    
+    # Binarize
+    dat <- eval(parse(text = paste0(
+        'dat[', value_name, ' != 0, ',
+        '.(', united, ' = do.call(paste, c(.SD, sep = \"', separator, 
+        '\")), ', value_name, '), .SDcols = id_vars]'
+    )))
+    dat <- dat[
+        ,
+        list(
+            result = rep(
+                as.data.frame(dat)[, united],
+                as.data.frame(dat)[, value_name]
+            )
+        )
+    ][
+        , # requires data.table ver >= 1.9.6 because of tstrsplit
+        c(id_vars) := tstrsplit(result, separator, fixed = T)
+    ][
+        , 
+        c(id_vars), 
+        with = F
+    ]
+    dat
+}
+```
 
 
 
-```{r eg2_1_3, eval = T}
+
+```{r eg2_1_3, eval = F, echo = F}
 binarize <- function(dat, family, responses, 
                      value.name = NULL, positive_level = NULL) {
     # dat: a data whose features are categorical
@@ -244,8 +330,8 @@ binarize <- function(dat, family, responses,
         ,
         list(
             result = rep(
-                as.data.frame(dat)[, united],
-                as.data.frame(dat)[, value_name]
+                eval(parse(text = paste0('dat$\"', united, '\"'))),
+                eval(parse(text = paste0('dat$\"', value_name, '\"')))
             )
         )
     ][
@@ -256,18 +342,18 @@ binarize <- function(dat, family, responses,
         c(id_vars), 
         with = F
     ] 
-    if (family == 'binomial') {
+    if (family == 'poisson') {
         eval(parse(text = paste0(
             'dat[, ',
             value_name, ' := ifelse(',
-            id_vars[length(id_vars)], ' == \"', responses[1], '\", 1, 0)]',
+            id_vars[length(id_vars)], ' == \"', positive_level, '\", 1, 0)]',
             '[, c(id_vars[-length(id_vars)], value_name), with = F]'
         )))
     } else {
         eval(parse(text = paste0(
             'dat[, ',
             value_name, ' := ifelse(',
-            id_vars[length(id_vars)], ' == \"', positive_level, '\", 1, 0)]',
+            id_vars[length(id_vars)], ' == \"', responses[1], '\", 1, 0)]',
             '[, c(id_vars[-length(id_vars)], value_name), with = F]'
         )))
     }
@@ -401,52 +487,233 @@ Let's see if it works on `rich_binom` data:
 rich # original binary data
 rich_binom # transformed into binomial response
 # binarized
-(rich_binary <- binarize(
+(rich_binary <- binarize_binom(
     dat = rich_binom, 
-    family = 'binomial', 
     responses = c('rich', 'not_rich'), 
-    value.name = 'is_rich'
+    variable.name = 'is_rich'
 ))
 ```
 
-Is `rich` and `rich_binary` equivalent?
+Are `rich` and `rich_binary` equivalent?
 
 ```{r eg2_1_5}
-rich_binary[, is_rich := as.integer(is_rich)]
+rich_binary[, is_rich := ifelse(is_rich == 'rich', 1L, 0L)]
 setequal(rich[order(-is_rich, gender, criminal_record)], rich_binary)
 ```
 
 Yes, they are. Likewise, the binarized `nodal_binom` is the same as the original `nodal`:
 
 ```{r eg2_1_6}
-as_tibble(binarize(
-    nodal_binom, 
-    'binomial', 
-    c('yes_node', 'no_node')
-)) # value.name not specified
+as_tibble(nodal_binom) # binomial response
+# variable.name not specified
+as_tibble(binarize_binom(nodal_binom, c('yes_node', 'no_node'))) 
 ```
 
+Note that categorical variables are changed from factors into character vectors.
 
 
 ## Case 2: `femsmoke`
 
+`femsmoke` data in `faraway` package has the following columns:
+
+* `y`: observed count for given combination
+* `smoker`, `dead`, `age`: categorical features
+
+See [here](https://www.rdocumentation.org/packages/faraway/versions/1.0.7/topics/femsmoke) for details:
+
+
 ```{r eg2_2_1}
-binarize(
-    rich_pois, 
-    family = 'poisson',
-    responses = 'count',
-    positive_level = 'rich'
-)
+femsmoke
 ```
 
+The task is to populate each (`smoker`, `dead`, `age`) combination according to the counts in `y`. For example, in the new binarized dataset, there will be two rows of (`smoker = yes`, `dead = yes`, `age = 18-24`), 64 rows of (`smoker = no`, `dead = yes`, `age = 75+`), and so on.
+
+`binarize_pois` is designed to handle datasets designed for poisson regression:
+
 ```{r eg2_2_2}
-binarize(
-    femsmoke,
-    'poisson',
-    'y',
-    value.name = 'count',
-    positive_level = 'yes'
+binarize_pois <- function(dat, response) {
+    # dat: a data whose features are categorical
+    # response: a character; the name of column that stores the counts
+    
+    # Generate random names to avoid the same names as in features
+    all_alphabets <- c(
+        'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f',
+        'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
+        'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r',
+        'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x',
+        'Y', 'y', 'Z', 'z'
+    )
+    dalphabet <- function(x){
+        dpmf(
+            x, 
+            rep(1, length(all_alphabets)) / length(all_alphabets),
+            all_alphabets
+        )
+    }
+    separator <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    united <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    
+    # Setup
+    col_names <- colnames(dat)
+    id_vars <- col_names[!(col_names %in% response)]
+    if (!('data.table' %in% class(dat))) {setDT(dat)}
+    variable_name <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    value_name <- 
+        paste0(rpmf(10, dalphabet, all_alphabets), collapse = '')
+    
+    # Binarize
+    dat <- eval(parse(text = paste0(
+        'dat[', response, ' != 0, ',
+        '.(', united, ' = do.call(paste, c(.SD, sep = \"', separator, 
+        '\")), ', response, '), .SDcols = id_vars]'
+    )))
+    dat <- dat[
+        ,
+        list(
+            result = rep(
+                eval(parse(text = paste0('dat$\"', united, '\"'))),
+                eval(parse(text = paste0('dat$\"', response, '\"')))
+            )
+        )
+    ][
+        , # requires data.table ver >= 1.9.6 because of tstrsplit
+        c(id_vars) := tstrsplit(result, separator, fixed = T)
+    ][
+        , 
+        c(id_vars), 
+        with = F
+    ]
+    dat
+}
+```
+
+Now, recall `rich_pois`:
+
+```{r eg2_2_3}
+rich_pois
+```
+
+If we pass `rich_pois` into `binarize_pois`, we get:
+
+```{r eg2_2_4}
+(rich_binary2 <- binarize_pois(dat = rich_pois, response = 'count'))
+```
+
+Are `rich_binary` and `rich_binary2` equivalent?
+
+```{r eg2_2_5}
+rich_binary2[, is_rich := ifelse(is_rich == 'rich', 1L, 0L)]
+setequal(rich_binary, rich_binary2)
+```
+
+We check that they are. We can apply `binarize_pois` to `femsmoke` as follows:
+
+```{r eg2_2_6}
+(femsmoke_binary <- binarize_pois(femsmoke, 'y'))
+```
+
+# 3. Applications
+
+## ROC curve
+
+By having a binary response, we can draw a ROC curve using `roc_curve` function:
+
+```{r eg3_1}
+roc_curve <- function(fmlr, dat) {
+    # fmlr: a formula
+    # dat: a data with categorical features
+    
+    mod <- glm(formula = fmlr, family = binomial, data = dat)
+    ests <- predict(mod, type = 'response')
+    response <- as.character(fmlr[2])
+    actual <- eval(parse(text = paste0('dat$\"', response, '\"')))
+    roc_result <- roc(actual, ests)
+    roc_table <- data.table(
+        TPR = roc_result$sensitivities,
+        FPR = 1 - roc_result$specificities,
+        thresholds = roc_result$thresholds
+    )[
+        order(TPR)
+    ]
+    ggplot(roc_table, aes(FPR, TPR, label = round(thresholds, 4))) +
+        geom_point() +
+        geom_label_repel(
+            box.padding = 0.3, 
+            point.padding = 0.3, 
+            segment.color = "grey50"
+        ) +
+        geom_line() +
+        geom_segment(
+            aes(x = 0, y = 0, xend = 1, yend = 1), 
+            col = "red", linetype = "dashed"
+        ) +
+        annotate(
+            "text", x = 1, y = .05, hjust = 1, 
+            label = paste0(
+                "AUC : ", round(as.numeric(auc(roc_result)), 4)
+            )
+        ) +
+        labs(
+            x = "False positive rate", 
+            y = "True positive rate",
+            title = "ROC curve", 
+            subtitle = paste0("- ", response, " ~ ", as.character(fmlr[3]))
+        )
+}
+```
+
+Here are some examples of ROC curves:
+
+```{r eg3_2, message = F, fig.asp = .7, fig.align = 'center'}
+# femsmoke_binary
+femsmoke_binary[, dead := ifelse(dead == 'yes', 1, 0)]
+roc_curve(dead ~ smoker + age, femsmoke_binary)
+# rich_big
+is_rich <- rbinom(10000, size = 1, prob = .5)
+gender <- rbinom(10000, size = 1, prob = .5)
+criminal_record <- rbinom(10000, size = 1, prob = .5)
+rich_big <- data.table(
+    gender = ifelse(gender == 1, 'M', 'F'),
+    criminal_record = ifelse(criminal_record == 1, 'yes', 'no'),
+    is_rich = is_rich
 )
+roc_curve(is_rich ~ gender + criminal_record, rich_big)
+# nodal
+roc_curve(r ~ aged + stage + grade + xray + acid, nodal)
+```
+
+## Confidence interval for AUC
+
+Using `boot::boot` and `boot::boot.ci`, we can compute the approximate CI for AUC:
+
+```{r CI_auc}
+CI_auc <- function(fmlr, dat, R = 500, type = 'norm', ...) {
+    # fmlr, dat: the same as in roc_curve
+    # R: the same as R in boot::boot
+    # type: the same as type in boot::boot.ci
+    # ...: additional arguments of boot::boot.ci
+    
+    AUC_boot <- function(dat, i) {
+        y <- dat[i, ]
+        mod <- glm(fmlr, family = binomial, data = y)
+        ests <- predict(mod, type = 'response')
+        response <- as.character(fmlr[2])
+        actual <- eval(parse(text = paste0('y$\"', response, '\"')))
+        suppressMessages(as.numeric(auc(roc(actual, ests))))
+    }
+    boot.ci(boot(dat, statistic = AUC_boot, R = R), type = type, ...)
+}
+```
+
+Examples are as follows:
+
+```{r eg3_2_2, warning = F}
+CI_auc(dead ~ smoker + age, femsmoke_binary)
+CI_auc(is_rich ~ gender + criminal_record, rich_big, R = 200)
+CI_auc(r ~ aged + stage + grade + xray + acid, nodal, type = 'perc')
 ```
 
 
