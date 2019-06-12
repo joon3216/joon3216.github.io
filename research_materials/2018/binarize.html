@@ -956,116 +956,79 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 1312:     no   no 65-74
 ## 1313:     no   no 65-74
 ## 1314:     no   no 65-74</code></pre>
-<p><strong>ASIDE</strong>: the function <code>change_form</code> can turn one form of data into another:</p>
+<p><strong>ASIDE</strong>: the function <code>change_form</code> is designed to turn one form of data into another:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">change_form &lt;-<span class="st"> </span><span class="cf">function</span>(dat, from, to, 
-                        response, variable.names, value.name,
-                        responses, variable.name) {
+                        old_response, category, new_response) {
     <span class="co"># dat: a data with categorical features</span>
-    <span class="co"># from: a character; &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
-    <span class="co"># </span>
-    <span class="co"># e.g.</span>
-    <span class="co"># change_form(</span>
-    <span class="co">#     rich, </span>
-    <span class="co">#     from = &#39;binary&#39;, to = &#39;binomial&#39;, </span>
-    <span class="co">#     response = &#39;is_rich&#39;,</span>
-    <span class="co">#     variable.names = c(&#39;rich&#39;, &#39;not_rich&#39;)</span>
-    <span class="co">#     # old_response = &#39;is_rich&#39;, </span>
-    <span class="co">#     # new_response = c(&#39;rich&#39;, &#39;not_rich&#39;)</span>
-    <span class="co"># )</span>
-    <span class="co"># change_form(</span>
-    <span class="co">#     rich, </span>
-    <span class="co">#     from = &#39;binary&#39;, to = &#39;poisson&#39;, </span>
-    <span class="co">#     response = &#39;is_rich&#39;</span>
-    <span class="co">#     variable.names = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
-    <span class="co">#     value.name = &#39;count&#39;</span>
-    <span class="co">#     # old_response = &#39;is_rich&#39;,</span>
-    <span class="co">#     # category = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
-    <span class="co">#     # new_response = &#39;count&#39;</span>
-    <span class="co"># )</span>
-    <span class="co"># change_form(</span>
-    <span class="co">#     rich_binom,</span>
-    <span class="co">#     from = &#39;binomial&#39;, to = &#39;binary&#39;,</span>
-    <span class="co">#     responses = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
-    <span class="co">#     variable.name = &#39;is_rich&#39;</span>
-    <span class="co">#     # old_response = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
-    <span class="co">#     # new_response = &#39;is_rich&#39;</span>
-    <span class="co"># )</span>
-    <span class="co"># change_form(</span>
-    <span class="co">#     rich_binom,</span>
-    <span class="co">#     from = &#39;binomial&#39;, to = &#39;poisson&#39;,</span>
-    <span class="co">#     responses = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
-    <span class="co">#     variable.name = &#39;is_rich&#39;</span>
-    <span class="co">#     value.name = &#39;count&#39;</span>
-    <span class="co">#     # old_response = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
-    <span class="co">#     # category = &#39;is_rich&#39;,</span>
-    <span class="co">#     # new_response = &#39;count&#39;</span>
-    <span class="co"># )</span>
-    <span class="co"># change_form(</span>
-    <span class="co">#     rich_pois,</span>
-    <span class="co">#     from = &#39;poisson&#39;, to = &#39;binary&#39;,</span>
-    <span class="co">#     response = &#39;count&#39;</span>
-    <span class="co">#     # old_response = &#39;count&#39;</span>
-    <span class="co"># )</span>
-    <span class="co"># change_form(</span>
-    <span class="co">#     rich_pois,</span>
-    <span class="co">#     from = &#39;poisson&#39;, to = &#39;binomial&#39;,</span>
-    <span class="co">#     response = &#39;count&#39;,</span>
-    <span class="co">#     new_response = &#39;is_rich&#39;</span>
-    <span class="co">#     # old_response = &#39;count&#39;,</span>
-    <span class="co">#     # category = &#39;is_rich&#39;</span>
-    <span class="co"># )</span>
-    
+    <span class="co"># from: a character; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
+    <span class="co"># to: a character != from; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
+    <span class="co"># old_response: </span>
+    <span class="co"># category: </span>
+    <span class="co"># new_response: </span>
+
     col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
+    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>old_response)]
+    id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
     <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-        id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>response)]
-        id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
-        dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-            <span class="st">&#39;dat[, &#39;</span>,
-            <span class="st">&#39;.(&#39;</span>, variable.names[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, response, <span class="st">&#39;), &#39;</span>,
-            variable.names[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, response, <span class="st">&#39;)), &#39;</span>,
-            <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span>
-        )))
+        <span class="co"># id_vars &lt;- col_names[!(col_names %in% old_response)]</span>
+        <span class="co"># id_vars_collapsed &lt;- paste0(id_vars, collapse =&#39;,&#39;)</span>
         <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-            <span class="kw">return</span>(dat)
+            <span class="kw">return</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
+                <span class="st">&#39;dat[, &#39;</span>,
+                <span class="st">&#39;.(&#39;</span>, new_response[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, old_response, <span class="st">&#39;), &#39;</span>,
+                new_response[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, old_response, <span class="st">&#39;)), &#39;</span>,
+                <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span>
+            ))))
         } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
-            <span class="kw">melt</span>(
+            dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
+                <span class="st">&#39;dat[, &#39;</span>,
+                <span class="st">&#39;.(&#39;</span>, category[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, old_response, <span class="st">&#39;), &#39;</span>,
+                category[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, old_response, <span class="st">&#39;)), &#39;</span>,
+                <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span>
+            )))
+            <span class="kw">return</span>(<span class="kw">suppressWarnings</span>(<span class="kw">melt</span>(
                 dat,
                 <span class="dt">id.vars =</span> id_vars,
-                <span class="dt">variable.name =</span> response,
-                <span class="dt">value.name =</span> value.name
-            )
+                <span class="dt">variable.name =</span> old_response,
+                <span class="dt">value.name =</span> new_response
+            )))
         } <span class="cf">else</span> {
-            <span class="kw">stop</span>(<span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)
+            <span class="kw">stop</span>(
+                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,
+                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
+            )
         }
     } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-        id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]
-        id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
+        <span class="co"># id_vars &lt;- col_names[!(col_names %in% old_response)]</span>
+        <span class="co"># id_vars_collapsed &lt;- paste0(id_vars, collapse =&#39;,&#39;)</span>
         <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-            <span class="kw">binarize_binom</span>(dat, responses, variable.name)
+            <span class="kw">return</span>(<span class="kw">binarize_binom</span>(dat, old_response, new_response))
         } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
             <span class="kw">melt</span>(
                 dat,
                 <span class="dt">id.vars =</span> id_vars,
-                <span class="dt">variable.name =</span> variable.name,
-                <span class="dt">value.name =</span> value.name
+                <span class="dt">variable.name =</span> category,
+                <span class="dt">value.name =</span> new_response
             )
         } <span class="cf">else</span> {
-            <span class="kw">stop</span>(<span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)
+            <span class="kw">stop</span>(
+                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,
+                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
+            )
         }
     } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
         <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-            <span class="kw">return</span>(<span class="kw">binarize_pois</span>(dat, response))
+            <span class="kw">return</span>(<span class="kw">binarize_pois</span>(dat, old_response))
         } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-            id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>new_response)]
+            id_vars &lt;-<span class="st"> </span>id_vars[<span class="op">!</span>(id_vars <span class="op">%in%</span><span class="st"> </span>category)]
             id_vars_fmlr &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>)
-            fmlr &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars_fmlr, <span class="st">&#39; ~ &#39;</span>, new_response)
-            <span class="kw">return</span>(<span class="kw">dcast</span>(
-                dat, 
-                <span class="kw">as.formula</span>(fmlr), 
-                <span class="dt">value.var =</span> response
-            ))
+            fmlr &lt;-<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste0</span>(id_vars_fmlr, <span class="st">&#39; ~ &#39;</span>, category))
+            <span class="kw">return</span>(<span class="kw">dcast</span>(dat, fmlr, <span class="dt">value.var =</span> old_response))
         } <span class="cf">else</span> {
-            <span class="kw">stop</span>(<span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)
+            <span class="kw">stop</span>(
+                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,
+                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
+            )
         }
     } <span class="cf">else</span> {
         <span class="kw">stop</span>(<span class="kw">paste0</span>(
@@ -1074,6 +1037,137 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
         ))
     }
 }</code></pre></div>
+<p>Examples are as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    rich,
+    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,
+    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,
+    <span class="dt">new_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>)
+)</code></pre></div>
+<pre><code>##    gender criminal_record rich not_rich
+## 1:      F              no    0        3
+## 2:      M              no    2        1
+## 3:      M             yes    0        2
+## 4:      F             yes    2        0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    rich,
+    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,
+    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,
+    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),
+    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span>
+)</code></pre></div>
+<pre><code>##    gender criminal_record  is_rich count
+## 1:      F              no     rich     0
+## 2:      M              no     rich     2
+## 3:      M             yes     rich     0
+## 4:      F             yes     rich     2
+## 5:      F              no not_rich     3
+## 6:      M              no not_rich     1
+## 7:      M             yes not_rich     2
+## 8:      F             yes not_rich     0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nodal &lt;-<span class="st"> </span>nodal[, <span class="op">-</span><span class="dv">1</span>]
+<span class="kw">as_tibble</span>(<span class="kw">change_form</span>(
+    nodal, 
+    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>, 
+    <span class="dt">old_response =</span> <span class="st">&#39;r&#39;</span>, 
+    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>), 
+    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span>
+))</code></pre></div>
+<pre><code>## # A tibble: 46 x 7
+##    aged  stage grade xray  acid  r     count
+##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
+##  1 0     1     1     1     1     yes       5
+##  2 0     0     0     0     1     yes       1
+##  3 1     1     1     0     0     yes       0
+##  4 1     1     0     0     1     yes       2
+##  5 0     0     0     0     0     yes       0
+##  6 0     1     1     0     1     yes       2
+##  7 1     1     0     0     0     yes       1
+##  8 1     0     0     0     1     yes       0
+##  9 1     0     0     0     0     yes       0
+## 10 1     0     0     1     0     yes       0
+## # ... with 36 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    rich_binom,
+    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,
+    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),
+    <span class="dt">new_response =</span> <span class="st">&#39;is_rich&#39;</span>
+)</code></pre></div>
+<pre><code>##     gender criminal_record  is_rich
+##  1:      F             yes     rich
+##  2:      F             yes     rich
+##  3:      M              no     rich
+##  4:      M              no     rich
+##  5:      F              no not_rich
+##  6:      F              no not_rich
+##  7:      F              no not_rich
+##  8:      M              no not_rich
+##  9:      M             yes not_rich
+## 10:      M             yes not_rich</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    rich_binom,
+    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,
+    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),
+    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span>,
+    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span>
+)</code></pre></div>
+<pre><code>##    gender criminal_record  is_rich count
+## 1:      F              no     rich     0
+## 2:      F             yes     rich     2
+## 3:      M              no     rich     2
+## 4:      M             yes     rich     0
+## 5:      F              no not_rich     3
+## 6:      F             yes not_rich     0
+## 7:      M              no not_rich     1
+## 8:      M             yes not_rich     2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    rich_pois,
+    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,
+    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span>
+)</code></pre></div>
+<pre><code>##     gender criminal_record  is_rich
+##  1:      F             yes     rich
+##  2:      F             yes     rich
+##  3:      M              no     rich
+##  4:      M              no     rich
+##  5:      F              no not_rich
+##  6:      F              no not_rich
+##  7:      F              no not_rich
+##  8:      M              no not_rich
+##  9:      M             yes not_rich
+## 10:      M             yes not_rich</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    rich_pois,
+    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,
+    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span>,
+    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span>
+)</code></pre></div>
+<pre><code>##    gender criminal_record rich not_rich
+## 1:      F              no    0        3
+## 2:      F             yes    2        0
+## 3:      M              no    2        1
+## 4:      M             yes    0        2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
+    femsmoke,
+    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,
+    <span class="dt">old_response =</span> <span class="st">&#39;y&#39;</span>,
+    <span class="dt">category =</span> <span class="st">&#39;dead&#39;</span>
+) <span class="co"># i.e. yes if dead, no if alive</span></code></pre></div>
+<pre><code>##     smoker   age yes  no
+##  1:    yes 18-24   2  53
+##  2:    yes 25-34   3 121
+##  3:    yes 35-44  14  95
+##  4:    yes 45-54  27 103
+##  5:    yes 55-64  51  64
+##  6:    yes 65-74  29   7
+##  7:    yes   75+  13   0
+##  8:     no 18-24   1  61
+##  9:     no 25-34   5 152
+## 10:     no 35-44   7 114
+## 11:     no 45-54  12  66
+## 12:     no 55-64  40  81
+## 13:     no 65-74 101  28
+## 14:     no   75+  64   0</code></pre>
 </div>
 </div>
 <div id="applications" class="section level1">
@@ -1171,7 +1265,7 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## 
 ## Intervals : 
 ## Level      Normal        
-## 95%   ( 0.8697,  0.9077 )  
+## 95%   ( 0.8697,  0.9078 )  
 ## Calculations and Intervals on Original Scale</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big, <span class="dt">R =</span> <span class="dv">200</span>)</code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
@@ -1182,7 +1276,7 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## 
 ## Intervals : 
 ## Level      Normal        
-## 95%   ( 0.4969,  0.5128 )  
+## 95%   ( 0.4965,  0.5148 )  
 ## Calculations and Intervals on Original Scale</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal, <span class="dt">type =</span> <span class="st">&#39;perc&#39;</span>)</code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS

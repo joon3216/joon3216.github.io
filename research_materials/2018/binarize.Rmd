@@ -615,118 +615,81 @@ We check that they are. We can apply `binarize_pois` to `femsmoke` as follows:
 (femsmoke_binary <- binarize_pois(femsmoke, 'y'))
 ```
 
-**ASIDE**: the function `change_form` can turn one form of data into another:
+**ASIDE**: the function `change_form` is designed to turn one form of data into another:
 
-```{r eg2_2_7, eval = F}
+```{r eg2_2_7, eval = T}
 change_form <- function(dat, from, to, 
-                        response, variable.names, value.name,
-                        responses, variable.name) {
+                        old_response, category, new_response) {
     # dat: a data with categorical features
-    # from: a character; 'binary', 'binomial', or 'poisson'
-    # 
-    # e.g.
-    # change_form(
-    #     rich, 
-    #     from = 'binary', to = 'binomial', 
-    #     response = 'is_rich',
-    #     variable.names = c('rich', 'not_rich')
-    #     # old_response = 'is_rich', 
-    #     # new_response = c('rich', 'not_rich')
-    # )
-    # change_form(
-    #     rich, 
-    #     from = 'binary', to = 'poisson', 
-    #     response = 'is_rich'
-    #     variable.names = c('rich', 'not_rich'),
-    #     value.name = 'count'
-    #     # old_response = 'is_rich',
-    #     # category = c('rich', 'not_rich'),
-    #     # new_response = 'count'
-    # )
-    # change_form(
-    #     rich_binom,
-    #     from = 'binomial', to = 'binary',
-    #     responses = c('rich', 'not_rich'),
-    #     variable.name = 'is_rich'
-    #     # old_response = c('rich', 'not_rich'),
-    #     # new_response = 'is_rich'
-    # )
-    # change_form(
-    #     rich_binom,
-    #     from = 'binomial', to = 'poisson',
-    #     responses = c('rich', 'not_rich'),
-    #     variable.name = 'is_rich'
-    #     value.name = 'count'
-    #     # old_response = c('rich', 'not_rich'),
-    #     # category = 'is_rich',
-    #     # new_response = 'count'
-    # )
-    # change_form(
-    #     rich_pois,
-    #     from = 'poisson', to = 'binary',
-    #     response = 'count'
-    #     # old_response = 'count'
-    # )
-    # change_form(
-    #     rich_pois,
-    #     from = 'poisson', to = 'binomial',
-    #     response = 'count',
-    #     new_response = 'is_rich'
-    #     # old_response = 'count',
-    #     # category = 'is_rich'
-    # )
-    
+    # from: a character; either 'binary', 'binomial', or 'poisson'
+    # to: a character != from; either 'binary', 'binomial', or 'poisson'
+    # old_response: 
+    # category: 
+    # new_response: 
+
     col_names <- colnames(dat)
+    id_vars <- col_names[!(col_names %in% old_response)]
+    id_vars_collapsed <- paste0(id_vars, collapse =',')
     if (from == 'binary') {
-        id_vars <- col_names[!(col_names %in% response)]
-        id_vars_collapsed <- paste0(id_vars, collapse =',')
-        dat <- eval(parse(text = paste0(
-            'dat[, ',
-            '.(', variable.names[1] , ' = sum(', response, '), ',
-            variable.names[2], ' = sum(!', response, ')), ',
-            'by = \"', id_vars_collapsed, '\"]'
-        )))
+        # id_vars <- col_names[!(col_names %in% old_response)]
+        # id_vars_collapsed <- paste0(id_vars, collapse =',')
         if (to == 'binomial') {
-            return(dat)
+            return(eval(parse(text = paste0(
+                'dat[, ',
+                '.(', new_response[1] , ' = sum(', old_response, '), ',
+                new_response[2], ' = sum(!', old_response, ')), ',
+                'by = \"', id_vars_collapsed, '\"]'
+            ))))
         } else if (to == 'poisson') {
-            melt(
+            dat <- eval(parse(text = paste0(
+                'dat[, ',
+                '.(', category[1] , ' = sum(', old_response, '), ',
+                category[2], ' = sum(!', old_response, ')), ',
+                'by = \"', id_vars_collapsed, '\"]'
+            )))
+            return(suppressWarnings(melt(
                 dat,
                 id.vars = id_vars,
-                variable.name = response,
-                value.name = value.name
-            )
+                variable.name = old_response,
+                value.name = new_response
+            )))
         } else {
-            stop('\"to\" must be either \"binomial\" or \"poisson\"')
+            stop(
+                '\"to\" must be either \"binomial\" or \"poisson\"',
+                ' if \"from\" = \"binary\"'
+            )
         }
     } else if (from == 'binomial') {
-        id_vars <- col_names[!(col_names %in% responses)]
-        id_vars_collapsed <- paste0(id_vars, collapse =',')
+        # id_vars <- col_names[!(col_names %in% old_response)]
+        # id_vars_collapsed <- paste0(id_vars, collapse =',')
         if (to == 'binary') {
-            binarize_binom(dat, responses, variable.name)
+            return(binarize_binom(dat, old_response, new_response))
         } else if (to == 'poisson') {
             melt(
                 dat,
                 id.vars = id_vars,
-                variable.name = variable.name,
-                value.name = value.name
+                variable.name = category,
+                value.name = new_response
             )
         } else {
-            stop('\"to\" must be either \"binary\" or \"poisson\"')
+            stop(
+                '\"to\" must be either \"binary\" or \"poisson\"',
+                ' if \"from\" = \"binomial\"'
+            )
         }
     } else if (from == 'poisson') {
         if (to == 'binary') {
-            return(binarize_pois(dat, response))
+            return(binarize_pois(dat, old_response))
         } else if (to == 'binomial') {
-            id_vars <- col_names[!(col_names %in% new_response)]
+            id_vars <- id_vars[!(id_vars %in% category)]
             id_vars_fmlr <- paste0(id_vars, collapse = ' + ')
-            fmlr <- paste0(id_vars_fmlr, ' ~ ', new_response)
-            return(dcast(
-                dat, 
-                as.formula(fmlr), 
-                value.var = response
-            ))
+            fmlr <- as.formula(paste0(id_vars_fmlr, ' ~ ', category))
+            return(dcast(dat, fmlr, value.var = old_response))
         } else {
-            stop('\"to\" must be either \"binary\" or \"binomial\"')
+            stop(
+                '\"to\" must be either \"binary\" or \"binomial\"',
+                ' if \"from\" = \"poisson\"'
+            )
         }
     } else {
         stop(paste0(
@@ -737,7 +700,61 @@ change_form <- function(dat, from, to,
 }
 ```
 
+Examples are as follows:
 
+```{r eg2_2_8}
+change_form(
+    rich,
+    from = 'binary', to = 'binomial',
+    old_response = 'is_rich',
+    new_response = c('rich', 'not_rich')
+)
+change_form(
+    rich,
+    from = 'binary', to = 'poisson',
+    old_response = 'is_rich',
+    category = c('rich', 'not_rich'),
+    new_response = 'count'
+)
+nodal <- nodal[, -1]
+as_tibble(change_form(
+    nodal, 
+    from = 'binary', to = 'poisson', 
+    old_response = 'r', 
+    category = c('yes', 'no'), 
+    new_response = 'count'
+))
+change_form(
+    rich_binom,
+    from = 'binomial', to = 'binary',
+    old_response = c('rich', 'not_rich'),
+    new_response = 'is_rich'
+)
+change_form(
+    rich_binom,
+    from = 'binomial', to = 'poisson',
+    old_response = c('rich', 'not_rich'),
+    category = 'is_rich',
+    new_response = 'count'
+)
+change_form(
+    rich_pois,
+    from = 'poisson', to = 'binary',
+    old_response = 'count'
+)
+change_form(
+    rich_pois,
+    from = 'poisson', to = 'binomial',
+    old_response = 'count',
+    category = 'is_rich'
+)
+change_form(
+    femsmoke,
+    from = 'poisson', to = 'binomial',
+    old_response = 'y',
+    category = 'dead'
+) # i.e. yes if dead, no if alive
+```
 
 
 # 3. Applications
