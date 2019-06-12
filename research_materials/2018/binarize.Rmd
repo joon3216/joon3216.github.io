@@ -739,9 +739,10 @@ change_form <- function(dat, from, to,
     #       in dat that stores a response/count
     #     * lenght 2 if from = 'binomial'; the names of columns in dat
     #       that store positive and negative case counts, in this order.
-    # category: (specified if to = 'poisson') a character vector of:
+    # category: (specified only if to = 'poisson') a character vector of:
     #     * length 1 if from = 'binomial'; the new name of column that
-    #       will store two names in old_response
+    #       will store two names in old_response as positive and
+    #       negative cases, in this order.
     #     * length 2 if from = 'binary'; the new names for positive and
     #       negative cases in the binary response column, in this order.
     # new_response: (specified only if from != 'poisson') a character 

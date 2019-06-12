@@ -1095,9 +1095,10 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
     <span class="co">#       in dat that stores a response/count</span>
     <span class="co">#     * lenght 2 if from = &#39;binomial&#39;; the names of columns in dat</span>
     <span class="co">#       that store positive and negative case counts, in this order.</span>
-    <span class="co"># category: (specified if to = &#39;poisson&#39;) a character vector of:</span>
+    <span class="co"># category: (specified only if to = &#39;poisson&#39;) a character vector of:</span>
     <span class="co">#     * length 1 if from = &#39;binomial&#39;; the new name of column that</span>
-    <span class="co">#       will store two names in old_response</span>
+    <span class="co">#       will store two names in old_response as positive and</span>
+    <span class="co">#       negative cases, in this order.</span>
     <span class="co">#     * length 2 if from = &#39;binary&#39;; the new names for positive and</span>
     <span class="co">#       negative cases in the binary response column, in this order.</span>
     <span class="co"># new_response: (specified only if from != &#39;poisson&#39;) a character </span>
