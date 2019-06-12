@@ -544,6 +544,7 @@ as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
 <li><a href="#roc-curve">ROC curve</a></li>
 <li><a href="#confidence-interval-for-auc">Confidence interval for AUC</a></li>
 </ul></li>
+<li><a href="#aside-change_form">4. Another application: <code>change_form</code></a></li>
 <li><a href="#session-info">Session info</a></li>
 <li><a href="#related-pages">Related pages</a></li>
 </ul>
@@ -956,22 +957,162 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 1312:     no   no 65-74
 ## 1313:     no   no 65-74
 ## 1314:     no   no 65-74</code></pre>
-<p><strong>ASIDE</strong>: the function <code>change_form</code> is designed to turn one form of data into another:</p>
+</div>
+</div>
+<div id="applications" class="section level1">
+<h1>3. Applications</h1>
+<div id="roc-curve" class="section level2">
+<h2>ROC curve</h2>
+<p>By having a binary response, we can draw a ROC curve using <code>roc_curve</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_curve &lt;-<span class="st"> </span><span class="cf">function</span>(fmlr, dat) {
+    <span class="co"># fmlr: a formula</span>
+    <span class="co"># dat: a data with categorical features</span>
+    
+    mod &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> dat)
+    ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
+    response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
+    actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
+    roc_result &lt;-<span class="st"> </span><span class="kw">roc</span>(actual, ests)
+    roc_table &lt;-<span class="st"> </span><span class="kw">data.table</span>(
+        <span class="dt">TPR =</span> roc_result<span class="op">$</span>sensitivities,
+        <span class="dt">FPR =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>roc_result<span class="op">$</span>specificities,
+        <span class="dt">thresholds =</span> roc_result<span class="op">$</span>thresholds
+    )[
+        <span class="kw">order</span>(TPR)
+    ]
+    <span class="kw">ggplot</span>(roc_table, <span class="kw">aes</span>(FPR, TPR, <span class="dt">label =</span> <span class="kw">round</span>(thresholds, <span class="dv">4</span>))) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_label_repel</span>(
+            <span class="dt">box.padding =</span> <span class="fl">0.3</span>, 
+            <span class="dt">point.padding =</span> <span class="fl">0.3</span>, 
+            <span class="dt">segment.color =</span> <span class="st">&quot;grey50&quot;</span>
+        ) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_segment</span>(
+            <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">xend =</span> <span class="dv">1</span>, <span class="dt">yend =</span> <span class="dv">1</span>), 
+            <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>
+        ) <span class="op">+</span>
+<span class="st">        </span><span class="kw">annotate</span>(
+            <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> .<span class="dv">05</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, 
+            <span class="dt">label =</span> <span class="kw">paste0</span>(
+                <span class="st">&quot;AUC : &quot;</span>, <span class="kw">round</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(roc_result)), <span class="dv">4</span>)
+            )
+        ) <span class="op">+</span>
+<span class="st">        </span><span class="kw">labs</span>(
+            <span class="dt">x =</span> <span class="st">&quot;False positive rate&quot;</span>, 
+            <span class="dt">y =</span> <span class="st">&quot;True positive rate&quot;</span>,
+            <span class="dt">title =</span> <span class="st">&quot;ROC curve&quot;</span>, 
+            <span class="dt">subtitle =</span> <span class="kw">paste0</span>(<span class="st">&quot;- &quot;</span>, response, <span class="st">&quot; ~ &quot;</span>, <span class="kw">as.character</span>(fmlr[<span class="dv">3</span>]))
+        )
+}</code></pre></div>
+<p>Here are some examples of ROC curves:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># femsmoke_binary</span>
+femsmoke_binary[, dead <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(dead <span class="op">==</span><span class="st"> &#39;yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
+<span class="kw">roc_curve</span>(dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age, femsmoke_binary)</code></pre></div>
+<p><img src="binarize_files/figure-html/eg3_2-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rich_big</span>
+is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
+gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
+criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
+rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
+    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),
+    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),
+    <span class="dt">is_rich =</span> is_rich
+)
+<span class="kw">roc_curve</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big)</code></pre></div>
+<p><img src="binarize_files/figure-html/eg3_2-2.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># nodal</span>
+<span class="kw">roc_curve</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal)</code></pre></div>
+<p><img src="binarize_files/figure-html/eg3_2-3.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="confidence-interval-for-auc" class="section level2">
+<h2>Confidence interval for AUC</h2>
+<p>Using <code>boot::boot</code> and <code>boot::boot.ci</code>, we can compute the approximate CI for AUC:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CI_auc &lt;-<span class="st"> </span><span class="cf">function</span>(fmlr, dat, <span class="dt">R =</span> <span class="dv">500</span>, <span class="dt">type =</span> <span class="st">&#39;norm&#39;</span>, ...) {
+    <span class="co"># fmlr, dat: the same as in roc_curve</span>
+    <span class="co"># R: the same as R in boot::boot</span>
+    <span class="co"># type: the same as type in boot::boot.ci</span>
+    <span class="co"># ...: additional arguments of boot::boot.ci</span>
+    
+    AUC_boot &lt;-<span class="st"> </span><span class="cf">function</span>(dat, i) {
+        y &lt;-<span class="st"> </span>dat[i, ]
+        mod &lt;-<span class="st"> </span><span class="kw">glm</span>(fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> y)
+        ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
+        response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
+        actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;y$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
+        <span class="kw">suppressMessages</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(<span class="kw">roc</span>(actual, ests))))
+    }
+    <span class="kw">boot.ci</span>(<span class="kw">boot</span>(dat, <span class="dt">statistic =</span> AUC_boot, <span class="dt">R =</span> R), <span class="dt">type =</span> type, ...)
+}</code></pre></div>
+<p>Examples are as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age, femsmoke_binary)</code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 500 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 0.8697,  0.9077 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big, <span class="dt">R =</span> <span class="dv">200</span>)</code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 200 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
+## 
+## Intervals : 
+## Level      Normal        
+## 95%   ( 0.4969,  0.5128 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal, <span class="dt">type =</span> <span class="st">&#39;perc&#39;</span>)</code></pre></div>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 500 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   ( 0.7728,  0.9735 )  
+## Calculations and Intervals on Original Scale</code></pre>
+</div>
+</div>
+<div id="aside-change_form" class="section level1">
+<h1>4. Aside: <code>change_form</code></h1>
+<p>The function <code>change_form</code> is designed to turn one form of data into another:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">change_form &lt;-<span class="st"> </span><span class="cf">function</span>(dat, from, to, 
                         old_response, category, new_response) {
-    <span class="co"># dat: a data with categorical features</span>
+    <span class="co"># dat: a data with categorical features; a response column/columns</span>
+    <span class="co">#      must be numeric (0 and 1 if from = &#39;binary&#39;, or nonnegative </span>
+    <span class="co">#      integers if from is either &#39;binomial&#39; or &#39;poisson&#39;). </span>
     <span class="co"># from: a character; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
     <span class="co"># to: a character != from; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
-    <span class="co"># old_response: </span>
-    <span class="co"># category: </span>
-    <span class="co"># new_response: </span>
+    <span class="co"># old_response: (always specified) a character vector of:</span>
+    <span class="co">#     * length 1 if from = &#39;binary&#39; or &#39;poisson&#39;; the name of column</span>
+    <span class="co">#       in dat that stores a response/count</span>
+    <span class="co">#     * lenght 2 if from = &#39;binomial&#39;; the names of columns in dat</span>
+    <span class="co">#       that store positive and negative case counts, in this order.</span>
+    <span class="co"># category: (specified if to = &#39;poisson&#39;) a character vector of:</span>
+    <span class="co">#     * length 1 if from = &#39;binomial&#39;; the new name of column that</span>
+    <span class="co">#       will store two names in old_response</span>
+    <span class="co">#     * length 2 if from = &#39;binary&#39;; the new names for positive and</span>
+    <span class="co">#       negative cases in the binary response column, in this order.</span>
+    <span class="co"># new_response: (specified only if from != &#39;poisson&#39;) a character </span>
+    <span class="co">#               vector of:</span>
+    <span class="co">#     * length 1 if to = &#39;binary&#39; or &#39;poisson&#39;; the name of the new</span>
+    <span class="co">#       column in new data that will store either a binary or count </span>
+    <span class="co">#       response</span>
+    <span class="co">#     * length 2 if to = &#39;binomial&#39;; the names of two columns in</span>
+    <span class="co">#       new data that will store positive and negative case counts,</span>
+    <span class="co">#       in this order.</span>
 
     col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
     id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>old_response)]
     id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
     <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-        <span class="co"># id_vars &lt;- col_names[!(col_names %in% old_response)]</span>
-        <span class="co"># id_vars_collapsed &lt;- paste0(id_vars, collapse =&#39;,&#39;)</span>
         <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
             <span class="kw">return</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
                 <span class="st">&#39;dat[, &#39;</span>,
@@ -999,8 +1140,6 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
             )
         }
     } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-        <span class="co"># id_vars &lt;- col_names[!(col_names %in% old_response)]</span>
-        <span class="co"># id_vars_collapsed &lt;- paste0(id_vars, collapse =&#39;,&#39;)</span>
         <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
             <span class="kw">return</span>(<span class="kw">binarize_binom</span>(dat, old_response, new_response))
         } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
@@ -1168,128 +1307,6 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 12:     no 55-64  40  81
 ## 13:     no 65-74 101  28
 ## 14:     no   75+  64   0</code></pre>
-</div>
-</div>
-<div id="applications" class="section level1">
-<h1>3. Applications</h1>
-<div id="roc-curve" class="section level2">
-<h2>ROC curve</h2>
-<p>By having a binary response, we can draw a ROC curve using <code>roc_curve</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_curve &lt;-<span class="st"> </span><span class="cf">function</span>(fmlr, dat) {
-    <span class="co"># fmlr: a formula</span>
-    <span class="co"># dat: a data with categorical features</span>
-    
-    mod &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> dat)
-    ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
-    response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
-    actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
-    roc_result &lt;-<span class="st"> </span><span class="kw">roc</span>(actual, ests)
-    roc_table &lt;-<span class="st"> </span><span class="kw">data.table</span>(
-        <span class="dt">TPR =</span> roc_result<span class="op">$</span>sensitivities,
-        <span class="dt">FPR =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>roc_result<span class="op">$</span>specificities,
-        <span class="dt">thresholds =</span> roc_result<span class="op">$</span>thresholds
-    )[
-        <span class="kw">order</span>(TPR)
-    ]
-    <span class="kw">ggplot</span>(roc_table, <span class="kw">aes</span>(FPR, TPR, <span class="dt">label =</span> <span class="kw">round</span>(thresholds, <span class="dv">4</span>))) <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_label_repel</span>(
-            <span class="dt">box.padding =</span> <span class="fl">0.3</span>, 
-            <span class="dt">point.padding =</span> <span class="fl">0.3</span>, 
-            <span class="dt">segment.color =</span> <span class="st">&quot;grey50&quot;</span>
-        ) <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_segment</span>(
-            <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">xend =</span> <span class="dv">1</span>, <span class="dt">yend =</span> <span class="dv">1</span>), 
-            <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>
-        ) <span class="op">+</span>
-<span class="st">        </span><span class="kw">annotate</span>(
-            <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> .<span class="dv">05</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, 
-            <span class="dt">label =</span> <span class="kw">paste0</span>(
-                <span class="st">&quot;AUC : &quot;</span>, <span class="kw">round</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(roc_result)), <span class="dv">4</span>)
-            )
-        ) <span class="op">+</span>
-<span class="st">        </span><span class="kw">labs</span>(
-            <span class="dt">x =</span> <span class="st">&quot;False positive rate&quot;</span>, 
-            <span class="dt">y =</span> <span class="st">&quot;True positive rate&quot;</span>,
-            <span class="dt">title =</span> <span class="st">&quot;ROC curve&quot;</span>, 
-            <span class="dt">subtitle =</span> <span class="kw">paste0</span>(<span class="st">&quot;- &quot;</span>, response, <span class="st">&quot; ~ &quot;</span>, <span class="kw">as.character</span>(fmlr[<span class="dv">3</span>]))
-        )
-}</code></pre></div>
-<p>Here are some examples of ROC curves:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># femsmoke_binary</span>
-femsmoke_binary[, dead <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(dead <span class="op">==</span><span class="st"> &#39;yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
-<span class="kw">roc_curve</span>(dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age, femsmoke_binary)</code></pre></div>
-<p><img src="binarize_files/figure-html/eg3_2-1.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rich_big</span>
-is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
-    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),
-    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),
-    <span class="dt">is_rich =</span> is_rich
-)
-<span class="kw">roc_curve</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big)</code></pre></div>
-<p><img src="binarize_files/figure-html/eg3_2-2.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># nodal</span>
-<span class="kw">roc_curve</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal)</code></pre></div>
-<p><img src="binarize_files/figure-html/eg3_2-3.png" style="display: block; margin: auto;" /></p>
-</div>
-<div id="confidence-interval-for-auc" class="section level2">
-<h2>Confidence interval for AUC</h2>
-<p>Using <code>boot::boot</code> and <code>boot::boot.ci</code>, we can compute the approximate CI for AUC:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CI_auc &lt;-<span class="st"> </span><span class="cf">function</span>(fmlr, dat, <span class="dt">R =</span> <span class="dv">500</span>, <span class="dt">type =</span> <span class="st">&#39;norm&#39;</span>, ...) {
-    <span class="co"># fmlr, dat: the same as in roc_curve</span>
-    <span class="co"># R: the same as R in boot::boot</span>
-    <span class="co"># type: the same as type in boot::boot.ci</span>
-    <span class="co"># ...: additional arguments of boot::boot.ci</span>
-    
-    AUC_boot &lt;-<span class="st"> </span><span class="cf">function</span>(dat, i) {
-        y &lt;-<span class="st"> </span>dat[i, ]
-        mod &lt;-<span class="st"> </span><span class="kw">glm</span>(fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> y)
-        ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
-        response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
-        actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;y$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
-        <span class="kw">suppressMessages</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(<span class="kw">roc</span>(actual, ests))))
-    }
-    <span class="kw">boot.ci</span>(<span class="kw">boot</span>(dat, <span class="dt">statistic =</span> AUC_boot, <span class="dt">R =</span> R), <span class="dt">type =</span> type, ...)
-}</code></pre></div>
-<p>Examples are as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age, femsmoke_binary)</code></pre></div>
-<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-## Based on 500 bootstrap replicates
-## 
-## CALL : 
-## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
-## 
-## Intervals : 
-## Level      Normal        
-## 95%   ( 0.8697,  0.9078 )  
-## Calculations and Intervals on Original Scale</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, rich_big, <span class="dt">R =</span> <span class="dv">200</span>)</code></pre></div>
-<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-## Based on 200 bootstrap replicates
-## 
-## CALL : 
-## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
-## 
-## Intervals : 
-## Level      Normal        
-## 95%   ( 0.4965,  0.5148 )  
-## Calculations and Intervals on Original Scale</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, nodal, <span class="dt">type =</span> <span class="st">&#39;perc&#39;</span>)</code></pre></div>
-<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
-## Based on 500 bootstrap replicates
-## 
-## CALL : 
-## boot.ci(boot.out = boot(dat, statistic = AUC_boot, R = R), type = type)
-## 
-## Intervals : 
-## Level     Percentile     
-## 95%   ( 0.7728,  0.9735 )  
-## Calculations and Intervals on Original Scale</code></pre>
-</div>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
