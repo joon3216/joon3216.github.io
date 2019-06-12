@@ -615,6 +615,131 @@ We check that they are. We can apply `binarize_pois` to `femsmoke` as follows:
 (femsmoke_binary <- binarize_pois(femsmoke, 'y'))
 ```
 
+**ASIDE**: the function `change_form` can turn one form of data into another:
+
+```{r eg2_2_7, eval = F}
+change_form <- function(dat, from, to, 
+                        response, variable.names, value.name,
+                        responses, variable.name) {
+    # dat: a data with categorical features
+    # from: a character; 'binary', 'binomial', or 'poisson'
+    # 
+    # e.g.
+    # change_form(
+    #     rich, 
+    #     from = 'binary', to = 'binomial', 
+    #     response = 'is_rich',
+    #     variable.names = c('rich', 'not_rich')
+    #     # old_response = 'is_rich', 
+    #     # new_response = c('rich', 'not_rich')
+    # )
+    # change_form(
+    #     rich, 
+    #     from = 'binary', to = 'poisson', 
+    #     response = 'is_rich'
+    #     variable.names = c('rich', 'not_rich'),
+    #     value.name = 'count'
+    #     # old_response = 'is_rich',
+    #     # category = c('rich', 'not_rich'),
+    #     # new_response = 'count'
+    # )
+    # change_form(
+    #     rich_binom,
+    #     from = 'binomial', to = 'binary',
+    #     responses = c('rich', 'not_rich'),
+    #     variable.name = 'is_rich'
+    #     # old_response = c('rich', 'not_rich'),
+    #     # new_response = 'is_rich'
+    # )
+    # change_form(
+    #     rich_binom,
+    #     from = 'binomial', to = 'poisson',
+    #     responses = c('rich', 'not_rich'),
+    #     variable.name = 'is_rich'
+    #     value.name = 'count'
+    #     # old_response = c('rich', 'not_rich'),
+    #     # category = 'is_rich',
+    #     # new_response = 'count'
+    # )
+    # change_form(
+    #     rich_pois,
+    #     from = 'poisson', to = 'binary',
+    #     response = 'count'
+    #     # old_response = 'count'
+    # )
+    # change_form(
+    #     rich_pois,
+    #     from = 'poisson', to = 'binomial',
+    #     response = 'count',
+    #     new_response = 'is_rich'
+    #     # old_response = 'count',
+    #     # category = 'is_rich'
+    # )
+    
+    col_names <- colnames(dat)
+    if (from == 'binary') {
+        id_vars <- col_names[!(col_names %in% response)]
+        id_vars_collapsed <- paste0(id_vars, collapse =',')
+        dat <- eval(parse(text = paste0(
+            'dat[, ',
+            '.(', variable.names[1] , ' = sum(', response, '), ',
+            variable.names[2], ' = sum(!', response, ')), ',
+            'by = \"', id_vars_collapsed, '\"]'
+        )))
+        if (to == 'binomial') {
+            return(dat)
+        } else if (to == 'poisson') {
+            melt(
+                dat,
+                id.vars = id_vars,
+                variable.name = response,
+                value.name = value.name
+            )
+        } else {
+            stop('\"to\" must be either \"binomial\" or \"poisson\"')
+        }
+    } else if (from == 'binomial') {
+        id_vars <- col_names[!(col_names %in% responses)]
+        id_vars_collapsed <- paste0(id_vars, collapse =',')
+        if (to == 'binary') {
+            binarize_binom(dat, responses, variable.name)
+        } else if (to == 'poisson') {
+            melt(
+                dat,
+                id.vars = id_vars,
+                variable.name = variable.name,
+                value.name = value.name
+            )
+        } else {
+            stop('\"to\" must be either \"binary\" or \"poisson\"')
+        }
+    } else if (from == 'poisson') {
+        if (to == 'binary') {
+            return(binarize_pois(dat, response))
+        } else if (to == 'binomial') {
+            id_vars <- col_names[!(col_names %in% new_response)]
+            id_vars_fmlr <- paste0(id_vars, collapse = ' + ')
+            fmlr <- paste0(id_vars_fmlr, ' ~ ', new_response)
+            return(dcast(
+                dat, 
+                as.formula(fmlr), 
+                value.var = response
+            ))
+        } else {
+            stop('\"to\" must be either \"binary\" or \"binomial\"')
+        }
+    } else {
+        stop(paste0(
+            '\"from\" must be either', 
+            ' \"binary\", \"binomial\", or \"poisson\"'
+        ))
+    }
+}
+```
+
+
+
+
 # 3. Applications
 
 ## ROC curve

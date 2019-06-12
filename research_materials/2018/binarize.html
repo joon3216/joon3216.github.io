@@ -956,6 +956,124 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 1312:     no   no 65-74
 ## 1313:     no   no 65-74
 ## 1314:     no   no 65-74</code></pre>
+<p><strong>ASIDE</strong>: the function <code>change_form</code> can turn one form of data into another:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">change_form &lt;-<span class="st"> </span><span class="cf">function</span>(dat, from, to, 
+                        response, variable.names, value.name,
+                        responses, variable.name) {
+    <span class="co"># dat: a data with categorical features</span>
+    <span class="co"># from: a character; &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
+    <span class="co"># </span>
+    <span class="co"># e.g.</span>
+    <span class="co"># change_form(</span>
+    <span class="co">#     rich, </span>
+    <span class="co">#     from = &#39;binary&#39;, to = &#39;binomial&#39;, </span>
+    <span class="co">#     response = &#39;is_rich&#39;,</span>
+    <span class="co">#     variable.names = c(&#39;rich&#39;, &#39;not_rich&#39;)</span>
+    <span class="co">#     # old_response = &#39;is_rich&#39;, </span>
+    <span class="co">#     # new_response = c(&#39;rich&#39;, &#39;not_rich&#39;)</span>
+    <span class="co"># )</span>
+    <span class="co"># change_form(</span>
+    <span class="co">#     rich, </span>
+    <span class="co">#     from = &#39;binary&#39;, to = &#39;poisson&#39;, </span>
+    <span class="co">#     response = &#39;is_rich&#39;</span>
+    <span class="co">#     variable.names = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
+    <span class="co">#     value.name = &#39;count&#39;</span>
+    <span class="co">#     # old_response = &#39;is_rich&#39;,</span>
+    <span class="co">#     # category = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
+    <span class="co">#     # new_response = &#39;count&#39;</span>
+    <span class="co"># )</span>
+    <span class="co"># change_form(</span>
+    <span class="co">#     rich_binom,</span>
+    <span class="co">#     from = &#39;binomial&#39;, to = &#39;binary&#39;,</span>
+    <span class="co">#     responses = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
+    <span class="co">#     variable.name = &#39;is_rich&#39;</span>
+    <span class="co">#     # old_response = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
+    <span class="co">#     # new_response = &#39;is_rich&#39;</span>
+    <span class="co"># )</span>
+    <span class="co"># change_form(</span>
+    <span class="co">#     rich_binom,</span>
+    <span class="co">#     from = &#39;binomial&#39;, to = &#39;poisson&#39;,</span>
+    <span class="co">#     responses = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
+    <span class="co">#     variable.name = &#39;is_rich&#39;</span>
+    <span class="co">#     value.name = &#39;count&#39;</span>
+    <span class="co">#     # old_response = c(&#39;rich&#39;, &#39;not_rich&#39;),</span>
+    <span class="co">#     # category = &#39;is_rich&#39;,</span>
+    <span class="co">#     # new_response = &#39;count&#39;</span>
+    <span class="co"># )</span>
+    <span class="co"># change_form(</span>
+    <span class="co">#     rich_pois,</span>
+    <span class="co">#     from = &#39;poisson&#39;, to = &#39;binary&#39;,</span>
+    <span class="co">#     response = &#39;count&#39;</span>
+    <span class="co">#     # old_response = &#39;count&#39;</span>
+    <span class="co"># )</span>
+    <span class="co"># change_form(</span>
+    <span class="co">#     rich_pois,</span>
+    <span class="co">#     from = &#39;poisson&#39;, to = &#39;binomial&#39;,</span>
+    <span class="co">#     response = &#39;count&#39;,</span>
+    <span class="co">#     new_response = &#39;is_rich&#39;</span>
+    <span class="co">#     # old_response = &#39;count&#39;,</span>
+    <span class="co">#     # category = &#39;is_rich&#39;</span>
+    <span class="co"># )</span>
+    
+    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
+    <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
+        id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>response)]
+        id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
+        dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
+            <span class="st">&#39;dat[, &#39;</span>,
+            <span class="st">&#39;.(&#39;</span>, variable.names[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, response, <span class="st">&#39;), &#39;</span>,
+            variable.names[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, response, <span class="st">&#39;)), &#39;</span>,
+            <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span>
+        )))
+        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
+            <span class="kw">return</span>(dat)
+        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
+            <span class="kw">melt</span>(
+                dat,
+                <span class="dt">id.vars =</span> id_vars,
+                <span class="dt">variable.name =</span> response,
+                <span class="dt">value.name =</span> value.name
+            )
+        } <span class="cf">else</span> {
+            <span class="kw">stop</span>(<span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)
+        }
+    } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
+        id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]
+        id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
+        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
+            <span class="kw">binarize_binom</span>(dat, responses, variable.name)
+        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
+            <span class="kw">melt</span>(
+                dat,
+                <span class="dt">id.vars =</span> id_vars,
+                <span class="dt">variable.name =</span> variable.name,
+                <span class="dt">value.name =</span> value.name
+            )
+        } <span class="cf">else</span> {
+            <span class="kw">stop</span>(<span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)
+        }
+    } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
+        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
+            <span class="kw">return</span>(<span class="kw">binarize_pois</span>(dat, response))
+        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
+            id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>new_response)]
+            id_vars_fmlr &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>)
+            fmlr &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars_fmlr, <span class="st">&#39; ~ &#39;</span>, new_response)
+            <span class="kw">return</span>(<span class="kw">dcast</span>(
+                dat, 
+                <span class="kw">as.formula</span>(fmlr), 
+                <span class="dt">value.var =</span> response
+            ))
+        } <span class="cf">else</span> {
+            <span class="kw">stop</span>(<span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)
+        }
+    } <span class="cf">else</span> {
+        <span class="kw">stop</span>(<span class="kw">paste0</span>(
+            <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> must be either&#39;</span>, 
+            <span class="st">&#39; </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">, or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
+        ))
+    }
+}</code></pre></div>
 </div>
 </div>
 <div id="applications" class="section level1">
