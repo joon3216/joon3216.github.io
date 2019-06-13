@@ -59,7 +59,7 @@ The 15^th^ Infantry Division, Republic of Korea Army
 **Programming**
 
 * Basic HTML and CSS
-    + Currently maintaining https://joon3216.github.io/
+    + currently maintaining https://joon3216.github.io/
 * PostgreSQL
     + able to use functions such as `unnest`, `array`, and `information_schema`
     + able to combine information in tables using:
@@ -72,6 +72,7 @@ The 15^th^ Infantry Division, Republic of Korea Army
 * R
     + familiar with `ggplot2`, `dplyr`, `dbplyr`, `tidyr`, and `purrr`
     + able to write functions to implement algorithms
+    + currently maintaining `funpark` package
 
 
 # **Awards**

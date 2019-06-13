@@ -626,9 +626,9 @@ We check that they are. We can apply `binarize_pois` to `femsmoke` as follows:
 By having a binary response, we can draw a ROC curve using `roc_curve` function:
 
 ```{r eg3_1}
-roc_curve <- function(fmlr, dat) {
-    # fmlr: a formula
+roc_curve <- function(dat, fmlr) {
     # dat: a data with categorical features
+    # fmlr: a formula
     
     mod <- glm(formula = fmlr, family = binomial, data = dat)
     ests <- predict(mod, type = 'response')
@@ -674,7 +674,7 @@ Here are some examples of ROC curves:
 ```{r eg3_2, message = F, fig.asp = .7, fig.align = 'center'}
 # femsmoke_binary
 femsmoke_binary[, dead := ifelse(dead == 'yes', 1, 0)]
-roc_curve(dead ~ smoker + age, femsmoke_binary)
+roc_curve(femsmoke_binary, dead ~ smoker + age)
 # rich_big
 is_rich <- rbinom(10000, size = 1, prob = .5)
 gender <- rbinom(10000, size = 1, prob = .5)
@@ -684,9 +684,9 @@ rich_big <- data.table(
     criminal_record = ifelse(criminal_record == 1, 'yes', 'no'),
     is_rich = is_rich
 )
-roc_curve(is_rich ~ gender + criminal_record, rich_big)
+roc_curve(rich_big, is_rich ~ gender + criminal_record)
 # nodal
-roc_curve(r ~ aged + stage + grade + xray + acid, nodal)
+roc_curve(nodal, r ~ aged + stage + grade + xray + acid)
 ```
 
 ## Confidence interval for AUC
@@ -694,8 +694,8 @@ roc_curve(r ~ aged + stage + grade + xray + acid, nodal)
 Using `boot::boot` and `boot::boot.ci`, we can compute the approximate CI for AUC:
 
 ```{r CI_auc}
-CI_auc <- function(fmlr, dat, R = 500, type = 'norm', ...) {
-    # fmlr, dat: the same as in roc_curve
+CI_auc <- function(dat, fmlr, R = 500, type = 'norm', ...) {
+    # dat, fmlr: the same as in roc_curve
     # R: the same as R in boot::boot
     # type: the same as type in boot::boot.ci
     # ...: additional arguments of boot::boot.ci
@@ -706,18 +706,19 @@ CI_auc <- function(fmlr, dat, R = 500, type = 'norm', ...) {
         ests <- predict(mod, type = 'response')
         response <- as.character(fmlr[2])
         actual <- eval(parse(text = paste0('y$\"', response, '\"')))
-        suppressMessages(as.numeric(auc(roc(actual, ests))))
+        suppressMessages(as.numeric(pROC::auc(pROC::roc(actual, ests))))
     }
-    boot.ci(boot(dat, statistic = AUC_boot, R = R), type = type, ...)
+    boot_output <- boot::boot(dat, statistic = AUC_boot, R = R)
+    boot::boot.ci(boot_output, type = type, ...)
 }
 ```
 
 Examples are as follows:
 
 ```{r eg3_2_2, warning = F}
-CI_auc(dead ~ smoker + age, femsmoke_binary)
-CI_auc(is_rich ~ gender + criminal_record, rich_big, R = 200)
-CI_auc(r ~ aged + stage + grade + xray + acid, nodal, type = 'perc')
+CI_auc(femsmoke_binary, dead ~ smoker + age)
+CI_auc(rich_big, is_rich ~ gender + criminal_record, R = 200)
+CI_auc(nodal, r ~ aged + stage + grade + xray + acid, type = 'perc')
 ```
 
 
