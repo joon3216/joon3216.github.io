@@ -82,7 +82,7 @@ output:
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-9" style="color: #1E6BB8;">10</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-10" style="color: #1E6BB8;">11</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-11" style="color: #1E6BB8;">12</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>13</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-12" style="color: #1E6BB8;">13</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a>14</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a>15</a></td>
 </tr>
@@ -220,6 +220,11 @@ output:
 
 
 # 13
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.bloomberg.com/news/articles/2019-06-11/hon-hai-has-enough-ex-china-capacity-to-make-u-s-bound-products">Apple's U.S. iPhones can all be made outside of China if needed</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.bloomberg.com/news/articles/2019-06-12/u-s-tells-un-committee-north-korea-has-breached-oil-import-cap">North Korea has breached oil import limit, U.S. tells UN</a><!--/html_preserve-->
+
+
 # 14
 # 15
 # 16

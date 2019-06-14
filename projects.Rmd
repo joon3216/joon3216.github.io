@@ -22,13 +22,13 @@ output:
 
 ## `funpark` package in R
 
-To gain experience in a package development in R, I am starting to gather and organize R functions I wrote in the [Research materials](research_materials.html) section. See [here](projects/2019/funpark.html) for details.
+To gain experience in a package development in R, I started to gather and organize R functions I wrote in the [Research materials](research_materials.html) section. See [here](projects/2019/funpark.html) for details.
 
 
 
 ## Publishing this [website](https://joon3216.github.io)
 
-The challenge is to learn about HTML and CSS to make my website look like a website. Also, I am learning some git commands for a better management of files in the [repository](https://github.com/joon3216/joon3216.github.io). See [here](projects/2019/publishing_website.html) for details.
+The challenge was to learn about HTML and CSS to make my website look like a website. Also, I learned some git commands for a better management of files in the [repository](https://github.com/joon3216/joon3216.github.io). See [here](projects/2019/publishing_website.html) for details.
 
 
 

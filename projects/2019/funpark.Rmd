@@ -1,5 +1,5 @@
 ---
-title: "<code>funpark</code> package in R"
+title: "funpark package in R"
 author: Junkyu Park
 output: 
   prettydoc::html_pretty:
@@ -21,17 +21,63 @@ output:
 
 # Objectives
 
+* Gain experience in package development in R
+* Organize study materials as an R package
+
+
 # Background
+
+There are two purposes of this package:
+
+* **Archiving study materials more effectively**: After studying statistics in the University, I tried to find a means to store and manage what I have learned. I had all of my lecture notes scanned and stored in my OneDrive, but I wanted something more accessible. The size of the entire notes, including the assignments I have done, was almost 4 GB. There had to be a better way to retrive information from the pool I created.
+* **Learning how to develop an R package**: Although using R packages was something I always did on numerous occasions, I wanted to do something more advanced to become more competent in my R skills. I wanted to not only state on my CV/resume that I am familiar with many packages and able to use them, but also show my skills through documentations and prove that I can communicate.
 
 
 
 # How it works
 
+As of `r Sys.Date()`, `funpark` package tries to solve two types of tasks:
+
+* **Response column(s) transformations**: formulating the "response" column of data into another type of response. For example, if a data is prepared to fit a logistic regression (i.e. binary response), then the package provides functions to [formulate the response column into either binomial or count response](../../research_materials/2018/binarize.html), and vice versa.
+* **Statistical computations**: there are three subjects regarding this task:
+    + Computing the [fusion estimates](../../research_materials/2018/non_separable_penalty.html), and finding the best tuning parameter using [k-fold cross-validation](../../research_materials/2019/cross_validation_fs.html)
+    + Computing the pmf of $S = \sum_{i = 1}^{N} X_i$, where $N \sim \text{Pois}(\lambda)$, $N$ independent of all $X_i$'s, and $X_i \stackrel{iid}{\sim} p$ for some pmf $p$ whose support consists of nonnegative integers [using pgf and DFT](../../research_materials/2018/pgf.html)
+    + [Imputation using the EM algorithm](../../research_materials/2019/em_imputation.html)
+
+
+Click [here](https://github.com/joon3216/funpark) for the GitHub link. You can download `funpark` package by:
+
+```r
+# install.packages("devtools")
+devtools::install_github("joon3216/funpark")
+```
+
 
 # Learning outcomes
+
+I learned how to:
+
+* create an R package on RStudio
+* maintain an up-to-date DESCRIPTION
+* write `roxygen2` comments in my R scripts to document functions and datasets
+* use `devtools` package and RStudio to maintain an R package
 
 
 
 # Next steps
+
+Currently, I am planning on finishing another package called `qgf` ([GitHub link](https://github.com/joon3216/qgf)) for generating SQL queries in R. The difference between `dbplyr` and `qgf` is that it returns a character (i.e. a string of queries), and uses `information_schema` extensively to conduct data tidying instead of general reshaping or aggregating in `dbplyr`.
+
+
+* Definitely:
+    + Include tests
+    + Update the package and extend functionalities
+    + Write vignette
+* Possibly:
+    + Include S3 or R6 methods if applicable
+    + Upload on CRAN
+
+
+
 
 

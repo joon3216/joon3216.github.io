@@ -20,17 +20,31 @@ output:
 <!-- Additional rendering required after knitting the document. -->
 <!-- source() index_render.R after knitting. -->
 
-# About me
+# About me <a><img src="front.png" align="right" height="225" style="margin: 10px 40px;"/></a>
+
+<!--html_preserve-->
+<a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook" style="height: 20px;"></a>
+<a href="https://github.com/joon3216" class="fa fa-github"></a>
+<a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a>
+<a href="https://twitter.com/joon3216" class="fa fa-twitter"></a>
+<!--/html_preserve-->
 
 I'm a graduate of the University of Toronto in June 2019 with a degree in statistics. My interests include data manipulation and visualization, implementation of statistical knowledge, Python/R programming, and statistical computations. You can find my CV [here](files/cv_junkyu_park.pdf).
 
 
-```{r fig1, echo = F, out.width = '100%', fig.align = 'center'}
+
+
+```{r fig1, echo = F, out.width = '50%', fig.align = 'center', eval = F}
 knitr::include_graphics('front.png')
 ```
 
+&nbsp;
 
+# Contents
 
+* [Projects: works and activities](projects.html)
+* [Research materials: a study materials archive](research_materials.html)
+* [News: newsstand](news.html)
 
 
 

@@ -422,6 +422,44 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 <link rel="icon" href="../../style/all_orange_jp.png">
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 
 
@@ -476,7 +514,7 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name"><code>funpark</code> package in R</h1>
+<h1 class="title toc-ignore project-name">funpark package in R</h1>
 <h4 class="author project-author">Junkyu Park</h4>
 </section>
 
@@ -494,18 +532,61 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 <section class="main-content">
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
+<ul>
+<li>Gain experience in package development in R</li>
+<li>Organize study materials as an R package</li>
+</ul>
 </div>
 <div id="background" class="section level1">
 <h1>Background</h1>
+<p>There are two purposes of this package:</p>
+<ul>
+<li><strong>Archiving study materials more effectively</strong>: After studying statistics in the University, I tried to find a means to store and manage what I have learned. I had all of my lecture notes scanned and stored in my OneDrive, but I wanted something more accessible. The size of the entire notes, including the assignments I have done, was almost 4 GB. There had to be a better way to retrive information from the pool I created.</li>
+<li><strong>Learning how to develop an R package</strong>: Although using R packages was something I always did on numerous occasions, I wanted to do something more advanced to become more competent in my R skills. I wanted to not only state on my CV/resume that I am familiar with many packages and able to use them, but also show my skills through documentations and prove that I can communicate.</li>
+</ul>
 </div>
 <div id="how-it-works" class="section level1">
 <h1>How it works</h1>
+<p>As of 2019-06-14, <code>funpark</code> package tries to solve two types of tasks:</p>
+<ul>
+<li><strong>Response column(s) transformations</strong>: formulating the “response” column of data into another type of response. For example, if a data is prepared to fit a logistic regression (i.e. binary response), then the package provides functions to <a href="../../research_materials/2018/binarize.html">formulate the response column into either binomial or count response</a>, and vice versa.</li>
+<li><strong>Statistical computations</strong>: there are three subjects regarding this task:
+<ul>
+<li>Computing the <a href="../../research_materials/2018/non_separable_penalty.html">fusion estimates</a>, and finding the best tuning parameter using <a href="../../research_materials/2019/cross_validation_fs.html">k-fold cross-validation</a></li>
+<li>Computing the pmf of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, where <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, <span class="math inline">\(N\)</span> independent of all <span class="math inline">\(X_i\)</span>’s, and <span class="math inline">\(X_i \stackrel{iid}{\sim} p\)</span> for some pmf <span class="math inline">\(p\)</span> whose support consists of nonnegative integers <a href="../../research_materials/2018/pgf.html">using pgf and DFT</a></li>
+<li><a href="../../research_materials/2019/em_imputation.html">Imputation using the EM algorithm</a></li>
+</ul></li>
+</ul>
+<p>Click <a href="https://github.com/joon3216/funpark">here</a> for the GitHub link. You can download <code>funpark</code> package by:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;joon3216/funpark&quot;</span>)</code></pre></div>
 </div>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
+<p>I learned how to:</p>
+<ul>
+<li>create an R package on RStudio</li>
+<li>maintain an up-to-date DESCRIPTION</li>
+<li>write <code>roxygen2</code> comments in my R scripts to document functions and datasets</li>
+<li>use <code>devtools</code> package and RStudio to maintain an R package</li>
+</ul>
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next steps</h1>
+<p>Currently, I am planning on finishing another package called <code>qgf</code> (<a href="https://github.com/joon3216/qgf">GitHub link</a>) for generating SQL queries in R. The difference between <code>dbplyr</code> and <code>qgf</code> is that it returns a character (i.e. a string of queries), and uses <code>information_schema</code> extensively to conduct data tidying instead of general reshaping or aggregating in <code>dbplyr</code>.</p>
+<ul>
+<li>Definitely:
+<ul>
+<li>Include tests</li>
+<li>Update the package and extend functionalities</li>
+<li>Write vignette</li>
+</ul></li>
+<li>Possibly:
+<ul>
+<li>Include S3 or R6 methods if applicable</li>
+<li>Upload on CRAN</li>
+</ul></li>
+</ul>
 </div>
 </section>
 

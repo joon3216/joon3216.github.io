@@ -623,10 +623,10 @@ We check that they are. We can apply `binarize_pois` to `femsmoke` as follows:
 
 ## ROC curve
 
-By having a binary response, we can draw a ROC curve using `roc_curve` function:
+By having a binary response, we can draw a ROC curve using `plot_roc` function:
 
 ```{r eg3_1}
-roc_curve <- function(dat, fmlr) {
+plot_roc <- function(dat, fmlr) {
     # dat: a data with categorical features
     # fmlr: a formula
     
@@ -674,7 +674,7 @@ Here are some examples of ROC curves:
 ```{r eg3_2, message = F, fig.asp = .7, fig.align = 'center'}
 # femsmoke_binary
 femsmoke_binary[, dead := ifelse(dead == 'yes', 1, 0)]
-roc_curve(femsmoke_binary, dead ~ smoker + age)
+plot_roc(femsmoke_binary, dead ~ smoker + age)
 # rich_big
 is_rich <- rbinom(10000, size = 1, prob = .5)
 gender <- rbinom(10000, size = 1, prob = .5)
@@ -684,9 +684,9 @@ rich_big <- data.table(
     criminal_record = ifelse(criminal_record == 1, 'yes', 'no'),
     is_rich = is_rich
 )
-roc_curve(rich_big, is_rich ~ gender + criminal_record)
+plot_roc(rich_big, is_rich ~ gender + criminal_record)
 # nodal
-roc_curve(nodal, r ~ aged + stage + grade + xray + acid)
+plot_roc(nodal, r ~ aged + stage + grade + xray + acid)
 ```
 
 ## Confidence interval for AUC
