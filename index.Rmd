@@ -20,7 +20,7 @@ output:
 <!-- Additional rendering required after knitting the document. -->
 <!-- source() index_render.R after knitting. -->
 
-# About me <a><img src="front.png" align="right" height="225" style="margin: 10px 40px;"/></a>
+# About me <a><img src="front.png" align="right" height="225" style="margin: 10px 60px;"/></a>
 
 <!--html_preserve-->
 <a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook" style="height: 20px;"></a>
