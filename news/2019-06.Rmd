@@ -83,7 +83,7 @@ output:
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-10" style="color: #1E6BB8;">11</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-11" style="color: #1E6BB8;">12</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-12" style="color: #1E6BB8;">13</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>14</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-13" style="color: #1E6BB8;">14</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a>15</a></td>
 </tr>
 
@@ -226,6 +226,11 @@ output:
 
 
 # 14
+
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://globalnews.ca/video/5389585/nba-finals-toronto-raptors-presented-with-nba-championship-trophy">NBA Finals: Toronto Raptors presented with NBA championship trophy</a><!--/html_preserve-->
+
+
 # 15
 # 16
 # 17
