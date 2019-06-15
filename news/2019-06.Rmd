@@ -84,7 +84,7 @@ output:
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-11" style="color: #1E6BB8;">12</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-12" style="color: #1E6BB8;">13</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-13" style="color: #1E6BB8;">14</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>15</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-14" style="color: #1E6BB8;">15</a></td>
 </tr>
 
 <tr>
@@ -229,9 +229,14 @@ output:
 
 
 * <!--html_preserve--><a style="color: #1E6BB8;" href="https://globalnews.ca/video/5389585/nba-finals-toronto-raptors-presented-with-nba-championship-trophy">NBA Finals: Toronto Raptors presented with NBA championship trophy</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.itpro.co.uk/hardware/33837/windows-10-may-update-helps-ramp-up-amd-ryzen-performance">Windows 10 May update helps ramp up AMD Ryzen performance</a><!--/html_preserve-->
 
 
 # 15
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.fifa.com/u20worldcup/news/spirited-comeback-earns-ukraine-first-u-20-title#ukraine-v-korea-republic-final-2019-fifa-u-20-world-cup-x8898">Spirited comeback earns Ukraine first U-20 title</a><!--/html_preserve-->
+
+
 # 16
 # 17
 # 18
