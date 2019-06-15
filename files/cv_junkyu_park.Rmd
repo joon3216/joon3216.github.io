@@ -6,7 +6,7 @@ fontsize: 12pt
 geometry: margin = 1in
 ---
 
-<!-- Last updated: 2019-06-03 -->
+<!-- Last updated: 2019-06-15 -->
 
 # Junkyu Park
 
@@ -22,7 +22,7 @@ https://joon3216.github.io/
 
 # **Education**
 
-**H.B.Sc.: statistics specialist and math minor** \hspace*{\fill} graduated in June 2019  
+**H.B.Sc.: statistics specialist and math minor** \hspace*{\fill} June 2019  
 University of Toronto  
 
 * CGPA: 3.83
@@ -72,7 +72,7 @@ The 15^th^ Infantry Division, Republic of Korea Army
 * R
     + familiar with `ggplot2`, `dplyr`, `dbplyr`, `tidyr`, and `purrr`
     + able to write functions to implement algorithms
-    + currently maintaining `funpark` package
+    + currently maintaining `funpark` package on GitHub
 
 
 # **Awards**
