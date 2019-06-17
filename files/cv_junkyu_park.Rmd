@@ -72,7 +72,7 @@ The 15^th^ Infantry Division, Republic of Korea Army
 * R
     + familiar with `ggplot2`, `dplyr`, `dbplyr`, `tidyr`, and `purrr`
     + able to write functions to implement algorithms
-    + currently maintaining `funpark` package on GitHub
+    + currently maintaining [`funpark` package on GitHub](https://github.com/joon3216/funpark)
 
 
 # **Awards**
