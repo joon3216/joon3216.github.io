@@ -41,9 +41,9 @@ knitr::include_graphics('front.png')
 
 # Contents
 
-* [Projects: works and activities](projects.html)
-* [Research materials: a study materials archive](research_materials.html)
-* [News: newsstand](news.html)
+* [Projects](projects.html): works and activities
+* [Research materials](research_materials.html): a study materials archive
+* [News](news.html): newsstand
 
 
 
