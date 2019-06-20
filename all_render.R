@@ -47,6 +47,7 @@ c(
     # 02_lvl
     ## projects
     ### 2019
+    'projects/2019/funpark.Rmd',
     'projects/2019/publishing_website.Rmd',
 
     ## research_materials
