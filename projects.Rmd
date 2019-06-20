@@ -20,6 +20,16 @@ output:
 
 # [2019](projects/2019.html)
 
+## (Ongoing) `ledpis` package in Python
+
+This Python package is designed to generate a personal income statement given a ledger that follows a proper format. Details will be written soon.
+
+
+## (Ongoing) `qgf` package in R
+
+Using `DBI` package, this R package aims to generate SQL queries that perform data tidying and create simple analysis. Details will be written soon.
+
+
 ## `funpark` package in R
 
 To gain experience in a package development in R, I started to gather and organize R functions I wrote in the [Research materials](research_materials.html) section. See [here](projects/2019/funpark.html) for details.
