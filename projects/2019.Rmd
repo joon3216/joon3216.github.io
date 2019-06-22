@@ -17,7 +17,7 @@ output:
     self_contained: FALSE
 ---
 
-## (Ongoing) `ledpis` package in Python
+## (Ongoing) `perler` package in Python
 
 This Python package is designed to generate a personal income statement given a ledger that follows a proper format. Details will be written soon.
 

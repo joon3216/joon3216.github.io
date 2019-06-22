@@ -20,7 +20,7 @@ output:
 
 # [2019](projects/2019.html)
 
-## (Ongoing) `ledpis` package in Python
+## (Ongoing) `perler` package in Python
 
 This Python package is designed to generate a personal income statement given a ledger that follows a proper format. Details will be written soon.
 
