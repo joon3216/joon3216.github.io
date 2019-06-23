@@ -1,41 +1,86 @@
 ---
+# title: |
+#  | \LARGE{\textbf{Junkyu Park}}
+#  | \tiny{\ }
+#  | \small{1603-580 The East Mall, Etobicoke, ON M9B 4A7}
+#  | \small{647-676-4374}
+#  | \small{joonjunkyu.park@mail.utoronto.ca}
+#  | \small{https://www.linkedin.com/in/asdfzxcvjkl1/}
+#  | \small{https://joon3216.github.io/}
+header-includes:
+ - \usepackage{multicol}
+ # - \newcommand{\code}[1]{\texttt{#1}}
 output: 
   pdf_document:
     toc_depth: 1
-fontsize: 12pt
-geometry: margin = 1in
+fontsize: 11pt
+geometry: margin = .5in
 ---
 
 <!-- Last updated: 2019-06-15 -->
 
-# Junkyu Park
+<!-- \begingroup -->
+<!-- \fontsize{10pt}{12pt} -->
+<!-- \begin{verbatim} -->
+<!-- 1603-580 The East Mall, Etobicoke, ON M9B 4A7   -->
+<!-- 647-676-4374   -->
+<!-- joonjunkyu.park@mail.utoronto.ca   -->
+<!-- https://www.linkedin.com/in/asdfzxcvjkl1/   -->
+<!-- https://joon3216.github.io/   -->
+<!-- \end{verbatim} -->
+<!-- \endgroup -->
 
-1603-580 The East Mall  
-Etobicoke, ON M9B 4A7  
-647-676-4374  
-joonjunkyu.park@mail.utoronto.ca  
-https://linkedin.com/in/asdfzxcvjkl1/  
-https://joon3216.github.io/  
+```{r beginmulticols21, echo = F, results = 'asis'}
+cat("
+\\begin{multicols}{2}
+\\raggedcolumns
+")
+```
+
+\begin{minipage}{\linewidth}
+\LARGE{\textbf{Junkyu Park}}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+\texttt{1603-580 The East Mall, Etobicoke, ON M9B 4A7}
+
+\texttt{647-676-4374}
+
+\texttt{joonjunkyu.park@mail.utoronto.ca}
+
+\texttt{\url{https://www.linkedin.com/in/asdfzxcvjkl1/}}
+
+\texttt{\url{https://joon3216.github.io/}}
+\end{minipage}
 
 
-------------------------------------------------------
+```{r endmulticols1, echo = F, results = 'asis'}
+cat("\\end{multicols}")
+```
 
-# **Education**
 
-**H.B.Sc.: statistics specialist and math minor** \hspace*{\fill} June 2019  
+# Education
+
+**H.B.Sc.: statistics specialist and math minor** (GPA: 3.83) \hspace*{\fill} June 2019  
 University of Toronto  
 
-* CGPA: 3.83
+\smallskip
+
+**Certifications**  
+Society of Actuaries
+
+* Exams: P (passed), FM (passed), SRM (accredited)
+* All VEEs obtained: Economics, Applied Statistics, Corporate Finance
 
 
-# **Experience**
+# Experience
 
 **Volunteer note-taker** \hspace*{\fill} Sept 2016 - Apr 2019  
 University of Toronto Accessibility Services
 
 * volunteered as a note-taker for students with disabilities
 
-\bigskip
+\smallskip
 
 **Assistant Squad Leader** (Sergeant) \hspace*{\fill} Oct 2014 - July 2016  
 The 15^th^ Infantry Division, Republic of Korea Army
@@ -45,37 +90,53 @@ The 15^th^ Infantry Division, Republic of Korea Army
 * Deployed to the 38^th^ Regiment's General Outpost from Sept 2015 to Feb 2016
 
 
-# **Skills**
+# Skills
 
-**Certifications** 
+```{r beginmulticols2, echo = F, results = 'asis'}
+cat("
+\\begin{multicols}{2}
+\\raggedcolumns
+")
+```
 
-* Society of Actuaries
-    + Exam accredited: SRM
-    + Exams passed: P, FM
-    + All VEEs obtained: Economics, Applied Statistics, Corporate Finance
+\begin{minipage}{.99\linewidth}
+\textbf{Data analysis}
+\begin{itemize}
+  \item Data aggregating, reshaping, and tidying
+  \item Data visualization
+  \item Regression analysis
+  \item Statistical computations
+  \item Quantitative methods
+\end{itemize}
 
-\newpage
+\bigskip
 
-**Programming**
+\textbf{Languages}: English, Korean
+\end{minipage}
 
-* Basic HTML and CSS
-    + currently maintaining https://joon3216.github.io/
-* PostgreSQL
-    + able to use functions such as `unnest`, `array`, and `information_schema`
-    + able to combine information in tables using:
-        + if-then-else statement using `CASE`, `WHEN`, `THEN`, and `ELSE`
-        + `INNER JOIN`, `USING`, `LEFT JOIN`, `RIGHT JOIN`, `FULL JOIN`, `CROSS JOIN`
-        + `UNION`, `UNION ALL`, `INTERSECT`, `EXCEPT`
-    + able to write subqueries
-* Python
-    + able to write functions to implement algorithms
-* R
-    + familiar with `ggplot2`, `dplyr`, `dbplyr`, `tidyr`, and `purrr`
-    + able to write functions to implement algorithms
-    + currently maintaining [`funpark` package on GitHub](https://github.com/joon3216/funpark)
+\begin{minipage}{.99\linewidth}
+\textbf{Programming}
+\begin{itemize}
+  \item Some knowledge of HTML and CSS
+  \begin{itemize}
+    \item currently maintaining \href{https://joon3216.github.io/}{joon3216.github.io}
+  \end{itemize}
+  \item PostgreSQL (moderately familiar)
+  \begin{itemize}
+    \item able to use keywords such as \texttt{unnest}, \texttt{array}, and \texttt{information\_schema}
+    \item able to join tables and write subqueries
+  \end{itemize}
+  \item Python (competent)
+  \item R (proficient)
+\end{itemize}
+\end{minipage}
+
+```{r endmulticols, echo = F, results = 'asis'}
+cat("\\end{multicols}")
+```
 
 
-# **Awards**
+# Awards
 
 * Dean's List Scholar \hspace*{\fill} 2013-14, 2016-17, 2017-18, 2018-19
 * Louis Salvov Scholarship \hspace*{\fill} 2016-17
@@ -85,9 +146,6 @@ The 15^th^ Infantry Division, Republic of Korea Army
 * University of Toronto Entrance Scholarship \hspace*{\fill} Sept 2013
 
 
-# **Languages**
-
-* English, Korean
 
 
 
