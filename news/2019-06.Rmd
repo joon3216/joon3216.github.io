@@ -92,14 +92,14 @@ output:
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-16" style="color: #1E6BB8;">17</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-17" style="color: #1E6BB8;">18</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a href="#section-18" style="color: #1E6BB8;">19</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>20</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>21</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>22</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-19" style="color: #1E6BB8;">20</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-20" style="color: #1E6BB8;">21</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-21" style="color: #1E6BB8;">22</a></td>
 </tr>
 
 <tr>
-<td style="text-align: center; border: 1px solid #BBB;"><a>23</a></td>
-<td style="text-align: center; border: 1px solid #BBB;"><a>24</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-22" style="color: #1E6BB8;">23</a></td>
+<td style="text-align: center; border: 1px solid #BBB;"><a href="#section-23" style="color: #1E6BB8;">24</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a>25</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a>26</a></td>
 <td style="text-align: center; border: 1px solid #BBB;"><a>27</a></td>
@@ -264,9 +264,27 @@ output:
 
 
 # 20
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.ctvnews.ca/politics/trump-offers-help-with-canadian-detainees-in-china-in-upbeat-visit-with-trudeau-1.4474481">Trump offers help with Canadian detainees in China in upbeat visit with Trudeau</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.sciencedaily.com/releases/2019/06/190618123509.htm">Two new Earth-like planets discovered near Teegarden's Star</a><!--/html_preserve-->
+
 # 21
+
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.ctvnews.ca/canada/desjardins-says-info-for-2-9m-members-shared-outside-of-organization-1.4475253">Desjardins says info for 2.9M members shared outside of organization</a><!--/html_preserve-->
+
+
 # 22
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.bbc.co.uk/bbcthree/article/68c9c99d-c9d8-4857-96dd-b10336e2118e">"Leeds season": one of the weirdest footballing terms from around the world</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.howtogeek.com/426068/steam-wont-support-ubuntu-19.10-and-future-releases/">Steam won't support Ubuntu 19.10 and future releases</a><!--/html_preserve-->
+
 # 23
+
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.cbc.ca/news/canada/toronto/air-canada-sleeping-passenger-1.5186858">Air Canada reviewing how crew left sleeping passenger on plane</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.tellerreport.com/sports/2019-06-23---the-first-three-runs-on-defensive-errors------ryu-hyun-jin--another-failed--10-wins--.ryeQOFgakB.html">The first three runs on defensive errors... Ryu Hyun-jin, another failed '10 wins'</a><!--/html_preserve-->
+* <!--html_preserve--><a style="color: #1E6BB8;" href="https://www.dexerto.com/entertainment/youtuber-claims-lost-job-videos-pewdiepie-743397">YouTuber claims he lost his job over videos about PewDiePie</a><!--/html_preserve-->
+
 # 24
 # 25
 # 26
