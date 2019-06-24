@@ -9,15 +9,18 @@
 #  | \small{https://joon3216.github.io/}
 header-includes:
  - \usepackage{multicol}
+ - \usepackage{xcolor}
+ - \definecolor{linkblue}{RGB}{30, 107, 184}
+ - \renewcommand{\baselinestretch}{.85}
  # - \newcommand{\code}[1]{\texttt{#1}}
 output: 
   pdf_document:
     toc_depth: 1
 fontsize: 11pt
-geometry: margin = .5in
+geometry: margin = .75in
 ---
 
-<!-- Last updated: 2019-06-15 -->
+<!-- Last updated: 2019-06-23 -->
 
 <!-- \begingroup -->
 <!-- \fontsize{10pt}{12pt} -->
@@ -42,15 +45,18 @@ cat("
 \end{minipage}
 
 \begin{minipage}{\linewidth}
+\begingroup
+\fontsize{10pt}{10pt}
 \texttt{1603-580 The East Mall, Etobicoke, ON M9B 4A7}
 
 \texttt{647-676-4374}
 
 \texttt{joonjunkyu.park@mail.utoronto.ca}
 
-\texttt{\url{https://www.linkedin.com/in/asdfzxcvjkl1/}}
+\texttt{\textcolor{linkblue}{\url{https://www.linkedin.com/in/asdfzxcvjkl1/}}}
 
-\texttt{\url{https://joon3216.github.io/}}
+\texttt{\textcolor{linkblue}{\url{https://joon3216.github.io/}}}
+\endgroup
 \end{minipage}
 
 
@@ -119,7 +125,7 @@ cat("
 \begin{itemize}
   \item Some knowledge of HTML and CSS
   \begin{itemize}
-    \item currently maintaining \href{https://joon3216.github.io/}{joon3216.github.io}
+    \item currently maintaining \textcolor{linkblue}{\href{https://joon3216.github.io/}{joon3216.github.io}}
   \end{itemize}
   \item PostgreSQL (moderately familiar)
   \begin{itemize}
