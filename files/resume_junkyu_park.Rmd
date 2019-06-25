@@ -108,7 +108,10 @@ cat("
 \begin{minipage}{.99\linewidth}
 \textbf{Data analysis}
 \begin{itemize}
-  \item Data aggregating, reshaping, and tidying
+  \item Data manipulation
+  \begin{itemize}
+    \item aggregating, reshaping, and tidying
+  \end{itemize}
   \item Data visualization
   \item Regression analysis
   \item Statistical computations
