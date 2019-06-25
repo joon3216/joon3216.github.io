@@ -20,7 +20,7 @@ fontsize: 11pt
 geometry: margin = .75in
 ---
 
-<!-- Last updated: 2019-06-23 -->
+<!-- Last updated: 2019-06-25 -->
 
 <!-- \begingroup -->
 <!-- \fontsize{10pt}{12pt} -->
@@ -67,13 +67,13 @@ cat("\\end{multicols}")
 
 # Education
 
-**H.B.Sc.: statistics specialist and math minor** (GPA: 3.83) \hspace*{\fill} June 2019  
+**H.B.Sc.: statistics specialist and math minor** (GPA: 3.83) \hspace*{\fill} Jun 2019  
 University of Toronto  
 
 \smallskip
 
 **Certifications**  
-Society of Actuaries
+Society of Actuaries (SOA)
 
 * Exams: P (passed), FM (passed), SRM (accredited)
 * All VEEs obtained: Economics, Applied Statistics, Corporate Finance
@@ -81,19 +81,19 @@ Society of Actuaries
 
 # Experience
 
-**Volunteer note-taker** \hspace*{\fill} Sept 2016 - Apr 2019  
-University of Toronto Accessibility Services
+**Volunteer note-taker** \hspace*{\fill} Sep 2016 - Apr 2019  
+University of Toronto Accessibility Services \hspace*{\fill} 2 years 8 months
 
 * volunteered as a note-taker for students with disabilities
 
 \smallskip
 
-**Assistant Squad Leader** (Sergeant) \hspace*{\fill} Oct 2014 - July 2016  
-The 15^th^ Infantry Division, Republic of Korea Army
+**Assistant Squad Leader** (Sergeant) \hspace*{\fill} Oct 2014 - Jul 2016  
+The 15^th^ Infantry Division, Republic of Korea Army \hspace*{\fill} 1 year 9 months
 
-* Deployed the second time to the General Outpost from June 2016 until discharged
+* Deployed the second time to the General Outpost from Jun 2016 until discharged
 * Assumed the position of Assistant Squad Leader as of Dec 2015 until discharged
-* Deployed to the 38^th^ Regiment's General Outpost from Sept 2015 to Feb 2016
+* Deployed to the 38^th^ Regiment's General Outpost from Sep 2015 to Feb 2016
 
 
 # Skills
@@ -144,12 +144,11 @@ cat("\\end{multicols}")
 
 # Awards
 
-* Dean's List Scholar \hspace*{\fill} 2013-14, 2016-17, 2017-18, 2018-19
-* Louis Salvov Scholarship \hspace*{\fill} 2016-17
+* Dean's List Scholar \hspace*{\fill} 2013 - 2014, 2016 - 2019
+* Louis Salvov Scholarship \hspace*{\fill} 2016 - 2017
 * Awards for Excellence in Army Training Test \hspace*{\fill} May 2016
-* Math Honour Roll \hspace*{\fill} June 2014
-* University of Toronto AccessAbility Certificate of Appreciation \hspace*{\fill} Apr 2014
-* University of Toronto Entrance Scholarship \hspace*{\fill} Sept 2013
+* Math Honour Roll \hspace*{\fill} Jun 2014
+* University of Toronto Entrance Scholarship \hspace*{\fill} Sep 2013
 
 
 
