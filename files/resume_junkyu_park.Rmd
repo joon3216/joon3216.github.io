@@ -91,9 +91,9 @@ University of Toronto Accessibility Services \hspace*{\fill} 2 years 8 months
 **Assistant Squad Leader** (Sergeant) \hspace*{\fill} Oct 2014 - Jul 2016  
 The 15^th^ Infantry Division, Republic of Korea Army \hspace*{\fill} 1 year 9 months
 
-* Deployed the second time to the General Outpost from Jun 2016 until discharged
-* Assumed the position of Assistant Squad Leader as of Dec 2015 until discharged
-* Deployed to the 38^th^ Regiment's General Outpost from Sep 2015 to Feb 2016
+* deployed the second time to the General Outpost from Jun 2016 until discharged
+* assumed the position of Assistant Squad Leader as of Dec 2015 until discharged
+* deployed to the 38^th^ Regiment's General Outpost from Sep 2015 to Feb 2016
 
 
 # Skills
@@ -148,10 +148,10 @@ cat("\\end{multicols}")
 # Awards
 
 * Dean's List Scholar \hspace*{\fill} 2013 - 2014, 2016 - 2019
-* Louis Salvov Scholarship \hspace*{\fill} 2016 - 2017
+* Louis Savlov Scholarship \hspace*{\fill} Oct 2017
 * Awards for Excellence in Army Training Test \hspace*{\fill} May 2016
 * Math Honour Roll \hspace*{\fill} Jun 2014
-* University of Toronto Entrance Scholarship \hspace*{\fill} Sep 2013
+* University of Toronto Entrance Scholarship \hspace*{\fill} Oct 2013
 
 
 
