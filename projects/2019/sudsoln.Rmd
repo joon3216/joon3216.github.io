@@ -31,6 +31,10 @@ output:
 
 # Learning outcomes
 
+* The use of Travis CI and badge
+* The use of Codecov and badge
+* The importance of automatic testing
+* The importance of encapsulation via OOP in Python
 
 
 # Next steps
