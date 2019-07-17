@@ -26,6 +26,10 @@ This Python package is designed to generate a personal income statement given a 
 
 Using `DBI` package, this R package aims to generate SQL queries that perform data tidying and create simple analysis. Details will be written soon.
 
+## `sudsoln` package in Python
+
+To get familiar with object-oriented programming in Python, I created a package that solves a $n^2$-by-$n^2$ sudoku puzzle, where $n$ is the number of rows/columns in a subarray. See [here](2019/sudsoln.html) for details.
+
 
 ## `funpark` package in R
 
@@ -35,6 +39,7 @@ To gain experience in a package development in R, I started to gather and organi
 # Publishing this [website](https://joon3216.github.io)
 
 The challenge was to learn about HTML and CSS to make my website look like a website. Also, I learned some git commands for a better management of files in the [repository](https://github.com/joon3216/joon3216.github.io). See [here](2019/publishing_website.html) for details.
+
 
 
 

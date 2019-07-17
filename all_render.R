@@ -49,6 +49,7 @@ c(
     ### 2019
     'projects/2019/funpark.Rmd',
     'projects/2019/publishing_website.Rmd',
+    'projects/2019/sudsoln.Rmd',
 
     ## research_materials
     ### 2018
