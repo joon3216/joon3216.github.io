@@ -35,9 +35,12 @@ output:
 * The use of Codecov and badge
 * The importance of automatic testing
 * The importance of encapsulation via OOP in Python
-
+* The importance of version control system (in particular, git)
 
 # Next steps
+
+* Write a brief vignette
+
 
 
 
