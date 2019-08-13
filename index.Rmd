@@ -43,7 +43,6 @@ knitr::include_graphics('front.png')
 
 * [Projects](projects.html): works and activities
 * [Research materials](research_materials.html): a study materials archive
-* [News](news.html): newsstand
 
 
 
