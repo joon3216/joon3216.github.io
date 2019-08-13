@@ -17,17 +17,17 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 c(
     # 00_lvl, or the surface level
     'index.Rmd',
-    'news.Rmd',
+    # 'news.Rmd', # deprecated
     'projects.Rmd',
     'research_materials.Rmd',
 
 
 
     # 01_lvl
-    ## news
-    'news/2019-06.Rmd',
-    'news/2019-07.Rmd',
-    'news/2019-08.Rmd',
+    ## news # deprecated
+    # 'news/2019-06.Rmd',
+    # 'news/2019-07.Rmd',
+    # 'news/2019-08.Rmd',
 
     ## projects
     'projects/2019.Rmd',
@@ -66,7 +66,16 @@ c(
     'research_materials/2019/frog.Rmd',
     'research_materials/2019/largest_roll.Rmd',
     'research_materials/2019/matrix_derivatives.Rmd',
-    'research_materials/2019/multivariate_response.Rmd'
+    'research_materials/2019/multivariate_response.Rmd',
+    
+    
+    
+    # 03_lvl
+    ## projects
+    ### 2019
+    #### sudsoln
+    'projects/2019/sudsoln/analysis.Rmd',
+    'projects/2019/sudsoln/introduction.Rmd'
 ) %>%
     imap(function(x){render(x)}, .) %>%
     as.list()

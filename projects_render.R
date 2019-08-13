@@ -2,7 +2,7 @@
 # Set a working directory to where this script is located
 # setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-rmarkdown::render('projects.Rmd')
+# rmarkdown::render('projects.Rmd')
 index <- paste(readLines('projects.html', encoding = "UTF-8"), collapse = '\n')
 to_delete <- '<section class=\"page-header\">\n<h1 class=\"title toc-ignore project-name\">Projects</h1>\n</section>'
 index <- gsub(to_delete, '', index)

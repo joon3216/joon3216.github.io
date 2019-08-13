@@ -4,9 +4,10 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,11 +87,12 @@
 }
 
 /* new; why: prepare in case of text-align: right */
-#navbar nav ul li#news
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
 {
     padding: 8.5px 0;
     margin: 0;
-}
+} */
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
@@ -423,47 +425,99 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
 <link rel="stylesheet" href="pgf_files/style.css" type="text/css" />
+
+
+
+
 
 </head>
 
@@ -499,9 +553,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                     </li>
                 </ul>
             </li>
-            <li id="news">
+            <!-- <li id="news">
                 <a href="../../news.html">News</a>
-            </li>
+            </li> -->
             <li>
                 <a href="../../files/resume_junkyu_park.pdf">Resume</a>
             </li>
@@ -522,7 +576,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following external R package is used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
 
 <div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
 <ul style="list-style:none;">
@@ -553,7 +607,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>2. Definitions</h1>
 <div id="probability-generating-function" class="section level2">
 <h2>Probability generating function</h2>
-<p>Suppose the pmf of <span class="math inline">\(X_i\)</span> for each <span class="math inline">\(i\)</span> is <span class="math inline">\(p(x)\)</span>, where <span class="math inline">\(X_i\)</span>’s are iid. Define the <a href="https://en.wikipedia.org/wiki/Probability-generating_function">probability generating function</a> (pgf) of <span class="math inline">\(X_i\)</span> as: <span class="math display">\[g(t) := E(t^{X_i}) = \sum_{x} t^x p(x)\]</span> That is, the pgf of <span class="math inline">\(X_i\)</span> is a power series representation of <span class="math inline">\(p(x)\)</span> <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In this note, we will consider two types of sum of <span class="math inline">\(X_i\)</span>’s:</p>
+<p>Suppose the pmf of <span class="math inline">\(X_i\)</span> for each <span class="math inline">\(i\)</span> is <span class="math inline">\(p(x)\)</span>, where <span class="math inline">\(X_i\)</span>’s are iid. Define the <a href="https://en.wikipedia.org/wiki/Probability-generating_function">probability generating function</a> (pgf) of <span class="math inline">\(X_i\)</span> as: <span class="math display">\[g(t) := E(t^{X_i}) = \sum_{x} t^x p(x)\]</span> That is, the pgf of <span class="math inline">\(X_i\)</span> is a power series representation of <span class="math inline">\(p(x)\)</span> <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. In this note, we will consider two types of sum of <span class="math inline">\(X_i\)</span>’s:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(S = \sum_{i = 1}^{n} X_i\)</span>, where <span class="math inline">\(n\)</span> is fixed</li>
 <li><span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, where <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span> and <span class="math inline">\(N\)</span> is independent of all <span class="math inline">\(X_i\)</span>’s</li>
@@ -571,29 +625,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>For <span class="math inline">\(k = 0, 1, \dots, n \ell\)</span>, define <span class="math inline">\(t_k := \exp \big( - \frac{2 \pi i k}{n \ell + 1} \big)\)</span>.</p>
 <div id="case-1-a-finite-sum" class="section level2">
 <h2>Case 1: a finite sum</h2>
-<p>Say <span class="math inline">\(X_i \stackrel{iid}{\sim} p\)</span> for some pmf <span class="math inline">\(p\)</span> with the support <span class="math inline">\(\mathcal{X} = \{0, h, 2h, \dots, \ell h \}\)</span> for some <span class="math inline">\(h &gt; 0\)</span> <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. Without loss of generality, assume <span class="math inline">\(h = 1\)</span>. Suppose <span class="math inline">\(S = \sum_{i = 1}^{n} X_i\)</span> (and notice that the support of <span class="math inline">\(S\)</span> is then <span class="math inline">\(\mathcal{S} = \{0, 1, \dots, n \ell\}\)</span> assuming <span class="math inline">\(h = 1\)</span>). Then due to the iid condition, the pgf of <span class="math inline">\(S\)</span>, denoted as <span class="math inline">\(g_S(t)\)</span>, becomes:</p>
-<span class="math display">\[\begin{align*}
+<p>Say <span class="math inline">\(X_i \stackrel{iid}{\sim} p\)</span> for some pmf <span class="math inline">\(p\)</span> with the support <span class="math inline">\(\mathcal{X} = \{0, h, 2h, \dots, \ell h \}\)</span> for some <span class="math inline">\(h &gt; 0\)</span> <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Without loss of generality, assume <span class="math inline">\(h = 1\)</span>. Suppose <span class="math inline">\(S = \sum_{i = 1}^{n} X_i\)</span> (and notice that the support of <span class="math inline">\(S\)</span> is then <span class="math inline">\(\mathcal{S} = \{0, 1, \dots, n \ell\}\)</span> assuming <span class="math inline">\(h = 1\)</span>). Then due to the iid condition, the pgf of <span class="math inline">\(S\)</span>, denoted as <span class="math inline">\(g_S(t)\)</span>, becomes:</p>
+<p><span class="math display">\[\begin{align*}
 g_S(t) &amp;= E(t^S) = \sum_{x = 0}^{n \ell} t^x p_S(x) \\
 &amp;= E(t^{\sum_{i = 1}^{n} X_i}) \\
 &amp;= E(t^{X_1} t^{X_2} \dots t^{X_n}) \\
 &amp;= [g(t)]^n
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p>That is, for <span class="math inline">\(x \in \mathcal{S}\)</span>: <span class="math display">\[p_S(x) = \frac{1}{n \ell + 1} \sum_{k = 0}^{n \ell} [g(t_k)]^n \cdot \exp(\frac{2 \pi i k x}{n \ell + 1})\]</span></p>
 <p>by the definition of inverse DFT. Note that the condition <span class="math inline">\(P(X_i \in \mathbb{N}_0) = 1\)</span>, where <span class="math inline">\(\mathbb{N}_0 := \mathbb{N} \cup \{0 \}\)</span>, guarantees that <span class="math inline">\(\mathcal{X} = \{0, 1, \dots, \ell \} \subset \mathcal{S}\)</span> so that: <span class="math display">\[g(t) = \sum_{x \in \mathcal{X}} t^x p(x) = \sum_{x \in \mathcal{S}} t^x p(x)\]</span> by letting <span class="math inline">\(p(x) = 0\)</span> whenever <span class="math inline">\(x \in \mathcal{S} \cap \mathcal{X}^c\)</span>.</p>
 </div>
 <div id="case-2-an-infinite-sum" class="section level2">
 <h2>Case 2: an infinite sum</h2>
-<p>Now suppose <span class="math inline">\(X_1, X_2, \dots\)</span> is an infinite sequence of iid discrete random variables, and <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span> is independent of the sequence. Define <span class="math inline">\(S\)</span> as: <span class="math display">\[S = \sum_{i = 1}^{N} X_i\]</span> and <span class="math inline">\(S := 0\)</span> if <span class="math inline">\(N = 0\)</span> (i.e. <span class="math inline">\(P(S = 0 \text{ | } N = 0) = 1\)</span>).</p>
+<p>Now suppose <span class="math inline">\(X_1, X_2, \dots\)</span> is an infinite sequence of iid discrete random variables, and <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span> is independent of the sequence. Define <span class="math inline">\(S\)</span> as: <span class="math display">\[S = \sum_{i = 1}^{N} X_i\]</span> and <span class="math inline">\(S := 0\)</span> if <span class="math inline">\(N = 0\)</span> (i.e. <span class="math inline">\(P(S = 0 \text{ | } N = 0) = 1\)</span>).</p>
 <p>If we work out to see how <span class="math inline">\(p_S(x)\)</span> actually looks like, we get:</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 p_S(x) &amp;= P(S = x) \\
 &amp;= \sum_{n = 0}^{\infty} P(N = n) P(S = x \text{ | } N = n) \\
 &amp;= \sum_{n = 0}^{\infty} P(N = n) p_{S_n}(x) \\
 &amp;= e^{-\lambda} I(x = 0) + \sum_{n = 1}^{\infty} P(N = n) p_{S_n}(x)
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p>where <span class="math inline">\(p_{S_n}(x)\)</span> is the pmf of <span class="math inline">\(S_n = \sum_{i = 1}^{n} X_i\)</span>, which is something we know how to compute.</p>
 <p><strong>ASIDE 1</strong>: we can also realize the distribution of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span> by computing the characteristic function of <span class="math inline">\(S\)</span>:</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 c_S(t) &amp;:= E(e^{i t S}) \\
 &amp;= E(e^{i t \sum_{i = 1}^{N} X_i}) \\
 &amp;= E \Big[ E( e^{i t \sum_{i = 1}^{N} X_i} \text{ | } N) \Big] \\
@@ -602,7 +656,7 @@ c_S(t) &amp;:= E(e^{i t S}) \\
 &amp;=: E \Big[ \prod_{i = 1}^{N} c_{X_i}(t) \Big] \\
 &amp;= E \Big[  \big( c_{X_i}(t) \big)^N \Big] \text{ } (\because \text{identical}) \\
 &amp;=: g_N(c_{X_i}(t))
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p>where <span class="math inline">\(g_N(t)\)</span> is the pgf of <span class="math inline">\(N\)</span>. Applying the inverse Laplace transform to <span class="math inline">\(g_N(c_{X_i}(t))\)</span> will yield the distribution of <span class="math inline">\(S\)</span> <span class="math inline">\(\text{}\)</span><sup><a href="pgf.html#fn2">2</a></sup>.</p>
 <div id="idea-to-cut" class="section level3">
 <h3>Idea to cut</h3>
@@ -612,7 +666,7 @@ c_S(t) &amp;:= E(e^{i t S}) \\
 <div id="pgf-of-an-infinite-sum" class="section level3">
 <h3>pgf of an infinite sum</h3>
 <p>Say the pgf of <span class="math inline">\(X_i\)</span> is <span class="math inline">\(g(t)\)</span>. Then the pgf of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span> should be:</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 g_S(t) &amp;= E(t^S) \\
 &amp;= E(t^{\sum_{i = 1}^{N} X_i}) \\
 &amp;= E\big[ E(t^{\sum_{i = 1}^{N} X_i} \text{ | } N) \big] \\
@@ -620,25 +674,25 @@ g_S(t) &amp;= E(t^S) \\
 &amp;= E\big[ \prod_{i = 1}^{N} E(t^{X_i} ) \big] \text{ } (\because X_i \perp \!\!\! \perp N) \\
 &amp;= E\big[ [g(t)]^N \big] \\
 &amp;= g_N(g(t))
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p>where <span class="math inline">\(g_N(t)\)</span> is the pgf of <span class="math inline">\(N\)</span>. <span class="math inline">\(g_N(t)\)</span> is computed as:</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 g_N(t) &amp;= E(t^N) = \sum_{n = 0}^{\infty} t^n p_N(n) \\
 &amp;= \sum_{n = 0}^{\infty} t^n \frac{\lambda^n e^{-\lambda}}{n!} \\
 &amp;= \sum_{n = 0}^{\infty} \frac{(\lambda t)^n e^{-\lambda}}{n!} \\
 &amp;= e^{-\lambda} \sum_{n = 0}^{\infty} \frac{(\lambda t)^n}{n!} \\
 &amp;= e^{-\lambda} e^{\lambda t} \\
 &amp;= \exp \big(-\lambda(1 - t)\big)
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p>Therefore, <span class="math display">\[g_S(t) = g_N(g(t)) = \exp \big[-\lambda (1 - g(t)) \big]\]</span></p>
 <p>Back to the inequality, we can finally determine the appropriate <span class="math inline">\(M\)</span> that is not too big, and yet satisfies <span class="math inline">\(P(S \geq M) &lt; \varepsilon\)</span>:</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 \varepsilon &amp;\geq \frac{g_S(t)}{t^M} \\
 \implies  \hspace{47pt} \varepsilon t^M &amp;\geq g_S(t) = \exp \big[-\lambda (1 - g(t)) \big] \\
 \implies \ln (\varepsilon) + M \ln(t) &amp;\geq -\lambda (1 - g(t)) \\
 \implies \hspace{32pt} M \ln(t) &amp;\geq -\lambda (1 - g(t)) - \ln(\varepsilon) \\
 \implies \hspace{53pt} M &amp;\geq \frac{-\lambda (1 - g(t)) - \ln(\varepsilon)}{\ln(t)}
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p><span class="math inline">\(M\)</span> can be any number that satisfies the above inequality. Take <span class="math inline">\(M = \underset{t &gt; 1}{\inf} \big\{ \frac{-\lambda (1 - g(t)) - \ln(\varepsilon)}{\ln(t)} \big\}\)</span> which is the smallest possible <span class="math inline">\(M\)</span>; we take the smallest value so that we can <em>ignore</em> as many cases of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span> as possible (i.e. simplify <span class="math inline">\(S\)</span> as much as possible).</p>
 </div>
 <div id="the-algorithm" class="section level3">
@@ -654,33 +708,33 @@ g_N(t) &amp;= E(t^N) = \sum_{n = 0}^{\infty} t^n p_N(n) \\
 <li>Compute <span class="math inline">\(\{g_S(t_k) \}_{k = 0}^{M - 1} = \{g_N(g(t_k)) \}_{k = 0}^{M - 1}\)</span>.</li>
 <li>Compute <span class="math inline">\(\{ p_S(x) \}_{x \in \mathcal{S}^*}\)</span>, the inverse DFT of <span class="math inline">\(\{g_S(t_k) \}_{k = 0}^{M - 1}\)</span>.</li>
 </ol>
-<p>This approximation actually yields the conditional pmf of <span class="math inline">\(S\)</span>, i.e. <span class="math inline">\(P(S = x \text{ | } S &lt; M)\)</span>. Notice that as <span class="math inline">\(M \to \infty\)</span>, we get <span class="math inline">\(P(S \geq M) \to 0\)</span> and <span class="math inline">\(P(S = x \text{ | } S &lt; M) \to P(S = x) = p_S(x)\)</span> for each <span class="math inline">\(x \in \mathcal{S}^*\)</span>.</p>
+<p>This approximation actually yields the conditional pmf of <span class="math inline">\(S\)</span>, i.e. <span class="math inline">\(P(S = x \text{ | } S &lt; M)\)</span>. Notice that as <span class="math inline">\(M \to \infty\)</span>, we get <span class="math inline">\(P(S \geq M) \to 0\)</span> and <span class="math inline">\(P(S = x \text{ | } S &lt; M) \to P(S = x) = p_S(x)\)</span> for each <span class="math inline">\(x \in \mathcal{S}^*\)</span>.</p>
 <p><strong>ASIDE 2</strong>: If <span class="math inline">\(N \sim \text{Geom}(p)\)</span> so that <span class="math inline">\(p_N(n) = p (1 - p)^{n - 1}\)</span>, <span class="math inline">\(n \in \mathbb{N}\)</span>, then we can use <span class="math inline">\(g_N(t) = m_N(\ln(t)) = \frac{p t}{1 - (1 - p) t}\)</span> instead of <span class="math inline">\(g_N(t) = \exp(-\lambda(1 - t))\)</span>. Also, you don’t need to worry about whether <span class="math inline">\(\mathcal{X} \subset \mathcal{S}^*\)</span> will be satisfied, because <span class="math inline">\(P(N = 1) &gt; 0\)</span> so it is guaranteed to be.</p>
-<p><strong>ASIDE 3</strong>: If <span class="math inline">\(\mathcal{X} \subsetneq \{n h \}_{n = 0}^{\ell}\)</span>, e.g. <span class="math inline">\(h = .5\)</span> and <span class="math inline">\(\mathcal{X} = \{1, 1.5, 2, 3 \}\)</span> (i.e. <span class="math inline">\(\ell = 6\)</span>), then we can “extend” <span class="math inline">\(\mathcal{X}\)</span> so that <span class="math inline">\(\mathcal{X}^* = \{n h \}_{n = 0}^{\ell}\)</span> is our new “support”. So if <span class="math inline">\(\mathcal{X} = \{1, 1.5, 2, 3 \}\)</span>, then <span class="math inline">\(\mathcal{X}^* = \{0, 0.5, 1, 1.5, 2, 2.5, 3 \}\)</span> and <span class="math inline">\(p(x) = 0\)</span> whenever <span class="math inline">\(x = 0, 0.5\)</span>, or <span class="math inline">\(2.5\)</span>. We can find <span class="math inline">\(M\)</span> by first transforming <span class="math inline">\(\mathcal{X}^* = \{n h \}_{n = 0}^{\ell}\)</span> into <span class="math inline">\(\frac{1}{h}\mathcal{X}^* = \{ n\}_{n = 0}^{\ell}\)</span> and then using the above method. Transform <span class="math inline">\(\frac{1}{h}\mathcal{S}^* =\{ n \}_{n = 0}^{M - 1}\)</span> to <span class="math inline">\(\mathcal{S}^* = \{ nh \}_{n = 0}^{M - 1}\)</span>.</p>
+<p><strong>ASIDE 3</strong>: If <span class="math inline">\(\mathcal{X} \subsetneq \{n h \}_{n = 0}^{\ell}\)</span>, e.g. <span class="math inline">\(h = .5\)</span> and <span class="math inline">\(\mathcal{X} = \{1, 1.5, 2, 3 \}\)</span> (i.e. <span class="math inline">\(\ell = 6\)</span>), then we can “extend” <span class="math inline">\(\mathcal{X}\)</span> so that <span class="math inline">\(\mathcal{X}^* = \{n h \}_{n = 0}^{\ell}\)</span> is our new “support”. So if <span class="math inline">\(\mathcal{X} = \{1, 1.5, 2, 3 \}\)</span>, then <span class="math inline">\(\mathcal{X}^* = \{0, 0.5, 1, 1.5, 2, 2.5, 3 \}\)</span> and <span class="math inline">\(p(x) = 0\)</span> whenever <span class="math inline">\(x = 0, 0.5\)</span>, or <span class="math inline">\(2.5\)</span>. We can find <span class="math inline">\(M\)</span> by first transforming <span class="math inline">\(\mathcal{X}^* = \{n h \}_{n = 0}^{\ell}\)</span> into <span class="math inline">\(\frac{1}{h}\mathcal{X}^* = \{ n\}_{n = 0}^{\ell}\)</span> and then using the above method. Transform <span class="math inline">\(\frac{1}{h}\mathcal{S}^* =\{ n \}_{n = 0}^{M - 1}\)</span> to <span class="math inline">\(\mathcal{S}^* = \{ nh \}_{n = 0}^{M - 1}\)</span>.</p>
 </div>
 </div>
 </div>
 <div id="an-example" class="section level1">
 <h1>4. An example</h1>
 <p>We first define our pmf of <span class="math inline">\(X_i\)</span> with <span class="math inline">\(\mathcal{X} = \{0, 1, \dots, 5 \}\)</span> as: <span class="math display">\[p(x) = \begin{cases} .05 &amp; x = 0 \\ .1 &amp; x = 1, 3, 4 \\ .075 &amp; x = 2 \\ .575 &amp; x = 5 \end{cases}\]</span></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dX &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
-    <span class="kw">sapply</span>(
-        x, 
-        <span class="cf">function</span>(d) {
-            <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {
-                .<span class="dv">05</span>
-            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>)) {
-                .<span class="dv">1</span>
-            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) {
-                .<span class="dv">075</span>
-            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) {
-                .<span class="dv">575</span>
-            } <span class="cf">else</span> {
-                <span class="dv">0</span>
-            }
-        }
-    )
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">dX &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="kw">sapply</span>(</a>
+<a class="sourceLine" id="cb2-3" title="3">        x, </a>
+<a class="sourceLine" id="cb2-4" title="4">        <span class="cf">function</span>(d) {</a>
+<a class="sourceLine" id="cb2-5" title="5">            <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb2-6" title="6">                <span class="fl">.05</span></a>
+<a class="sourceLine" id="cb2-7" title="7">            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>)) {</a>
+<a class="sourceLine" id="cb2-8" title="8">                <span class="fl">.1</span></a>
+<a class="sourceLine" id="cb2-9" title="9">            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb2-10" title="10">                <span class="fl">.075</span></a>
+<a class="sourceLine" id="cb2-11" title="11">            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">5</span>) {</a>
+<a class="sourceLine" id="cb2-12" title="12">                <span class="fl">.575</span></a>
+<a class="sourceLine" id="cb2-13" title="13">            } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb2-14" title="14">                <span class="dv">0</span></a>
+<a class="sourceLine" id="cb2-15" title="15">            }</a>
+<a class="sourceLine" id="cb2-16" title="16">        }</a>
+<a class="sourceLine" id="cb2-17" title="17">    )</a>
+<a class="sourceLine" id="cb2-18" title="18">}</a></code></pre></div>
 <p>We use the name <code>dX</code> instead of <code>pX</code>, <code>p_X</code>, or <code>px</code>, and so on, to be consistent with other names of density functions in R (such as <code>dpois</code> or <code>dbinom</code>). Also, <code>dX</code> is designed so that when it takes the vector input, it returns the vector output.</p>
 <p>The following function <code>csum_N</code> (where <code>c</code> stands for “calibrate”) takes arguments <code>pmf</code>, <code>support</code>, <code>eps</code>, and <code>lambda</code>. It returns the pmf vector of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>, where <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, using the DFT.</p>
 <p>The function is designed to compute the pmf of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span> under these assumptions:</p>
@@ -690,66 +744,66 @@ g_N(t) &amp;= E(t^N) = \sum_{n = 0}^{\infty} t^n p_N(n) \\
 <li><code>eps</code> is the value in <span class="math inline">\((0, 1)\)</span>; <span class="math inline">\(10^{-5}\)</span> by default.</li>
 <li><code>lambda</code> is the mean of <span class="math inline">\(N \sim \text{Pois}(\lambda)\)</span>, and <span class="math inline">\(N\)</span> is independent of all <span class="math inline">\(X_i\)</span>’s.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csum_N &lt;-<span class="st"> </span><span class="cf">function</span>(pmf, support, <span class="dt">eps =</span> <span class="fl">1e-05</span>, lambda) {
-    <span class="co"># pmf: a probability mass function</span>
-    <span class="co"># support: an integer vector from 0 to the largest element of </span>
-    <span class="co">#          the pmf&#39;s support</span>
-    <span class="co"># eps: a number in (0, 1); 1e-05 by default</span>
-    <span class="co"># lambda: a positive number</span>
-    
-    pmf_vec &lt;-<span class="st"> </span><span class="kw">pmf</span>(support)
-    
-    <span class="co"># Define the pgf of X_i</span>
-    g &lt;-<span class="st"> </span><span class="cf">function</span>(t) {<span class="kw">sapply</span>(t, <span class="cf">function</span>(d) {<span class="kw">sum</span>(d<span class="op">^</span>support <span class="op">*</span><span class="st"> </span>pmf_vec)})}
-    
-    <span class="co"># Find M</span>
-    Ms &lt;-<span class="st"> </span><span class="cf">function</span>(t) {(<span class="op">-</span>lambda <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">g</span>(t)) <span class="op">-</span><span class="st"> </span><span class="kw">log</span>(eps)) <span class="op">/</span><span class="st"> </span><span class="kw">log</span>(t)}
-    M &lt;-<span class="st"> </span><span class="kw">ceiling</span>(<span class="kw">optimize</span>(Ms, <span class="dt">interval =</span> <span class="kw">c</span>(<span class="fl">1.001</span>, <span class="dv">30000</span>))<span class="op">$</span>objective)
-    
-    <span class="co"># Append 0&#39;s</span>
-    pmf_vec &lt;-<span class="st"> </span><span class="kw">c</span>(pmf_vec, <span class="kw">rep</span>(<span class="dv">0</span>, M <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(pmf_vec)))
-    
-    <span class="co"># Apply DFT and inverse DFT</span>
-    gtks &lt;-<span class="st"> </span><span class="kw">fft</span>(pmf_vec)
-    gS_gtks &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>lambda <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>gtks))
-    pS_tks &lt;-<span class="st"> </span><span class="kw">Re</span>(<span class="kw">fft</span>(gS_gtks, <span class="dt">inv =</span> T) <span class="op">/</span><span class="st"> </span>M)
-    pS_tks
-}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">csum_N &lt;-<span class="st"> </span><span class="cf">function</span>(pmf, support, <span class="dt">eps =</span> <span class="fl">1e-05</span>, lambda) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="co"># pmf: a probability mass function</span></a>
+<a class="sourceLine" id="cb3-3" title="3">    <span class="co"># support: an integer vector from 0 to the largest element of </span></a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="co">#          the pmf&#39;s support</span></a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="co"># eps: a number in (0, 1); 1e-05 by default</span></a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="co"># lambda: a positive number</span></a>
+<a class="sourceLine" id="cb3-7" title="7">    </a>
+<a class="sourceLine" id="cb3-8" title="8">    pmf_vec &lt;-<span class="st"> </span><span class="kw">pmf</span>(support)</a>
+<a class="sourceLine" id="cb3-9" title="9">    </a>
+<a class="sourceLine" id="cb3-10" title="10">    <span class="co"># Define the pgf of X_i</span></a>
+<a class="sourceLine" id="cb3-11" title="11">    g &lt;-<span class="st"> </span><span class="cf">function</span>(t) {<span class="kw">sapply</span>(t, <span class="cf">function</span>(d) {<span class="kw">sum</span>(d<span class="op">^</span>support <span class="op">*</span><span class="st"> </span>pmf_vec)})}</a>
+<a class="sourceLine" id="cb3-12" title="12">    </a>
+<a class="sourceLine" id="cb3-13" title="13">    <span class="co"># Find M</span></a>
+<a class="sourceLine" id="cb3-14" title="14">    Ms &lt;-<span class="st"> </span><span class="cf">function</span>(t) {(<span class="op">-</span>lambda <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">g</span>(t)) <span class="op">-</span><span class="st"> </span><span class="kw">log</span>(eps)) <span class="op">/</span><span class="st"> </span><span class="kw">log</span>(t)}</a>
+<a class="sourceLine" id="cb3-15" title="15">    M &lt;-<span class="st"> </span><span class="kw">ceiling</span>(<span class="kw">optimize</span>(Ms, <span class="dt">interval =</span> <span class="kw">c</span>(<span class="fl">1.001</span>, <span class="dv">30000</span>))<span class="op">$</span>objective)</a>
+<a class="sourceLine" id="cb3-16" title="16">    </a>
+<a class="sourceLine" id="cb3-17" title="17">    <span class="co"># Append 0&#39;s</span></a>
+<a class="sourceLine" id="cb3-18" title="18">    pmf_vec &lt;-<span class="st"> </span><span class="kw">c</span>(pmf_vec, <span class="kw">rep</span>(<span class="dv">0</span>, M <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(pmf_vec)))</a>
+<a class="sourceLine" id="cb3-19" title="19">    </a>
+<a class="sourceLine" id="cb3-20" title="20">    <span class="co"># Apply DFT and inverse DFT</span></a>
+<a class="sourceLine" id="cb3-21" title="21">    gtks &lt;-<span class="st"> </span><span class="kw">fft</span>(pmf_vec)</a>
+<a class="sourceLine" id="cb3-22" title="22">    gS_gtks &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span>lambda <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>gtks))</a>
+<a class="sourceLine" id="cb3-23" title="23">    pS_tks &lt;-<span class="st"> </span><span class="kw">Re</span>(<span class="kw">fft</span>(gS_gtks, <span class="dt">inv =</span> T) <span class="op">/</span><span class="st"> </span>M)</a>
+<a class="sourceLine" id="cb3-24" title="24">    pS_tks</a>
+<a class="sourceLine" id="cb3-25" title="25">}</a></code></pre></div>
 <p>(<code>Re()</code> function is applied to eliminate roundoff errors introduced in imaginary components.)</p>
 <p>So for example, if the pmf of your desire is: <span class="math display">\[p(y) = \begin{cases} .25 &amp; y = 1 \\ .5 &amp; y = 2 \\ .25 &amp; y = 4 \end{cases}\]</span> then you should put <code>0:4</code> in the place of <code>support</code> instead of <code>c(1, 2, 4)</code>, although the latter is the actual support. Note that <span class="math inline">\(\mathcal{Y} = \{1, 2, 4 \} \subset \mathcal{S}^* = \{0, 1, \dots, M - 1 \}\)</span> is guaranteed since <span class="math inline">\(P(N = 0) &gt; 0\)</span> and <span class="math inline">\(P(N = 1) &gt; 0\)</span>, and thus <code>csum_N</code> will work fine with <span class="math inline">\(p(y)\)</span> given support <code>0:4</code>.</p>
 <p>Back to the case of <span class="math inline">\(p(x)\)</span>, we can check the value of <span class="math inline">\(M\)</span> that <code>csum_N</code> calculates, and whether <code>csum_N</code> actually calculates the pmf of <span class="math inline">\(S\)</span>. Let <span class="math inline">\(\lambda = 3\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result &lt;-<span class="st"> </span><span class="kw">csum_N</span>(dX, <span class="dt">support =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)
-M &lt;-<span class="st"> </span><span class="kw">length</span>(result)
-<span class="kw">c</span>(M, <span class="kw">sum</span>(result))</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">result &lt;-<span class="st"> </span><span class="kw">csum_N</span>(dX, <span class="dt">support =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2">M &lt;-<span class="st"> </span><span class="kw">length</span>(result)</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw">c</span>(M, <span class="kw">sum</span>(result))</a></code></pre></div>
 <pre><code>## [1] 62  1</code></pre>
 <p>We see that <code>csum_N</code> generates the pmf of <span class="math inline">\(S\)</span>. As a side note, let’s see the case of <span class="math inline">\(p(y)\)</span> as well:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dY &lt;-<span class="st"> </span><span class="cf">function</span>(y) {
-    <span class="kw">sapply</span>(
-        y,
-        <span class="cf">function</span>(d) {
-            <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>)) {
-                .<span class="dv">25</span>
-            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) {
-                .<span class="dv">5</span>
-            } <span class="cf">else</span> {
-                <span class="dv">0</span>
-            }
-        }
-    )
-}
-result_Y &lt;-<span class="st"> </span><span class="kw">csum_N</span>(dY, <span class="dt">support =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)
-M_Y &lt;-<span class="st"> </span><span class="kw">length</span>(result_Y)
-<span class="kw">c</span>(M_Y, <span class="kw">sum</span>(result_Y))</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">dY &lt;-<span class="st"> </span><span class="cf">function</span>(y) {</a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="kw">sapply</span>(</a>
+<a class="sourceLine" id="cb6-3" title="3">        y,</a>
+<a class="sourceLine" id="cb6-4" title="4">        <span class="cf">function</span>(d) {</a>
+<a class="sourceLine" id="cb6-5" title="5">            <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>)) {</a>
+<a class="sourceLine" id="cb6-6" title="6">                <span class="fl">.25</span></a>
+<a class="sourceLine" id="cb6-7" title="7">            } <span class="cf">else</span> <span class="cf">if</span> (d <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb6-8" title="8">                <span class="fl">.5</span></a>
+<a class="sourceLine" id="cb6-9" title="9">            } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb6-10" title="10">                <span class="dv">0</span></a>
+<a class="sourceLine" id="cb6-11" title="11">            }</a>
+<a class="sourceLine" id="cb6-12" title="12">        }</a>
+<a class="sourceLine" id="cb6-13" title="13">    )</a>
+<a class="sourceLine" id="cb6-14" title="14">}</a>
+<a class="sourceLine" id="cb6-15" title="15">result_Y &lt;-<span class="st"> </span><span class="kw">csum_N</span>(dY, <span class="dt">support =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">lambda =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb6-16" title="16">M_Y &lt;-<span class="st"> </span><span class="kw">length</span>(result_Y)</a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="kw">c</span>(M_Y, <span class="kw">sum</span>(result_Y))</a></code></pre></div>
 <pre><code>## [1] 39  1</code></pre>
 <p>It does work for <span class="math inline">\(p(y)\)</span>, as it should be. Now, let’s visualize the pmf of <span class="math inline">\(S\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(
-    <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result, 
-    <span class="dt">xlab =</span> <span class="st">&#39;x&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;P(S = x)&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;pmf of S&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">qplot</span>(</a>
+<a class="sourceLine" id="cb8-2" title="2">    <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result, </a>
+<a class="sourceLine" id="cb8-3" title="3">    <span class="dt">xlab =</span> <span class="st">&#39;x&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;P(S = x)&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;pmf of S&#39;</span></a>
+<a class="sourceLine" id="cb8-4" title="4">)</a></code></pre></div>
 <p><img src="pgf_files/figure-html/vis-1.png" style="display: block; margin: auto;" /></p>
 <p>It looks odd at first, but this plot actually makes sense; <span class="math inline">\(p(5)\)</span> is <span class="math inline">\(.575\)</span>, which is more than a half. Notice that each peak occurs at the multiples of <span class="math inline">\(5\)</span>, and peaks of the pmf get stabilized for large values of <span class="math inline">\(x\)</span>.</p>
 <p>Also, <span class="math inline">\(P(S = 0) \approx .06\)</span> makes sense because:</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 P(S = 0) &amp;= e^{-\lambda} + \sum_{n = 1}^{\infty} P(N = n) p_{S_n}(0) \\
 &amp;= e^{-\lambda} + \sum_{n = 1}^{\infty} p_N(n) (p(0))^n \text{ (} \because S_n = 0 \iff X_i = 0 \text{ } \forall \text{ } i \text{)} \\
 &amp;= e^{-\lambda} + \sum_{n = 1}^{\infty} \frac{\lambda^n e^{-\lambda}}{n!} (.05)^n \\
@@ -758,15 +812,15 @@ P(S = 0) &amp;= e^{-\lambda} + \sum_{n = 1}^{\infty} P(N = n) p_{S_n}(0) \\
 &amp;= e^{-\lambda} (1 + e^{.05 \lambda} - 1) = e^{-\lambda + .05 \lambda} \\
 &amp;= e^{-.95 \lambda} = e^{-.95 \cdot 3} \approx 0.05784432 \\
 &amp;\approx .06
-\end{align*}\]</span>
+\end{align*}\]</span></p>
 <p>Let’s check how <span class="math inline">\(S_Y = \sum_{i = 1}^{N} Y_i\)</span> looks like this time:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(
-    <span class="dv">0</span><span class="op">:</span>(M_Y <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result_Y, 
-    <span class="dt">xlab =</span> <span class="st">&#39;y&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;P(S_Y = y)&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;pmf of S_Y&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">qplot</span>(</a>
+<a class="sourceLine" id="cb9-2" title="2">    <span class="dv">0</span><span class="op">:</span>(M_Y <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result_Y, </a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="dt">xlab =</span> <span class="st">&#39;y&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;P(S_Y = y)&#39;</span>, <span class="dt">main =</span> <span class="st">&#39;pmf of S_Y&#39;</span></a>
+<a class="sourceLine" id="cb9-4" title="4">)</a></code></pre></div>
 <p><img src="pgf_files/figure-html/result_Y_checking-1.png" style="display: block; margin: auto;" /></p>
 <p>Does this plot make sense? Let’s check as before (remember, <span class="math inline">\(\lambda = 3\)</span>):</p>
-<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 P(S_Y = 0) &amp;= e^{-\lambda} + \sum_{n = 1}^{\infty} P(N = n) p_{S_Y}(0) \\
 &amp;= e^{-\lambda} + 0 = e^{-\lambda} \\
 &amp;\approx 0.04978707 \\
@@ -784,141 +838,141 @@ P(S_Y = 3) &amp;= \sum_{n = 1}^{\infty} P(N = n) p_{S_Y}(3) \\
 &amp;= \frac{\lambda^2 e^{-\lambda}}{2} \cdot .25 + \frac{\lambda^3 e^{-\lambda}}{6} \cdot .25^3 \\
 &amp;= (\frac{.25 \lambda^2}{2} + \frac{.25^3 \lambda^3}{6}) e^{-\lambda} \\
 &amp;\approx 0.05951111 
-\end{align*}\]</span>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result_Y[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>] <span class="co"># p_S_Y(0), p_S_Y(1), p_S_Y(2), and p_S_Y(3)</span></code></pre></div>
+\end{align*}\]</span></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">result_Y[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>] <span class="co"># p_S_Y(0), p_S_Y(1), p_S_Y(2), and p_S_Y(3)</span></a></code></pre></div>
 <pre><code>## [1] 0.04978729 0.03734044 0.08868328 0.05951115</code></pre>
 <p>They are the same. Indeed, the effect of <span class="math inline">\(p(y = 2) = .5\)</span> is evident in the plot.</p>
 <p><code>dpmf</code> will generate the pmf using the outpuf of <code>csum_N</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dpmf &lt;-<span class="st"> </span><span class="cf">function</span>(x, pmf_vec, support_vec) {
-    <span class="co"># x: a number, or a vector whose class is the same as support_vec.</span>
-    <span class="co"># pmf_vec: a numeric vector, where all elements fall into (0, 1) and </span>
-    <span class="co">#          sum up to 1.</span>
-    <span class="co"># support_vec: a vector with the same length as pmf_vec where</span>
-    <span class="co">#              each entry of support_vec is the input that corresponds to</span>
-    <span class="co">#              the probability in pmf_vec; if missing, it is replaced </span>
-    <span class="co">#              with 0:(length(pmf_vec) - 1).</span>
-    
-    M &lt;-<span class="st"> </span><span class="kw">length</span>(pmf_vec)
-    <span class="cf">if</span> (<span class="kw">missing</span>(support_vec)) {
-        <span class="kw">names</span>(pmf_vec) &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)
-    } <span class="cf">else</span> {
-        <span class="kw">names</span>(pmf_vec) &lt;-<span class="st"> </span>support_vec
-    }
-    <span class="kw">sapply</span>(
-        x,
-        <span class="cf">function</span>(d) {
-            <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(pmf_vec)) {
-                <span class="kw">unname</span>(pmf_vec[<span class="kw">as.character</span>(d)])
-            } <span class="cf">else</span> {
-                <span class="dv">0</span>
-            }
-        }
-    )
-}</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">dpmf &lt;-<span class="st"> </span><span class="cf">function</span>(x, pmf_vec, support_vec) {</a>
+<a class="sourceLine" id="cb12-2" title="2">    <span class="co"># x: a number, or a vector whose class is the same as support_vec.</span></a>
+<a class="sourceLine" id="cb12-3" title="3">    <span class="co"># pmf_vec: a numeric vector, where all elements fall into (0, 1) and </span></a>
+<a class="sourceLine" id="cb12-4" title="4">    <span class="co">#          sum up to 1.</span></a>
+<a class="sourceLine" id="cb12-5" title="5">    <span class="co"># support_vec: a vector with the same length as pmf_vec where</span></a>
+<a class="sourceLine" id="cb12-6" title="6">    <span class="co">#              each entry of support_vec is the input that corresponds to</span></a>
+<a class="sourceLine" id="cb12-7" title="7">    <span class="co">#              the probability in pmf_vec; if missing, it is replaced </span></a>
+<a class="sourceLine" id="cb12-8" title="8">    <span class="co">#              with 0:(length(pmf_vec) - 1).</span></a>
+<a class="sourceLine" id="cb12-9" title="9">    </a>
+<a class="sourceLine" id="cb12-10" title="10">    M &lt;-<span class="st"> </span><span class="kw">length</span>(pmf_vec)</a>
+<a class="sourceLine" id="cb12-11" title="11">    <span class="cf">if</span> (<span class="kw">missing</span>(support_vec)) {</a>
+<a class="sourceLine" id="cb12-12" title="12">        <span class="kw">names</span>(pmf_vec) &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb12-13" title="13">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb12-14" title="14">        <span class="kw">names</span>(pmf_vec) &lt;-<span class="st"> </span>support_vec</a>
+<a class="sourceLine" id="cb12-15" title="15">    }</a>
+<a class="sourceLine" id="cb12-16" title="16">    <span class="kw">sapply</span>(</a>
+<a class="sourceLine" id="cb12-17" title="17">        x,</a>
+<a class="sourceLine" id="cb12-18" title="18">        <span class="cf">function</span>(d) {</a>
+<a class="sourceLine" id="cb12-19" title="19">            <span class="cf">if</span> (d <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(pmf_vec)) {</a>
+<a class="sourceLine" id="cb12-20" title="20">                <span class="kw">unname</span>(pmf_vec[<span class="kw">as.character</span>(d)])</a>
+<a class="sourceLine" id="cb12-21" title="21">            } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb12-22" title="22">                <span class="dv">0</span></a>
+<a class="sourceLine" id="cb12-23" title="23">            }</a>
+<a class="sourceLine" id="cb12-24" title="24">        }</a>
+<a class="sourceLine" id="cb12-25" title="25">    )</a>
+<a class="sourceLine" id="cb12-26" title="26">}</a></code></pre></div>
 <p>So for example, <span class="math inline">\(p_S(0)\)</span> is computed as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dpmf</span>(<span class="dv">0</span>, result)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">dpmf</span>(<span class="dv">0</span>, result)</a></code></pre></div>
 <pre><code>## [1] 0.05784451</code></pre>
 <p>It is almost the same as <span class="math inline">\(e^{-.95 \cdot 3} \approx 0.05784432\)</span>. The difference is coming from conditioning: <span class="math inline">\(P(S = x \text{ | } S &lt; M) \approx P(S = x)\)</span> when <span class="math inline">\(M\)</span> is large.</p>
 <p>Note that <code>support_vec</code> in <code>dpmf</code> need not be a numeric vector! For example, if you want to define: <span class="math display">\[p(\text{fruit}) = \begin{cases} .25 &amp; \text{fruit} = \text{apple} \\ .4 &amp; \text{fruit} = \text{orange} \\ .35 &amp; \text{fruit} = \text{neither} \end{cases}\]</span> then you can write <code>dfruit</code> as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dfruit &lt;-<span class="st"> </span><span class="cf">function</span>(x){
-    <span class="kw">unname</span>(<span class="kw">dpmf</span>(x, <span class="kw">c</span>(.<span class="dv">25</span>, .<span class="dv">4</span>, .<span class="dv">35</span>), <span class="kw">c</span>(<span class="st">&#39;apple&#39;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;neither&#39;</span>)))
-}</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">dfruit &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb15-2" title="2">    <span class="kw">unname</span>(<span class="kw">dpmf</span>(x, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.4</span>, <span class="fl">.35</span>), <span class="kw">c</span>(<span class="st">&#39;apple&#39;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;neither&#39;</span>)))</a>
+<a class="sourceLine" id="cb15-3" title="3">}</a></code></pre></div>
 <p>so that the pmf <code>dfruit</code> returns things like:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dfruit</span>(<span class="kw">c</span>(<span class="st">&#39;apple&#39;</span>, <span class="st">&#39;neither&#39;</span>))</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">dfruit</span>(<span class="kw">c</span>(<span class="st">&#39;apple&#39;</span>, <span class="st">&#39;neither&#39;</span>))</a></code></pre></div>
 <pre><code>## [1] 0.25 0.35</code></pre>
 <p><code>csum_N</code> can also be used to generate random samples of <span class="math inline">\(S\)</span> using the <a href="https://en.wikipedia.org/wiki/Inverse_transform_sampling">inversion method</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rpmf &lt;-<span class="st"> </span><span class="cf">function</span>(n, pmf, support, ...) {
-    <span class="co"># n: an integer</span>
-    <span class="co"># pmf, support: the same as pmf_vec and support_vec in dpmf respectively</span>
-    <span class="co"># ...: additional arguments of pmf</span>
-    
-    cdf &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">cumsum</span>(<span class="kw">pmf</span>(support, ...)))
-    unif_<span class="dv">01</span> &lt;-<span class="st"> </span><span class="kw">runif</span>(n)
-    result &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> n)
-    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {
-        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(cdf) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)) {
-            <span class="cf">if</span> (<span class="kw">I</span>(unif_<span class="dv">01</span>[k] <span class="op">&gt;=</span><span class="st"> </span>cdf[j] <span class="op">&amp;</span><span class="st"> </span>unif_<span class="dv">01</span>[k] <span class="op">&lt;</span><span class="st"> </span>cdf[j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])) {
-                result[k] &lt;-<span class="st"> </span>support[j]
-            }
-        }
-    }
-    result
-}</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">rpmf &lt;-<span class="st"> </span><span class="cf">function</span>(n, pmf, support, ...) {</a>
+<a class="sourceLine" id="cb18-2" title="2">    <span class="co"># n: an integer</span></a>
+<a class="sourceLine" id="cb18-3" title="3">    <span class="co"># pmf, support: the same as pmf_vec and support_vec in dpmf respectively</span></a>
+<a class="sourceLine" id="cb18-4" title="4">    <span class="co"># ...: additional arguments of pmf</span></a>
+<a class="sourceLine" id="cb18-5" title="5">    </a>
+<a class="sourceLine" id="cb18-6" title="6">    cdf &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">cumsum</span>(<span class="kw">pmf</span>(support, ...)))</a>
+<a class="sourceLine" id="cb18-7" title="7">    unif_<span class="dv">01</span> &lt;-<span class="st"> </span><span class="kw">runif</span>(n)</a>
+<a class="sourceLine" id="cb18-8" title="8">    result &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> n)</a>
+<a class="sourceLine" id="cb18-9" title="9">    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</a>
+<a class="sourceLine" id="cb18-10" title="10">        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(<span class="kw">length</span>(cdf) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)) {</a>
+<a class="sourceLine" id="cb18-11" title="11">            <span class="cf">if</span> (<span class="kw">I</span>(unif_<span class="dv">01</span>[k] <span class="op">&gt;=</span><span class="st"> </span>cdf[j] <span class="op">&amp;</span><span class="st"> </span>unif_<span class="dv">01</span>[k] <span class="op">&lt;</span><span class="st"> </span>cdf[j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>])) {</a>
+<a class="sourceLine" id="cb18-12" title="12">                result[k] &lt;-<span class="st"> </span>support[j]</a>
+<a class="sourceLine" id="cb18-13" title="13">            }</a>
+<a class="sourceLine" id="cb18-14" title="14">        }</a>
+<a class="sourceLine" id="cb18-15" title="15">    }</a>
+<a class="sourceLine" id="cb18-16" title="16">    result</a>
+<a class="sourceLine" id="cb18-17" title="17">}</a></code></pre></div>
 <p>For example, the following line of code will generate 20 samples of <span class="math inline">\(X_i \sim\)</span><code>dX</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
-<span class="kw">rpmf</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="dt">pmf =</span> dX, <span class="dv">0</span><span class="op">:</span><span class="dv">5</span>)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="kw">rpmf</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="dt">pmf =</span> dX, <span class="dv">0</span><span class="op">:</span><span class="dv">5</span>)</a></code></pre></div>
 <pre><code>##  [1] 2 5 4 4 0 5 2 3 5 5 0 5 4 5 5 2 5 5 5 5</code></pre>
 <p>The following will generate 12 samples of <span class="math inline">\(S = \sum_{i = 1}^{N} X_i\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rpmf</span>(<span class="dt">n =</span> <span class="dv">12</span>, <span class="dt">pmf =</span> dpmf, <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result)</code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">rpmf</span>(<span class="dt">n =</span> <span class="dv">12</span>, <span class="dt">pmf =</span> dpmf, <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result)</a></code></pre></div>
 <pre><code>##  [1]  0  9  3 10 20 16 10  7 10 12 26 14</code></pre>
 <p>In the following code, we generate 14 samples from <code>dfruit</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rpmf</span>(<span class="dt">n =</span> <span class="dv">14</span>, <span class="dt">pmf =</span> dfruit, <span class="kw">c</span>(<span class="st">&#39;apple&#39;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;neither&#39;</span>))</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">rpmf</span>(<span class="dt">n =</span> <span class="dv">14</span>, <span class="dt">pmf =</span> dfruit, <span class="kw">c</span>(<span class="st">&#39;apple&#39;</span>, <span class="st">&#39;orange&#39;</span>, <span class="st">&#39;neither&#39;</span>))</a></code></pre></div>
 <pre><code>##  [1] &quot;apple&quot;   &quot;neither&quot; &quot;orange&quot;  &quot;neither&quot; &quot;apple&quot;   &quot;neither&quot; &quot;apple&quot;  
 ##  [8] &quot;orange&quot;  &quot;orange&quot;  &quot;neither&quot; &quot;neither&quot; &quot;neither&quot; &quot;neither&quot; &quot;apple&quot;</code></pre>
 <p>Let’s generate 10,000 samples of <span class="math inline">\(S\)</span> and draw the histogram:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2048</span>)
-samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class="dv">10000</span>, dpmf, <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result)
-<span class="kw">qplot</span>(
-    samples_N, <span class="dt">y =</span> ..density.., 
-    <span class="dt">geom =</span> <span class="st">&#39;histogram&#39;</span>, 
-    <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span>.<span class="dv">5</span>, M <span class="op">-</span><span class="st"> </span>.<span class="dv">5</span>, <span class="dt">by =</span> <span class="dv">1</span>),
-    <span class="dt">main =</span> <span class="st">&#39;Histogram of S&#39;</span>,
-    <span class="dt">xlab =</span> <span class="st">&#39;x&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Mass&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">set.seed</span>(<span class="dv">2048</span>)</a>
+<a class="sourceLine" id="cb25-2" title="2">samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class="dv">10000</span>, dpmf, <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), result)</a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="kw">qplot</span>(</a>
+<a class="sourceLine" id="cb25-4" title="4">    samples_N, <span class="dt">y =</span> ..density.., </a>
+<a class="sourceLine" id="cb25-5" title="5">    <span class="dt">geom =</span> <span class="st">&#39;histogram&#39;</span>, </a>
+<a class="sourceLine" id="cb25-6" title="6">    <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="op">-</span>.<span class="dv">5</span>, M <span class="op">-</span><span class="st"> </span><span class="fl">.5</span>, <span class="dt">by =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb25-7" title="7">    <span class="dt">main =</span> <span class="st">&#39;Histogram of S&#39;</span>,</a>
+<a class="sourceLine" id="cb25-8" title="8">    <span class="dt">xlab =</span> <span class="st">&#39;x&#39;</span>, <span class="dt">ylab =</span> <span class="st">&#39;Mass&#39;</span></a>
+<a class="sourceLine" id="cb25-9" title="9">)</a></code></pre></div>
 <p><img src="pgf_files/figure-html/draw_samples-1.png" style="display: block; margin: auto;" /></p>
 <p>We can superimpose the pmf plot and the histogram using the fact that: <span class="math display">\[\text{hist}(x) := \sum_{k = 1}^{m} \Big[ \frac{I(x \in B_k)}{n(u_k - u_{k - 1})} \sum_{i = 1}^{n} I(x_i \in B_k) \Big]\]</span> given data <span class="math inline">\(x_1, \dots, x_n\)</span>, and bins <span class="math inline">\(B_k = [u_{k - 1}, u_k)\)</span>, <span class="math inline">\(k = 1, \dots, m\)</span>, satisfying <span class="math inline">\(B_a \cap B_b = \varnothing\)</span> for all <span class="math inline">\(a \neq b\)</span>. Define <code>histo</code>, the function that returns the value <span class="math inline">\(\text{hist}(x)\)</span> at <span class="math inline">\(x\)</span> given data and bins:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">histo &lt;-<span class="st"> </span><span class="cf">function</span>(x, dat, bins) {
-    <span class="co"># x: a number, or vector of numbers</span>
-    <span class="co"># dat: a vector of numbers</span>
-    <span class="co"># bins: a vector of numbers where min(bins) &lt;= min(dat) and </span>
-    <span class="co">#       max(bins) &gt; max(dat)</span>
-    
-    bins &lt;-<span class="st"> </span><span class="kw">sort</span>(bins)
-    n &lt;-<span class="st"> </span><span class="kw">length</span>(dat)
-    m &lt;-<span class="st"> </span><span class="kw">length</span>(bins) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
-    counts_B_k &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> m)
-    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {
-        bin_not_found_yet &lt;-<span class="st"> </span>T
-        k &lt;-<span class="st"> </span><span class="dv">1</span>
-        <span class="cf">while</span> (bin_not_found_yet) {
-            u_k_<span class="dv">1</span> &lt;-<span class="st"> </span>bins[k]
-            u_k &lt;-<span class="st"> </span>bins[k <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]
-            <span class="cf">if</span> (<span class="kw">I</span>(dat[i] <span class="op">&gt;=</span><span class="st"> </span>u_k_<span class="dv">1</span> <span class="op">&amp;&amp;</span><span class="st"> </span>dat[i] <span class="op">&lt;</span><span class="st"> </span>u_k)) {
-                counts_B_k[k] &lt;-<span class="st"> </span>counts_B_k[k] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
-                bin_not_found_yet &lt;-<span class="st"> </span>F
-            }
-            k &lt;-<span class="st"> </span>k <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
-        }
-    }
-    denoms &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(bins)
-    <span class="kw">sapply</span>(
-        x,
-        <span class="cf">function</span>(d) {
-            I_x_B_k &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> m)
-            <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>m) {
-                u_k_<span class="dv">1</span> &lt;-<span class="st"> </span>bins[k]
-                u_k &lt;-<span class="st"> </span>bins[k <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]
-                <span class="cf">if</span> (<span class="kw">I</span>(d <span class="op">&gt;=</span><span class="st"> </span>u_k_<span class="dv">1</span> <span class="op">&amp;&amp;</span><span class="st"> </span>d <span class="op">&lt;</span><span class="st"> </span>u_k)) {
-                    I_x_B_k[k] &lt;-<span class="st"> </span><span class="dv">1</span>
-                }
-            }
-            <span class="kw">sum</span>((I_x_B_k <span class="op">/</span><span class="st"> </span>denoms) <span class="op">*</span><span class="st"> </span>counts_B_k)
-        }
-    )
-}</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">histo &lt;-<span class="st"> </span><span class="cf">function</span>(x, dat, bins) {</a>
+<a class="sourceLine" id="cb26-2" title="2">    <span class="co"># x: a number, or vector of numbers</span></a>
+<a class="sourceLine" id="cb26-3" title="3">    <span class="co"># dat: a vector of numbers</span></a>
+<a class="sourceLine" id="cb26-4" title="4">    <span class="co"># bins: a vector of numbers where min(bins) &lt;= min(dat) and </span></a>
+<a class="sourceLine" id="cb26-5" title="5">    <span class="co">#       max(bins) &gt; max(dat)</span></a>
+<a class="sourceLine" id="cb26-6" title="6">    </a>
+<a class="sourceLine" id="cb26-7" title="7">    bins &lt;-<span class="st"> </span><span class="kw">sort</span>(bins)</a>
+<a class="sourceLine" id="cb26-8" title="8">    n &lt;-<span class="st"> </span><span class="kw">length</span>(dat)</a>
+<a class="sourceLine" id="cb26-9" title="9">    m &lt;-<span class="st"> </span><span class="kw">length</span>(bins) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb26-10" title="10">    counts_B_k &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> m)</a>
+<a class="sourceLine" id="cb26-11" title="11">    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</a>
+<a class="sourceLine" id="cb26-12" title="12">        bin_not_found_yet &lt;-<span class="st"> </span>T</a>
+<a class="sourceLine" id="cb26-13" title="13">        k &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb26-14" title="14">        <span class="cf">while</span> (bin_not_found_yet) {</a>
+<a class="sourceLine" id="cb26-15" title="15">            u_k_<span class="dv">1</span> &lt;-<span class="st"> </span>bins[k]</a>
+<a class="sourceLine" id="cb26-16" title="16">            u_k &lt;-<span class="st"> </span>bins[k <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb26-17" title="17">            <span class="cf">if</span> (<span class="kw">I</span>(dat[i] <span class="op">&gt;=</span><span class="st"> </span>u_k_<span class="dv">1</span> <span class="op">&amp;&amp;</span><span class="st"> </span>dat[i] <span class="op">&lt;</span><span class="st"> </span>u_k)) {</a>
+<a class="sourceLine" id="cb26-18" title="18">                counts_B_k[k] &lt;-<span class="st"> </span>counts_B_k[k] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb26-19" title="19">                bin_not_found_yet &lt;-<span class="st"> </span>F</a>
+<a class="sourceLine" id="cb26-20" title="20">            }</a>
+<a class="sourceLine" id="cb26-21" title="21">            k &lt;-<span class="st"> </span>k <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb26-22" title="22">        }</a>
+<a class="sourceLine" id="cb26-23" title="23">    }</a>
+<a class="sourceLine" id="cb26-24" title="24">    denoms &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(bins)</a>
+<a class="sourceLine" id="cb26-25" title="25">    <span class="kw">sapply</span>(</a>
+<a class="sourceLine" id="cb26-26" title="26">        x,</a>
+<a class="sourceLine" id="cb26-27" title="27">        <span class="cf">function</span>(d) {</a>
+<a class="sourceLine" id="cb26-28" title="28">            I_x_B_k &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> m)</a>
+<a class="sourceLine" id="cb26-29" title="29">            <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>m) {</a>
+<a class="sourceLine" id="cb26-30" title="30">                u_k_<span class="dv">1</span> &lt;-<span class="st"> </span>bins[k]</a>
+<a class="sourceLine" id="cb26-31" title="31">                u_k &lt;-<span class="st"> </span>bins[k <span class="op">+</span><span class="st"> </span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb26-32" title="32">                <span class="cf">if</span> (<span class="kw">I</span>(d <span class="op">&gt;=</span><span class="st"> </span>u_k_<span class="dv">1</span> <span class="op">&amp;&amp;</span><span class="st"> </span>d <span class="op">&lt;</span><span class="st"> </span>u_k)) {</a>
+<a class="sourceLine" id="cb26-33" title="33">                    I_x_B_k[k] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb26-34" title="34">                }</a>
+<a class="sourceLine" id="cb26-35" title="35">            }</a>
+<a class="sourceLine" id="cb26-36" title="36">            <span class="kw">sum</span>((I_x_B_k <span class="op">/</span><span class="st"> </span>denoms) <span class="op">*</span><span class="st"> </span>counts_B_k)</a>
+<a class="sourceLine" id="cb26-37" title="37">        }</a>
+<a class="sourceLine" id="cb26-38" title="38">    )</a>
+<a class="sourceLine" id="cb26-39" title="39">}</a></code></pre></div>
 <p>A superimposed plot looks like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mass &lt;-<span class="st"> </span><span class="kw">histo</span>(<span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">dat =</span> samples_N, <span class="dt">bins =</span> <span class="kw">seq</span>(<span class="op">-</span>.<span class="dv">5</span>, M <span class="op">-</span><span class="st"> </span>.<span class="dv">5</span>, <span class="dt">by =</span> <span class="dv">1</span>))
-<span class="kw">ggplot</span>(
-    <span class="kw">data.frame</span>(
-        <span class="dt">x =</span> <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>),
-        <span class="dt">y =</span> result,
-        <span class="dt">line_drawer =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>, M), mass)
-    ),
-    <span class="kw">aes</span>(<span class="dt">x =</span> x)
-) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> line_drawer, <span class="dt">group =</span> x), <span class="dt">alpha =</span> .<span class="dv">5</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&#39;Mass&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram vs. the actual pmf of S&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">mass &lt;-<span class="st"> </span><span class="kw">histo</span>(<span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">dat =</span> samples_N, <span class="dt">bins =</span> <span class="kw">seq</span>(<span class="op">-</span>.<span class="dv">5</span>, M <span class="op">-</span><span class="st"> </span><span class="fl">.5</span>, <span class="dt">by =</span> <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">ggplot</span>(</a>
+<a class="sourceLine" id="cb27-3" title="3">    <span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb27-4" title="4">        <span class="dt">x =</span> <span class="dv">0</span><span class="op">:</span>(M <span class="op">-</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb27-5" title="5">        <span class="dt">y =</span> result,</a>
+<a class="sourceLine" id="cb27-6" title="6">        <span class="dt">line_drawer =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>, M), mass)</a>
+<a class="sourceLine" id="cb27-7" title="7">    ),</a>
+<a class="sourceLine" id="cb27-8" title="8">    <span class="kw">aes</span>(<span class="dt">x =</span> x)</a>
+<a class="sourceLine" id="cb27-9" title="9">) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb27-10" title="10"><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> line_drawer, <span class="dt">group =</span> x), <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">size =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-11" title="11"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb27-12" title="12"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y =</span> <span class="st">&#39;Mass&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Histogram vs. the actual pmf of S&#39;</span>)</a></code></pre></div>
 <p><img src="pgf_files/figure-html/superimpose-1.png" style="display: block; margin: auto;" /></p>
 <div id="python-implementation" class="section level2">
 <h2>Python implementation</h2>
@@ -936,10 +990,10 @@ samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class
 <div id="session-info" class="section level1">
 <h1>Session Info</h1>
 <p>R session info:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 18362)
 ## 
 ## Matrix products: default
 ## 
@@ -952,21 +1006,21 @@ samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.1.1    dplyr_0.8.1      reticulate_1.12  rmarkdown_1.13  
+## [1] ggplot2_3.2.0    dplyr_0.8.3      reticulate_1.12  rmarkdown_1.14  
 ## [5] magrittr_1.5     itertools2_0.1.1
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.0   pillar_1.4.1    
-##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      digest_0.6.19   
+##  [1] Rcpp_1.0.1       compiler_3.6.1   pillar_1.4.2     prettydoc_0.3.0 
+##  [5] iterators_1.0.10 tools_3.6.1      zeallot_0.1.0    digest_0.6.20   
 ##  [9] jsonlite_1.6     evaluate_0.14    tibble_2.1.3     gtable_0.3.0    
-## [13] lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2  rlang_0.3.4     
-## [17] Matrix_1.2-17    rstudioapi_0.10  yaml_2.2.0       xfun_0.7        
+## [13] lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2  rlang_0.4.0     
+## [17] Matrix_1.2-17    rstudioapi_0.10  yaml_2.2.0       xfun_0.8        
 ## [21] withr_2.1.2      stringr_1.4.0    xml2_1.2.0       knitr_1.23      
-## [25] hms_0.4.2        grid_3.6.0       tidyselect_0.2.5 glue_1.3.1      
-## [29] R6_2.4.0         readr_1.3.1      tidyr_0.8.3      purrr_0.3.2     
-## [33] scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1
-## [37] labeling_0.3     stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0   
-## [41] crayon_1.3.4</code></pre>
+## [25] vctrs_0.2.0      hms_0.5.0        grid_3.6.1       tidyselect_0.2.5
+## [29] glue_1.3.1       R6_2.4.0         readr_1.3.1      tidyr_0.8.3     
+## [33] purrr_0.3.2      backports_1.1.4  scales_1.0.0     htmltools_0.3.6 
+## [37] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     stringi_1.4.3   
+## [41] lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
 </div>
 <div id="related-page" class="section level1">
 <h1>Related page</h1>
@@ -980,8 +1034,8 @@ samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Wikipedia contributors. (2019, January 22). Probability-generating function. In Wikipedia, The Free Encyclopedia. Retrieved 01:48, May 12, 2019, from <a href="https://en.wikipedia.org/w/index.php?title=Probability-generating_function&amp;oldid=879564048" class="uri">https://en.wikipedia.org/w/index.php?title=Probability-generating_function&amp;oldid=879564048</a><a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>Embrechts, P. and Frei, M. (2010, July 08). Panjer recursion versus FFT for compound distributions. Retrieved May 20, 2019, from the ETH Zurich Department of Mathematics Archives, <a href="https://people.math.ethz.ch/~embrecht/ftp/PanjerVsFFTcorrected.pdf" class="uri">https://people.math.ethz.ch/~embrecht/ftp/PanjerVsFFTcorrected.pdf</a><a href="#fnref2">↩</a></p></li>
+<li id="fn1"><p>Wikipedia contributors. (2019, January 22). Probability-generating function. In Wikipedia, The Free Encyclopedia. Retrieved 01:48, May 12, 2019, from <a href="https://en.wikipedia.org/w/index.php?title=Probability-generating_function&amp;oldid=879564048" class="uri">https://en.wikipedia.org/w/index.php?title=Probability-generating_function&amp;oldid=879564048</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Embrechts, P. and Frei, M. (2010, July 08). Panjer recursion versus FFT for compound distributions. Retrieved May 20, 2019, from the ETH Zurich Department of Mathematics Archives, <a href="https://people.math.ethz.ch/~embrecht/ftp/PanjerVsFFTcorrected.pdf" class="uri">https://people.math.ethz.ch/~embrecht/ftp/PanjerVsFFTcorrected.pdf</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 </section>
@@ -992,7 +1046,7 @@ samples_N &lt;-<span class="st"> </span><span class="kw">rpmf</span>(<span class
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
-        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
+        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>

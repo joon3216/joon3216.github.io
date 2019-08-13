@@ -4,9 +4,10 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,11 +87,12 @@
 }
 
 /* new; why: prepare in case of text-align: right */
-#navbar nav ul li#news
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
 {
     padding: 8.5px 0;
     margin: 0;
-}
+} */
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
@@ -423,47 +425,99 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
 <link rel="stylesheet" href="cross_validation_fs_files/style.css" type="text/css" />
+
+
+
+
 
 </head>
 
@@ -499,9 +553,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                     </li>
                 </ul>
             </li>
-            <li id="news">
+            <!-- <li id="news">
                 <a href="../../news.html">News</a>
-            </li>
+            </li> -->
             <li>
                 <a href="../../files/resume_junkyu_park.pdf">Resume</a>
             </li>
@@ -522,9 +576,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following external R packages/functions are used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(ggplot2)
-gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-3" title="3">gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather</a></code></pre></div>
 <p>This note is a continuation from <a href="../2018/non_separable_penalty.html">Dealing with a non-separable penalty term</a> under <a href="../2018.html">2018</a>: Statistical Computation.</p>
 
 <div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
@@ -555,200 +609,200 @@ gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather</code
 <li>Choose <span class="math inline">\(\lambda\)</span> that yields a minimum <span class="math inline">\(\text{error}\)</span>.</li>
 </ol>
 <p>Step 1 is performed by <code>split_data_1d</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">split_data_1d &lt;-<span class="st"> </span><span class="cf">function</span>(y, num_folds, fold) {
-    <span class="co"># y: a numeric vector</span>
-    <span class="co"># num_folds: a natural number &lt;= number of observations, e.g. 5</span>
-    <span class="co"># fold: a natural number &lt;= num_folds, e.g. 3</span>
-    
-    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
-    indices &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n
-    assign_folds &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>num_folds, n <span class="op">%/%</span><span class="st"> </span>num_folds <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[indices]
-    partition &lt;-<span class="st"> </span><span class="kw">split</span>(indices, assign_folds)
-    fold_indices &lt;-<span class="st"> </span>partition[[fold]]
-    y_fold &lt;-<span class="st"> </span>y[fold_indices]
-    y_rest &lt;-<span class="st"> </span>y[<span class="op">-</span>fold_indices]
-    <span class="kw">list</span>(
-        <span class="dt">y_fold =</span> <span class="kw">list</span>(
-            <span class="dt">data =</span> y_fold,
-            <span class="dt">indices =</span> fold_indices
-        ), 
-        <span class="dt">y_rest =</span> <span class="kw">list</span>(
-            <span class="dt">data =</span> y_rest, 
-            <span class="dt">indices =</span> (<span class="dv">1</span><span class="op">:</span>n)[<span class="op">!</span>(<span class="dv">1</span><span class="op">:</span>n <span class="op">%in%</span><span class="st"> </span>fold_indices)]
-        )
-    )
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">split_data_1d &lt;-<span class="st"> </span><span class="cf">function</span>(y, num_folds, fold) {</a>
+<a class="sourceLine" id="cb2-2" title="2">    <span class="co"># y: a numeric vector</span></a>
+<a class="sourceLine" id="cb2-3" title="3">    <span class="co"># num_folds: a natural number &lt;= number of observations, e.g. 5</span></a>
+<a class="sourceLine" id="cb2-4" title="4">    <span class="co"># fold: a natural number &lt;= num_folds, e.g. 3</span></a>
+<a class="sourceLine" id="cb2-5" title="5">    </a>
+<a class="sourceLine" id="cb2-6" title="6">    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)</a>
+<a class="sourceLine" id="cb2-7" title="7">    indices &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n</a>
+<a class="sourceLine" id="cb2-8" title="8">    assign_folds &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>num_folds, n <span class="op">%/%</span><span class="st"> </span>num_folds <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)[indices]</a>
+<a class="sourceLine" id="cb2-9" title="9">    partition &lt;-<span class="st"> </span><span class="kw">split</span>(indices, assign_folds)</a>
+<a class="sourceLine" id="cb2-10" title="10">    fold_indices &lt;-<span class="st"> </span>partition[[fold]]</a>
+<a class="sourceLine" id="cb2-11" title="11">    y_fold &lt;-<span class="st"> </span>y[fold_indices]</a>
+<a class="sourceLine" id="cb2-12" title="12">    y_rest &lt;-<span class="st"> </span>y[<span class="op">-</span>fold_indices]</a>
+<a class="sourceLine" id="cb2-13" title="13">    <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb2-14" title="14">        <span class="dt">y_fold =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb2-15" title="15">            <span class="dt">data =</span> y_fold,</a>
+<a class="sourceLine" id="cb2-16" title="16">            <span class="dt">indices =</span> fold_indices</a>
+<a class="sourceLine" id="cb2-17" title="17">        ), </a>
+<a class="sourceLine" id="cb2-18" title="18">        <span class="dt">y_rest =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb2-19" title="19">            <span class="dt">data =</span> y_rest, </a>
+<a class="sourceLine" id="cb2-20" title="20">            <span class="dt">indices =</span> (<span class="dv">1</span><span class="op">:</span>n)[<span class="op">!</span>(<span class="dv">1</span><span class="op">:</span>n <span class="op">%in%</span><span class="st"> </span>fold_indices)]</a>
+<a class="sourceLine" id="cb2-21" title="21">        )</a>
+<a class="sourceLine" id="cb2-22" title="22">    )</a>
+<a class="sourceLine" id="cb2-23" title="23">}</a></code></pre></div>
 <p>Step 2 is performed by <code>fusion_estimates</code>, a function defined in the <a href="../2018/non_separable_penalty.html">previous note</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fusion_estimates &lt;-<span class="st"> </span><span class="cf">function</span>(y, theta, lambda, <span class="dt">max_iter =</span> <span class="dv">1000</span>, <span class="dt">eps =</span> <span class="fl">1e-5</span>) {
-    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
-    <span class="cf">if</span> (<span class="kw">missing</span>(theta)) {theta &lt;-<span class="st"> </span>y}
-    <span class="cf">if</span> (<span class="kw">length</span>(theta) <span class="op">!=</span><span class="st"> </span>n) {
-        <span class="kw">stop</span>(<span class="kw">paste0</span>(
-            <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Error in fusion_estimates():</span><span class="ch">\n</span><span class="st">&#39;</span>, 
-            <span class="st">&#39;The length of given initial theta is &#39;</span>, <span class="kw">length</span>(theta),
-            <span class="st">&#39;, which is not equal to length(y) == &#39;</span>, n, <span class="st">&#39;.&#39;</span>
-        ))
-    }
-    phi &lt;-<span class="st"> </span><span class="kw">diff</span>(theta)
-    phisums_old &lt;-<span class="st"> </span><span class="kw">cumsum</span>(phi)
-    theta_1_new &lt;-<span class="st"> </span>(<span class="kw">sum</span>(y) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(phisums_old)) <span class="op">/</span><span class="st"> </span>n
-    cost &lt;-<span class="st"> </span><span class="kw">sum</span>((y <span class="op">-</span><span class="st"> </span>theta)<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(phi))
-    costs &lt;-<span class="st"> </span><span class="ot">NULL</span>
-    costs[<span class="dv">1</span>] &lt;-<span class="st"> </span>cost <span class="co"># costs</span>
-    there_is_a_progress &lt;-<span class="st"> </span>T
-    iter &lt;-<span class="st"> </span><span class="dv">0</span>
-    <span class="cf">while</span> (there_is_a_progress <span class="op">&amp;</span><span class="st"> </span>iter <span class="op">&lt;</span><span class="st"> </span>max_iter) {
-        <span class="co"># Store new phi_1 (= 0) to phi_n in phi_new</span>
-        phi_new &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> n) 
-        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>n) {
-            phisums_new &lt;-<span class="st"> </span><span class="kw">cumsum</span>(phi_new)
-            req &lt;-<span class="st"> </span><span class="kw">sum</span>(
-                phisums_old[(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)] <span class="op">-</span><span class="st"> </span>
-<span class="st">                </span>phisums_old[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>phisums_new[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]
-            )
-            discri &lt;-<span class="st"> </span><span class="kw">sum</span>(y[j<span class="op">:</span>n]) <span class="op">-</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>theta_1_new <span class="op">-</span><span class="st"> </span>req
-            <span class="cf">if</span> (discri <span class="op">&lt;</span><span class="st"> </span><span class="op">-</span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) {
-                phi_new[j] &lt;-<span class="st"> </span>(discri <span class="op">+</span><span class="st"> </span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
-            } <span class="cf">else</span> <span class="cf">if</span> (discri <span class="op">&gt;</span><span class="st"> </span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) {
-                phi_new[j] &lt;-<span class="st"> </span>(discri <span class="op">-</span><span class="st"> </span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
-            } <span class="co"># already 0 otherwise</span>
-        }
-        phi_new &lt;-<span class="st"> </span>phi_new[<span class="op">-</span><span class="dv">1</span>]
-        phisums_new &lt;-<span class="st"> </span>phisums_new[<span class="op">-</span><span class="dv">1</span>]
-        theta &lt;-<span class="st"> </span><span class="kw">c</span>(theta_1_new, theta_1_new <span class="op">+</span><span class="st"> </span>phisums_new)
-        cost &lt;-<span class="st"> </span><span class="kw">sum</span>((y <span class="op">-</span><span class="st"> </span>theta)<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(phi_new))
-        theta_1_new &lt;-<span class="st"> </span>(<span class="kw">sum</span>(y) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(phisums_new)) <span class="op">/</span><span class="st"> </span>n
-        phisums_old &lt;-<span class="st"> </span>phisums_new
-        iter &lt;-<span class="st"> </span>iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
-        costs[iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span>cost
-        there_is_a_progress &lt;-<span class="st"> </span><span class="op">!</span>(<span class="kw">abs</span>(costs[iter] <span class="op">-</span><span class="st"> </span>cost) <span class="op">&lt;=</span><span class="st"> </span>eps)
-    }
-    <span class="kw">list</span>(
-        <span class="dt">theta =</span> theta, 
-        <span class="dt">phi =</span> phi_new, 
-        <span class="dt">lambda =</span> lambda, 
-        <span class="dt">iter =</span> iter, 
-        <span class="dt">costs =</span> costs <span class="co"># the first cost is calculated at iteration 0</span>
-    )
-}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">fusion_estimates &lt;-<span class="st"> </span><span class="cf">function</span>(y, theta, lambda, <span class="dt">max_iter =</span> <span class="dv">1000</span>, <span class="dt">eps =</span> <span class="fl">1e-5</span>) {</a>
+<a class="sourceLine" id="cb3-2" title="2">    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)</a>
+<a class="sourceLine" id="cb3-3" title="3">    <span class="cf">if</span> (<span class="kw">missing</span>(theta)) {theta &lt;-<span class="st"> </span>y}</a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="cf">if</span> (<span class="kw">length</span>(theta) <span class="op">!=</span><span class="st"> </span>n) {</a>
+<a class="sourceLine" id="cb3-5" title="5">        <span class="kw">stop</span>(<span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb3-6" title="6">            <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Error in fusion_estimates():</span><span class="ch">\n</span><span class="st">&#39;</span>, </a>
+<a class="sourceLine" id="cb3-7" title="7">            <span class="st">&#39;The length of given initial theta is &#39;</span>, <span class="kw">length</span>(theta),</a>
+<a class="sourceLine" id="cb3-8" title="8">            <span class="st">&#39;, which is not equal to length(y) == &#39;</span>, n, <span class="st">&#39;.&#39;</span></a>
+<a class="sourceLine" id="cb3-9" title="9">        ))</a>
+<a class="sourceLine" id="cb3-10" title="10">    }</a>
+<a class="sourceLine" id="cb3-11" title="11">    phi &lt;-<span class="st"> </span><span class="kw">diff</span>(theta)</a>
+<a class="sourceLine" id="cb3-12" title="12">    phisums_old &lt;-<span class="st"> </span><span class="kw">cumsum</span>(phi)</a>
+<a class="sourceLine" id="cb3-13" title="13">    theta_<span class="dv">1</span>_new &lt;-<span class="st"> </span>(<span class="kw">sum</span>(y) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(phisums_old)) <span class="op">/</span><span class="st"> </span>n</a>
+<a class="sourceLine" id="cb3-14" title="14">    cost &lt;-<span class="st"> </span><span class="kw">sum</span>((y <span class="op">-</span><span class="st"> </span>theta)<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(phi))</a>
+<a class="sourceLine" id="cb3-15" title="15">    costs &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb3-16" title="16">    costs[<span class="dv">1</span>] &lt;-<span class="st"> </span>cost <span class="co"># costs</span></a>
+<a class="sourceLine" id="cb3-17" title="17">    there_is_a_progress &lt;-<span class="st"> </span>T</a>
+<a class="sourceLine" id="cb3-18" title="18">    iter &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb3-19" title="19">    <span class="cf">while</span> (there_is_a_progress <span class="op">&amp;</span><span class="st"> </span>iter <span class="op">&lt;</span><span class="st"> </span>max_iter) {</a>
+<a class="sourceLine" id="cb3-20" title="20">        <span class="co"># Store new phi_1 (= 0) to phi_n in phi_new</span></a>
+<a class="sourceLine" id="cb3-21" title="21">        phi_new &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> n) </a>
+<a class="sourceLine" id="cb3-22" title="22">        <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>n) {</a>
+<a class="sourceLine" id="cb3-23" title="23">            phisums_new &lt;-<span class="st"> </span><span class="kw">cumsum</span>(phi_new)</a>
+<a class="sourceLine" id="cb3-24" title="24">            req &lt;-<span class="st"> </span><span class="kw">sum</span>(</a>
+<a class="sourceLine" id="cb3-25" title="25">                phisums_old[(j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)] <span class="op">-</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="st">                </span>phisums_old[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>phisums_new[j <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb3-27" title="27">            )</a>
+<a class="sourceLine" id="cb3-28" title="28">            discri &lt;-<span class="st"> </span><span class="kw">sum</span>(y[j<span class="op">:</span>n]) <span class="op">-</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>theta_<span class="dv">1</span>_new <span class="op">-</span><span class="st"> </span>req</a>
+<a class="sourceLine" id="cb3-29" title="29">            <span class="cf">if</span> (discri <span class="op">&lt;</span><span class="st"> </span><span class="op">-</span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb3-30" title="30">                phi_new[j] &lt;-<span class="st"> </span>(discri <span class="op">+</span><span class="st"> </span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-31" title="31">            } <span class="cf">else</span> <span class="cf">if</span> (discri <span class="op">&gt;</span><span class="st"> </span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb3-32" title="32">                phi_new[j] &lt;-<span class="st"> </span>(discri <span class="op">-</span><span class="st"> </span>lambda <span class="op">/</span><span class="st"> </span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-33" title="33">            } <span class="co"># already 0 otherwise</span></a>
+<a class="sourceLine" id="cb3-34" title="34">        }</a>
+<a class="sourceLine" id="cb3-35" title="35">        phi_new &lt;-<span class="st"> </span>phi_new[<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb3-36" title="36">        phisums_new &lt;-<span class="st"> </span>phisums_new[<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb3-37" title="37">        theta &lt;-<span class="st"> </span><span class="kw">c</span>(theta_<span class="dv">1</span>_new, theta_<span class="dv">1</span>_new <span class="op">+</span><span class="st"> </span>phisums_new)</a>
+<a class="sourceLine" id="cb3-38" title="38">        cost &lt;-<span class="st"> </span><span class="kw">sum</span>((y <span class="op">-</span><span class="st"> </span>theta)<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>lambda <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(phi_new))</a>
+<a class="sourceLine" id="cb3-39" title="39">        theta_<span class="dv">1</span>_new &lt;-<span class="st"> </span>(<span class="kw">sum</span>(y) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(phisums_new)) <span class="op">/</span><span class="st"> </span>n</a>
+<a class="sourceLine" id="cb3-40" title="40">        phisums_old &lt;-<span class="st"> </span>phisums_new</a>
+<a class="sourceLine" id="cb3-41" title="41">        iter &lt;-<span class="st"> </span>iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-42" title="42">        costs[iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span>cost</a>
+<a class="sourceLine" id="cb3-43" title="43">        there_is_a_progress &lt;-<span class="st"> </span><span class="op">!</span>(<span class="kw">abs</span>(costs[iter] <span class="op">-</span><span class="st"> </span>cost) <span class="op">&lt;=</span><span class="st"> </span>eps)</a>
+<a class="sourceLine" id="cb3-44" title="44">    }</a>
+<a class="sourceLine" id="cb3-45" title="45">    <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb3-46" title="46">        <span class="dt">theta =</span> theta, </a>
+<a class="sourceLine" id="cb3-47" title="47">        <span class="dt">phi =</span> phi_new, </a>
+<a class="sourceLine" id="cb3-48" title="48">        <span class="dt">lambda =</span> lambda, </a>
+<a class="sourceLine" id="cb3-49" title="49">        <span class="dt">iter =</span> iter, </a>
+<a class="sourceLine" id="cb3-50" title="50">        <span class="dt">costs =</span> costs <span class="co"># the first cost is calculated at iteration 0</span></a>
+<a class="sourceLine" id="cb3-51" title="51">    )</a>
+<a class="sourceLine" id="cb3-52" title="52">}</a></code></pre></div>
 <p>Step 3 is done by <code>interpolate_1d</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">interpolate_1d &lt;-<span class="st"> </span><span class="cf">function</span>(t, theta_rest, indices_rest, n) {
-    <span class="co"># t: a number, or a numeric vector whose minimum is at least 1 and</span>
-    <span class="co">#    whose maximum is at most n</span>
-    <span class="co"># theta_rest: a numeric vector</span>
-    <span class="co"># indices_rest: an integer vector of length length(theta_rest)</span>
-    <span class="co"># n: an integer; the length of &quot;full&quot; data</span>
-    
-    indices &lt;-<span class="st"> </span><span class="kw">sort</span>(indices_rest)
-    <span class="cf">if</span> (<span class="kw">max</span>(t) <span class="op">&gt;</span><span class="st"> </span>n <span class="op">||</span><span class="st"> </span><span class="kw">min</span>(t) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) {
-        <span class="kw">stop</span>(<span class="kw">paste0</span>(
-            <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Error in interpolate_1d():</span><span class="ch">\n</span><span class="st">&#39;</span>, 
-            <span class="st">&#39;Extrapolation not available;</span><span class="ch">\n</span><span class="st">&#39;</span>,
-            <span class="st">&#39;either max(t) &gt; length of full data or min(t) &lt; 1 happened&#39;</span>
-        ))
-    }
-    <span class="cf">if</span> (<span class="kw">length</span>(theta_rest) <span class="op">!=</span><span class="st"> </span><span class="kw">length</span>(indices)) {
-        <span class="kw">stop</span>(<span class="kw">paste0</span>(
-            <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Error in interpolate_1d():</span><span class="ch">\n</span><span class="st">&#39;</span>, 
-            <span class="st">&#39;length(theta_rest) != length(indices)&#39;</span>
-        ))
-    }
-    <span class="kw">sapply</span>(t, <span class="cf">function</span>(d){theta_rest[<span class="kw">which.min</span>(<span class="kw">abs</span>(d <span class="op">-</span><span class="st"> </span>indices))]})
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">interpolate_1d &lt;-<span class="st"> </span><span class="cf">function</span>(t, theta_rest, indices_rest, n) {</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="co"># t: a number, or a numeric vector whose minimum is at least 1 and</span></a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="co">#    whose maximum is at most n</span></a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="co"># theta_rest: a numeric vector</span></a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="co"># indices_rest: an integer vector of length length(theta_rest)</span></a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="co"># n: an integer; the length of &quot;full&quot; data</span></a>
+<a class="sourceLine" id="cb4-7" title="7">    </a>
+<a class="sourceLine" id="cb4-8" title="8">    indices &lt;-<span class="st"> </span><span class="kw">sort</span>(indices_rest)</a>
+<a class="sourceLine" id="cb4-9" title="9">    <span class="cf">if</span> (<span class="kw">max</span>(t) <span class="op">&gt;</span><span class="st"> </span>n <span class="op">||</span><span class="st"> </span><span class="kw">min</span>(t) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb4-10" title="10">        <span class="kw">stop</span>(<span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb4-11" title="11">            <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Error in interpolate_1d():</span><span class="ch">\n</span><span class="st">&#39;</span>, </a>
+<a class="sourceLine" id="cb4-12" title="12">            <span class="st">&#39;Extrapolation not available;</span><span class="ch">\n</span><span class="st">&#39;</span>,</a>
+<a class="sourceLine" id="cb4-13" title="13">            <span class="st">&#39;either max(t) &gt; length of full data or min(t) &lt; 1 happened&#39;</span></a>
+<a class="sourceLine" id="cb4-14" title="14">        ))</a>
+<a class="sourceLine" id="cb4-15" title="15">    }</a>
+<a class="sourceLine" id="cb4-16" title="16">    <span class="cf">if</span> (<span class="kw">length</span>(theta_rest) <span class="op">!=</span><span class="st"> </span><span class="kw">length</span>(indices)) {</a>
+<a class="sourceLine" id="cb4-17" title="17">        <span class="kw">stop</span>(<span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb4-18" title="18">            <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Error in interpolate_1d():</span><span class="ch">\n</span><span class="st">&#39;</span>, </a>
+<a class="sourceLine" id="cb4-19" title="19">            <span class="st">&#39;length(theta_rest) != length(indices)&#39;</span></a>
+<a class="sourceLine" id="cb4-20" title="20">        ))</a>
+<a class="sourceLine" id="cb4-21" title="21">    }</a>
+<a class="sourceLine" id="cb4-22" title="22">    <span class="kw">sapply</span>(t, <span class="cf">function</span>(d){theta_rest[<span class="kw">which.min</span>(<span class="kw">abs</span>(d <span class="op">-</span><span class="st"> </span>indices))]})</a>
+<a class="sourceLine" id="cb4-23" title="23">}</a></code></pre></div>
 <p><span class="math inline">\(\text{loss}_s\)</span> in step 4 is computed with <code>loss_1d_fold</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loss_1d_fold &lt;-<span class="st"> </span><span class="cf">function</span>(y, theta, indices_fold) {
-    <span class="co"># y: a numeric vector of length n</span>
-    <span class="co"># theta: a numeric vector of length &lt; n</span>
-    <span class="co"># indices_fold: an integer vector of length n - length(theta)</span>
-    
-    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)
-    indices_fold &lt;-<span class="st"> </span><span class="kw">sort</span>(indices_fold)
-    y_fold &lt;-<span class="st"> </span>y[indices_fold]
-    indices_rest &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">:</span>n)[<span class="op">!</span>(<span class="dv">1</span><span class="op">:</span>n <span class="op">%in%</span><span class="st"> </span>indices_fold)]
-    interpolate &lt;-<span class="st"> </span><span class="kw">interpolate_1d</span>(indices_fold, theta, indices_rest, n)
-    <span class="kw">mean</span>((interpolate <span class="op">-</span><span class="st"> </span>y_fold)<span class="op">^</span><span class="dv">2</span>)
-}</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">loss_1d_fold &lt;-<span class="st"> </span><span class="cf">function</span>(y, theta, indices_fold) {</a>
+<a class="sourceLine" id="cb5-2" title="2">    <span class="co"># y: a numeric vector of length n</span></a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="co"># theta: a numeric vector of length &lt; n</span></a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="co"># indices_fold: an integer vector of length n - length(theta)</span></a>
+<a class="sourceLine" id="cb5-5" title="5">    </a>
+<a class="sourceLine" id="cb5-6" title="6">    n &lt;-<span class="st"> </span><span class="kw">length</span>(y)</a>
+<a class="sourceLine" id="cb5-7" title="7">    indices_fold &lt;-<span class="st"> </span><span class="kw">sort</span>(indices_fold)</a>
+<a class="sourceLine" id="cb5-8" title="8">    y_fold &lt;-<span class="st"> </span>y[indices_fold]</a>
+<a class="sourceLine" id="cb5-9" title="9">    indices_rest &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">:</span>n)[<span class="op">!</span>(<span class="dv">1</span><span class="op">:</span>n <span class="op">%in%</span><span class="st"> </span>indices_fold)]</a>
+<a class="sourceLine" id="cb5-10" title="10">    interpolate &lt;-<span class="st"> </span><span class="kw">interpolate_1d</span>(indices_fold, theta, indices_rest, n)</a>
+<a class="sourceLine" id="cb5-11" title="11">    <span class="kw">mean</span>((interpolate <span class="op">-</span><span class="st"> </span>y_fold)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb5-12" title="12">}</a></code></pre></div>
 <p>and for the sake of computing training error, we define <code>loss_1d</code> as well:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loss_1d &lt;-<span class="st"> </span><span class="cf">function</span>(y, theta) {
-    <span class="co"># y: the same as in loss_1d_fold</span>
-    <span class="co"># theta: a numeric vector of length n</span>
-    
-    <span class="kw">mean</span>((y <span class="op">-</span><span class="st"> </span>theta)<span class="op">^</span><span class="dv">2</span>)
-}</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">loss_1d &lt;-<span class="st"> </span><span class="cf">function</span>(y, theta) {</a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="co"># y: the same as in loss_1d_fold</span></a>
+<a class="sourceLine" id="cb6-3" title="3">    <span class="co"># theta: a numeric vector of length n</span></a>
+<a class="sourceLine" id="cb6-4" title="4">    </a>
+<a class="sourceLine" id="cb6-5" title="5">    <span class="kw">mean</span>((y <span class="op">-</span><span class="st"> </span>theta)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb6-6" title="6">}</a></code></pre></div>
 <p>We shall now compute the cross-validation error in <code>cv_error_1d</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv_error_1d &lt;-<span class="st"> </span><span class="cf">function</span>(y, k, lambda) {
-    <span class="co"># y: a numeric vector</span>
-    <span class="co"># k: an integer; a number of folds</span>
-    <span class="co"># lambda: a positive real number</span>
-    
-    losses &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> k)
-    <span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>k) {
-        split_s &lt;-<span class="st"> </span><span class="kw">split_data_1d</span>(y, k, s)
-        fusion_s &lt;-<span class="st"> </span><span class="kw">fusion_estimates</span>(split_s<span class="op">$</span>y_rest<span class="op">$</span>data, <span class="dt">lambda =</span> lambda)
-        losses[s] &lt;-<span class="st"> </span><span class="kw">loss_1d_fold</span>(y, fusion_s<span class="op">$</span>theta, split_s<span class="op">$</span>y_fold<span class="op">$</span>indices)
-    }
-    <span class="kw">list</span>(<span class="dt">error =</span> <span class="kw">mean</span>(losses), <span class="dt">losses =</span> losses)
-}</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">cv_error_1d &lt;-<span class="st"> </span><span class="cf">function</span>(y, k, lambda) {</a>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="co"># y: a numeric vector</span></a>
+<a class="sourceLine" id="cb7-3" title="3">    <span class="co"># k: an integer; a number of folds</span></a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="co"># lambda: a positive real number</span></a>
+<a class="sourceLine" id="cb7-5" title="5">    </a>
+<a class="sourceLine" id="cb7-6" title="6">    losses &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dt">length =</span> k)</a>
+<a class="sourceLine" id="cb7-7" title="7">    <span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>k) {</a>
+<a class="sourceLine" id="cb7-8" title="8">        split_s &lt;-<span class="st"> </span><span class="kw">split_data_1d</span>(y, k, s)</a>
+<a class="sourceLine" id="cb7-9" title="9">        fusion_s &lt;-<span class="st"> </span><span class="kw">fusion_estimates</span>(split_s<span class="op">$</span>y_rest<span class="op">$</span>data, <span class="dt">lambda =</span> lambda)</a>
+<a class="sourceLine" id="cb7-10" title="10">        losses[s] &lt;-<span class="st"> </span><span class="kw">loss_1d_fold</span>(y, fusion_s<span class="op">$</span>theta, split_s<span class="op">$</span>y_fold<span class="op">$</span>indices)</a>
+<a class="sourceLine" id="cb7-11" title="11">    }</a>
+<a class="sourceLine" id="cb7-12" title="12">    <span class="kw">list</span>(<span class="dt">error =</span> <span class="kw">mean</span>(losses), <span class="dt">losses =</span> losses)</a>
+<a class="sourceLine" id="cb7-13" title="13">}</a></code></pre></div>
 </div>
 <div id="an-example" class="section level1">
 <h1>3. An example</h1>
 <p>The example in the previous note is regenerated:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
-n &lt;-<span class="st"> </span><span class="dv">1000</span>
-t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n
-f &lt;-<span class="st"> </span><span class="cf">function</span>(t) {t <span class="op">/</span><span class="st"> </span><span class="dv">250</span> <span class="op">-</span><span class="st"> </span>.<span class="dv">5</span>}
-g &lt;-<span class="st"> </span><span class="cf">function</span>(t) {<span class="op">-</span>(.<span class="dv">25</span> <span class="op">/</span><span class="st"> </span><span class="dv">449</span>) <span class="op">*</span><span class="st"> </span>t <span class="op">+</span><span class="st"> </span><span class="dv">250</span> <span class="op">/</span><span class="st"> </span><span class="dv">449</span>}
-true_theta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">249</span>), <span class="kw">f</span>(<span class="dv">250</span><span class="op">:</span><span class="dv">500</span>), <span class="kw">rep</span>(.<span class="dv">75</span>, <span class="dv">50</span>), <span class="kw">g</span>(<span class="dv">551</span><span class="op">:</span><span class="dv">1000</span>))
-y &lt;-<span class="st"> </span>true_theta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="fl">0.1</span>)
-<span class="kw">qplot</span>(t, y)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb8-3" title="3">t &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>n</a>
+<a class="sourceLine" id="cb8-4" title="4">f &lt;-<span class="st"> </span><span class="cf">function</span>(t) {t <span class="op">/</span><span class="st"> </span><span class="dv">250</span> <span class="op">-</span><span class="st"> </span><span class="fl">.5</span>}</a>
+<a class="sourceLine" id="cb8-5" title="5">g &lt;-<span class="st"> </span><span class="cf">function</span>(t) {<span class="op">-</span>(.<span class="dv">25</span> <span class="op">/</span><span class="st"> </span><span class="dv">449</span>) <span class="op">*</span><span class="st"> </span>t <span class="op">+</span><span class="st"> </span><span class="dv">250</span> <span class="op">/</span><span class="st"> </span><span class="dv">449</span>}</a>
+<a class="sourceLine" id="cb8-6" title="6">true_theta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">249</span>), <span class="kw">f</span>(<span class="dv">250</span><span class="op">:</span><span class="dv">500</span>), <span class="kw">rep</span>(.<span class="dv">75</span>, <span class="dv">50</span>), <span class="kw">g</span>(<span class="dv">551</span><span class="op">:</span><span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb8-7" title="7">y &lt;-<span class="st"> </span>true_theta <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="kw">qplot</span>(t, y)</a></code></pre></div>
 <p><img src="cross_validation_fs_files/figure-html/regenerate-1.png" style="display: block; margin: auto;" /></p>
 <p>The following <code>lambda</code> values will be considered. Also, say <span class="math inline">\(k = 5\)</span>, an another arbitrary choice:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lambdas &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">1</span>, <span class="dv">5</span>, <span class="dt">by =</span> .<span class="dv">1</span>)
-k &lt;-<span class="st"> </span><span class="dv">5</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">lambdas &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">1</span>, <span class="dv">5</span>, <span class="dt">by =</span> <span class="fl">.1</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2">k &lt;-<span class="st"> </span><span class="dv">5</span></a></code></pre></div>
 <p>For each <code>lambda</code>, let’s compute the training error and the cross-validation error:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">start &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()
-errors &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">sapply</span>(
-    lambdas,
-    <span class="cf">function</span>(l) {
-        <span class="kw">c</span>(
-            <span class="kw">cv_error_1d</span>(y, k, l)<span class="op">$</span>error,
-            <span class="kw">loss_1d</span>(y, <span class="kw">fusion_estimates</span>(y, <span class="dt">lambda =</span> l)<span class="op">$</span>theta)
-        )
-    }
-)) <span class="op">%&gt;%</span>
-<span class="st">    &#39;colnames&lt;-&#39;</span>(<span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&#39;C-V error, &#39;</span>, k, <span class="st">&#39; folds&#39;</span>), <span class="st">&#39;Training&#39;</span>)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">cbind</span>(<span class="dt">lambdas =</span> lambdas) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">as_tibble</span>()
-end &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">start &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</a>
+<a class="sourceLine" id="cb10-2" title="2">errors &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">sapply</span>(</a>
+<a class="sourceLine" id="cb10-3" title="3">    lambdas,</a>
+<a class="sourceLine" id="cb10-4" title="4">    <span class="cf">function</span>(l) {</a>
+<a class="sourceLine" id="cb10-5" title="5">        <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb10-6" title="6">            <span class="kw">cv_error_1d</span>(y, k, l)<span class="op">$</span>error,</a>
+<a class="sourceLine" id="cb10-7" title="7">            <span class="kw">loss_1d</span>(y, <span class="kw">fusion_estimates</span>(y, <span class="dt">lambda =</span> l)<span class="op">$</span>theta)</a>
+<a class="sourceLine" id="cb10-8" title="8">        )</a>
+<a class="sourceLine" id="cb10-9" title="9">    }</a>
+<a class="sourceLine" id="cb10-10" title="10">)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="st">    &#39;colnames&lt;-&#39;</span>(<span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&#39;C-V error, &#39;</span>, k, <span class="st">&#39; folds&#39;</span>), <span class="st">&#39;Training&#39;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="st">    </span><span class="kw">cbind</span>(<span class="dt">lambdas =</span> lambdas) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="st">    </span><span class="kw">as_tibble</span>()</a>
+<a class="sourceLine" id="cb10-14" title="14">end &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</a></code></pre></div>
 <p>This process takes a while. Here’s the link to the <code>errors</code> <a href="../../files/cv_errors.csv">csv file</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end <span class="op">-</span><span class="st"> </span>start</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">end <span class="op">-</span><span class="st"> </span>start</a></code></pre></div>
 <pre><code>## Time difference of 34.66667 mins</code></pre>
 <p>The visualization is as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">errors <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">gather</span>(Errors, value, <span class="op">-</span>lambdas) <span class="op">%&gt;%</span>
-<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lambdas, <span class="dt">y =</span> value, <span class="dt">col =</span> Errors)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape =</span> Errors)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Lambda&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Average squared error&#39;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;top&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">errors <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="st">    </span><span class="kw">gather</span>(Errors, value, <span class="op">-</span>lambdas) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lambdas, <span class="dt">y =</span> value, <span class="dt">col =</span> Errors)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape =</span> Errors)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Lambda&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Average squared error&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;top&#39;</span>)</a></code></pre></div>
 <p><img src="cross_validation_fs_files/figure-html/visualize_errors-1.png" style="display: block; margin: auto;" /></p>
 <p>The training error increases as lambda increases. This makes sense since, as shown in the <a href="../2018/non_separable_penalty.html">previous note</a>, <span class="math inline">\(\theta_t \to \overline{y}\)</span> for all <span class="math inline">\(t\)</span> as <span class="math inline">\(\lambda\)</span> gets greater, and <span class="math inline">\(\theta_t = \overline{y}\)</span> for all <span class="math inline">\(t\)</span> starting from a certain value of <span class="math inline">\(\lambda\)</span>. That is, as lambda increases, the fusion estimates start to move away from the least squares estimates <span class="math inline">\(\hat{\theta}_t\)</span>’s (<span class="math inline">\(= y_t\)</span> for all <span class="math inline">\(t\)</span>), which are estimates when <span class="math inline">\(\lambda = 0\)</span> and are values that minimize the average squared error, so the training error increases as shown in the plot.</p>
 <p>The minimum lambda that yields the lowest cv-error is therefore:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">errors <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">gather</span>(Errors, value, <span class="op">-</span>lambdas) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">filter</span>(Errors <span class="op">!=</span><span class="st"> &#39;Training&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">filter</span>(value <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(value)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">pull</span>(lambdas)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">errors <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">    </span><span class="kw">gather</span>(Errors, value, <span class="op">-</span>lambdas) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="st">    </span><span class="kw">filter</span>(Errors <span class="op">!=</span><span class="st"> &#39;Training&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="st">    </span><span class="kw">filter</span>(value <span class="op">==</span><span class="st"> </span><span class="kw">min</span>(value)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="st">    </span><span class="kw">pull</span>(lambdas)</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>The proposed value of <span class="math inline">\(\lambda\)</span> is 1.</p>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
 <p>R session info:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 18362)
 ## 
 ## Matrix products: default
 ## 
@@ -761,19 +815,19 @@ end &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></pre
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggConvexHull_0.1.0 ggplot2_3.1.1      dplyr_0.8.1       
-## [4] reticulate_1.12    rmarkdown_1.13     magrittr_1.5      
+## [1] ggConvexHull_0.1.0 ggplot2_3.2.0      dplyr_0.8.3       
+## [4] reticulate_1.12    rmarkdown_1.14     magrittr_1.5      
 ## [7] itertools2_0.1.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.0   pillar_1.4.1    
-##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      zeallot_0.1.0   
-##  [9] digest_0.6.19    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
+##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.1   pillar_1.4.2    
+##  [5] prettydoc_0.3.0  iterators_1.0.10 tools_3.6.1      zeallot_0.1.0   
+##  [9] digest_0.6.20    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
 ## [13] gtable_0.3.0     lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2 
-## [17] rlang_0.3.4      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
-## [21] yaml_2.2.0       xfun_0.7         withr_2.1.2      stringr_1.4.0   
-## [25] xml2_1.2.0       knitr_1.23       vctrs_0.1.0      hms_0.4.2       
-## [29] grid_3.6.0       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
+## [17] rlang_0.4.0      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
+## [21] yaml_2.2.0       xfun_0.8         withr_2.1.2      stringr_1.4.0   
+## [25] xml2_1.2.0       knitr_1.23       vctrs_0.2.0      hms_0.5.0       
+## [29] grid_3.6.1       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
 ## [33] fansi_0.4.0      readr_1.3.1      tidyr_0.8.3      purrr_0.3.2     
 ## [37] backports_1.1.4  scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1
 ## [41] colorspace_1.4-1 labeling_0.3     utf8_1.1.4       stringi_1.4.3   
@@ -793,7 +847,7 @@ end &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></pre
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
-        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
+        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>

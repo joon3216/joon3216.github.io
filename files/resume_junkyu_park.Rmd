@@ -134,7 +134,7 @@ cat("
   \begin{itemize}
     \item currently maintaining \textcolor{linkblue}{\href{https://joon3216.github.io/}{joon3216.github.io}}
   \end{itemize}
-  \item SQL (moderately familiar)
+  \item PostgreSQL (moderately familiar)
     \begin{itemize}
       \item able to use keywords such as \texttt{unnest}, \texttt{array}, and \texttt{information\_schema}
       \item able to join tables and write subqueries

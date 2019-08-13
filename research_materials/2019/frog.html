@@ -4,9 +4,10 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,11 +87,12 @@
 }
 
 /* new; why: prepare in case of text-align: right */
-#navbar nav ul li#news
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
 {
     padding: 8.5px 0;
     margin: 0;
-}
+} */
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
@@ -423,47 +425,99 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
 <link rel="stylesheet" href="frog_files/style.css" type="text/css" />
+
+
+
+
 
 </head>
 
@@ -499,9 +553,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                     </li>
                 </ul>
             </li>
-            <li id="news">
+            <!-- <li id="news">
                 <a href="../../news.html">News</a>
-            </li>
+            </li> -->
             <li>
                 <a href="../../files/resume_junkyu_park.pdf">Resume</a>
             </li>
@@ -522,10 +576,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following external R packages are used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(gganimate) <span class="co"># &#39;gifski&#39; and &#39;png&#39; package have to be installed</span>
-<span class="kw">library</span>(tidyr)
-include_graphics &lt;-<span class="st"> </span>knitr<span class="op">::</span>include_graphics</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(gganimate) <span class="co"># &#39;gifski&#39; and &#39;png&#39; package have to be installed</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(tidyr)</a>
+<a class="sourceLine" id="cb1-4" title="4">include_graphics &lt;-<span class="st"> </span>knitr<span class="op">::</span>include_graphics</a></code></pre></div>
 
 <div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
 <ul style="list-style:none;">
@@ -538,113 +592,113 @@ include_graphics &lt;-<span class="st"> </span>knitr<span class="op">::</span>in
 
 <div id="introduction" class="section level1">
 <h1>1. Introduction</h1>
-<p>This is to illustrate the “jumping frog” Markov chain <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> using <code>gganimate</code> package.</p>
+<p>This is to illustrate the “jumping frog” Markov chain <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> using <code>gganimate</code> package.</p>
 </div>
 <div id="a-jumping-frog" class="section level1">
 <h1>2. A jumping frog</h1>
 <p>Say there is a frog jumping across 20 lily pads numbered from 1 to 20 which are arranged clockwise in a circle. Suppose <span class="math inline">\(X_n\)</span> is the pad number at the <span class="math inline">\(n\)</span><sup>th</sup> jump. Let’s define the “jumping frog” Markov chain <span class="math inline">\(\{ X_n \}_{n = 0}^{\infty}\)</span> as a Markov chain whose state space is <span class="math inline">\(S = \{ 1, 2, \dots, 20\}\)</span>, with the initial state <span class="math inline">\(X_0 = 20\)</span> and initial probabilities <span class="math inline">\(v_{20} = P(X_0 = 20) = 1\)</span> and <span class="math inline">\(v_s = 0 \text{ }\)</span> for all <span class="math inline">\(s = 1, \dots, 19\)</span>, and trainsition probabilities <span class="math inline">\(p_{ij} = P(X_n = j \text{ | } X_{n - 1} = i)= \frac{1}{3}\)</span> whenever <span class="math inline">\(j = i - 1, i\)</span>, or <span class="math inline">\(i + 1\)</span>.</p>
 <p>Long story short, a <a href="http://probability.ca/jeff/java/frogwalk.html">Java Applet regarding this frogwalk</a> written by <a href="http://probability.ca/jeff/">Prof. Rosenthal</a> at the University of Toronto doesn’t work anymore. This is the effort to simulate this Markov chain using R and <code>gganimate</code> package.</p>
 <p>With initial parameters below, we can simulate this Markov chain and populate <code>X</code> with some generated <span class="math inline">\(X_n\)</span>’s:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
-
-<span class="co"># Settings</span>
-max_iter &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># The maximum n</span>
-number_of_pads &lt;-<span class="st"> </span><span class="dv">20</span>
-initial_state &lt;-<span class="st"> </span><span class="dv">20</span>
-p_ij =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>) <span class="op">/</span><span class="st"> </span><span class="dv">3</span> <span class="co"># Prob of moving left, staying, and moving right</span>
-
-<span class="co"># Populate X</span>
-state_space &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>number_of_pads
-cmf_p_ij =<span class="st"> </span><span class="kw">cumsum</span>(p_ij)
-X &lt;-<span class="st"> </span><span class="ot">NULL</span>
-X[<span class="dv">1</span>] &lt;-<span class="st"> </span>state_space[initial_state] <span class="co"># initial state</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)) {
-    choice &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="co"># choice ~ Unif(0, 1)</span>
-    <span class="cf">if</span> (<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>choice <span class="op">&amp;&amp;</span><span class="st"> </span>choice <span class="op">&lt;</span><span class="st"> </span>cmf_p_ij[<span class="dv">1</span>]) { <span class="co"># move left</span>
-        <span class="cf">if</span> (X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">==</span><span class="st"> </span>number_of_pads) {
-            X[i] &lt;-<span class="st"> </span><span class="dv">1</span>
-        } <span class="cf">else</span> {
-            X[i] &lt;-<span class="st"> </span>X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="dv">1</span> 
-        }
-    } <span class="cf">else</span> <span class="cf">if</span> (cmf_p_ij[<span class="dv">1</span>] <span class="op">&lt;=</span><span class="st"> </span>choice <span class="op">&amp;&amp;</span><span class="st"> </span>choice <span class="op">&lt;</span><span class="st"> </span>cmf_p_ij[<span class="dv">2</span>]) { <span class="co"># stay</span>
-        X[i] &lt;-<span class="st"> </span>X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]
-    } <span class="cf">else</span> { <span class="co"># move right</span>
-        <span class="cf">if</span> (X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {
-            X[i] &lt;-<span class="st"> </span>number_of_pads
-        } <span class="cf">else</span> {
-            X[i] &lt;-<span class="st"> </span>X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="dv">1</span>
-        }
-    }
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># Settings</span></a>
+<a class="sourceLine" id="cb2-4" title="4">max_iter &lt;-<span class="st"> </span><span class="dv">1000</span> <span class="co"># The maximum n</span></a>
+<a class="sourceLine" id="cb2-5" title="5">number_of_pads &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb2-6" title="6">initial_state &lt;-<span class="st"> </span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb2-7" title="7">p_ij =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>) <span class="op">/</span><span class="st"> </span><span class="dv">3</span> <span class="co"># Prob of moving left, staying, and moving right</span></a>
+<a class="sourceLine" id="cb2-8" title="8"></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co"># Populate X</span></a>
+<a class="sourceLine" id="cb2-10" title="10">state_space &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span>number_of_pads</a>
+<a class="sourceLine" id="cb2-11" title="11">cmf_p_ij =<span class="st"> </span><span class="kw">cumsum</span>(p_ij)</a>
+<a class="sourceLine" id="cb2-12" title="12">X &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb2-13" title="13">X[<span class="dv">1</span>] &lt;-<span class="st"> </span>state_space[initial_state] <span class="co"># initial state</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>(max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)) {</a>
+<a class="sourceLine" id="cb2-15" title="15">    choice &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>) <span class="co"># choice ~ Unif(0, 1)</span></a>
+<a class="sourceLine" id="cb2-16" title="16">    <span class="cf">if</span> (<span class="dv">0</span> <span class="op">&lt;=</span><span class="st"> </span>choice <span class="op">&amp;&amp;</span><span class="st"> </span>choice <span class="op">&lt;</span><span class="st"> </span>cmf_p_ij[<span class="dv">1</span>]) { <span class="co"># move left</span></a>
+<a class="sourceLine" id="cb2-17" title="17">        <span class="cf">if</span> (X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">==</span><span class="st"> </span>number_of_pads) {</a>
+<a class="sourceLine" id="cb2-18" title="18">            X[i] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-19" title="19">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb2-20" title="20">            X[i] &lt;-<span class="st"> </span>X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="dv">1</span> </a>
+<a class="sourceLine" id="cb2-21" title="21">        }</a>
+<a class="sourceLine" id="cb2-22" title="22">    } <span class="cf">else</span> <span class="cf">if</span> (cmf_p_ij[<span class="dv">1</span>] <span class="op">&lt;=</span><span class="st"> </span>choice <span class="op">&amp;&amp;</span><span class="st"> </span>choice <span class="op">&lt;</span><span class="st"> </span>cmf_p_ij[<span class="dv">2</span>]) { <span class="co"># stay</span></a>
+<a class="sourceLine" id="cb2-23" title="23">        X[i] &lt;-<span class="st"> </span>X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb2-24" title="24">    } <span class="cf">else</span> { <span class="co"># move right</span></a>
+<a class="sourceLine" id="cb2-25" title="25">        <span class="cf">if</span> (X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb2-26" title="26">            X[i] &lt;-<span class="st"> </span>number_of_pads</a>
+<a class="sourceLine" id="cb2-27" title="27">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb2-28" title="28">            X[i] &lt;-<span class="st"> </span>X[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-29" title="29">        }</a>
+<a class="sourceLine" id="cb2-30" title="30">    }</a>
+<a class="sourceLine" id="cb2-31" title="31">}</a></code></pre></div>
 <p><code>state_df</code> will be used to create a tibble that indicates the pad number the frog is located at each iteration. <code>state_space</code> will be used as x-axis, <code>pads_point</code> as y-axis (which is just a dummy), and <code>iterations</code> as a facetting variable:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">state_df &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">iterations =</span> <span class="kw">rep</span>(
-    <span class="dv">0</span><span class="op">:</span>max_iter, 
-    <span class="dt">each =</span> number_of_pads
-  ),
-  <span class="dt">state_space =</span> <span class="kw">rep</span>(state_space, max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),
-  <span class="dt">pads_point =</span> <span class="kw">rep</span>(<span class="dv">1</span>, number_of_pads <span class="op">*</span><span class="st"> </span>(max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))
-)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">state_df &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="dt">iterations =</span> <span class="kw">rep</span>(</a>
+<a class="sourceLine" id="cb3-3" title="3">    <span class="dv">0</span><span class="op">:</span>max_iter, </a>
+<a class="sourceLine" id="cb3-4" title="4">    <span class="dt">each =</span> number_of_pads</a>
+<a class="sourceLine" id="cb3-5" title="5">  ),</a>
+<a class="sourceLine" id="cb3-6" title="6">  <span class="dt">state_space =</span> <span class="kw">rep</span>(state_space, max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb3-7" title="7">  <span class="dt">pads_point =</span> <span class="kw">rep</span>(<span class="dv">1</span>, number_of_pads <span class="op">*</span><span class="st"> </span>(max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb3-8" title="8">)</a></code></pre></div>
 <p><code>comparison_df</code> is a tibble that acutally indicates where the frog is at at each iteration. <code>state_space</code> and <code>iterations</code> will be variables that <code>state_df</code> and <code>comparison_df</code> have in common, and <code>value</code> will be an indicator:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">comparison_df &lt;-<span class="st"> </span><span class="kw">tibble</span>(state_space)
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)) {
-  mutating_code &lt;-<span class="st"> </span><span class="kw">paste0</span>(
-    <span class="st">&quot;comparison_df &lt;- comparison_df %&gt;% &quot;</span>,
-    <span class="st">&quot;mutate(`&quot;</span>, i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;` = state_space == X[i])&quot;</span>
-  )
-  <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> mutating_code))
-}
-comparison_df &lt;-<span class="st"> </span>comparison_df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">gather</span>(iterations, value, <span class="op">-</span>state_space) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">iterations =</span> <span class="kw">as.integer</span>(iterations))</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">comparison_df &lt;-<span class="st"> </span><span class="kw">tibble</span>(state_space)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>(max_iter <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)) {</a>
+<a class="sourceLine" id="cb4-3" title="3">  mutating_code &lt;-<span class="st"> </span><span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="st">&quot;comparison_df &lt;- comparison_df %&gt;% &quot;</span>,</a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="st">&quot;mutate(`&quot;</span>, i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;` = state_space == X[i])&quot;</span></a>
+<a class="sourceLine" id="cb4-6" title="6">  )</a>
+<a class="sourceLine" id="cb4-7" title="7">  <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> mutating_code))</a>
+<a class="sourceLine" id="cb4-8" title="8">}</a>
+<a class="sourceLine" id="cb4-9" title="9">comparison_df &lt;-<span class="st"> </span>comparison_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="st">    </span><span class="kw">gather</span>(iterations, value, <span class="op">-</span>state_space) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">iterations =</span> <span class="kw">as.integer</span>(iterations))</a></code></pre></div>
 <p>We shall now <code>left_join</code> <code>state_df</code> and <code>comparison_df</code> using <code>state_space</code> and <code>iterations</code> columns, and create the whole <code>states_df</code> that is ready for generating a .gif file:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">states_df &lt;-<span class="st"> </span>state_df <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">left_join</span>(comparison_df, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;state_space&quot;</span>, <span class="st">&quot;iterations&quot;</span>))</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">states_df &lt;-<span class="st"> </span>state_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">    </span><span class="kw">left_join</span>(comparison_df, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;state_space&quot;</span>, <span class="st">&quot;iterations&quot;</span>))</a></code></pre></div>
 <p>In our <code>gganimate</code> usage, we are basically creating a fast slide show of all the facets. <code>iterations</code> is our facetting variable, which is used in <code>transition_time</code>. Whenever the frog is located at the pad, the image will denote such a state with a red dot, and the rest of the pads will be coloured as black.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anim &lt;-<span class="st"> </span><span class="kw">ggplot</span>(
-    states_df, 
-    <span class="kw">aes</span>(
-        <span class="dt">x =</span> <span class="kw">factor</span>(state_space), <span class="dt">y =</span> pads_point, 
-        <span class="dt">color =</span> value
-    )
-) <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">coord_polar</span>(<span class="dt">start =</span> .<span class="dv">15</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Iteration: {frame_time}&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">transition_time</span>(iterations) <span class="op">+</span>
-<span class="st">    </span><span class="kw">enter_drift</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">exit_drift</span>()
-states_gif &lt;-<span class="st"> </span><span class="kw">animate</span>(
-  anim, <span class="dt">fps =</span> <span class="dv">20</span>,
-  <span class="dt">duration =</span> <span class="dv">78</span>,
-  <span class="dt">start_pause =</span> <span class="dv">2</span>,
-  <span class="dt">end_pause =</span> <span class="dv">2</span>
-)
-<span class="kw">anim_save</span>(<span class="st">&#39;frog.gif&#39;</span>, states_gif)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">anim &lt;-<span class="st"> </span><span class="kw">ggplot</span>(</a>
+<a class="sourceLine" id="cb6-2" title="2">    states_df, </a>
+<a class="sourceLine" id="cb6-3" title="3">    <span class="kw">aes</span>(</a>
+<a class="sourceLine" id="cb6-4" title="4">        <span class="dt">x =</span> <span class="kw">factor</span>(state_space), <span class="dt">y =</span> pads_point, </a>
+<a class="sourceLine" id="cb6-5" title="5">        <span class="dt">color =</span> value</a>
+<a class="sourceLine" id="cb6-6" title="6">    )</a>
+<a class="sourceLine" id="cb6-7" title="7">) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="st">    </span><span class="kw">coord_polar</span>(<span class="dt">start =</span> <span class="fl">.15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Iteration: {frame_time}&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="st">    </span><span class="kw">transition_time</span>(iterations) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="st">    </span><span class="kw">enter_drift</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="st">    </span><span class="kw">exit_drift</span>()</a>
+<a class="sourceLine" id="cb6-16" title="16">states_gif &lt;-<span class="st"> </span><span class="kw">animate</span>(</a>
+<a class="sourceLine" id="cb6-17" title="17">  anim, <span class="dt">fps =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb6-18" title="18">  <span class="dt">duration =</span> <span class="dv">78</span>,</a>
+<a class="sourceLine" id="cb6-19" title="19">  <span class="dt">start_pause =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb6-20" title="20">  <span class="dt">end_pause =</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb6-21" title="21">)</a>
+<a class="sourceLine" id="cb6-22" title="22"><span class="kw">anim_save</span>(<span class="st">&#39;frog.gif&#39;</span>, states_gif)</a></code></pre></div>
 <p>Here’s the .gif file:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">include_graphics</span>(<span class="st">&#39;frog.gif&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">include_graphics</span>(<span class="st">&#39;frog.gif&#39;</span>)</a></code></pre></div>
 <p><img src="frog.gif" style="display: block; margin: auto;" /></p>
 <p>Here’s a slower version (it takes a bit of time to load… 6 seconds?):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">states_gif2 &lt;-<span class="st"> </span><span class="kw">animate</span>(
-  anim, <span class="dt">fps =</span> <span class="dv">20</span>,
-  <span class="dt">duration =</span> <span class="dv">226</span>,
-  <span class="dt">start_pause =</span> <span class="dv">2</span>,
-  <span class="dt">end_pause =</span> <span class="dv">2</span>
-)
-<span class="kw">anim_save</span>(<span class="st">&#39;frog_slower.gif&#39;</span>, states_gif2)
-<span class="kw">include_graphics</span>(<span class="st">&#39;frog_slower.gif&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">states_gif2 &lt;-<span class="st"> </span><span class="kw">animate</span>(</a>
+<a class="sourceLine" id="cb8-2" title="2">  anim, <span class="dt">fps =</span> <span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="dt">duration =</span> <span class="dv">226</span>,</a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="dt">start_pause =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb8-5" title="5">  <span class="dt">end_pause =</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb8-6" title="6">)</a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="kw">anim_save</span>(<span class="st">&#39;frog_slower.gif&#39;</span>, states_gif2)</a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="kw">include_graphics</span>(<span class="st">&#39;frog_slower.gif&#39;</span>)</a></code></pre></div>
 <p><img src="frog_slower.gif" style="display: block; margin: auto;" /></p>
 <p>If your sole purpose is to display, then saving the image file and using <code>include_graphics()</code> is unnecessary. For that purpose, you can just use <code>animate()</code>.</p>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
 <p>R session info:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 18362)
 ## 
 ## Matrix products: default
 ## 
@@ -658,33 +712,33 @@ states_gif &lt;-<span class="st"> </span><span class="kw">animate</span>(
 ## 
 ## other attached packages:
 ## [1] tidyr_0.8.3        gganimate_1.0.3    ggConvexHull_0.1.0
-## [4] ggplot2_3.1.1      dplyr_0.8.1        reticulate_1.12   
-## [7] rmarkdown_1.13     magrittr_1.5       itertools2_0.1.1  
+## [4] ggplot2_3.2.0      dplyr_0.8.3        reticulate_1.12   
+## [7] rmarkdown_1.14     magrittr_1.5       itertools2_0.1.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] prettydoc_0.2.1   progress_1.2.2    tidyselect_0.2.5 
-##  [4] xfun_0.7          purrr_0.3.2       lattice_0.20-38  
-##  [7] colorspace_1.4-1  vctrs_0.1.0       htmltools_0.3.6  
-## [10] yaml_2.2.0        utf8_1.1.4        rlang_0.3.4      
-## [13] pillar_1.4.1      glue_1.3.1        withr_2.1.2      
+##  [1] prettydoc_0.3.0   progress_1.2.2    tidyselect_0.2.5 
+##  [4] xfun_0.8          purrr_0.3.2       lattice_0.20-38  
+##  [7] colorspace_1.4-1  vctrs_0.2.0       htmltools_0.3.6  
+## [10] yaml_2.2.0        utf8_1.1.4        rlang_0.4.0      
+## [13] pillar_1.4.2      glue_1.3.1        withr_2.1.2      
 ## [16] tweenr_1.0.1      plyr_1.8.4        stringr_1.4.0    
 ## [19] munsell_0.5.0     gtable_0.3.0      evaluate_0.14    
 ## [22] labeling_0.3      knitr_1.23        fansi_0.4.0      
 ## [25] Rcpp_1.0.1        readr_1.3.1       scales_1.0.0     
 ## [28] backports_1.1.4   jsonlite_1.6      farver_1.1.0     
-## [31] gridExtra_2.3     hms_0.4.2         png_0.1-7        
-## [34] digest_0.6.19     stringi_1.4.3     grid_3.6.0       
-## [37] cli_1.1.0         tools_3.6.0       lazyeval_0.2.2   
+## [31] gridExtra_2.3     hms_0.5.0         png_0.1-7        
+## [34] digest_0.6.20     stringi_1.4.3     grid_3.6.1       
+## [37] cli_1.1.0         tools_3.6.1       lazyeval_0.2.2   
 ## [40] tibble_2.1.3      crayon_1.3.4      pkgconfig_2.0.2  
 ## [43] zeallot_0.1.0     MASS_7.3-51.4     Matrix_1.2-17    
 ## [46] prettyunits_1.0.2 xml2_1.2.0        assertthat_0.2.1 
 ## [49] rstudioapi_0.10   iterators_1.0.10  R6_2.4.0         
-## [52] compiler_3.6.0</code></pre>
+## [52] compiler_3.6.1</code></pre>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Rosenthal, J. (2019, April 05). STA447/2006 (Stochastic Processes) Lecture Notes, Winter 2019. Retrieved May 21, 2019, from <a href="http://probability.ca/jeff/teaching/1819/sta447/notes.pdf" class="uri">http://probability.ca/jeff/teaching/1819/sta447/notes.pdf</a><a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>Rosenthal, J. (2019, April 05). STA447/2006 (Stochastic Processes) Lecture Notes, Winter 2019. Retrieved May 21, 2019, from <a href="http://probability.ca/jeff/teaching/1819/sta447/notes.pdf" class="uri">http://probability.ca/jeff/teaching/1819/sta447/notes.pdf</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 </section>
@@ -695,7 +749,7 @@ states_gif &lt;-<span class="st"> </span><span class="kw">animate</span>(
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
-        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
+        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>

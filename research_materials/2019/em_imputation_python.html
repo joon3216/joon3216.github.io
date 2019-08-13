@@ -4,9 +4,10 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,11 +87,12 @@
 }
 
 /* new; why: prepare in case of text-align: right */
-#navbar nav ul li#news
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
 {
     padding: 8.5px 0;
     margin: 0;
-}
+} */
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
@@ -423,47 +425,99 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
 <link rel="stylesheet" href="em_imputation_python_files/style.css" type="text/css" />
+
+
+
+
 
 </head>
 
@@ -499,9 +553,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                     </li>
                 </ul>
             </li>
-            <li id="news">
+            <!-- <li id="news">
                 <a href="../../news.html">News</a>
-            </li>
+            </li> -->
             <li>
                 <a href="../../files/resume_junkyu_park.pdf">Resume</a>
             </li>
@@ -522,9 +576,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following Python packages/functions are used:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="im">as</span> dt
-<span class="im">import</span> numpy <span class="im">as</span> np
-<span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="im">as</span> dt</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></a></code></pre></div>
 
 <div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
 <ul style="list-style:none;">
@@ -555,166 +609,166 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p>In this note, I will use <code>np.nan</code> to denote missing components since we are dealing with numeric arrays.</p>
 <p>Let’s generate the data using the same parameters as in the <a href="em_imputation.html">previous note</a>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">np.random.seed(<span class="dv">1024</span>)
-mu <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>])
-Sigma <span class="op">=</span> np.array([[<span class="dv">118</span>, <span class="dv">62</span>, <span class="dv">44</span>], [<span class="dv">62</span>, <span class="dv">49</span>, <span class="dv">17</span>], [<span class="dv">44</span>, <span class="dv">17</span>, <span class="dv">21</span>]])
-n <span class="op">=</span> <span class="dv">400</span>
-X_truth <span class="op">=</span> np.random.multivariate_normal(mu, Sigma, n)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1">np.random.seed(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">mu <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>])</a>
+<a class="sourceLine" id="cb2-3" title="3">Sigma <span class="op">=</span> np.array([[<span class="dv">118</span>, <span class="dv">62</span>, <span class="dv">44</span>], [<span class="dv">62</span>, <span class="dv">49</span>, <span class="dv">17</span>], [<span class="dv">44</span>, <span class="dv">17</span>, <span class="dv">21</span>]])</a>
+<a class="sourceLine" id="cb2-4" title="4">n <span class="op">=</span> <span class="dv">400</span></a>
+<a class="sourceLine" id="cb2-5" title="5">X_truth <span class="op">=</span> np.random.multivariate_normal(mu, Sigma, n)</a></code></pre></div>
 <div id="simulating-np.nans" class="section level2">
 <h2>Simulating <code>np.nan</code>’s</h2>
 <p>Simulating <code>np.nan</code>’s in a numeric array can be done using the same workflow as in <code>simulate_na</code>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> simulate_nan(X, nan_rate):
-    <span class="co">&#39;&#39;&#39;(np.array, number) -&gt; {str: np.array or number}</span>
-<span class="co">    </span>
-<span class="co">    Preconditions:</span>
-<span class="co">    1. np.isnan(X_complete).any() == False</span>
-<span class="co">    2. 0 &lt;= nan_rate &lt;= 1</span>
-<span class="co">    </span>
-<span class="co">    Return the dictionary with four keys where: </span>
-<span class="co">    - Key &#39;X&#39; stores a np.array where some of the entries in X </span>
-<span class="co">      are replaced with np.nan based on nan_rate specified.</span>
-<span class="co">    - Key &#39;C&#39; stores a np.array where each entry is False if the</span>
-<span class="co">      corresponding entry in the key &#39;X&#39;&#39;s np.array is np.nan, and True</span>
-<span class="co">      otherwise.</span>
-<span class="co">    - Key &#39;nan_rate&#39; stores nan_rate specified.</span>
-<span class="co">    - Key &#39;nan_rate_actual&#39; stores the actual proportion of np.nan</span>
-<span class="co">      in the key &#39;X&#39;&#39;s np.array.</span>
-<span class="co">    &#39;&#39;&#39;</span>
-    
-    <span class="co"># Create C matrix; entry is False if missing, and True if observed</span>
-    X_complete <span class="op">=</span> X.copy()
-    nr, nc <span class="op">=</span> X_complete.shape
-    C <span class="op">=</span> np.random.random(nr <span class="op">*</span> nc).reshape(nr, nc) <span class="op">&gt;</span> nan_rate
-    
-    <span class="co"># Check for which i&#39;s we have all components become missing</span>
-    checker <span class="op">=</span> np.where(<span class="bu">sum</span>(C.T) <span class="op">==</span> <span class="dv">0</span>)[<span class="dv">0</span>]
-    <span class="cf">if</span> <span class="bu">len</span>(checker) <span class="op">==</span> <span class="dv">0</span>:
-        <span class="co"># Every X_i has at least one component that is observed,</span>
-        <span class="co"># which is what we want</span>
-        X_complete[C <span class="op">==</span> <span class="va">False</span>] <span class="op">=</span> np.nan
-    <span class="cf">else</span>:
-        <span class="co"># Otherwise, randomly &quot;revive&quot; some components in such X_i&#39;s</span>
-        <span class="cf">for</span> index <span class="kw">in</span> checker:
-            reviving_components <span class="op">=</span> np.random.choice(
-                nc, 
-                <span class="bu">int</span>(np.ceil(nc <span class="op">*</span> np.random.random())), 
-                replace <span class="op">=</span> <span class="va">False</span>
-            )
-            C[index, np.ix_(reviving_components)] <span class="op">=</span> <span class="va">True</span>
-        X_complete[C <span class="op">==</span> <span class="va">False</span>] <span class="op">=</span> np.nan
-    
-    result <span class="op">=</span> {
-        <span class="st">&#39;X&#39;</span>: X_complete,
-        <span class="st">&#39;C&#39;</span>: C,
-        <span class="st">&#39;nan_rate&#39;</span>: nan_rate,
-        <span class="st">&#39;nan_rate_actual&#39;</span>: np.<span class="bu">sum</span>(C <span class="op">==</span> <span class="va">False</span>) <span class="op">/</span> (nr <span class="op">*</span> nc)
-    }
-    
-    <span class="cf">return</span> result</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">def</span> simulate_nan(X, nan_rate):</a>
+<a class="sourceLine" id="cb3-2" title="2">    <span class="co">&#39;&#39;&#39;(np.array, number) -&gt; {str: np.array or number}</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">    </span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">    Preconditions:</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">    1. np.isnan(X_complete).any() == False</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">    2. 0 &lt;= nan_rate &lt;= 1</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">    </span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">    Return the dictionary with four keys where: </span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">    - Key &#39;X&#39; stores a np.array where some of the entries in X </span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">      are replaced with np.nan based on nan_rate specified.</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">    - Key &#39;C&#39; stores a np.array where each entry is False if the</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">      corresponding entry in the key &#39;X&#39;&#39;s np.array is np.nan, and True</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">      otherwise.</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">    - Key &#39;nan_rate&#39; stores nan_rate specified.</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">    - Key &#39;nan_rate_actual&#39; stores the actual proportion of np.nan</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">      in the key &#39;X&#39;&#39;s np.array.</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">    &#39;&#39;&#39;</span></a>
+<a class="sourceLine" id="cb3-18" title="18">    </a>
+<a class="sourceLine" id="cb3-19" title="19">    <span class="co"># Create C matrix; entry is False if missing, and True if observed</span></a>
+<a class="sourceLine" id="cb3-20" title="20">    X_complete <span class="op">=</span> X.copy()</a>
+<a class="sourceLine" id="cb3-21" title="21">    nr, nc <span class="op">=</span> X_complete.shape</a>
+<a class="sourceLine" id="cb3-22" title="22">    C <span class="op">=</span> np.random.random(nr <span class="op">*</span> nc).reshape(nr, nc) <span class="op">&gt;</span> nan_rate</a>
+<a class="sourceLine" id="cb3-23" title="23">    </a>
+<a class="sourceLine" id="cb3-24" title="24">    <span class="co"># Check for which i&#39;s we have all components become missing</span></a>
+<a class="sourceLine" id="cb3-25" title="25">    checker <span class="op">=</span> np.where(<span class="bu">sum</span>(C.T) <span class="op">==</span> <span class="dv">0</span>)[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb3-26" title="26">    <span class="cf">if</span> <span class="bu">len</span>(checker) <span class="op">==</span> <span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb3-27" title="27">        <span class="co"># Every X_i has at least one component that is observed,</span></a>
+<a class="sourceLine" id="cb3-28" title="28">        <span class="co"># which is what we want</span></a>
+<a class="sourceLine" id="cb3-29" title="29">        X_complete[C <span class="op">==</span> <span class="va">False</span>] <span class="op">=</span> np.nan</a>
+<a class="sourceLine" id="cb3-30" title="30">    <span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb3-31" title="31">        <span class="co"># Otherwise, randomly &quot;revive&quot; some components in such X_i&#39;s</span></a>
+<a class="sourceLine" id="cb3-32" title="32">        <span class="cf">for</span> index <span class="kw">in</span> checker:</a>
+<a class="sourceLine" id="cb3-33" title="33">            reviving_components <span class="op">=</span> np.random.choice(</a>
+<a class="sourceLine" id="cb3-34" title="34">                nc, </a>
+<a class="sourceLine" id="cb3-35" title="35">                <span class="bu">int</span>(np.ceil(nc <span class="op">*</span> np.random.random())), </a>
+<a class="sourceLine" id="cb3-36" title="36">                replace <span class="op">=</span> <span class="va">False</span></a>
+<a class="sourceLine" id="cb3-37" title="37">            )</a>
+<a class="sourceLine" id="cb3-38" title="38">            C[index, np.ix_(reviving_components)] <span class="op">=</span> <span class="va">True</span></a>
+<a class="sourceLine" id="cb3-39" title="39">        X_complete[C <span class="op">==</span> <span class="va">False</span>] <span class="op">=</span> np.nan</a>
+<a class="sourceLine" id="cb3-40" title="40">    </a>
+<a class="sourceLine" id="cb3-41" title="41">    result <span class="op">=</span> {</a>
+<a class="sourceLine" id="cb3-42" title="42">        <span class="st">&#39;X&#39;</span>: X_complete,</a>
+<a class="sourceLine" id="cb3-43" title="43">        <span class="st">&#39;C&#39;</span>: C,</a>
+<a class="sourceLine" id="cb3-44" title="44">        <span class="st">&#39;nan_rate&#39;</span>: nan_rate,</a>
+<a class="sourceLine" id="cb3-45" title="45">        <span class="st">&#39;nan_rate_actual&#39;</span>: np.<span class="bu">sum</span>(C <span class="op">==</span> <span class="va">False</span>) <span class="op">/</span> (nr <span class="op">*</span> nc)</a>
+<a class="sourceLine" id="cb3-46" title="46">    }</a>
+<a class="sourceLine" id="cb3-47" title="47">    </a>
+<a class="sourceLine" id="cb3-48" title="48">    <span class="cf">return</span> result</a></code></pre></div>
 <p>As before, <code>nan_rate</code> is set to be <span class="math inline">\(.4\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result <span class="op">=</span> simulate_nan(X_truth, nan_rate <span class="op">=</span> .<span class="dv">4</span>)
-X <span class="op">=</span> result[<span class="st">&#39;X&#39;</span>].copy()</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">result <span class="op">=</span> simulate_nan(X_truth, nan_rate <span class="op">=</span> <span class="fl">.4</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2">X <span class="op">=</span> result[<span class="st">&#39;X&#39;</span>].copy()</a></code></pre></div>
 <p><code>X</code> is the data with missing components.</p>
 <p>Let’s see if every <span class="math inline">\(X_i\)</span> has at least one observed component:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">(<span class="bu">sum</span>((np.isnan(X) <span class="op">==</span> <span class="va">False</span>).T) <span class="op">==</span> <span class="dv">0</span>).<span class="bu">any</span>() <span class="op">==</span> <span class="va">False</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">(<span class="bu">sum</span>((np.isnan(X) <span class="op">==</span> <span class="va">False</span>).T) <span class="op">==</span> <span class="dv">0</span>).<span class="bu">any</span>() <span class="op">==</span> <span class="va">False</span></a></code></pre></div>
 <pre><code>## True</code></pre>
 <p>Yes, the array of rowsums of <code>C</code> matrix has no <code>0</code> in its element. This implies each row of <code>C</code> contains at least one <span class="math inline">\(1\)</span>, i.e. every <span class="math inline">\(X_i\)</span> has at least one observed component.</p>
 <p>Here’s <code>nan_rate_actual</code>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result[<span class="st">&#39;nan_rate_actual&#39;</span>]</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1">result[<span class="st">&#39;nan_rate_actual&#39;</span>]</a></code></pre></div>
 <pre><code>## 0.3933333333333333</code></pre>
 </div>
 <div id="imputing-np.nans" class="section level2">
 <h2>Imputing <code>np.nan</code>’s</h2>
 <p>In Python, <code>impute_em</code> can be written as follows:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> impute_em(X, max_iter <span class="op">=</span> <span class="dv">3000</span>, eps <span class="op">=</span> <span class="fl">1e-08</span>):
-    <span class="co">&#39;&#39;&#39;(np.array, int, number) -&gt; {str: np.array or int}</span>
-<span class="co">    </span>
-<span class="co">    Precondition: max_iter &gt;= 1 and eps &gt; 0</span>
-<span class="co">    </span>
-<span class="co">    Return the dictionary with five keys where:</span>
-<span class="co">    - Key &#39;mu&#39; stores the mean estimate of the imputed data.</span>
-<span class="co">    - Key &#39;Sigma&#39; stores the variance estimate of the imputed data.</span>
-<span class="co">    - Key &#39;X_imputed&#39; stores the imputed data that is mutated from X using </span>
-<span class="co">      the EM algorithm.</span>
-<span class="co">    - Key &#39;C&#39; stores the np.array that specifies the original missing entries</span>
-<span class="co">      of X.</span>
-<span class="co">    - Key &#39;iteration&#39; stores the number of iteration used to compute</span>
-<span class="co">      &#39;X_imputed&#39; based on max_iter and eps specified.</span>
-<span class="co">    &#39;&#39;&#39;</span>
-    
-    nr, nc <span class="op">=</span> X.shape
-    C <span class="op">=</span> np.isnan(X) <span class="op">==</span> <span class="va">False</span>
-    
-    <span class="co"># Collect M_i and O_i&#39;s</span>
-    one_to_nc <span class="op">=</span> np.arange(<span class="dv">1</span>, nc <span class="op">+</span> <span class="dv">1</span>, step <span class="op">=</span> <span class="dv">1</span>)
-    M <span class="op">=</span> one_to_nc <span class="op">*</span> (C <span class="op">==</span> <span class="va">False</span>) <span class="op">-</span> <span class="dv">1</span>
-    O <span class="op">=</span> one_to_nc <span class="op">*</span> C <span class="op">-</span> <span class="dv">1</span>
-    
-    <span class="co"># Generate Mu_0 and Sigma_0</span>
-    Mu <span class="op">=</span> np.nanmean(X, axis <span class="op">=</span> <span class="dv">0</span>)
-    observed_rows <span class="op">=</span> np.where(np.isnan(<span class="bu">sum</span>(X.T)) <span class="op">==</span> <span class="va">False</span>)[<span class="dv">0</span>]
-    S <span class="op">=</span> np.cov(X[observed_rows, ].T)
-    <span class="cf">if</span> np.isnan(S).<span class="bu">any</span>():
-        S <span class="op">=</span> np.diag(np.nanvar(X, axis <span class="op">=</span> <span class="dv">0</span>))
-    
-    <span class="co"># Start updating</span>
-    Mu_tilde, S_tilde <span class="op">=</span> {}, {}
-    X_tilde <span class="op">=</span> X.copy()
-    no_conv <span class="op">=</span> <span class="va">True</span>
-    iteration <span class="op">=</span> <span class="dv">0</span>
-    <span class="cf">while</span> no_conv <span class="kw">and</span> iteration <span class="op">&lt;</span> max_iter:
-        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nr):
-            S_tilde[i] <span class="op">=</span> np.zeros(nc <span class="op">**</span> <span class="dv">2</span>).reshape(nc, nc)
-            <span class="cf">if</span> <span class="bu">set</span>(O[i, ]) <span class="op">!=</span> <span class="bu">set</span>(one_to_nc <span class="op">-</span> <span class="dv">1</span>): <span class="co"># missing component exists</span>
-                M_i, O_i <span class="op">=</span> M[i, ][M[i, ] <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>], O[i, ][O[i, ] <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>]
-                S_MM <span class="op">=</span> S[np.ix_(M_i, M_i)]
-                S_MO <span class="op">=</span> S[np.ix_(M_i, O_i)]
-                S_OM <span class="op">=</span> S_MO.T
-                S_OO <span class="op">=</span> S[np.ix_(O_i, O_i)]
-                Mu_tilde[i] <span class="op">=</span> Mu[np.ix_(M_i)] <span class="op">+\</span>
-                    S_MO <span class="op">@</span> np.linalg.inv(S_OO) <span class="op">@\</span>
-                    (X_tilde[i, O_i] <span class="op">-</span> Mu[np.ix_(O_i)])
-                X_tilde[i, M_i] <span class="op">=</span> Mu_tilde[i]
-                S_MM_O <span class="op">=</span> S_MM <span class="op">-</span> S_MO <span class="op">@</span> np.linalg.inv(S_OO) <span class="op">@</span> S_OM
-                S_tilde[i][np.ix_(M_i, M_i)] <span class="op">=</span> S_MM_O
-        Mu_new <span class="op">=</span> np.mean(X_tilde, axis <span class="op">=</span> <span class="dv">0</span>)
-        S_new <span class="op">=</span> np.cov(X_tilde.T, bias <span class="op">=</span> <span class="dv">1</span>) <span class="op">+\</span>
-            <span class="bu">reduce</span>(np.add, S_tilde.values()) <span class="op">/</span> nr
-        no_conv <span class="op">=\</span>
-            np.linalg.norm(Mu <span class="op">-</span> Mu_new) <span class="op">&gt;=</span> eps <span class="kw">or</span><span class="op">\</span>
-            np.linalg.norm(S <span class="op">-</span> S_new, <span class="bu">ord</span> <span class="op">=</span> <span class="dv">2</span>) <span class="op">&gt;=</span> eps
-        Mu <span class="op">=</span> Mu_new
-        S <span class="op">=</span> S_new
-        iteration <span class="op">+=</span> <span class="dv">1</span>
-    
-    result <span class="op">=</span> {
-        <span class="st">&#39;mu&#39;</span>: Mu,
-        <span class="st">&#39;Sigma&#39;</span>: S,
-        <span class="st">&#39;X_imputed&#39;</span>: X_tilde,
-        <span class="st">&#39;C&#39;</span>: C,
-        <span class="st">&#39;iteration&#39;</span>: iteration
-    }
-    
-    <span class="cf">return</span> result</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">def</span> impute_em(X, max_iter <span class="op">=</span> <span class="dv">3000</span>, eps <span class="op">=</span> <span class="fl">1e-08</span>):</a>
+<a class="sourceLine" id="cb9-2" title="2">    <span class="co">&#39;&#39;&#39;(np.array, int, number) -&gt; {str: np.array or int}</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">    </span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">    Precondition: max_iter &gt;= 1 and eps &gt; 0</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">    </span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">    Return the dictionary with five keys where:</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">    - Key &#39;mu&#39; stores the mean estimate of the imputed data.</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">    - Key &#39;Sigma&#39; stores the variance estimate of the imputed data.</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">    - Key &#39;X_imputed&#39; stores the imputed data that is mutated from X using </span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">      the EM algorithm.</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">    - Key &#39;C&#39; stores the np.array that specifies the original missing entries</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">      of X.</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">    - Key &#39;iteration&#39; stores the number of iteration used to compute</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="co">      &#39;X_imputed&#39; based on max_iter and eps specified.</span></a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">    &#39;&#39;&#39;</span></a>
+<a class="sourceLine" id="cb9-16" title="16">    </a>
+<a class="sourceLine" id="cb9-17" title="17">    nr, nc <span class="op">=</span> X.shape</a>
+<a class="sourceLine" id="cb9-18" title="18">    C <span class="op">=</span> np.isnan(X) <span class="op">==</span> <span class="va">False</span></a>
+<a class="sourceLine" id="cb9-19" title="19">    </a>
+<a class="sourceLine" id="cb9-20" title="20">    <span class="co"># Collect M_i and O_i&#39;s</span></a>
+<a class="sourceLine" id="cb9-21" title="21">    one_to_nc <span class="op">=</span> np.arange(<span class="dv">1</span>, nc <span class="op">+</span> <span class="dv">1</span>, step <span class="op">=</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb9-22" title="22">    M <span class="op">=</span> one_to_nc <span class="op">*</span> (C <span class="op">==</span> <span class="va">False</span>) <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb9-23" title="23">    O <span class="op">=</span> one_to_nc <span class="op">*</span> C <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb9-24" title="24">    </a>
+<a class="sourceLine" id="cb9-25" title="25">    <span class="co"># Generate Mu_0 and Sigma_0</span></a>
+<a class="sourceLine" id="cb9-26" title="26">    Mu <span class="op">=</span> np.nanmean(X, axis <span class="op">=</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb9-27" title="27">    observed_rows <span class="op">=</span> np.where(np.isnan(<span class="bu">sum</span>(X.T)) <span class="op">==</span> <span class="va">False</span>)[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb9-28" title="28">    S <span class="op">=</span> np.cov(X[observed_rows, ].T)</a>
+<a class="sourceLine" id="cb9-29" title="29">    <span class="cf">if</span> np.isnan(S).<span class="bu">any</span>():</a>
+<a class="sourceLine" id="cb9-30" title="30">        S <span class="op">=</span> np.diag(np.nanvar(X, axis <span class="op">=</span> <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb9-31" title="31">    </a>
+<a class="sourceLine" id="cb9-32" title="32">    <span class="co"># Start updating</span></a>
+<a class="sourceLine" id="cb9-33" title="33">    Mu_tilde, S_tilde <span class="op">=</span> {}, {}</a>
+<a class="sourceLine" id="cb9-34" title="34">    X_tilde <span class="op">=</span> X.copy()</a>
+<a class="sourceLine" id="cb9-35" title="35">    no_conv <span class="op">=</span> <span class="va">True</span></a>
+<a class="sourceLine" id="cb9-36" title="36">    iteration <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb9-37" title="37">    <span class="cf">while</span> no_conv <span class="kw">and</span> iteration <span class="op">&lt;</span> max_iter:</a>
+<a class="sourceLine" id="cb9-38" title="38">        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nr):</a>
+<a class="sourceLine" id="cb9-39" title="39">            S_tilde[i] <span class="op">=</span> np.zeros(nc <span class="op">**</span> <span class="dv">2</span>).reshape(nc, nc)</a>
+<a class="sourceLine" id="cb9-40" title="40">            <span class="cf">if</span> <span class="bu">set</span>(O[i, ]) <span class="op">!=</span> <span class="bu">set</span>(one_to_nc <span class="op">-</span> <span class="dv">1</span>): <span class="co"># missing component exists</span></a>
+<a class="sourceLine" id="cb9-41" title="41">                M_i, O_i <span class="op">=</span> M[i, ][M[i, ] <span class="op">!=</span> <span class="dv">-1</span>], O[i, ][O[i, ] <span class="op">!=</span> <span class="dv">-1</span>]</a>
+<a class="sourceLine" id="cb9-42" title="42">                S_MM <span class="op">=</span> S[np.ix_(M_i, M_i)]</a>
+<a class="sourceLine" id="cb9-43" title="43">                S_MO <span class="op">=</span> S[np.ix_(M_i, O_i)]</a>
+<a class="sourceLine" id="cb9-44" title="44">                S_OM <span class="op">=</span> S_MO.T</a>
+<a class="sourceLine" id="cb9-45" title="45">                S_OO <span class="op">=</span> S[np.ix_(O_i, O_i)]</a>
+<a class="sourceLine" id="cb9-46" title="46">                Mu_tilde[i] <span class="op">=</span> Mu[np.ix_(M_i)] <span class="op">+\</span></a>
+<a class="sourceLine" id="cb9-47" title="47">                    S_MO <span class="op">@</span> np.linalg.inv(S_OO) <span class="op">@\</span></a>
+<a class="sourceLine" id="cb9-48" title="48">                    (X_tilde[i, O_i] <span class="op">-</span> Mu[np.ix_(O_i)])</a>
+<a class="sourceLine" id="cb9-49" title="49">                X_tilde[i, M_i] <span class="op">=</span> Mu_tilde[i]</a>
+<a class="sourceLine" id="cb9-50" title="50">                S_MM_O <span class="op">=</span> S_MM <span class="op">-</span> S_MO <span class="op">@</span> np.linalg.inv(S_OO) <span class="op">@</span> S_OM</a>
+<a class="sourceLine" id="cb9-51" title="51">                S_tilde[i][np.ix_(M_i, M_i)] <span class="op">=</span> S_MM_O</a>
+<a class="sourceLine" id="cb9-52" title="52">        Mu_new <span class="op">=</span> np.mean(X_tilde, axis <span class="op">=</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb9-53" title="53">        S_new <span class="op">=</span> np.cov(X_tilde.T, bias <span class="op">=</span> <span class="dv">1</span>) <span class="op">+\</span></a>
+<a class="sourceLine" id="cb9-54" title="54">            <span class="bu">reduce</span>(np.add, S_tilde.values()) <span class="op">/</span> nr</a>
+<a class="sourceLine" id="cb9-55" title="55">        no_conv <span class="op">=\</span></a>
+<a class="sourceLine" id="cb9-56" title="56">            np.linalg.norm(Mu <span class="op">-</span> Mu_new) <span class="op">&gt;=</span> eps <span class="kw">or</span><span class="op">\</span></a>
+<a class="sourceLine" id="cb9-57" title="57">            np.linalg.norm(S <span class="op">-</span> S_new, <span class="bu">ord</span> <span class="op">=</span> <span class="dv">2</span>) <span class="op">&gt;=</span> eps</a>
+<a class="sourceLine" id="cb9-58" title="58">        Mu <span class="op">=</span> Mu_new</a>
+<a class="sourceLine" id="cb9-59" title="59">        S <span class="op">=</span> S_new</a>
+<a class="sourceLine" id="cb9-60" title="60">        iteration <span class="op">+=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb9-61" title="61">    </a>
+<a class="sourceLine" id="cb9-62" title="62">    result <span class="op">=</span> {</a>
+<a class="sourceLine" id="cb9-63" title="63">        <span class="st">&#39;mu&#39;</span>: Mu,</a>
+<a class="sourceLine" id="cb9-64" title="64">        <span class="st">&#39;Sigma&#39;</span>: S,</a>
+<a class="sourceLine" id="cb9-65" title="65">        <span class="st">&#39;X_imputed&#39;</span>: X_tilde,</a>
+<a class="sourceLine" id="cb9-66" title="66">        <span class="st">&#39;C&#39;</span>: C,</a>
+<a class="sourceLine" id="cb9-67" title="67">        <span class="st">&#39;iteration&#39;</span>: iteration</a>
+<a class="sourceLine" id="cb9-68" title="68">    }</a>
+<a class="sourceLine" id="cb9-69" title="69">    </a>
+<a class="sourceLine" id="cb9-70" title="70">    <span class="cf">return</span> result</a></code></pre></div>
 <p>We can now impute the missing components of <code>X</code>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">start <span class="op">=</span> dt.now()
-result_imputed <span class="op">=</span> impute_em(X)
-end <span class="op">=</span> dt.now()</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1">start <span class="op">=</span> dt.now()</a>
+<a class="sourceLine" id="cb10-2" title="2">result_imputed <span class="op">=</span> impute_em(X)</a>
+<a class="sourceLine" id="cb10-3" title="3">end <span class="op">=</span> dt.now()</a></code></pre></div>
 <p>The estimates are as shown:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result_imputed[<span class="st">&#39;mu&#39;</span>] <span class="co"># estimate using the imputed data</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb11-1" title="1">result_imputed[<span class="st">&#39;mu&#39;</span>] <span class="co"># estimate using the imputed data</span></a></code></pre></div>
 <pre><code>## array([1.54038092, 1.77970878, 6.47510847])</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">mu <span class="co"># truth</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb13-1" title="1">mu <span class="co"># truth</span></a></code></pre></div>
 <pre><code>## array([1, 2, 6])</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result_imputed[<span class="st">&#39;Sigma&#39;</span>] <span class="co"># estimate using the imputed data</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb15-1" title="1">result_imputed[<span class="st">&#39;Sigma&#39;</span>] <span class="co"># estimate using the imputed data</span></a></code></pre></div>
 <pre><code>## array([[120.12963893,  68.4844652 ,  44.27110069],
 ##        [ 68.4844652 ,  55.16383917,  19.13314671],
 ##        [ 44.27110069,  19.13314671,  20.85077943]])</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">Sigma <span class="co"># truth</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb17-1" title="1">Sigma <span class="co"># truth</span></a></code></pre></div>
 <pre><code>## array([[118,  62,  44],
 ##        [ 62,  49,  17],
 ##        [ 44,  17,  21]])</code></pre>
 <p>The imputation is done as follows:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X[np.arange(<span class="dv">0</span>, <span class="dv">9</span>), ] <span class="co"># data with missing components</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb19-1" title="1">X[np.arange(<span class="dv">0</span>, <span class="dv">9</span>), ] <span class="co"># data with missing components</span></a></code></pre></div>
 <pre><code>## array([[-22.51504305,          nan,          nan],
 ##        [ -4.13801604,          nan,          nan],
 ##        [ -6.96117925,  -4.78845229,   1.21653198],
@@ -724,7 +778,7 @@ end <span class="op">=</span> dt.now()</code></pre></div>
 ##        [         nan,  -5.44848469,   4.44208904],
 ##        [ -4.17891721,  -3.48215875,   4.29849034],
 ##        [-11.29647092,   1.28621915,          nan]])</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result_imputed[<span class="st">&#39;X_imputed&#39;</span>][np.arange(<span class="dv">0</span>, <span class="dv">9</span>), ] <span class="co"># imputed data</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb21-1" title="1">result_imputed[<span class="st">&#39;X_imputed&#39;</span>][np.arange(<span class="dv">0</span>, <span class="dv">9</span>), ] <span class="co"># imputed data</span></a></code></pre></div>
 <pre><code>## array([[-22.51504305, -11.93399968,  -2.38998182],
 ##        [ -4.13801604,  -1.45747717,   4.38246185],
 ##        [ -6.96117925,  -4.78845229,   1.21653198],
@@ -734,7 +788,7 @@ end <span class="op">=</span> dt.now()</code></pre></div>
 ##        [ -6.74901264,  -5.44848469,   4.44208904],
 ##        [ -4.17891721,  -3.48215875,   4.29849034],
 ##        [-11.29647092,   1.28621915,  -0.84012076]])</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">X_truth[np.arange(<span class="dv">0</span>, <span class="dv">9</span>), ] <span class="co"># truth</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb23-1" title="1">X_truth[np.arange(<span class="dv">0</span>, <span class="dv">9</span>), ] <span class="co"># truth</span></a></code></pre></div>
 <pre><code>## array([[-22.51504305, -11.21931542,  -0.31680441],
 ##        [ -4.13801604,  -3.3813311 ,   3.97850866],
 ##        [ -6.96117925,  -4.78845229,   1.21653198],
@@ -749,11 +803,11 @@ end <span class="op">=</span> dt.now()</code></pre></div>
 <div id="comparison-with-the-r-function" class="section level1">
 <h1>3. Comparison with the R function</h1>
 <p>It takes:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="bu">str</span>(end <span class="op">-</span> start)</code></pre></div>
-<pre><code>## &#39;0:00:09.310273&#39;</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" title="1"><span class="bu">str</span>(end <span class="op">-</span> start)</a></code></pre></div>
+<pre><code>## &#39;0:00:04.949765&#39;</code></pre>
 <p>seconds to impute <code>X</code> in Python. Using the same <code>X</code>, let’s see how long the process takes in R. I am using a different name (<code>impute_em_R</code>) for the R function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span>py<span class="op">$</span>X
-<span class="kw">head</span>(X, <span class="dt">n =</span> <span class="dv">9</span>)</code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">X &lt;-<span class="st"> </span>py<span class="op">$</span>X</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">head</span>(X, <span class="dt">n =</span> <span class="dv">9</span>)</a></code></pre></div>
 <pre><code>##             [,1]      [,2]     [,3]
 ##  [1,] -22.515043       NaN      NaN
 ##  [2,]  -4.138016       NaN      NaN
@@ -765,35 +819,35 @@ end <span class="op">=</span> dt.now()</code></pre></div>
 ##  [8,]  -4.178917 -3.482159 4.298490
 ##  [9,] -11.296471  1.286219      NaN</code></pre>
 <p>We don’t need to replace <code>NaN</code>’s with <code>NA</code>’s because <code>is.na(NaN)</code> returns <code>TRUE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">start_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()
-result_imputed_R &lt;-<span class="st"> </span><span class="kw">impute_em_R</span>(X)
-end_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">start_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</a>
+<a class="sourceLine" id="cb29-2" title="2">result_imputed_R &lt;-<span class="st"> </span><span class="kw">impute_em_R</span>(X)</a>
+<a class="sourceLine" id="cb29-3" title="3">end_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</a></code></pre></div>
 <p>Let’s first check if two functions yield the same result:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result_imputed[<span class="st">&#39;mu&#39;</span>]</code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb30-1" title="1">result_imputed[<span class="st">&#39;mu&#39;</span>]</a></code></pre></div>
 <pre><code>## array([1.54038092, 1.77970878, 6.47510847])</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result_imputed_R<span class="op">$</span>mu</code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">result_imputed_R<span class="op">$</span>mu</a></code></pre></div>
 <pre><code>## [1] 1.540381 1.779709 6.475108</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">result_imputed[<span class="st">&#39;Sigma&#39;</span>]</code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" title="1">result_imputed[<span class="st">&#39;Sigma&#39;</span>]</a></code></pre></div>
 <pre><code>## array([[120.12963893,  68.4844652 ,  44.27110069],
 ##        [ 68.4844652 ,  55.16383917,  19.13314671],
 ##        [ 44.27110069,  19.13314671,  20.85077943]])</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result_imputed_R<span class="op">$</span>Sigma</code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">result_imputed_R<span class="op">$</span>Sigma</a></code></pre></div>
 <pre><code>##           [,1]     [,2]     [,3]
 ## [1,] 120.12964 68.48447 44.27110
 ## [2,]  68.48447 55.16384 19.13315
 ## [3,]  44.27110 19.13315 20.85078</code></pre>
 <p>They are all the same, as they should be. What about the time it took to impute in R?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">end_R <span class="op">-</span><span class="st"> </span>start_R</code></pre></div>
-<pre><code>## Time difference of 2.976123 secs</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">end_R <span class="op">-</span><span class="st"> </span>start_R</a></code></pre></div>
+<pre><code>## Time difference of 3.267267 secs</code></pre>
 <p>Interestingly, R is about 2.5 times as fast as Python for this particular process. One explanation is that in <code>impute_em</code> written in Python, indices corresponding to <code>M_i</code> and <code>O_i</code> are extracted in each iteration of nested loop (for-loop inside the while-loop), whereas all of <code>M_i</code> and <code>O_i</code> are extracted using <code>lapply</code> in R before going over the loops.</p>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
 <p>R session info:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 18362)
 ## 
 ## Matrix products: default
 ## 
@@ -806,37 +860,37 @@ end_R &lt;-<span class="st"> </span><span class="kw">Sys.time</span>()</code></p
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggConvexHull_0.1.0 ggplot2_3.1.1      dplyr_0.8.1       
-## [4] reticulate_1.12    rmarkdown_1.13     magrittr_1.5      
+## [1] ggConvexHull_0.1.0 ggplot2_3.2.0      dplyr_0.8.3       
+## [4] reticulate_1.12    rmarkdown_1.14     magrittr_1.5      
 ## [7] itertools2_0.1.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.0   pillar_1.4.1    
-##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      zeallot_0.1.0   
-##  [9] digest_0.6.19    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
+##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.1   pillar_1.4.2    
+##  [5] prettydoc_0.3.0  iterators_1.0.10 tools_3.6.1      zeallot_0.1.0   
+##  [9] digest_0.6.20    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
 ## [13] gtable_0.3.0     lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2 
-## [17] rlang_0.3.4      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
-## [21] yaml_2.2.0       xfun_0.7         gridExtra_2.3    withr_2.1.2     
-## [25] stringr_1.4.0    xml2_1.2.0       knitr_1.23       vctrs_0.1.0     
-## [29] hms_0.4.2        grid_3.6.0       tidyselect_0.2.5 glue_1.3.1      
+## [17] rlang_0.4.0      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
+## [21] yaml_2.2.0       xfun_0.8         gridExtra_2.3    withr_2.1.2     
+## [25] stringr_1.4.0    xml2_1.2.0       knitr_1.23       vctrs_0.2.0     
+## [29] hms_0.5.0        grid_3.6.1       tidyselect_0.2.5 glue_1.3.1      
 ## [33] R6_2.4.0         fansi_0.4.0      readr_1.3.1      tidyr_0.8.3     
 ## [37] purrr_0.3.2      MASS_7.3-51.4    backports_1.1.4  scales_1.0.0    
 ## [41] htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1 labeling_0.3    
 ## [45] utf8_1.1.4       stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0   
 ## [49] crayon_1.3.4</code></pre>
 <p>Python session info:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> sinfo
-sinfo.sinfo()</code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb42-1" title="1"><span class="im">import</span> sinfo</a>
+<a class="sourceLine" id="cb42-2" title="2">sinfo.sinfo()</a></code></pre></div>
 <pre><code>## -----
 ## matplotlib   3.0.2
 ## numpy        1.15.0
 ## scipy        1.1.0
 ## -----
 ## Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 23:09:28) [MSC v.1916 64 bit (AMD64)]
-## Windows-10-10.0.17763
+## Windows-10-10.0.18362-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-06-24 00:28</code></pre>
+## Session information updated at 2019-08-13 16:35</code></pre>
 </div>
 <div id="related-pages" class="section level1">
 <h1>Related pages</h1>
@@ -853,7 +907,7 @@ sinfo.sinfo()</code></pre></div>
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
-        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
+        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>

@@ -18,4 +18,187 @@ output:
     self_contained: FALSE
 ---
 
-To be continued
+```{r setup, echo = F}
+knitr::opts_chunk$set(python = reticulate::eng_python)
+```
+
+The following packages are used:
+
+```{python packages_loaded}
+import matplotlib.pyplot as plt
+import pandas as pd
+import sudsoln as ss # ver 0.1.0
+```
+
+`sudsoln` package is used to solve [95 hard questions](https://norvig.com/top95.txt) and [11 hardest](https://norvig.com/hardest.txt) questions posted on Dr. Peter Norvig's [website](https://norvig.com/sudoku.html).
+
+```{r packages, warning = F, message = F}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tidyr)
+```
+
+# 1. Summary
+
+The following [script](../../../sudsoln_solving.py) has run on the command line, and the results have been saved as a [.csv file](../../../result_sudsoln.csv).
+
+
+
+Questions:
+
+1. How many of them are solved?
+2. How many of them are solved logically?
+3. How long did it take to solve them?
+
+
+```{r reading, warning = F, message = F}
+top95_result <- read_csv(
+    '../../../files/result_top95.csv', 
+    col_types = 'ccil'
+)
+glimpse(top95_result)
+```
+
+```{r millisecond_handler}
+count_milli <- function(x) {
+    hours <- as.numeric(substr(x, 1, 1))
+    minutes <- as.numeric(substr(x, 3, 4))
+    seconds <- as.numeric(substring(x, 6))
+    hours * 3600 + minutes * 60 + seconds
+}
+```
+
+```{r clean}
+(
+top95_result <- top95_result %>%
+    mutate(
+        result = gsub("'", "", result),
+        time = count_milli(time)
+    )
+)
+```
+
+```{r summary}
+top95_result %>% summary()
+```
+
+```{r plots, fig.asp = .6, fig.align = 'center'}
+top95_result %>% 
+ggplot(aes(x = trial, y = time)) +
+    geom_point()
+top95_result %>%
+    select(time, trial) %>%
+    gather(key, value) %>%
+ggplot(aes(x = key, y = value)) +
+    geom_boxplot() +
+    labs(x = '', y = 'Value')
+```
+
+```{r solved_logically}
+top95_result %>%
+    filter(trial == 0)
+```
+
+```{r hardest, fig.asp = .6, fig.align = 'center'}
+hardest_result <- read_csv(
+    '../../../files/result_hardest.csv', 
+    col_types = 'ccil'
+) %>%
+    mutate(
+        result = gsub("'", "", result),
+        time = count_milli(time)
+    )
+hardest_result %>% summary()
+hardest_result %>%
+ggplot(aes(x = trial, y = time)) +
+  geom_point()
+```
+
+
+```{r filtered_time}
+top95_result %>%
+  mutate(trial_group = ifelse(trial == 0, 'logical', 'forceful')) %>%
+  group_by(trial_group) %>%
+  summarize(meantime = mean(time))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,9 +4,10 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,11 +87,12 @@
 }
 
 /* new; why: prepare in case of text-align: right */
-#navbar nav ul li#news
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
 {
     padding: 8.5px 0;
     margin: 0;
-}
+} */
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
@@ -423,47 +425,99 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
 <link rel="stylesheet" href="visualizing_confidence_regions_files/style.css" type="text/css" />
+
+
+
+
 
 </head>
 
@@ -499,9 +553,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                     </li>
                 </ul>
             </li>
-            <li id="news">
+            <!-- <li id="news">
                 <a href="../../news.html">News</a>
-            </li>
+            </li> -->
             <li>
                 <a href="../../files/resume_junkyu_park.pdf">Resume</a>
             </li>
@@ -522,11 +576,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following external R packages and data are used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-<span class="kw">library</span>(ggplot2)
-ddply &lt;-<span class="st"> </span>plyr<span class="op">::</span>ddply
-gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather
-<span class="kw">data</span>(frets, <span class="dt">package =</span> <span class="st">&#39;boot&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-3" title="3">ddply &lt;-<span class="st"> </span>plyr<span class="op">::</span>ddply</a>
+<a class="sourceLine" id="cb1-4" title="4">gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">data</span>(frets, <span class="dt">package =</span> <span class="st">&#39;boot&#39;</span>)</a></code></pre></div>
 
 <div id="TOC" class="toc" style="padding: 2rem 2rem 0 0;">
 <ul style="list-style: none;">
@@ -551,47 +605,47 @@ gather &lt;-<span class="st"> </span>tidyr<span class="op">::</span>gather
 <p>Suppose <span class="math inline">\(X_i \stackrel{iid}{\sim} N(\mu, \sigma^2)\)</span>. One can onstruct a 95% confidence interval for <span class="math inline">\(\mu\)</span> as: <span class="math display">\[CI_{\mu, .95} = \Big(\overline{X} - \frac{S}{\sqrt{n}} t_{.975, n - 1}, \text{ } \overline{X} + \frac{S}{\sqrt{n}} t_{.975, n - 1}\Big)\]</span> where <span class="math inline">\(S = \sqrt{S^2}\)</span> and <span class="math inline">\(t_{.975, n - 1} = t^*\)</span> is the value that satisfies <span class="math inline">\(P(T \leq t^*) = .975\)</span>, <span class="math inline">\(T \sim t_{n - 1}\)</span>. The meaning of <span class="math inline">\(P(\mu \in CI_{\mu, .95}) = .95\)</span> is that the probability of the true parameter <span class="math inline">\(\mu\)</span> being contained in this <strong>random</strong> interval <span class="math inline">\(CI_{\mu, .95}\)</span> (i.e. interval constructed with random variables) is <span class="math inline">\(.95\)</span>, or <span class="math inline">\(95\%\)</span>.</p>
 <p>If this CI is constructed with <strong>data</strong> and <strong>not random variables</strong>, then <span class="math inline">\(P(\mu \in CI_{\mu, .95}) = .95\)</span> makes no sense because <span class="math inline">\(CI_{\mu, .95}\)</span> is then a fixed interval. When using data: <span class="math display">\[P(\mu \in CI_{\mu, .95}) = P \Big(\mu \in (\overline{x} - \frac{s}{\sqrt{n}} t_{.975, n - 1}, \text{ } \overline{x} + \frac{s}{\sqrt{n}} t_{.975, n - 1}) \Big) = I(\mu \in CI_{\mu, .95})\]</span> since a constant <span class="math inline">\(\mu\)</span> is either contained in <span class="math inline">\(CI_{\mu, .95}\)</span> or not. The meaning of a 95% CI <em>constructed with data</em> is that if we replicate the same experiment or a data-generating process 100 times, and compute CIs in each replication in the same manner, then out of those 100, about 95 of them will contain the true parameter <span class="math inline">\(\mu\)</span>.</p>
 <p>The plot below explains what this means. To simulate an unknown variance, I will use <span class="math inline">\(\sigma^2 = u\)</span> where <span class="math inline">\(u\)</span> is some sample generated from <span class="math inline">\(\text{Unif}(.5, 1.5)\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
-
-<span class="co"># Settings</span>
-conf_lvl &lt;-<span class="st"> </span>.<span class="dv">95</span>
-num_of_ci &lt;-<span class="st"> </span><span class="dv">100</span>
-n &lt;-<span class="st"> </span><span class="dv">1000</span>
-true_mean &lt;-<span class="st"> </span><span class="dv">0</span>
-true_var &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, .<span class="dv">5</span>, <span class="dv">5</span>) <span class="co"># i.e. we don&#39;t know the true variance</span>
-
-<span class="co"># Collect lower and upper bounds of CI&#39;s</span>
-CI_collections &lt;-<span class="st"> </span><span class="ot">NULL</span>
-t_star &lt;-<span class="st"> </span><span class="kw">qt</span>((<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>conf_lvl) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">df =</span> n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_of_ci) {
-    X &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">mean =</span> true_mean, <span class="dt">sd =</span> <span class="kw">sqrt</span>(true_var))
-    lower &lt;-<span class="st"> </span><span class="kw">mean</span>(X) <span class="op">-</span><span class="st"> </span>(<span class="kw">sd</span>(X) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)) <span class="op">*</span><span class="st"> </span>t_star
-    upper &lt;-<span class="st"> </span><span class="kw">mean</span>(X) <span class="op">+</span><span class="st"> </span>(<span class="kw">sd</span>(X) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)) <span class="op">*</span><span class="st"> </span>t_star
-    contains &lt;-<span class="st"> </span>lower <span class="op">&lt;</span><span class="st"> </span>true_mean <span class="op">&amp;&amp;</span><span class="st"> </span>true_mean <span class="op">&lt;</span><span class="st"> </span>upper
-    CI_collections &lt;-<span class="st"> </span><span class="kw">rbind</span>(CI_collections, <span class="kw">c</span>(lower, upper, contains))
-}
-
-<span class="co"># Plot CI&#39;s</span>
-CI_collections <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    &#39;colnames&lt;-&#39;</span>(<span class="kw">c</span>(<span class="st">&#39;lower&#39;</span>, <span class="st">&#39;upper&#39;</span>, <span class="st">&#39;contains&#39;</span>)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">mutate</span>(
-        <span class="dt">CI_number =</span> <span class="dv">1</span><span class="op">:</span>num_of_ci,
-        <span class="dt">contains =</span> <span class="kw">as.logical</span>(contains)
-    ) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">gather</span>(key, value, <span class="op">-</span>(CI_number<span class="op">:</span>contains)) <span class="op">%&gt;%</span>
-<span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> CI_number)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">group =</span> CI_number, <span class="dt">col =</span> contains)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Dataset&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;CI&#39;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;top&#39;</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">guides</span>(<span class="dt">col =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&#39;Contains 0&#39;</span>))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co"># Settings</span></a>
+<a class="sourceLine" id="cb2-4" title="4">conf_lvl &lt;-<span class="st"> </span><span class="fl">.95</span></a>
+<a class="sourceLine" id="cb2-5" title="5">num_of_ci &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb2-6" title="6">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb2-7" title="7">true_mean &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb2-8" title="8">true_var &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="fl">.5</span>, <span class="dv">5</span>) <span class="co"># i.e. we don&#39;t know the true variance</span></a>
+<a class="sourceLine" id="cb2-9" title="9"></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co"># Collect lower and upper bounds of CI&#39;s</span></a>
+<a class="sourceLine" id="cb2-11" title="11">CI_collections &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb2-12" title="12">t_star &lt;-<span class="st"> </span><span class="kw">qt</span>((<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>conf_lvl) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">df =</span> n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>num_of_ci) {</a>
+<a class="sourceLine" id="cb2-14" title="14">    X &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">mean =</span> true_mean, <span class="dt">sd =</span> <span class="kw">sqrt</span>(true_var))</a>
+<a class="sourceLine" id="cb2-15" title="15">    lower &lt;-<span class="st"> </span><span class="kw">mean</span>(X) <span class="op">-</span><span class="st"> </span>(<span class="kw">sd</span>(X) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)) <span class="op">*</span><span class="st"> </span>t_star</a>
+<a class="sourceLine" id="cb2-16" title="16">    upper &lt;-<span class="st"> </span><span class="kw">mean</span>(X) <span class="op">+</span><span class="st"> </span>(<span class="kw">sd</span>(X) <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)) <span class="op">*</span><span class="st"> </span>t_star</a>
+<a class="sourceLine" id="cb2-17" title="17">    contains &lt;-<span class="st"> </span>lower <span class="op">&lt;</span><span class="st"> </span>true_mean <span class="op">&amp;&amp;</span><span class="st"> </span>true_mean <span class="op">&lt;</span><span class="st"> </span>upper</a>
+<a class="sourceLine" id="cb2-18" title="18">    CI_collections &lt;-<span class="st"> </span><span class="kw">rbind</span>(CI_collections, <span class="kw">c</span>(lower, upper, contains))</a>
+<a class="sourceLine" id="cb2-19" title="19">}</a>
+<a class="sourceLine" id="cb2-20" title="20"></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co"># Plot CI&#39;s</span></a>
+<a class="sourceLine" id="cb2-22" title="22">CI_collections <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="st">    &#39;colnames&lt;-&#39;</span>(<span class="kw">c</span>(<span class="st">&#39;lower&#39;</span>, <span class="st">&#39;upper&#39;</span>, <span class="st">&#39;contains&#39;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="st">    </span><span class="kw">as_tibble</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="st">    </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb2-26" title="26">        <span class="dt">CI_number =</span> <span class="dv">1</span><span class="op">:</span>num_of_ci,</a>
+<a class="sourceLine" id="cb2-27" title="27">        <span class="dt">contains =</span> <span class="kw">as.logical</span>(contains)</a>
+<a class="sourceLine" id="cb2-28" title="28">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-29" title="29"><span class="st">    </span><span class="kw">gather</span>(key, value, <span class="op">-</span>(CI_number<span class="op">:</span>contains)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-30" title="30"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> CI_number)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-31" title="31"><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">group =</span> CI_number, <span class="dt">col =</span> contains)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-32" title="32"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;Dataset&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;CI&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;top&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-34" title="34"><span class="st">    </span><span class="kw">guides</span>(<span class="dt">col =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&#39;Contains 0&#39;</span>))</a></code></pre></div>
 <p><img src="visualizing_confidence_regions_files/figure-html/bunch_of_cis-1.png" style="display: block; margin: auto;" /></p>
 <p>100 replications are made. In each run, I generate 1000 random samples from <span class="math inline">\(N(0, \sigma^2 = u)\)</span>, compute <span class="math inline">\(CI_{\mu, .95}\)</span>, and see if it contains <span class="math inline">\(\mu = 0\)</span>. We see that out of 100 replications, 4 of them do not contain <span class="math inline">\(\mu = 0\)</span>, i.e. 96 out of 100 contain the true parameter.</p>
 </div>
 <div id="case-2-simple-linear-regression" class="section level2">
 <h2>Case 2: simple linear regression</h2>
 <p>Consider a simple linear regression with <code>frets</code> dataset: <span class="math display">\[y = \beta_0 + \beta_1 x + \varepsilon\]</span></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glimpse</span>(frets)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">glimpse</span>(frets)</a></code></pre></div>
 <pre><code>## Observations: 25
 ## Variables: 4
 ## $ l1 &lt;dbl&gt; 191, 195, 181, 183, 176, 208, 189, 197, 188, 192, 179, 183,...
@@ -599,111 +653,111 @@ CI_collections <span class="op">%&gt;%</span><span class="st"> </span>
 ## $ l2 &lt;dbl&gt; 179, 201, 185, 188, 171, 192, 190, 189, 197, 187, 186, 174,...
 ## $ b2 &lt;dbl&gt; 145, 152, 149, 149, 142, 152, 149, 152, 159, 151, 148, 147,...</code></pre>
 <p>The data consists of the length and breadth of heads of an adult brother pair in 25 randomly sampled families. All measurements are expressed in millimetres. Let’s take <span class="math inline">\(x =\)</span> <code>l1</code> and <span class="math inline">\(y =\)</span> <code>b1</code>, and ask: “Is there a linear relationship between the eldest son’s breadth and length of his head?”</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">X &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Int =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">25</span>), <span class="dt">l1 =</span> frets[, <span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()
-Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</code></pre></div>
-<p>F-statistic gives a confidence <strong>region</strong> under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span> vs. <span class="math inline">\(H_1: \boldsymbol{\beta} \neq \mathbf{c}\)</span>: <span class="math display">\[F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}\]</span> where, in our case, <span class="math inline">\(k = 2\)</span> and <span class="math inline">\(n = 25\)</span>. A <span class="math inline">\(\gamma\)</span>-level confidence region is the set of all <span class="math inline">\(\mathbf{c}\)</span>’s where: <span class="math display">\[F &gt; F_{1 - \gamma} (k, n - k)\]</span> Let <span class="math inline">\(\gamma = .95\)</span> and <span class="math inline">\(\mathbf{c} = \mathbf{0}\)</span>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">X &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Int =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">25</span>), <span class="dt">l1 =</span> frets[, <span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</a>
+<a class="sourceLine" id="cb5-2" title="2">Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</a></code></pre></div>
+<p>F-statistic gives a confidence <strong>region</strong> under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span> vs. <span class="math inline">\(H_1: \boldsymbol{\beta} \neq \mathbf{c}\)</span>: <span class="math display">\[F = \frac{(\hat{\boldsymbol{\beta}} - \mathbf{c})^T(X^T X)(\hat{\boldsymbol{\beta}} - \mathbf{c})/k}{Y^T (I - H) Y / (n - k)} \sim F_{k, n - k}\]</span> where, in our case, <span class="math inline">\(k = 2\)</span> and <span class="math inline">\(n = 25\)</span>. A <span class="math inline">\(\gamma\)</span>-level confidence region is the set of all <span class="math inline">\(\mathbf{c}\)</span>’s where: <span class="math display">\[F &gt; F_{1 - \gamma} (k, n - k)\]</span> Let <span class="math inline">\(\gamma = .95\)</span> and <span class="math inline">\(\mathbf{c} = \mathbf{0}\)</span>.</p>
 <p><code>F_stat</code> is a function that computes <span class="math inline">\(F\)</span>-statistic:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">F_stat &lt;-<span class="st"> </span><span class="cf">function</span>(X, Y, c, <span class="dt">level =</span> .<span class="dv">95</span>) {
-    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)
-    k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)
-    <span class="cf">if</span> (<span class="kw">missing</span>(c)) {c &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, k)}
-    Betahat &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X, <span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y)
-    I_n &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span>, n)
-    H &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X)
-    numer &lt;-<span class="st"> </span><span class="kw">t</span>(Betahat <span class="op">-</span><span class="st"> </span>c) <span class="op">%*%</span><span class="st"> </span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span>(Betahat <span class="op">-</span><span class="st"> </span>c) <span class="op">/</span><span class="st"> </span>k
-    denom &lt;-<span class="st"> </span>(<span class="kw">t</span>(Y) <span class="op">%*%</span><span class="st"> </span>(I_n <span class="op">-</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span>Y) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>k)
-    f_stat &lt;-<span class="st"> </span>(numer <span class="op">/</span><span class="st"> </span>denom)[<span class="dv">1</span>, <span class="dv">1</span>]
-    <span class="kw">list</span>(
-        <span class="dt">c =</span> c, 
-        <span class="dt">f_stat =</span> f_stat, <span class="dt">df1 =</span> k, <span class="dt">df2 =</span> n <span class="op">-</span><span class="st"> </span>k,
-        <span class="dt">p_val =</span> <span class="kw">pf</span>(f_stat, <span class="dt">df1 =</span> k, <span class="dt">df2 =</span> n <span class="op">-</span><span class="st"> </span>k, <span class="dt">lower =</span> F)
-    )
-}</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">F_stat &lt;-<span class="st"> </span><span class="cf">function</span>(X, Y, c, <span class="dt">level =</span> <span class="fl">.95</span>) {</a>
+<a class="sourceLine" id="cb6-2" title="2">    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb6-3" title="3">    k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</a>
+<a class="sourceLine" id="cb6-4" title="4">    <span class="cf">if</span> (<span class="kw">missing</span>(c)) {c &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, k)}</a>
+<a class="sourceLine" id="cb6-5" title="5">    Betahat &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X, <span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y)</a>
+<a class="sourceLine" id="cb6-6" title="6">    I_n &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span>, n)</a>
+<a class="sourceLine" id="cb6-7" title="7">    H &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X)</a>
+<a class="sourceLine" id="cb6-8" title="8">    numer &lt;-<span class="st"> </span><span class="kw">t</span>(Betahat <span class="op">-</span><span class="st"> </span>c) <span class="op">%*%</span><span class="st"> </span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span>(Betahat <span class="op">-</span><span class="st"> </span>c) <span class="op">/</span><span class="st"> </span>k</a>
+<a class="sourceLine" id="cb6-9" title="9">    denom &lt;-<span class="st"> </span>(<span class="kw">t</span>(Y) <span class="op">%*%</span><span class="st"> </span>(I_n <span class="op">-</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span>Y) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>k)</a>
+<a class="sourceLine" id="cb6-10" title="10">    f_stat &lt;-<span class="st"> </span>(numer <span class="op">/</span><span class="st"> </span>denom)[<span class="dv">1</span>, <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb6-11" title="11">    <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb6-12" title="12">        <span class="dt">c =</span> c, </a>
+<a class="sourceLine" id="cb6-13" title="13">        <span class="dt">f_stat =</span> f_stat, <span class="dt">df1 =</span> k, <span class="dt">df2 =</span> n <span class="op">-</span><span class="st"> </span>k,</a>
+<a class="sourceLine" id="cb6-14" title="14">        <span class="dt">p_val =</span> <span class="kw">pf</span>(f_stat, <span class="dt">df1 =</span> k, <span class="dt">df2 =</span> n <span class="op">-</span><span class="st"> </span>k, <span class="dt">lower =</span> F)</a>
+<a class="sourceLine" id="cb6-15" title="15">    )</a>
+<a class="sourceLine" id="cb6-16" title="16">}</a></code></pre></div>
 <p>CIs for each <span class="math inline">\(\beta_i\)</span> are computed with the <code>CIs</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CIs &lt;-<span class="st"> </span><span class="cf">function</span>(X, Y, c, <span class="dt">level =</span> .<span class="dv">95</span>, <span class="dt">has_intercept =</span> T) {
-    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)
-    k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)
-    <span class="cf">if</span> (<span class="kw">missing</span>(c)) {c &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, k)}
-    Betahat &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X, <span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y)
-    I_n &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span>, n)
-    H &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X)
-    CI &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">0</span>, k <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)
-    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>k) {
-        betahat_i &lt;-<span class="st"> </span>Betahat[i, ]
-        se_i &lt;-<span class="st"> </span><span class="kw">sqrt</span>(
-            ((<span class="kw">t</span>(Y) <span class="op">%*%</span><span class="st"> </span>(I_n <span class="op">-</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span>Y) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>k)) <span class="op">*</span>
-<span class="st">                </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X)[i, i]
-        )
-        t_star &lt;-<span class="st"> </span><span class="kw">qt</span>((<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>level) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">df =</span> n <span class="op">-</span><span class="st"> </span>k)
-        CI[i, ] &lt;-<span class="st"> </span><span class="kw">c</span>(betahat_i <span class="op">-</span><span class="st"> </span>se_i <span class="op">*</span><span class="st"> </span>t_star, betahat_i <span class="op">+</span><span class="st"> </span>se_i <span class="op">*</span><span class="st"> </span>t_star) 
-    }
-    <span class="kw">colnames</span>(CI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;lower&#39;</span>, <span class="st">&#39;upper&#39;</span>)
-    <span class="cf">if</span> (has_intercept) {
-        rowname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;b&#39;</span>, <span class="dv">0</span><span class="op">:</span>(k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))
-    } <span class="cf">else</span> {
-        rowname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;b&#39;</span>, <span class="dv">1</span><span class="op">:</span>k)
-    }
-    <span class="kw">rownames</span>(CI) &lt;-<span class="st"> </span>rowname
-    CI
-}</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">CIs &lt;-<span class="st"> </span><span class="cf">function</span>(X, Y, c, <span class="dt">level =</span> <span class="fl">.95</span>, <span class="dt">has_intercept =</span> T) {</a>
+<a class="sourceLine" id="cb7-2" title="2">    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(X)</a>
+<a class="sourceLine" id="cb7-3" title="3">    k &lt;-<span class="st"> </span><span class="kw">ncol</span>(X)</a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="cf">if</span> (<span class="kw">missing</span>(c)) {c &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, k)}</a>
+<a class="sourceLine" id="cb7-5" title="5">    Betahat &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X, <span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>Y)</a>
+<a class="sourceLine" id="cb7-6" title="6">    I_n &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span>, n)</a>
+<a class="sourceLine" id="cb7-7" title="7">    H &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X)</a>
+<a class="sourceLine" id="cb7-8" title="8">    CI &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">0</span>, k <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb7-9" title="9">    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>k) {</a>
+<a class="sourceLine" id="cb7-10" title="10">        betahat_i &lt;-<span class="st"> </span>Betahat[i, ]</a>
+<a class="sourceLine" id="cb7-11" title="11">        se_i &lt;-<span class="st"> </span><span class="kw">sqrt</span>(</a>
+<a class="sourceLine" id="cb7-12" title="12">            ((<span class="kw">t</span>(Y) <span class="op">%*%</span><span class="st"> </span>(I_n <span class="op">-</span><span class="st"> </span>H) <span class="op">%*%</span><span class="st"> </span>Y) <span class="op">/</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span>k)) <span class="op">*</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="st">                </span><span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>X)[i, i]</a>
+<a class="sourceLine" id="cb7-14" title="14">        )</a>
+<a class="sourceLine" id="cb7-15" title="15">        t_star &lt;-<span class="st"> </span><span class="kw">qt</span>((<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>level) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">df =</span> n <span class="op">-</span><span class="st"> </span>k)</a>
+<a class="sourceLine" id="cb7-16" title="16">        CI[i, ] &lt;-<span class="st"> </span><span class="kw">c</span>(betahat_i <span class="op">-</span><span class="st"> </span>se_i <span class="op">*</span><span class="st"> </span>t_star, betahat_i <span class="op">+</span><span class="st"> </span>se_i <span class="op">*</span><span class="st"> </span>t_star) </a>
+<a class="sourceLine" id="cb7-17" title="17">    }</a>
+<a class="sourceLine" id="cb7-18" title="18">    <span class="kw">colnames</span>(CI) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;lower&#39;</span>, <span class="st">&#39;upper&#39;</span>)</a>
+<a class="sourceLine" id="cb7-19" title="19">    <span class="cf">if</span> (has_intercept) {</a>
+<a class="sourceLine" id="cb7-20" title="20">        rowname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;b&#39;</span>, <span class="dv">0</span><span class="op">:</span>(k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb7-21" title="21">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb7-22" title="22">        rowname &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;b&#39;</span>, <span class="dv">1</span><span class="op">:</span>k)</a>
+<a class="sourceLine" id="cb7-23" title="23">    }</a>
+<a class="sourceLine" id="cb7-24" title="24">    <span class="kw">rownames</span>(CI) &lt;-<span class="st"> </span>rowname</a>
+<a class="sourceLine" id="cb7-25" title="25">    CI</a>
+<a class="sourceLine" id="cb7-26" title="26">}</a></code></pre></div>
 <p>The CIs for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(cis &lt;-<span class="st"> </span><span class="kw">CIs</span>(X, Y))</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">(cis &lt;-<span class="st"> </span><span class="kw">CIs</span>(X, Y))</a></code></pre></div>
 <pre><code>##        lower      upper
 ## b0 6.9732947 89.1933836
 ## b1 0.3337337  0.7758577</code></pre>
 <p><code>F_stats(x, y)</code> computes <span class="math inline">\(F\)</span>-statistic at every <span class="math inline">\(\mathbf{c}\)</span> in the cartesian product of <code>x</code> and <code>y</code>. It computes the p-value at each <span class="math inline">\(\mathbf{c}\)</span> as well:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">100</span>, <span class="dt">by =</span> .<span class="dv">1</span>)
-y &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">25</span>, .<span class="dv">85</span>, <span class="dt">by =</span> .<span class="dv">001</span>)
-F_stats &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {
-    results &lt;-<span class="st"> </span><span class="kw">lapply</span>(
-        x,
-        <span class="cf">function</span>(xd) {
-            <span class="kw">t</span>(<span class="kw">sapply</span>(
-                y,
-                <span class="cf">function</span>(yd) {
-                    result &lt;-<span class="st"> </span><span class="kw">F_stat</span>(X, Y, <span class="kw">c</span>(xd, yd))
-                    <span class="kw">c</span>(result<span class="op">$</span>c, result<span class="op">$</span>p_val)
-                }
-            ))
-        }
-    )
-    <span class="st">&#39;colnames&lt;-&#39;</span>(<span class="kw">Reduce</span>(<span class="st">&#39;rbind&#39;</span>, results), <span class="kw">c</span>(<span class="st">&#39;b0&#39;</span>, <span class="st">&#39;b1&#39;</span>, <span class="st">&#39;p_val&#39;</span>))
-}
-results &lt;-<span class="st"> </span><span class="kw">F_stats</span>(x, y)
-results &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(results)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">100</span>, <span class="dt">by =</span> <span class="fl">.1</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2">y &lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">25</span>, <span class="fl">.85</span>, <span class="dt">by =</span> <span class="fl">.001</span>)</a>
+<a class="sourceLine" id="cb10-3" title="3">F_stats &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {</a>
+<a class="sourceLine" id="cb10-4" title="4">    results &lt;-<span class="st"> </span><span class="kw">lapply</span>(</a>
+<a class="sourceLine" id="cb10-5" title="5">        x,</a>
+<a class="sourceLine" id="cb10-6" title="6">        <span class="cf">function</span>(xd) {</a>
+<a class="sourceLine" id="cb10-7" title="7">            <span class="kw">t</span>(<span class="kw">sapply</span>(</a>
+<a class="sourceLine" id="cb10-8" title="8">                y,</a>
+<a class="sourceLine" id="cb10-9" title="9">                <span class="cf">function</span>(yd) {</a>
+<a class="sourceLine" id="cb10-10" title="10">                    result &lt;-<span class="st"> </span><span class="kw">F_stat</span>(X, Y, <span class="kw">c</span>(xd, yd))</a>
+<a class="sourceLine" id="cb10-11" title="11">                    <span class="kw">c</span>(result<span class="op">$</span>c, result<span class="op">$</span>p_val)</a>
+<a class="sourceLine" id="cb10-12" title="12">                }</a>
+<a class="sourceLine" id="cb10-13" title="13">            ))</a>
+<a class="sourceLine" id="cb10-14" title="14">        }</a>
+<a class="sourceLine" id="cb10-15" title="15">    )</a>
+<a class="sourceLine" id="cb10-16" title="16">    <span class="st">&#39;colnames&lt;-&#39;</span>(<span class="kw">Reduce</span>(<span class="st">&#39;rbind&#39;</span>, results), <span class="kw">c</span>(<span class="st">&#39;b0&#39;</span>, <span class="st">&#39;b1&#39;</span>, <span class="st">&#39;p_val&#39;</span>))</a>
+<a class="sourceLine" id="cb10-17" title="17">}</a>
+<a class="sourceLine" id="cb10-18" title="18">results &lt;-<span class="st"> </span><span class="kw">F_stats</span>(x, y)</a>
+<a class="sourceLine" id="cb10-19" title="19">results &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(results)</a></code></pre></div>
 <p><code>results</code> is saved as <code>f_stats.csv</code>, which can be downloaded from <a href="../../files/f_stats.csv">here</a>.</p>
 <p>The following blue ellipse is a set of points whose p-values are greater than <span class="math inline">\(.05\)</span>, i.e. dots that belong in the 95% confidence region under <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(
-    results,
-    <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">col =</span> p_val <span class="op">&gt;</span><span class="st"> </span>.<span class="dv">05</span>)
-) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(
-        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,
-        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span>
-    ) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">ggplot</span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">    results,</a>
+<a class="sourceLine" id="cb11-3" title="3">    <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">col =</span> p_val <span class="op">&gt;</span><span class="st"> </span><span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb11-4" title="4">) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="st">    </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb11-8" title="8">        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,</a>
+<a class="sourceLine" id="cb11-9" title="9">        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span></a>
+<a class="sourceLine" id="cb11-10" title="10">    ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-11" title="11"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</a></code></pre></div>
 <p><img src="visualizing_confidence_regions_files/figure-html/plotting-1.png" style="display: block; margin: auto;" /></p>
 <p>Whenever the null testing value <span class="math inline">\(\mathbf{c}\)</span> in <span class="math inline">\(H_0: \boldsymbol{\beta} = \mathbf{c}\)</span> belongs to this blue region, we cannot reject the null at the significance level <span class="math inline">\(.05\)</span>.</p>
-<p>The following code finds points on the boundary of the confidence region so that the plot is able to connect those dots and color the enclosed area using <code>fill</code> aesthetic <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Finding boundary points</span>
-find_hull &lt;-<span class="st"> </span><span class="cf">function</span>(df) {df[<span class="kw">chull</span>(df<span class="op">$</span>b0, df<span class="op">$</span>b1), ]}
-results2 &lt;-<span class="st"> </span>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">cr =</span> <span class="kw">ifelse</span>(p_val <span class="op">&gt;</span><span class="st"> </span>.<span class="dv">05</span>, T, F))
-hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ddply</span>(<span class="st">&#39;cr&#39;</span>, find_hull)
-
-<span class="co"># Connecting boundary points</span>
-<span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">color =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span>
-<span class="st">    </span><span class="co"># geom_point() +</span>
-<span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> hulls, <span class="dt">alpha =</span> .<span class="dv">5</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(
-        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,
-        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span>
-    ) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme_classic</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
+<p>The following code finds points on the boundary of the confidence region so that the plot is able to connect those dots and color the enclosed area using <code>fill</code> aesthetic <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># Finding boundary points</span></a>
+<a class="sourceLine" id="cb12-2" title="2">find_hull &lt;-<span class="st"> </span><span class="cf">function</span>(df) {df[<span class="kw">chull</span>(df<span class="op">$</span>b0, df<span class="op">$</span>b1), ]}</a>
+<a class="sourceLine" id="cb12-3" title="3">results2 &lt;-<span class="st"> </span>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">cr =</span> <span class="kw">ifelse</span>(p_val <span class="op">&gt;</span><span class="st"> </span><span class="fl">.05</span>, T, F))</a>
+<a class="sourceLine" id="cb12-4" title="4">hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ddply</span>(<span class="st">&#39;cr&#39;</span>, find_hull)</a>
+<a class="sourceLine" id="cb12-5" title="5"></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co"># Connecting boundary points</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">color =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="st">    </span><span class="co"># geom_point() +</span></a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="st">    </span><span class="kw">geom_polygon</span>(<span class="dt">data =</span> hulls, <span class="dt">alpha =</span> <span class="fl">.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-10" title="10"><span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="st">    </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb12-13" title="13">        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,</a>
+<a class="sourceLine" id="cb12-14" title="14">        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span></a>
+<a class="sourceLine" id="cb12-15" title="15">    ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-16" title="16"><span class="st">    </span><span class="kw">theme_classic</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-17" title="17"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</a></code></pre></div>
 <p><img src="visualizing_confidence_regions_files/figure-html/results_hull-1.png" style="display: block; margin: auto;" /></p>
 <p>There are two points to keep in mind:</p>
 <ul>
@@ -711,29 +765,29 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 <li>the interpretation of confidence region is the same as the CI’s: if we replicate this experiment 100 times and compute the confidence region in the same manner (using <span class="math inline">\(F\)</span>-statistic in this case), then out of those 100 regions, around 95 of them are expected to contain the true parameter <span class="math inline">\(\boldsymbol{\beta} = (\beta_0, \beta_1)\)</span>.</li>
 </ul>
 <p><strong>ASIDE</strong>: the following function from <code>ggConvexHull</code> package does the same job. Click <a href="https://github.com/cmartin/ggConvexHull">here</a> to see the repository:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(devtools)</span>
-<span class="co"># devtools::install_github(&quot;cmartin/ggConvexHull&quot;)</span>
-<span class="kw">library</span>(ggConvexHull)
-<span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">col =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_convexhull</span>(<span class="dt">alpha =</span> .<span class="dv">5</span>) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">labs</span>(
-        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,
-        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span>
-    ) <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme_classic</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># library(devtools)</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="co"># devtools::install_github(&quot;cmartin/ggConvexHull&quot;)</span></a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="kw">library</span>(ggConvexHull)</a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="kw">ggplot</span>(results2, <span class="kw">aes</span>(<span class="dt">x =</span> b0, <span class="dt">y =</span> b1, <span class="dt">col =</span> cr, <span class="dt">fill =</span> cr)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="st">    </span><span class="kw">geom_convexhull</span>(<span class="dt">alpha =</span> <span class="fl">.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="st">    </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&#39;transparent&#39;</span>, <span class="st">&#39;#1E6BB8&#39;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="st">    </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb13-9" title="9">        <span class="dt">x =</span> <span class="st">&#39;beta_0&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;beta_1&#39;</span>, <span class="dt">title =</span> <span class="st">&#39;Confidence region of beta&#39;</span>,</a>
+<a class="sourceLine" id="cb13-10" title="10">        <span class="dt">subtitle =</span> <span class="st">&#39;- at the significance level .05&#39;</span></a>
+<a class="sourceLine" id="cb13-11" title="11">    ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="st">    </span><span class="kw">theme_classic</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&#39;none&#39;</span>)</a></code></pre></div>
 <p><img src="visualizing_confidence_regions_files/figure-html/using_ggconvexhull-1.png" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
 <p>R session info:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows &gt;= 8 x64 (build 9200)
+## Running under: Windows 10 x64 (build 18362)
 ## 
 ## Matrix products: default
 ## 
@@ -746,19 +800,19 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggConvexHull_0.1.0 ggplot2_3.1.1      dplyr_0.8.1       
-## [4] reticulate_1.12    rmarkdown_1.13     magrittr_1.5      
+## [1] ggConvexHull_0.1.0 ggplot2_3.2.0      dplyr_0.8.3       
+## [4] reticulate_1.12    rmarkdown_1.14     magrittr_1.5      
 ## [7] itertools2_0.1.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.0   pillar_1.4.1    
-##  [5] prettydoc_0.2.1  iterators_1.0.10 tools_3.6.0      zeallot_0.1.0   
-##  [9] digest_0.6.19    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
+##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.1   pillar_1.4.2    
+##  [5] prettydoc_0.3.0  iterators_1.0.10 tools_3.6.1      zeallot_0.1.0   
+##  [9] digest_0.6.20    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
 ## [13] gtable_0.3.0     lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2 
-## [17] rlang_0.3.4      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
-## [21] yaml_2.2.0       xfun_0.7         withr_2.1.2      stringr_1.4.0   
-## [25] xml2_1.2.0       knitr_1.23       vctrs_0.1.0      hms_0.4.2       
-## [29] grid_3.6.0       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
+## [17] rlang_0.4.0      Matrix_1.2-17    cli_1.1.0        rstudioapi_0.10 
+## [21] yaml_2.2.0       xfun_0.8         withr_2.1.2      stringr_1.4.0   
+## [25] xml2_1.2.0       knitr_1.23       vctrs_0.2.0      hms_0.5.0       
+## [29] grid_3.6.1       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
 ## [33] fansi_0.4.0      readr_1.3.1      tidyr_0.8.3      purrr_0.3.2     
 ## [37] backports_1.1.4  scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1
 ## [41] colorspace_1.4-1 labeling_0.3     utf8_1.1.4       stringi_1.4.3   
@@ -767,7 +821,7 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p><a href="https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2" class="uri">https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2</a><a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p><a href="https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2" class="uri">https://stats.stackexchange.com/questions/22805/how-to-draw-neat-polygons-around-scatterplot-regions-in-ggplot2</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 </section>
@@ -778,7 +832,7 @@ hulls &lt;-<span class="st"> </span>results2 <span class="op">%&gt;%</span><span
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
-        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
+        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
