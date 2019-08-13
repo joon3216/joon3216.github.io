@@ -52,7 +52,11 @@ The challenge was to learn about HTML and CSS to make my website look like a web
 * [Description](projects/2019/publishing_website.html)
 
 
-
+<!--html_preserve-->
+&nbsp;  
+&nbsp;  
+&nbsp;  
+<!--/html_preserve-->
 
 
 
