@@ -21,25 +21,51 @@ output:
 
 # Objectives
 
+* Get familiar with Git
+* Get familiar with Python `class` and `unittest`
+* Polish my Python skills by developing a Python package
+
 
 # Background
 
+So why did I create this package? As Python gets more popular in the field of data science, I felt the need to polish my programming skills in Python. I chose to build a generalized sudoku-solving mechanism since:
+
+1. it seemed challenging enough
+2. I couldn't find any program that solves larger-than-9-by-9 sudoku puzzles
+3. there was the note titled *Solving Sudoku using simulated annealing* in Statistical Computation course (STA410) at the University, and I was inspired by the use of the algorithm to solve a sudoku puzzle in R and wanted to import the same algorithm to Python
+
+
+I wanted to learn the way of Pythonistas. Whenever I wrote a code in Python, I found myself thinking how to accomplish a task in R first, and then looking for equivalent ways to solve similar tasks in Python. Looking for online references and spending time to read them were inefficient and time-consuming, and Python codes produced in such a manner were not really utilizing the ability of Python properly. Building this package was one way to learn and extensively use Python features such as list comprehensions, `zip`, `set`, `dict`, `filter`, and so on.
+
+Also, I wanted to get familiar with how Python packages are developed in general. Back when I was developing [`funpark` package](funpark.html), I got the glimpse of idea of what should be included in a package and what it is like to develop one: development stages, licensing, version control, tests, etc. However, it was the very first package that was not uploaded on CRAN but only on my GitHub repository, and I was not thorough about designing unittests for the later update. As of `2019-08-15`, I didn't create any S3 or R6 methods in the package either. By developing something more complex (not referring to the idea behind functions in a package but rather to a code complexity), I figured that I will learn deeper about the use of user-defined classes and unittests as well as the usefulness of version control system more seriously. I was especially interested in Python `class` because OOP was the topic that was very briefly covered in the introductory programming course (CSC108) at the University, and was never mentioned as I specialized further in statistics and used R more often than Python.
+
+And to be honest, dynamic badges looked awesome on README.md; I wanted to have use cases on my end.
 
 
 # How it works
 
 
+See [vignette](sudsoln/introduction.html) for details.
+
+
+
 # Learning outcomes
 
-* The use of Travis CI and badge
-* The use of Codecov and badge
-* The importance of automatic testing
-* The importance of encapsulation via OOP in Python
-* The importance of version control system (in particular, git)
+* Selecting what needs to be tested in a package
+* The convenience and importance of automatic testing
+* The use of Travis CI and Codecov.io
+* The use of version control system (in particular, git)
+
 
 # Next steps
 
-* Write a brief vignette
+* Add more solving features
+  + make `Sudoku.solve_by_pointing_pairs()` work properly whenever `by = 'row'` or `by = 'col'` in the version `>= 0.1.1`
+  + write `Sudoku.solve_by_simulated_annealing()`
+* Make a progress to `Development Status :: 4 - Beta`
+* Make some attributes private
+* Try define subclasses instead of writing separate classes
+* Write a [vignette](sudsoln/introduction.html)
 
 
 

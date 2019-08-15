@@ -500,27 +500,49 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 <section class="main-content">
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
+<ul>
+<li>Get familiar with Git</li>
+<li>Get familiar with Python <code>class</code> and <code>unittest</code></li>
+<li>Polish my Python skills by developing a Python package</li>
+</ul>
 </div>
 <div id="background" class="section level1">
 <h1>Background</h1>
+<p>So why did I create this package? As Python gets more popular in the field of data science, I felt the need to polish my programming skills in Python. I chose to build a generalized sudoku-solving mechanism since:</p>
+<ol style="list-style-type: decimal">
+<li>it seemed challenging enough</li>
+<li>I couldn’t find any program that solves larger-than-9-by-9 sudoku puzzles</li>
+<li>there was the note titled <em>Solving Sudoku using simulated annealing</em> in Statistical Computation course (STA410) at the University, and I was inspired by the use of the algorithm to solve a sudoku puzzle in R and wanted to import the same algorithm to Python</li>
+</ol>
+<p>I wanted to learn the way of Pythonistas. Whenever I wrote a code in Python, I found myself thinking how to accomplish a task in R first, and then looking for equivalent ways to solve similar tasks in Python. Looking for online references and spending time to read them were inefficient and time-consuming, and Python codes produced in such a manner were not really utilizing the ability of Python properly. Building this package was one way to learn and extensively use Python features such as list comprehensions, <code>zip</code>, <code>set</code>, <code>dict</code>, <code>filter</code>, and so on.</p>
+<p>Also, I wanted to get familiar with how Python packages are developed in general. Back when I was developing <a href="funpark.html"><code>funpark</code> package</a>, I got the glimpse of idea of what should be included in a package and what it is like to develop one: development stages, licensing, version control, tests, etc. However, it was the very first package that was not uploaded on CRAN but only on my GitHub repository, and I was not thorough about designing unittests for the later update. As of <code>2019-08-15</code>, I didn’t create any S3 or R6 methods in the package either. By developing something more complex (not referring to the idea behind functions in a package but rather to a code complexity), I figured that I will learn deeper about the use of user-defined classes and unittests as well as the usefulness of version control system more seriously. I was especially interested in Python <code>class</code> because OOP was the topic that was very briefly covered in the introductory programming course (CSC108) at the University, and was never mentioned as I specialized further in statistics and used R more often than Python.</p>
+<p>And to be honest, dynamic badges looked awesome on README.md; I wanted to have use cases on my end.</p>
 </div>
 <div id="how-it-works" class="section level1">
 <h1>How it works</h1>
+<p>See <a href="sudsoln/introduction.html">vignette</a> for details.</p>
 </div>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
 <ul>
-<li>The use of Travis CI and badge</li>
-<li>The use of Codecov and badge</li>
-<li>The importance of automatic testing</li>
-<li>The importance of encapsulation via OOP in Python</li>
-<li>The importance of version control system (in particular, git)</li>
+<li>Selecting what needs to be tested in a package</li>
+<li>The convenience and importance of automatic testing</li>
+<li>The use of Travis CI and Codecov.io</li>
+<li>The use of version control system (in particular, git)</li>
 </ul>
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next steps</h1>
 <ul>
-<li>Write a brief vignette</li>
+<li>Add more solving features
+<ul>
+<li>make <code>Sudoku.solve_by_pointing_pairs()</code> work properly whenever <code>by = 'row'</code> or <code>by = 'col'</code> in the version <code>&gt;= 0.1.1</code></li>
+<li>write <code>Sudoku.solve_by_simulated_annealing()</code></li>
+</ul></li>
+<li>Make a progress to <code>Development Status :: 4 - Beta</code></li>
+<li>Make some attributes private</li>
+<li>Try define subclasses instead of writing separate classes</li>
+<li>Write a <a href="sudsoln/introduction.html">vignette</a></li>
 </ul>
 </div>
 </section>
