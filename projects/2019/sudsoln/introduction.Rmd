@@ -14,10 +14,190 @@ output:
         - ../../../style/all_navbar_body_03_lvl.html
       after_body:
         - ../../../style/all_footer_03_lvl.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
-To be continued
+```{r setup, echo = F, results = 'hide'}
+library(reticulate)
+knitr::knit_engines$set(python = eng_python)
+use_virtualenv('r-reticulate')
+py_available(T)
+```
+
+This vignette focuses on how you can initialize `Sudoku` puzzle and use methods to solve them.
+
+To install `sudsoln`, type:
+
+```
+pip install sudsoln
+```
+
+In this document, the following version of `sudsoln` is imported with the following alias:
+
+```{python import_sudsoln}
+import sudsoln as ss
+print(ss.__version__)
+```
+
+```{python under_the_hood1, echo = F}
+ss_ver = ss.__version__
+```
+
+```{r under_the_hood2, echo = F}
+ss_ver <- py$ss_ver
+```
+
+# Initializing a puzzle
+
+There are two ways to initialize a puzzle: 
+
+* use `Sudoku` class directly
+* use `to_sudoku` function
+
+The difference between the two is that `Sudoku` accepts a list of lists in its `array` argument, whereas `to_sudoku` function accepts a string in its `sudoku_str` argument and has no `array` argument. For example, if you have the following puzzle:
+
+```{python eg1}
+q1_array = [
+    ['.', '.', '.', '.', '2', '.', '.', '.', '.'],
+    ['8', '3', '.', '7', '1', '4', '.', '9', '6'],
+    ['.', '6', '.', '9', '.', '5', '4', '.', '8'],
+    ['.', '9', '.', '3', '.', '1', '.', '.', '4'],
+    ['.', '1', '.', '4', '.', '2', '.', '.', '7'],
+    ['.', '7', '5', '.', '.', '.', '2', '1', '.'],
+    ['.', '.', '4', '.', '.', '.', '7', '.', '.'],
+    ['.', '.', '.', '5', '.', '7', '.', '.', '.'],
+    ['.', '.', '.', '1', '9', '6', '.', '.', '.']
+]
+```
+
+Then you have to use `Sudoku` class. If you have it in a form of string as follows:
+
+```{python eg2}
+q1_str = '....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...'
+```
+
+Then you should use `to_sudoku` function. Inside `to_sudoku`, `q1_str` is converted to the same form as `q1_array`, and this will be plugged into `array` argument of `Sudoku` along with the other arguments.
+
+Both require three arguments in total. Two common arguments are:
+
+* `empty`: a string that denotes the emptiness (`'.'` by default)
+* `elements`: a set of entries in an array that is NOT `empty`
+
+Usually, if a size of puzzle is 9-by-9, then `elements` is a set of integers from `1` to `9`. Unlike `empty`, `elements` has no default argument.
+
+If `elements` is not specified in either `Sudoku` or `to_sudoku`, then it guesses `elements` from: 
+
+* `array` of `Sudoku`, or; 
+* `sudoku_str` of `to_sudoku`
+
+depending on what you are using to initialize one. For example, both `q1_array` and `q1_str` will be successfully initialized without any specification of either `empty` or `elements`:
+
+```{python eg3}
+q1_case1 = ss.Sudoku(q1_array)
+q1_case1
+q1_case2 = ss.to_sudoku(q1_str)
+q1_case2
+print(q1_case1 == q1_case2)
+```
+
+The following `q4_str`, however, will not be initialized properly and will return `ValueError` with the following message:
+
+```{python eg4}
+q4_str = ss.questions.q4
+print(q4_str)
+```
+
+```{python eg4_trial, eval = F}
+q4 = ss.to_sudoku(q4_str)
+```
+
+
+
+```
+ValueError: Length of the guessed elements is 8, not 9. Either make sure that: 
+1. every element in the current array contains all of your intended elements at
+least once, or; 2. specify elements explicitly, or; 3. there is exactly one
+string, and only one, that denotes the emptiness in the array. For example, if
+you try to solve a 9-by-9 sudoku whose answer form consists of integers from 1 
+to 9, either make sure that every integer from 1 to 9 shows up in the current
+array at least once, or explicitly specify elements = set([str(i) for i in
+range(1, 10)]), or see if the array uses '.' and some other string, like ',' or 
+' ', to denote the emptiness.
+```
+
+This is because `Sudoku` thinks any element in `array` that is NOT `empty` should be a member of `elements`. `9` does not exist in `q4_str`, so it causes an error that says the number of guessed elements is 8, not 9. The solution of this problem is to specify `elements` as follows:
+
+```{python eg5}
+q4_case1 = ss.to_sudoku(q4_str, elements = set([i for i in range(1, 10)]))
+q4_case1
+```
+
+In the error message, it suggests to use `set([str(i) for i in range(1, 10)])`, but it is fine to use `set([i for i in range(1, 10)])`; `Sudoku` automatically converts every element in `elements` into `str` before creating an instance of `Sudoku` puzzle anyway.
+
+If you don't like `'.'` as `empty` in your puzzle, you have to change it BEFORE initializing into a `Sudoku` puzzle. That is, the following is not acceptable:
+
+```{python eg6}
+print(q1_str) # recall q1_str
+```
+
+```{python eg6_1, eval = F}
+q1_case3 = ss.to_sudoku(q1_str, empty = ' ')
+```
+
+```
+KeyError: "empty = ' ' does not exist in the array. Either specify the correct
+string denoting the emptiness in the array, or change the string denoting the
+emptiness in the array by using sudsoln.change_empty(array, old, new)."
+```
+
+Instead, you have to do the following:
+
+```{python eg7}
+q1_str = q1_str.replace('.', ' ')
+print(q1_str)
+q1_case3 = ss.to_sudoku(q1_str, empty = ' ')
+q1_case3
+```
+
+or the following in case of `q4_str`:
+
+```{python eg8}
+q4_str = q4_str.replace('.', '*')
+print(q4_str)
+q4_case2 = ss.to_sudoku(
+    q4_str, 
+    elements = set([i for i in range(1, 10)]), 
+    empty = '*'
+)
+q4_case2
+```
+
+After successful initialization, you are ready to use methods to solve the puzzle.
+
+Note: every element in `elements` as well as `empty` must have length 1 if it is converted into type `str`. For example, `10` or `14` cannot be an element in `elements`, or `'..'` cannot be `empty`.
+
+
+
+# Solving a puzzle
+
+As of version `r ss_ver`, there are 7 solving methods provided:
+
+* `Sudoku.solve_globally()`
+* `Sudoku.solve_locally()`
+* `Sudoku.solve_by_pointing_pairs()`
+* `Sudoku.solve_by_hidden_pairs()`
+* `Sudoku.solve_logically()`
+* `Sudoku.solve_forcefully()`
+* `Sudoku.solve()`
+
+
+
+
+
+
+
+
+
 
 

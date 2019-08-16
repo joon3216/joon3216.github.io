@@ -424,6 +424,92 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 <link rel="icon" href="../../../style/all_orange_jp.png">
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -489,7 +575,190 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <section class="main-content">
-<p>To be continued</p>
+<p>This vignette focuses on how you can initialize <code>Sudoku</code> puzzle and use methods to solve them.</p>
+<p>To install <code>sudsoln</code>, type:</p>
+<pre><code>pip install sudsoln</code></pre>
+<p>In this document, the following version of <code>sudsoln</code> is imported with the following alias:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="im">import</span> sudsoln <span class="im">as</span> ss</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="bu">print</span>(ss.__version__)</a></code></pre></div>
+<pre><code>## 0.1.0</code></pre>
+<div id="initializing-a-puzzle" class="section level1">
+<h1>Initializing a puzzle</h1>
+<p>There are two ways to initialize a puzzle:</p>
+<ul>
+<li>use <code>Sudoku</code> class directly</li>
+<li>use <code>to_sudoku</code> function</li>
+</ul>
+<p>The difference between the two is that <code>Sudoku</code> accepts a list of lists in its <code>array</code> argument, whereas <code>to_sudoku</code> function accepts a string in its <code>sudoku_str</code> argument and has no <code>array</code> argument. For example, if you have the following puzzle:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">q1_array <span class="op">=</span> [</a>
+<a class="sourceLine" id="cb4-2" title="2">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
+<a class="sourceLine" id="cb4-3" title="3">    [<span class="st">&#39;8&#39;</span>, <span class="st">&#39;3&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;6&#39;</span>],</a>
+<a class="sourceLine" id="cb4-4" title="4">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;5&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;8&#39;</span>],</a>
+<a class="sourceLine" id="cb4-5" title="5">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;3&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;4&#39;</span>],</a>
+<a class="sourceLine" id="cb4-6" title="6">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>],</a>
+<a class="sourceLine" id="cb4-7" title="7">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;5&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
+<a class="sourceLine" id="cb4-8" title="8">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
+<a class="sourceLine" id="cb4-9" title="9">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;5&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
+<a class="sourceLine" id="cb4-10" title="10">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>]</a>
+<a class="sourceLine" id="cb4-11" title="11">]</a></code></pre></div>
+<p>Then you have to use <code>Sudoku</code> class. If you have it in a form of string as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">q1_str <span class="op">=</span> <span class="st">&#39;....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...&#39;</span></a></code></pre></div>
+<p>Then you should use <code>to_sudoku</code> function. Inside <code>to_sudoku</code>, <code>q1_str</code> is converted to the same form as <code>q1_array</code>, and this will be plugged into <code>array</code> argument of <code>Sudoku</code> along with the other arguments.</p>
+<p>Both require three arguments in total. Two common arguments are:</p>
+<ul>
+<li><code>empty</code>: a string that denotes the emptiness (<code>'.'</code> by default)</li>
+<li><code>elements</code>: a set of entries in an array that is NOT <code>empty</code></li>
+</ul>
+<p>Usually, if a size of puzzle is 9-by-9, then <code>elements</code> is a set of integers from <code>1</code> to <code>9</code>. Unlike <code>empty</code>, <code>elements</code> has no default argument.</p>
+<p>If <code>elements</code> is not specified in either <code>Sudoku</code> or <code>to_sudoku</code>, then it guesses <code>elements</code> from:</p>
+<ul>
+<li><code>array</code> of <code>Sudoku</code>, or;</li>
+<li><code>sudoku_str</code> of <code>to_sudoku</code></li>
+</ul>
+<p>depending on what you are using to initialize one. For example, both <code>q1_array</code> and <code>q1_str</code> will be successfully initialized without any specification of either <code>empty</code> or <code>elements</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1">q1_case1 <span class="op">=</span> ss.Sudoku(q1_array)</a>
+<a class="sourceLine" id="cb6-2" title="2">q1_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     .    .    .    |    .    2    .    |    .    .    .
+##     8    3    .    |    7    1    4    |    .    9    6
+##     .    6    .    |    9    .    5    |    4    .    8
+## -------------------+-------------------+-------------------
+##     .    9    .    |    3    .    1    |    .    .    4
+##     .    1    .    |    4    .    2    |    .    .    7
+##     .    7    5    |    .    .    .    |    2    1    .
+## -------------------+-------------------+-------------------
+##     .    .    4    |    .    .    .    |    7    .    .
+##     .    .    .    |    5    .    7    |    .    .    .
+##     .    .    .    |    1    9    6    |    .    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" title="1">q1_case2 <span class="op">=</span> ss.to_sudoku(q1_str)</a>
+<a class="sourceLine" id="cb8-2" title="2">q1_case2</a></code></pre></div>
+<pre><code>## Sudoku(
+##     .    .    .    |    .    2    .    |    .    .    .
+##     8    3    .    |    7    1    4    |    .    9    6
+##     .    6    .    |    9    .    5    |    4    .    8
+## -------------------+-------------------+-------------------
+##     .    9    .    |    3    .    1    |    .    .    4
+##     .    1    .    |    4    .    2    |    .    .    7
+##     .    7    5    |    .    .    .    |    2    1    .
+## -------------------+-------------------+-------------------
+##     .    .    4    |    .    .    .    |    7    .    .
+##     .    .    .    |    5    .    7    |    .    .    .
+##     .    .    .    |    1    9    6    |    .    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1"><span class="bu">print</span>(q1_case1 <span class="op">==</span> q1_case2)</a></code></pre></div>
+<pre><code>## True</code></pre>
+<p>The following <code>q4_str</code>, however, will not be initialized properly and will return <code>ValueError</code> with the following message:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb12-1" title="1">q4_str <span class="op">=</span> ss.questions.q4</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="bu">print</span>(q4_str)</a></code></pre></div>
+<pre><code>## 3.2....6....7.81...........58.4............12...1......1....4..6...3........2....</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb14-1" title="1">q4 <span class="op">=</span> ss.to_sudoku(q4_str)</a></code></pre></div>
+<pre><code>ValueError: Length of the guessed elements is 8, not 9. Either make sure that: 
+1. every element in the current array contains all of your intended elements at
+least once, or; 2. specify elements explicitly, or; 3. there is exactly one
+string, and only one, that denotes the emptiness in the array. For example, if
+you try to solve a 9-by-9 sudoku whose answer form consists of integers from 1 
+to 9, either make sure that every integer from 1 to 9 shows up in the current
+array at least once, or explicitly specify elements = set([str(i) for i in
+range(1, 10)]), or see if the array uses &#39;.&#39; and some other string, like &#39;,&#39; or 
+&#39; &#39;, to denote the emptiness.</code></pre>
+<p>This is because <code>Sudoku</code> thinks any element in <code>array</code> that is NOT <code>empty</code> should be a member of <code>elements</code>. <code>9</code> does not exist in <code>q4_str</code>, so it causes an error that says the number of guessed elements is 8, not 9. The solution of this problem is to specify <code>elements</code> as follows:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb16-1" title="1">q4_case1 <span class="op">=</span> ss.to_sudoku(q4_str, elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]))</a>
+<a class="sourceLine" id="cb16-2" title="2">q4_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     3    .    2    |    .    .    .    |    .    6    .
+##     .    .    .    |    7    .    8    |    1    .    .
+##     .    .    .    |    .    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     5    8    .    |    4    .    .    |    .    .    .
+##     .    .    .    |    .    .    .    |    .    1    2
+##     .    .    .    |    1    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     .    1    .    |    .    .    .    |    4    .    .
+##     6    .    .    |    .    3    .    |    .    .    .
+##     .    .    .    |    .    2    .    |    .    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<p>In the error message, it suggests to use <code>set([str(i) for i in range(1, 10)])</code>, but it is fine to use <code>set([i for i in range(1, 10)])</code>; <code>Sudoku</code> automatically converts every element in <code>elements</code> into <code>str</code> before creating an instance of <code>Sudoku</code> puzzle anyway.</p>
+<p>If you don’t like <code>'.'</code> as <code>empty</code> in your puzzle, you have to change it BEFORE initializing into a <code>Sudoku</code> puzzle. That is, the following is not acceptable:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb18-1" title="1"><span class="bu">print</span>(q1_str) <span class="co"># recall q1_str</span></a></code></pre></div>
+<pre><code>## ....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb20-1" title="1">q1_case3 <span class="op">=</span> ss.to_sudoku(q1_str, empty <span class="op">=</span> <span class="st">&#39; &#39;</span>)</a></code></pre></div>
+<pre><code>KeyError: &quot;empty = &#39; &#39; does not exist in the array. Either specify the correct
+string denoting the emptiness in the array, or change the string denoting the
+emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</code></pre>
+<p>Instead, you have to do the following:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb22-1" title="1">q1_str <span class="op">=</span> q1_str.replace(<span class="st">&#39;.&#39;</span>, <span class="st">&#39; &#39;</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="bu">print</span>(q1_str)</a></code></pre></div>
+<pre><code>##     2    83 714 96 6 9 54 8 9 3 1  4 1 4 2  7 75   21   4   7     5 7      196</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb24-1" title="1">q1_case3 <span class="op">=</span> ss.to_sudoku(q1_str, empty <span class="op">=</span> <span class="st">&#39; &#39;</span>)</a>
+<a class="sourceLine" id="cb24-2" title="2">q1_case3</a></code></pre></div>
+<pre><code>## Sudoku(
+##                    |         2         |               
+##     8    3         |    7    1    4    |         9    6
+##          6         |    9         5    |    4         8
+## -------------------+-------------------+-------------------
+##          9         |    3         1    |              4
+##          1         |    4         2    |              7
+##          7    5    |                   |    2    1     
+## -------------------+-------------------+-------------------
+##               4    |                   |    7          
+##                    |    5         7    |               
+##                    |    1    9    6    |               
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty:  
+## )</code></pre>
+<p>or the following in case of <code>q4_str</code>:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb26-1" title="1">q4_str <span class="op">=</span> q4_str.replace(<span class="st">&#39;.&#39;</span>, <span class="st">&#39;*&#39;</span>)</a>
+<a class="sourceLine" id="cb26-2" title="2"><span class="bu">print</span>(q4_str)</a></code></pre></div>
+<pre><code>## 3*2****6****7*81***********58*4************12***1******1****4**6***3********2****</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb28-1" title="1">q4_case2 <span class="op">=</span> ss.to_sudoku(</a>
+<a class="sourceLine" id="cb28-2" title="2">    q4_str, </a>
+<a class="sourceLine" id="cb28-3" title="3">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]), </a>
+<a class="sourceLine" id="cb28-4" title="4">    empty <span class="op">=</span> <span class="st">&#39;*&#39;</span></a>
+<a class="sourceLine" id="cb28-5" title="5">)</a>
+<a class="sourceLine" id="cb28-6" title="6">q4_case2</a></code></pre></div>
+<pre><code>## Sudoku(
+##     3    *    2    |    *    *    *    |    *    6    *
+##     *    *    *    |    7    *    8    |    1    *    *
+##     *    *    *    |    *    *    *    |    *    *    *
+## -------------------+-------------------+-------------------
+##     5    8    *    |    4    *    *    |    *    *    *
+##     *    *    *    |    *    *    *    |    *    1    2
+##     *    *    *    |    1    *    *    |    *    *    *
+## -------------------+-------------------+-------------------
+##     *    1    *    |    *    *    *    |    4    *    *
+##     6    *    *    |    *    3    *    |    *    *    *
+##     *    *    *    |    *    2    *    |    *    *    *
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: *
+## )</code></pre>
+<p>After successful initialization, you are ready to use methods to solve the puzzle.</p>
+<p>Note: every element in <code>elements</code> as well as <code>empty</code> must have length 1 if it is converted into type <code>str</code>. For example, <code>10</code> or <code>14</code> cannot be an element in <code>elements</code>, or <code>'..'</code> cannot be <code>empty</code>.</p>
+</div>
+<div id="solving-a-puzzle" class="section level1">
+<h1>Solving a puzzle</h1>
+<p>As of version 0.1.0, there are 7 solving methods provided:</p>
+<ul>
+<li><code>Sudoku.solve_globally()</code></li>
+<li><code>Sudoku.solve_locally()</code></li>
+<li><code>Sudoku.solve_by_pointing_pairs()</code></li>
+<li><code>Sudoku.solve_by_hidden_pairs()</code></li>
+<li><code>Sudoku.solve_logically()</code></li>
+<li><code>Sudoku.solve_forcefully()</code></li>
+<li><code>Sudoku.solve()</code></li>
+</ul>
+</div>
 </section>
 
 <!-- Footer -->
