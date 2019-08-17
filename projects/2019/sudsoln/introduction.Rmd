@@ -14,7 +14,7 @@ output:
         - ../../../style/all_navbar_body_03_lvl.html
       after_body:
         - ../../../style/all_footer_03_lvl.html
-    toc: FALSE
+    toc: TRUE
     self_contained: FALSE
 ---
 
@@ -55,7 +55,7 @@ There are two ways to initialize a puzzle:
 * use `Sudoku` class directly
 * use `to_sudoku` function
 
-The difference between the two is that `Sudoku` accepts a list of lists in its `array` argument, whereas `to_sudoku` function accepts a string in its `sudoku_str` argument and has no `array` argument. For example, if you have the following puzzle:
+The difference between the two is that `Sudoku` accepts a list of lists in its `array` argument, whereas `to_sudoku` function accepts a string in its `sudoku_str` argument and converts it into a list of lists. For example, if you have the following puzzle:
 
 ```{python eg1}
 q1_array = [
@@ -71,20 +71,20 @@ q1_array = [
 ]
 ```
 
-Then you have to use `Sudoku` class. If you have it in a form of string as follows:
+then you have to use `Sudoku` class. If you have it in a form of string as follows:
 
 ```{python eg2}
 q1_str = '....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...'
 ```
 
-Then you should use `to_sudoku` function. Inside `to_sudoku`, `q1_str` is converted to the same form as `q1_array`, and this will be plugged into `array` argument of `Sudoku` along with the other arguments.
+then you should use `to_sudoku` function. `to_sudoku` is merely a wrapper function of `Sudoku`; inside `to_sudoku`, `q1_str` is converted to the same form as `q1_array`, and this will be plugged into `array` argument of `Sudoku` along other arguments.
 
 Both require three arguments in total. Two common arguments are:
 
 * `empty`: a string that denotes the emptiness (`'.'` by default)
 * `elements`: a set of entries in an array that is NOT `empty`
 
-Usually, if a size of puzzle is 9-by-9, then `elements` is a set of integers from `1` to `9`. Unlike `empty`, `elements` has no default argument.
+Usually, if a size of puzzle is 9-by-9 (or 3^2^-by-3^2^), then `elements` is a set of integers from `1` to `9`. Unlike `empty`, `elements` has no default argument.
 
 If `elements` is not specified in either `Sudoku` or `to_sudoku`, then it guesses `elements` from: 
 
@@ -191,13 +191,191 @@ As of version `r ss_ver`, there are 7 solving methods provided:
 * `Sudoku.solve_forcefully()`
 * `Sudoku.solve()`
 
+## `.solve_globally()`
+
+For each entry, this method looks at the `row`, `col`umn, and `submatrix` it belongs and see if there is only one possible candidate value at that entry. If true, plug the value into that entry, and repeat the process until no new mutation is made to `Sudoku`.
+
+For example, take a look at `q1_case1`:
+
+```{python sg_eg1}
+q1_case1
+```
+
+See the entry at the 3^rd^ row and 5^th^ column. Notice that `3` is the only possible candidate value at that entry because:
+
+* there are `4`, `5`, `6`, `8`, and `9` in the row it belongs
+* there are `1` and `2` in the column it belongs
+* there is `7` in the submatrix it belongs
+
+And therefore, the only candidate value left at that entry is `3`, indicating it must be the value at that entry. `.solve_globally()` does this for every entry in the sudoku array, and goes back to the very first entry after it goes through the entire array. The method stops if the process does not mutate `Sudoku` puzzle anymore.
+
+`q1_case1` is actually a very easy sudoku puzzle and only requires `.solve_globally()` to be solved entirely:
+
+```{python sg_eg2}
+from datetime import datetime as dt
+start = dt.now(); q1_case1.solve_globally(); end = dt.now()
+q1_case1
+str(end - start)
+```
+
+`q4_case1`, however, is a harder puzzle. You can see that `.solve_globally()` doesn't do anything:
+
+```{python sg_eg3}
+q4_case1_cp = q4_case1.copy()
+q4_case1.solve_globally()
+q4_case1
+print(q4_case1 == q4_case1_cp)
+```
+
+## `.solve_locally()`
+
+This looks at candidate values more carefully. It doesn't look at the only candidate value remaining; rather, it tries to acquire the only existing candidate value within the local group it belongs, i.e. `row`, `col`, or `submatrix`. If there is only one number that is exclusively a candidate value in one particular entry within a local group, that entry must have that value in its place. Just like `.solve_globally()`, `.solve_locally()` runs until no further mutation is made in `Sudoku` puzzle.
+
+It has to take the argument `by`, the name of a local group that it will work with. `by` must be either `row`, `col`, or `submatrix`
+
+Here's an example:
+
+```{python slocal_eg1}
+q_small = ss.questions.q_small
+print(q_small)
+```
+
+`q_small` is a 4-by-4 (or 2^2^-by-2^2^) sudoku puzzle:
+
+```{python slocal_eg2}
+q_small = ss.to_sudoku(q_small)
+q_small
+```
+
+Take a look at the 2^nd^ row and candidate values in each entry of it. The entry at the 2^nd^ row and:
+
+* the 1^st^ column has `3` and `4` as candidate values because:
+    + `2` is in the same row
+    + `1` is in the same column
+    + `1` and `2` are in the same submatrix
+* the 3^rd^ column has `1` and `4` as candidate values because:
+    + `2` is in the same row
+    + `3` is in the same column and submatrix
+* the 4^th^ column has `1` as the only candidate value because:
+    + `2` is in the same row
+    + `4` is in the same column
+    + `3` is in the same submatrix
+
+Although the entry at the 2^nd^ row and the 1^st^ column has two candidate values (`3` and `4`), we can conclude that `3` must be the value at this entry because `3` is the only candidate value in the 2^nd^ row that exists at this entry only. 
+
+`q2_case1` is an example of a puzzle that needs `.solve_locally()` to get to the answer form:
+
+```{python slocal_eg3}
+q2_case1 = ss.to_sudoku(ss.questions.q2)
+q2_case2 = q2_case1.copy()
+
+# Case 1: solve locally by row then column 
+q2_case1
+q2_case1.solve_locally(by = 'row')
+q2_case1.solve_locally(by = 'col')
+q2_case1
+```
+
+```{python slocal_eg4}
+# Case 2: solve locally by submatrix
+q2_case2
+q2_case2.solve_locally(by = 'submatrix')
+q2_case2
+```
+
+## `.solve_by_pointing_pairs()`
+
+As of version 0.1.0, this only works with `by = 'submatrix'`. Working methods for `by = 'row'` and `by = 'col'` will be supported in version 0.1.1.
+
+Inside a submatrix, if a single row or column exclusively contains one candidate number, then that candidate number should be eliminated from the same row or column that is not a part of the submatrix.
+
+Here is an example:
+
+```{python q_top95_4_eg1}
+pzl = '4873...9....6..271126.9.3847.5...162...2..8..........9..1.769233..1..45.....53.18'
+pzl = ss.to_sudoku(pzl, elements = set([i for i in range(1, 10)]))
+pzl
+```
+
+See the candidate values in the fourth submatrix:
+
+```{python qt4_eg2}
+pzl.group(by = 'submatrix')[4] # 1-indexing for submatrix
+```
+
+See the entries with keys `(5, x)` (i.e. entries of the 6^th^ row in the sudoku puzzle that belong to the 4^th^ submatrix). Notice that these entries exclusively have `8` as a candidate value within this submatrix. This means any entry that:
+
+1. belongs to the 6^th^ row, and
+2. does NOT belong to the 4^th^ submatrix, and
+3. has `8` as one of its candidate values
+
+should eliminate `8` from one of its candidate values. That is, among those entries of the 6^th^ row:
+
+```{python pzl_eg3}
+pzl.group(by = 'row')[5] # 0-indexing for row and col
+```
+
+the entries `(5, 3)`, `(5, 4)`, and `(5, 5)` should get rid of `8` from one of its candidate values since they do not belong to the 4^th^ submatrix and has `8` as one of its candidate values.
 
 
+## `.solve_by_hidden_pairs()`
+
+Within a local group (`row`, `col`, or `submatrix`), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.
+
+For example, consider the following `Candidate` group:
+
+```{python pzl_eg4}
+ss.candidate.Candidate( # 6th row
+    {
+        (5, 0): {'6', '8', '2'},
+        (5, 1): {'3', '6', '4', '1'},
+        (5, 2): {'3', '4', '8', '2'},
+        (5, 3): {'5', '7'},
+        (5, 4): {'3', '4', '1', '6'},
+        (5, 5): {'4', '1'},
+        (5, 6): {'5', '7'},
+        (5, 7): {'3', '4'},
+    },
+    elements = set([i for i in range(1, 10)])
+)
+```
+
+See `(5, 0)` and `(5, 2)`. These two entries contain `2` and `8` exclusively, so the set of candidate values should be `{'2', '8'}` for both.
 
 
+## `.solve_logically()`
+
+This method applies:
+
+* `.solve_globally()`
+* `.solve_locally(by)`, where `by = 'row'`, `'col'`, and `'submatrix'`
+* `.solve_by_pointing_pairs()`
+* `.solve_by_hidden_pairs(by)`, where `by = 'row'`, `'col'`, and `'submatrix'`
+
+It continues to apply these methods until either no mutation is made to `Sudoku`, or `Sudoku` transforms into the answer form.
+
+## `.solve_forcefully()`
+
+In this method, the following steps are repeated:
+
+1. Apply `.solve_logically()` and get the most refined version of `Candidate` from `Sudoku`.
+2. From the first entry (i.e. the entry with the smallest `row` and `col` in `(row, col)`) of `Sudoku` that is `empty`, randomly plug in one value from the candidate set.
+3. Apply `.solve_logically()` after plugging in.
+4. Repeat 2 and 3 until:
+    + 4.1. `Sudoku` transforms into the answer form, OR
+    + 4.2. at least one candidate set of `Sudoku` entries is `set()`, i.e. the empty set.
+
+In case of 4.2., `Sudoku` transforms back to the initial state, the method adds `1` to the `trial` number and goes back to step 1. This process continues until either `trial == max_trial` or `Sudoku` transforms into the answer form.
 
 
+## `.solve()`
 
+This method first uses `.solve_logically()`, and then `.solve_forcefully()`.
+
+
+# Performance
+
+See [analysis](analysis.html) for details.
 
 
 

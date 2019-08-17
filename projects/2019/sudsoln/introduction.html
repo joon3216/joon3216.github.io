@@ -573,6 +573,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 
 
+<div id="TOC" class="toc">
+<ul>
+<li><a href="#initializing-a-puzzle">Initializing a puzzle</a></li>
+<li><a href="#solving-a-puzzle">Solving a puzzle</a><ul>
+<li><a href="#solve_globally"><code>.solve_globally()</code></a></li>
+<li><a href="#solve_locally"><code>.solve_locally()</code></a></li>
+<li><a href="#solve_by_pointing_pairs"><code>.solve_by_pointing_pairs()</code></a></li>
+<li><a href="#solve_by_hidden_pairs"><code>.solve_by_hidden_pairs()</code></a></li>
+<li><a href="#solve_logically"><code>.solve_logically()</code></a></li>
+<li><a href="#solve_forcefully"><code>.solve_forcefully()</code></a></li>
+<li><a href="#solve"><code>.solve()</code></a></li>
+</ul></li>
+<li><a href="#performance">Performance</a></li>
+</ul>
+</div>
 
 <section class="main-content">
 <p>This vignette focuses on how you can initialize <code>Sudoku</code> puzzle and use methods to solve them.</p>
@@ -589,7 +604,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>use <code>Sudoku</code> class directly</li>
 <li>use <code>to_sudoku</code> function</li>
 </ul>
-<p>The difference between the two is that <code>Sudoku</code> accepts a list of lists in its <code>array</code> argument, whereas <code>to_sudoku</code> function accepts a string in its <code>sudoku_str</code> argument and has no <code>array</code> argument. For example, if you have the following puzzle:</p>
+<p>The difference between the two is that <code>Sudoku</code> accepts a list of lists in its <code>array</code> argument, whereas <code>to_sudoku</code> function accepts a string in its <code>sudoku_str</code> argument and converts it into a list of lists. For example, if you have the following puzzle:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">q1_array <span class="op">=</span> [</a>
 <a class="sourceLine" id="cb4-2" title="2">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
 <a class="sourceLine" id="cb4-3" title="3">    [<span class="st">&#39;8&#39;</span>, <span class="st">&#39;3&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;6&#39;</span>],</a>
@@ -601,15 +616,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-9" title="9">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;5&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
 <a class="sourceLine" id="cb4-10" title="10">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>]</a>
 <a class="sourceLine" id="cb4-11" title="11">]</a></code></pre></div>
-<p>Then you have to use <code>Sudoku</code> class. If you have it in a form of string as follows:</p>
+<p>then you have to use <code>Sudoku</code> class. If you have it in a form of string as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">q1_str <span class="op">=</span> <span class="st">&#39;....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...&#39;</span></a></code></pre></div>
-<p>Then you should use <code>to_sudoku</code> function. Inside <code>to_sudoku</code>, <code>q1_str</code> is converted to the same form as <code>q1_array</code>, and this will be plugged into <code>array</code> argument of <code>Sudoku</code> along with the other arguments.</p>
+<p>then you should use <code>to_sudoku</code> function. <code>to_sudoku</code> is merely a wrapper function of <code>Sudoku</code>; inside <code>to_sudoku</code>, <code>q1_str</code> is converted to the same form as <code>q1_array</code>, and this will be plugged into <code>array</code> argument of <code>Sudoku</code> along other arguments.</p>
 <p>Both require three arguments in total. Two common arguments are:</p>
 <ul>
 <li><code>empty</code>: a string that denotes the emptiness (<code>'.'</code> by default)</li>
 <li><code>elements</code>: a set of entries in an array that is NOT <code>empty</code></li>
 </ul>
-<p>Usually, if a size of puzzle is 9-by-9, then <code>elements</code> is a set of integers from <code>1</code> to <code>9</code>. Unlike <code>empty</code>, <code>elements</code> has no default argument.</p>
+<p>Usually, if a size of puzzle is 9-by-9 (or 3<sup>2</sup>-by-3<sup>2</sup>), then <code>elements</code> is a set of integers from <code>1</code> to <code>9</code>. Unlike <code>empty</code>, <code>elements</code> has no default argument.</p>
 <p>If <code>elements</code> is not specified in either <code>Sudoku</code> or <code>to_sudoku</code>, then it guesses <code>elements</code> from:</p>
 <ul>
 <li><code>array</code> of <code>Sudoku</code>, or;</li>
@@ -758,6 +773,329 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 <li><code>Sudoku.solve_forcefully()</code></li>
 <li><code>Sudoku.solve()</code></li>
 </ul>
+<div id="solve_globally" class="section level2">
+<h2><code>.solve_globally()</code></h2>
+<p>For each entry, this method looks at the <code>row</code>, <code>col</code>umn, and <code>submatrix</code> it belongs and see if there is only one possible candidate value at that entry. If true, plug the value into that entry, and repeat the process until no new mutation is made to <code>Sudoku</code>.</p>
+<p>For example, take a look at <code>q1_case1</code>:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb30-1" title="1">q1_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     .    .    .    |    .    2    .    |    .    .    .
+##     8    3    .    |    7    1    4    |    .    9    6
+##     .    6    .    |    9    .    5    |    4    .    8
+## -------------------+-------------------+-------------------
+##     .    9    .    |    3    .    1    |    .    .    4
+##     .    1    .    |    4    .    2    |    .    .    7
+##     .    7    5    |    .    .    .    |    2    1    .
+## -------------------+-------------------+-------------------
+##     .    .    4    |    .    .    .    |    7    .    .
+##     .    .    .    |    5    .    7    |    .    .    .
+##     .    .    .    |    1    9    6    |    .    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<p>See the entry at the 3<sup>rd</sup> row and 5<sup>th</sup> column. Notice that <code>3</code> is the only possible candidate value at that entry because:</p>
+<ul>
+<li>there are <code>4</code>, <code>5</code>, <code>6</code>, <code>8</code>, and <code>9</code> in the row it belongs</li>
+<li>there are <code>1</code> and <code>2</code> in the column it belongs</li>
+<li>there is <code>7</code> in the submatrix it belongs</li>
+</ul>
+<p>And therefore, the only candidate value left at that entry is <code>3</code>, indicating it must be the value at that entry. <code>.solve_globally()</code> does this for every entry in the sudoku array, and goes back to the very first entry after it goes through the entire array. The method stops if the process does not mutate <code>Sudoku</code> puzzle anymore.</p>
+<p><code>q1_case1</code> is actually a very easy sudoku puzzle and only requires <code>.solve_globally()</code> to be solved entirely:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb32-1" title="1"><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="im">as</span> dt</a>
+<a class="sourceLine" id="cb32-2" title="2">start <span class="op">=</span> dt.now()<span class="op">;</span> q1_case1.solve_globally()<span class="op">;</span> end <span class="op">=</span> dt.now()</a>
+<a class="sourceLine" id="cb32-3" title="3">q1_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     5    4    9    |    6    2    8    |    3    7    1
+##     8    3    2    |    7    1    4    |    5    9    6
+##     7    6    1    |    9    3    5    |    4    2    8
+## -------------------+-------------------+-------------------
+##     2    9    8    |    3    7    1    |    6    5    4
+##     6    1    3    |    4    5    2    |    9    8    7
+##     4    7    5    |    8    6    9    |    2    1    3
+## -------------------+-------------------+-------------------
+##     1    5    4    |    2    8    3    |    7    6    9
+##     9    8    6    |    5    4    7    |    1    3    2
+##     3    2    7    |    1    9    6    |    8    4    5
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" title="1"><span class="bu">str</span>(end <span class="op">-</span> start)</a></code></pre></div>
+<pre><code>## &#39;0:00:00.035472&#39;</code></pre>
+<p><code>q4_case1</code>, however, is a harder puzzle. You can see that <code>.solve_globally()</code> doesn’t do anything:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb36-1" title="1">q4_case1_cp <span class="op">=</span> q4_case1.copy()</a>
+<a class="sourceLine" id="cb36-2" title="2">q4_case1.solve_globally()</a>
+<a class="sourceLine" id="cb36-3" title="3">q4_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     3    .    2    |    .    .    .    |    .    6    .
+##     .    .    .    |    7    .    8    |    1    .    .
+##     .    .    .    |    .    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     5    8    .    |    4    .    .    |    .    .    .
+##     .    .    .    |    .    .    .    |    .    1    2
+##     .    .    .    |    1    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     .    1    .    |    .    .    .    |    4    .    .
+##     6    .    .    |    .    3    .    |    .    .    .
+##     .    .    .    |    .    2    .    |    .    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb38-1" title="1"><span class="bu">print</span>(q4_case1 <span class="op">==</span> q4_case1_cp)</a></code></pre></div>
+<pre><code>## True</code></pre>
+</div>
+<div id="solve_locally" class="section level2">
+<h2><code>.solve_locally()</code></h2>
+<p>This looks at candidate values more carefully. It doesn’t look at the only candidate value remaining; rather, it tries to acquire the only existing candidate value within the local group it belongs, i.e. <code>row</code>, <code>col</code>, or <code>submatrix</code>. If there is only one number that is exclusively a candidate value in one particular entry within a local group, that entry must have that value in its place. Just like <code>.solve_globally()</code>, <code>.solve_locally()</code> runs until no further mutation is made in <code>Sudoku</code> puzzle.</p>
+<p>It has to take the argument <code>by</code>, the name of a local group that it will work with. <code>by</code> must be either <code>row</code>, <code>col</code>, or <code>submatrix</code></p>
+<p>Here’s an example:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb40-1" title="1">q_small <span class="op">=</span> ss.questions.q_small</a>
+<a class="sourceLine" id="cb40-2" title="2"><span class="bu">print</span>(q_small)</a></code></pre></div>
+<pre><code>## 1.3..2.........4</code></pre>
+<p><code>q_small</code> is a 4-by-4 (or 2<sup>2</sup>-by-2<sup>2</sup>) sudoku puzzle:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb42-1" title="1">q_small <span class="op">=</span> ss.to_sudoku(q_small)</a>
+<a class="sourceLine" id="cb42-2" title="2">q_small</a></code></pre></div>
+<pre><code>## Sudoku(
+##     1    .    |    3    .
+##     .    2    |    .    .
+## --------------+--------------
+##     .    .    |    .    .
+##     .    .    |    .    4
+## n: 2
+## elements: 1, 2, 3, 4
+## empty: .
+## )</code></pre>
+<p>Take a look at the 2<sup>nd</sup> row and candidate values in each entry of it. The entry at the 2<sup>nd</sup> row and:</p>
+<ul>
+<li>the 1<sup>st</sup> column has <code>3</code> and <code>4</code> as candidate values because:
+<ul>
+<li><code>2</code> is in the same row</li>
+<li><code>1</code> is in the same column</li>
+<li><code>1</code> and <code>2</code> are in the same submatrix</li>
+</ul></li>
+<li>the 3<sup>rd</sup> column has <code>1</code> and <code>4</code> as candidate values because:
+<ul>
+<li><code>2</code> is in the same row</li>
+<li><code>3</code> is in the same column and submatrix</li>
+</ul></li>
+<li>the 4<sup>th</sup> column has <code>1</code> as the only candidate value because:
+<ul>
+<li><code>2</code> is in the same row</li>
+<li><code>4</code> is in the same column</li>
+<li><code>3</code> is in the same submatrix</li>
+</ul></li>
+</ul>
+<p>Although the entry at the 2<sup>nd</sup> row and the 1<sup>st</sup> column has two candidate values (<code>3</code> and <code>4</code>), we can conclude that <code>3</code> must be the value at this entry because <code>3</code> is the only candidate value in the 2<sup>nd</sup> row that exists at this entry only.</p>
+<p><code>q2_case1</code> is an example of a puzzle that needs <code>.solve_locally()</code> to get to the answer form:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb44-1" title="1">q2_case1 <span class="op">=</span> ss.to_sudoku(ss.questions.q2)</a>
+<a class="sourceLine" id="cb44-2" title="2">q2_case2 <span class="op">=</span> q2_case1.copy()</a>
+<a class="sourceLine" id="cb44-3" title="3"></a>
+<a class="sourceLine" id="cb44-4" title="4"><span class="co"># Case 1: solve locally by row then column </span></a>
+<a class="sourceLine" id="cb44-5" title="5">q2_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     .    .    3    |    .    .    .    |    .    2    .
+##     .    .    .    |    4    1    6    |    .    .    5
+##     6    .    8    |    .    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     .    2    .    |    9    .    4    |    .    6    .
+##     .    6    .    |    .    8    .    |    .    7    .
+##     .    3    .    |    2    .    7    |    .    9    .
+## -------------------+-------------------+-------------------
+##     .    .    .    |    .    .    .    |    6    .    4
+##     2    .    .    |    8    4    1    |    .    .    .
+##     .    5    .    |    .    .    .    |    9    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb46-1" title="1">q2_case1.solve_locally(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)</a>
+<a class="sourceLine" id="cb46-2" title="2">q2_case1.solve_locally(by <span class="op">=</span> <span class="st">&#39;col&#39;</span>)</a>
+<a class="sourceLine" id="cb46-3" title="3">q2_case1</a></code></pre></div>
+<pre><code>## Sudoku(
+##     5    4    3    |    7    9    8    |    1    2    6
+##     9    7    2    |    4    1    6    |    8    3    5
+##     6    1    8    |    3    5    2    |    7    4    9
+## -------------------+-------------------+-------------------
+##     7    2    1    |    9    3    4    |    5    6    8
+##     4    6    9    |    1    8    5    |    2    7    3
+##     8    3    5    |    2    6    7    |    4    9    1
+## -------------------+-------------------+-------------------
+##     3    8    7    |    5    2    9    |    6    1    4
+##     2    9    6    |    8    4    1    |    3    5    7
+##     1    5    4    |    6    7    3    |    9    8    2
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb48-1" title="1"><span class="co"># Case 2: solve locally by submatrix</span></a>
+<a class="sourceLine" id="cb48-2" title="2">q2_case2</a></code></pre></div>
+<pre><code>## Sudoku(
+##     .    .    3    |    .    .    .    |    .    2    .
+##     .    .    .    |    4    1    6    |    .    .    5
+##     6    .    8    |    .    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     .    2    .    |    9    .    4    |    .    6    .
+##     .    6    .    |    .    8    .    |    .    7    .
+##     .    3    .    |    2    .    7    |    .    9    .
+## -------------------+-------------------+-------------------
+##     .    .    .    |    .    .    .    |    6    .    4
+##     2    .    .    |    8    4    1    |    .    .    .
+##     .    5    .    |    .    .    .    |    9    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb50-1" title="1">q2_case2.solve_locally(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)</a>
+<a class="sourceLine" id="cb50-2" title="2">q2_case2</a></code></pre></div>
+<pre><code>## Sudoku(
+##     5    4    3    |    7    9    8    |    1    2    6
+##     9    7    2    |    4    1    6    |    8    3    5
+##     6    1    8    |    3    5    2    |    7    4    9
+## -------------------+-------------------+-------------------
+##     7    2    1    |    9    3    4    |    5    6    8
+##     4    6    9    |    1    8    5    |    2    7    3
+##     8    3    5    |    2    6    7    |    4    9    1
+## -------------------+-------------------+-------------------
+##     3    8    7    |    5    2    9    |    6    1    4
+##     2    9    6    |    8    4    1    |    3    5    7
+##     1    5    4    |    6    7    3    |    9    8    2
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+</div>
+<div id="solve_by_pointing_pairs" class="section level2">
+<h2><code>.solve_by_pointing_pairs()</code></h2>
+<p>As of version 0.1.0, this only works with <code>by = 'submatrix'</code>. Working methods for <code>by = 'row'</code> and <code>by = 'col'</code> will be supported in version 0.1.1.</p>
+<p>Inside a submatrix, if a single row or column exclusively contains one candidate number, then that candidate number should be eliminated from the same row or column that is not a part of the submatrix.</p>
+<p>Here is an example:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb52-1" title="1">pzl <span class="op">=</span> <span class="st">&#39;4873...9....6..271126.9.3847.5...162...2..8..........9..1.769233..1..45.....53.18&#39;</span></a>
+<a class="sourceLine" id="cb52-2" title="2">pzl <span class="op">=</span> ss.to_sudoku(pzl, elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]))</a>
+<a class="sourceLine" id="cb52-3" title="3">pzl</a></code></pre></div>
+<pre><code>## Sudoku(
+##     4    8    7    |    3    .    .    |    .    9    .
+##     .    .    .    |    6    .    .    |    2    7    1
+##     1    2    6    |    .    9    .    |    3    8    4
+## -------------------+-------------------+-------------------
+##     7    .    5    |    .    .    .    |    1    6    2
+##     .    .    .    |    2    .    .    |    8    .    .
+##     .    .    .    |    .    .    .    |    .    .    9
+## -------------------+-------------------+-------------------
+##     .    .    1    |    .    7    6    |    9    2    3
+##     3    .    .    |    1    .    .    |    4    5    .
+##     .    .    .    |    .    5    3    |    .    1    8
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
+<p>See the candidate values in the fourth submatrix:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb54-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)[<span class="dv">4</span>] <span class="co"># 1-indexing for submatrix</span></a></code></pre></div>
+<pre><code>## Candidate(
+## {
+## (3, 1): {&#39;9&#39;, &#39;4&#39;, &#39;3&#39;},
+## (4, 0): {&#39;9&#39;, &#39;6&#39;},
+## (4, 1): {&#39;4&#39;, &#39;3&#39;, &#39;6&#39;, &#39;9&#39;, &#39;1&#39;},
+## (4, 2): {&#39;9&#39;, &#39;4&#39;, &#39;3&#39;},
+## (5, 0): {&#39;2&#39;, &#39;6&#39;, &#39;8&#39;},
+## (5, 1): {&#39;6&#39;, &#39;4&#39;, &#39;1&#39;, &#39;3&#39;},
+## (5, 2): {&#39;2&#39;, &#39;4&#39;, &#39;8&#39;, &#39;3&#39;},
+## },
+## elements = {&#39;4&#39;, &#39;3&#39;, &#39;8&#39;, &#39;7&#39;, &#39;5&#39;, &#39;6&#39;, &#39;2&#39;, &#39;9&#39;, &#39;1&#39;}
+## )
+## (n: 3)</code></pre>
+<p>See the entries with keys <code>(5, x)</code> (i.e. entries of the 6<sup>th</sup> row in the sudoku puzzle that belong to the 4<sup>th</sup> submatrix). Notice that these entries exclusively have <code>8</code> as a candidate value within this submatrix. This means any entry that:</p>
+<ol style="list-style-type: decimal">
+<li>belongs to the 6<sup>th</sup> row, and</li>
+<li>does NOT belong to the 4<sup>th</sup> submatrix, and</li>
+<li>has <code>8</code> as one of its candidate values</li>
+</ol>
+<p>should eliminate <code>8</code> from one of its candidate values. That is, among those entries of the 6<sup>th</sup> row:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb56-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)[<span class="dv">5</span>] <span class="co"># 0-indexing for row and col</span></a></code></pre></div>
+<pre><code>## Candidate(
+## {
+## (5, 0): {&#39;2&#39;, &#39;6&#39;, &#39;8&#39;},
+## (5, 1): {&#39;6&#39;, &#39;4&#39;, &#39;1&#39;, &#39;3&#39;},
+## (5, 2): {&#39;2&#39;, &#39;4&#39;, &#39;8&#39;, &#39;3&#39;},
+## (5, 3): {&#39;5&#39;, &#39;4&#39;, &#39;8&#39;, &#39;7&#39;},
+## (5, 4): {&#39;4&#39;, &#39;3&#39;, &#39;8&#39;, &#39;6&#39;, &#39;1&#39;},
+## (5, 5): {&#39;4&#39;, &#39;8&#39;, &#39;7&#39;, &#39;5&#39;, &#39;1&#39;},
+## (5, 6): {&#39;5&#39;, &#39;7&#39;},
+## (5, 7): {&#39;4&#39;, &#39;3&#39;},
+## },
+## elements = {&#39;4&#39;, &#39;3&#39;, &#39;8&#39;, &#39;7&#39;, &#39;5&#39;, &#39;6&#39;, &#39;2&#39;, &#39;9&#39;, &#39;1&#39;}
+## )
+## (n: 3)</code></pre>
+<p>the entries <code>(5, 3)</code>, <code>(5, 4)</code>, and <code>(5, 5)</code> should get rid of <code>8</code> from one of its candidate values since they do not belong to the 4<sup>th</sup> submatrix and has <code>8</code> as one of its candidate values.</p>
+</div>
+<div id="solve_by_hidden_pairs" class="section level2">
+<h2><code>.solve_by_hidden_pairs()</code></h2>
+<p>Within a local group (<code>row</code>, <code>col</code>, or <code>submatrix</code>), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.</p>
+<p>For example, consider the following <code>Candidate</code> group:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb58-1" title="1">ss.candidate.Candidate( <span class="co"># 6th row</span></a>
+<a class="sourceLine" id="cb58-2" title="2">    {</a>
+<a class="sourceLine" id="cb58-3" title="3">        (<span class="dv">5</span>, <span class="dv">0</span>): {<span class="st">&#39;6&#39;</span>, <span class="st">&#39;8&#39;</span>, <span class="st">&#39;2&#39;</span>},</a>
+<a class="sourceLine" id="cb58-4" title="4">        (<span class="dv">5</span>, <span class="dv">1</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>},</a>
+<a class="sourceLine" id="cb58-5" title="5">        (<span class="dv">5</span>, <span class="dv">2</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;8&#39;</span>, <span class="st">&#39;2&#39;</span>},</a>
+<a class="sourceLine" id="cb58-6" title="6">        (<span class="dv">5</span>, <span class="dv">3</span>): {<span class="st">&#39;5&#39;</span>, <span class="st">&#39;7&#39;</span>},</a>
+<a class="sourceLine" id="cb58-7" title="7">        (<span class="dv">5</span>, <span class="dv">4</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;6&#39;</span>},</a>
+<a class="sourceLine" id="cb58-8" title="8">        (<span class="dv">5</span>, <span class="dv">5</span>): {<span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>},</a>
+<a class="sourceLine" id="cb58-9" title="9">        (<span class="dv">5</span>, <span class="dv">6</span>): {<span class="st">&#39;5&#39;</span>, <span class="st">&#39;7&#39;</span>},</a>
+<a class="sourceLine" id="cb58-10" title="10">        (<span class="dv">5</span>, <span class="dv">7</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>},</a>
+<a class="sourceLine" id="cb58-11" title="11">    },</a>
+<a class="sourceLine" id="cb58-12" title="12">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)])</a>
+<a class="sourceLine" id="cb58-13" title="13">)</a></code></pre></div>
+<pre><code>## Candidate(
+## {
+## (5, 0): {&#39;8&#39;, &#39;6&#39;, &#39;2&#39;},
+## (5, 1): {&#39;6&#39;, &#39;4&#39;, &#39;1&#39;, &#39;3&#39;},
+## (5, 2): {&#39;8&#39;, &#39;4&#39;, &#39;2&#39;, &#39;3&#39;},
+## (5, 3): {&#39;5&#39;, &#39;7&#39;},
+## (5, 4): {&#39;6&#39;, &#39;4&#39;, &#39;1&#39;, &#39;3&#39;},
+## (5, 5): {&#39;4&#39;, &#39;1&#39;},
+## (5, 6): {&#39;5&#39;, &#39;7&#39;},
+## (5, 7): {&#39;4&#39;, &#39;3&#39;},
+## },
+## elements = {&#39;4&#39;, &#39;3&#39;, &#39;8&#39;, &#39;7&#39;, &#39;5&#39;, &#39;6&#39;, &#39;2&#39;, &#39;9&#39;, &#39;1&#39;}
+## )
+## (n: 3)</code></pre>
+<p>See <code>(5, 0)</code> and <code>(5, 2)</code>. These two entries contain <code>2</code> and <code>8</code> exclusively, so the set of candidate values should be <code>{'2', '8'}</code> for both.</p>
+</div>
+<div id="solve_logically" class="section level2">
+<h2><code>.solve_logically()</code></h2>
+<p>This method applies:</p>
+<ul>
+<li><code>.solve_globally()</code></li>
+<li><code>.solve_locally(by)</code>, where <code>by = 'row'</code>, <code>'col'</code>, and <code>'submatrix'</code></li>
+<li><code>.solve_by_pointing_pairs()</code></li>
+<li><code>.solve_by_hidden_pairs(by)</code>, where <code>by = 'row'</code>, <code>'col'</code>, and <code>'submatrix'</code></li>
+</ul>
+<p>It continues to apply these methods until either no mutation is made to <code>Sudoku</code>, or <code>Sudoku</code> transforms into the answer form.</p>
+</div>
+<div id="solve_forcefully" class="section level2">
+<h2><code>.solve_forcefully()</code></h2>
+<p>In this method, the following steps are repeated:</p>
+<ol style="list-style-type: decimal">
+<li>Apply <code>.solve_logically()</code> and get the most refined version of <code>Candidate</code> from <code>Sudoku</code>.</li>
+<li>From the first entry (i.e. the entry with the smallest <code>row</code> and <code>col</code> in <code>(row, col)</code>) of <code>Sudoku</code> that is <code>empty</code>, randomly plug in one value from the candidate set.</li>
+<li>Apply <code>.solve_logically()</code> after plugging in.</li>
+<li>Repeat 2 and 3 until:
+<ul>
+<li>4.1. <code>Sudoku</code> transforms into the answer form, OR</li>
+<li>4.2. at least one candidate set of <code>Sudoku</code> entries is <code>set()</code>, i.e. the empty set.</li>
+</ul></li>
+</ol>
+<p>In case of 4.2., <code>Sudoku</code> transforms back to the initial state, the method adds <code>1</code> to the <code>trial</code> number and goes back to step 1. This process continues until either <code>trial == max_trial</code> or <code>Sudoku</code> transforms into the answer form.</p>
+</div>
+<div id="solve" class="section level2">
+<h2><code>.solve()</code></h2>
+<p>This method first uses <code>.solve_logically()</code>, and then <code>.solve_forcefully()</code>.</p>
+</div>
+</div>
+<div id="performance" class="section level1">
+<h1>Performance</h1>
+<p>See <a href="analysis.html">analysis</a> for details.</p>
 </div>
 </section>
 
