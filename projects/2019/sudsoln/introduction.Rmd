@@ -80,7 +80,7 @@ then you have to use `Sudoku` class. If you have it in a form of string as follo
 q1_str = '....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...'
 ```
 
-then you should use `to_sudoku` function. `to_sudoku` is merely a wrapper function of `Sudoku`; inside `to_sudoku`, `q1_str` is converted to the same form as `q1_array`, and this will be plugged into `array` argument of `Sudoku` along other arguments.
+then you should use `to_sudoku` function. `to_sudoku` is merely a wrapper function of `Sudoku`; inside `to_sudoku`, `q1_str` is converted to the same form as `q1_array`, and this will be plugged into `array` argument of `Sudoku` along with other arguments.
 
 Both require three arguments in total. Two common arguments are:
 
