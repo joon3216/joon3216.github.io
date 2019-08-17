@@ -25,13 +25,16 @@ use_virtualenv('r-reticulate')
 py_available(T)
 ```
 
-This vignette focuses on how you can initialize `Sudoku` puzzle and use methods to solve them.
+This vignette focuses on how you can initialize `Sudoku` puzzle and use methods to solve them. Any other details, such as classes like `Candidate`, `Array`, `Appearance`, or other `Sudoku` methods such as `.__eq__()`, `.group()`, `.copy()` and so on, are omitted.
+
 
 To install `sudsoln`, type:
 
 ```
 pip install sudsoln
 ```
+
+Note that `sudsoln` is only supported in Python 3.
 
 In this document, the following version of `sudsoln` is imported with the following alias:
 
