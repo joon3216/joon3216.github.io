@@ -65,7 +65,6 @@ See [vignette](sudsoln/introduction.html) for details.
 * Make a progress to `Development Status :: 4 - Beta`
 * Make some attributes private
 * Try define subclasses instead of writing separate classes
-* Write a [vignette](sudsoln/introduction.html)
 
 
 
