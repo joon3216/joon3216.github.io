@@ -17,7 +17,7 @@ def categorize_solved(trial):
         if trial == 200:
             return 'not_solved'
         else:
-            return 'forecfully'
+            return 'forcefully'
 
 result_sudsoln = pd.read_csv(path_to_result_sudsoln_csv)
 result_sudsoln = result_sudsoln.iloc[:, [0, 2, 3, 4]]
@@ -68,5 +68,3 @@ result_sudsoln_report3 = result_sudsoln\
     })\
     .sort_values('solved', ascending = False)
 print(result_sudsoln_report3)
-
-
