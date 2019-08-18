@@ -70,7 +70,7 @@ Details regarding these arguments are written in step 2.
 
 ## Step 0: check if you have a compatible size/length
 
-`sudsoln` is designed to handle $n^2$-by-$n^2$ sudoku puzzles, where $n \geq 2$ is a number of rows/columns in a subarray (or `submatrix` as used in this package). You need to make sure that a puzzle has a size/length $n^4$, where $n \geq 2$ is a natural number. Compatible sizes/lengths include:
+`sudsoln` is designed to handle $n^2$-by-$n^2$ sudoku puzzles, where $n \geq 2$ is a number of rows/columns in a subarray (or `submatrix`, the term used in this package). You need to make sure that a puzzle has a size/length $n^4$, where $n \geq 2$ is a natural number. Compatible sizes/lengths include:
 
 * $16 = 2^4$,
 * $81 = 3^4$,
