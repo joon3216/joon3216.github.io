@@ -75,7 +75,7 @@ result_sudsoln_report3 = result_sudsoln\
         'avg_time': 'mean',
         'max_time': 'max'
     })\
-    .sort_values('solved', ascending = False)
+    .reindex(['logically', 'forcefully', 'not_solved'])
 print(
     'Table 3: How many puzzles required a brute force to be solved?\n\n',
     result_sudsoln_report3, 
