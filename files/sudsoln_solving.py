@@ -5,7 +5,10 @@ import random
 import sudsoln as ss
 
 
+# Create a file
+
 random.seed(1024)
+path_to_result_sudsoln_csv = 'result_sudsoln' + ss.__version__ + '.csv'
 
 top95 = np.loadtxt(
     'https://norvig.com/top95.txt', 
@@ -20,8 +23,6 @@ hardest = np.loadtxt(
 )
 concat = np.concatenate((top95, hardest))
 len_concat = len(concat)
-
-path_to_result_sudsoln_csv = 'result_sudsoln' + ss.__version__ + '.csv'
 
 result_sudsoln = open(path_to_result_sudsoln_csv, 'w')
 result_sudsoln.write('category,result,time,trial,is_solved\n')
@@ -41,6 +42,7 @@ for i in range(len_concat):
 result_sudsoln.close()
 
 
+# Produce a result
 
 def to_sec(time):
     h, m, s = time[0], time[2:4], time[5:]
@@ -54,18 +56,30 @@ result_sudsoln['median_time'] = result_sudsoln.time
 result_sudsoln['avg_time'] = result_sudsoln.time
 result_sudsoln['max_time'] = result_sudsoln.time
 result_sudsoln.is_solved = result_sudsoln.is_solved.apply(int)
-result_sudsoln['out_of'] = 1
+result_sudsoln['total'] = 1
 
-print(
-result_sudsoln\
+result_sudsoln_report1 = result_sudsoln\
     .groupby('category')\
     .agg({
         'is_solved': 'sum', 
-        'out_of': 'sum',
+        'total': 'sum',
         'min_time': 'min',
         'median_time': 'median',
         'avg_time': 'mean',
         'max_time': 'max'
     })\
     .sort_values('category', ascending = False)
-)
+print(result_sudsoln_report1)
+
+result_sudsoln.is_solved = result_sudsoln.is_solved.apply(bool)
+result_sudsoln_report2 = result_sudsoln\
+    .groupby(['category', 'is_solved'])\
+    .agg({
+        'total': 'sum',
+        'min_time': 'min',
+        'median_time': 'median',
+        'avg_time': 'mean',
+        'max_time': 'max'
+    })\
+    .sort_values(['category', 'is_solved'], ascending = False)
+print(result_sudsoln_report2)
