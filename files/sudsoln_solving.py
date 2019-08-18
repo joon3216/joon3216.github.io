@@ -19,7 +19,7 @@ hardest = np.loadtxt(
 concat = np.concatenate((top95, hardest))
 len_concat = len(concat)
 
-result_sudsoln = open('result_sudsoln.csv', 'w')
+result_sudsoln = open('result_sudsoln' + ss.__version__ + '.csv', 'w')
 result_sudsoln.write('category,result,time,trial,is_solved\n')
 for i in range(len_concat):
     question = ss.to_sudoku(
