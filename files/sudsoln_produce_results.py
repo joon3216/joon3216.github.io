@@ -57,7 +57,6 @@ result_sudsoln_report2 = result_sudsoln\
 print(result_sudsoln_report2)
 
 result_sudsoln_report3 = result_sudsoln\
-    .loc[lambda x: x['is_solved']]\
     .groupby('solved')\
     .agg({
         'total': 'sum',
@@ -68,3 +67,19 @@ result_sudsoln_report3 = result_sudsoln\
     })\
     .sort_values('solved', ascending = False)
 print(result_sudsoln_report3)
+
+result_sudsoln['min_trial'] = result_sudsoln.trial
+result_sudsoln['median_trial'] = result_sudsoln.trial
+result_sudsoln['avg_trial'] = result_sudsoln.trial
+result_sudsoln['max_trial'] = result_sudsoln.trial
+result_sudsoln_report4 = result_sudsoln\
+    .loc[lambda x: x['solved'] == 'forcefully']\
+    .groupby('solved')\
+    .agg({
+        'total': 'sum',
+        'min_trial': 'min',
+        'median_trial': 'median',
+        'avg_trial': 'mean',
+        'max_trial': 'max'
+    })
+print(result_sudsoln_report4)
