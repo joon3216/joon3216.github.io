@@ -68,6 +68,18 @@ Both `Sudoku` and `to_sudoku` require three arguments in total:
 
 Details regarding these arguments are written in step 2.
 
+## Step 0: check if you have a compatible size/length
+
+`sudsoln` is designed to handle $n^2$-by-$n^2$ sudoku puzzles, where $n \geq 2$ is a number of rows/columns in a subarray (or `submatrix` as used in this package). You need to make sure that a puzzle has a size/length $n^4$, where $n \geq 2$ is a natural number. Compatible sizes/lengths include:
+
+* $16 = 2^4$,
+* $81 = 3^4$,
+* $256 = 4^4$,
+* $625 = 5^4$
+
+and so forth.
+
+
 ## Step 1: try it without any additional arguments
 
 You can first try initializing sudoku puzzle without specifying any additional arguments (i.e. `empty` and `elements`). Suppose you have the following puzzle:
