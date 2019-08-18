@@ -41,7 +41,7 @@ result_sudsoln_report1 = result_sudsoln\
         'max_time': 'max'
     })\
     .sort_values('category', ascending = False)
-print(result_sudsoln_report1)
+print('Table 1: Within each category, how many puzzles were solved?\n         How fast were they solved?\n\n', result_sudsoln_report1, sep = '')
 
 result_sudsoln.is_solved = result_sudsoln.is_solved.apply(bool)
 result_sudsoln_report2 = result_sudsoln\
@@ -54,7 +54,7 @@ result_sudsoln_report2 = result_sudsoln\
         'max_time': 'max'
     })\
     .sort_values(['category', 'is_solved'], ascending = False)
-print(result_sudsoln_report2)
+print('Table 2: Within each category, if a puzzle was solved,\n         how long did it take to solve one?\n\n', result_sudsoln_report2, sep = '')
 
 result_sudsoln_report3 = result_sudsoln\
     .groupby('solved')\
@@ -66,7 +66,7 @@ result_sudsoln_report3 = result_sudsoln\
         'max_time': 'max'
     })\
     .sort_values('solved', ascending = False)
-print(result_sudsoln_report3)
+print('Table 3: How many puzzles required a brute force to be solved?\n\n', result_sudsoln_report3, sep = '')
 
 result_sudsoln['min_trial'] = result_sudsoln.trial
 result_sudsoln['median_trial'] = result_sudsoln.trial
@@ -82,4 +82,4 @@ result_sudsoln_report4 = result_sudsoln\
         'avg_trial': 'mean',
         'max_trial': 'max'
     })
-print(result_sudsoln_report4)
+print('Table 4: If a brute force is used and successfully solved a puzzle, \n         how many attempts did it take to solve one?\n\n', result_sudsoln_report4, sep = '')
