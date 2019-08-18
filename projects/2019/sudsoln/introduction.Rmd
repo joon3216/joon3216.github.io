@@ -25,16 +25,15 @@ use_virtualenv('r-reticulate')
 py_available(T)
 ```
 
-Note: `sudsoln` is only supported in Python 3.
-
-This vignette focuses on how you can initialize `Sudoku` puzzle and use methods to solve them. Any other details, such as classes like `Candidate`, `Array`, `Appearance`, or other `Sudoku` methods such as `.__eq__()`, `.group()`, `.copy()` and so on, are omitted.
-
+(Note: `sudsoln` is only supported in Python 3)
 
 To install `sudsoln`, type:
 
 ```
 pip install sudsoln
 ```
+
+This vignette focuses on how you can initialize `Sudoku` puzzle and use methods to solve them. Any other details, such as classes like `Candidate`, `Array`, `Appearance`, or other `Sudoku` methods such as `.__eq__()`, `.group()`, `.copy()` and so on, are omitted.
 
 In this document, the following version of `sudsoln` is imported with the following alias:
 
@@ -58,7 +57,20 @@ There are two ways to initialize a puzzle:
 * use `Sudoku` class directly
 * use `to_sudoku` function
 
-The difference between the two is that `Sudoku` accepts a list of lists in its `array` argument, whereas `to_sudoku` function accepts a string in its `sudoku_str` argument and converts it into a list of lists. For example, if you have the following puzzle:
+The difference between the two is that `Sudoku` accepts a list of lists in `array` argument, whereas `to_sudoku` function accepts a string in `sudoku_str` argument. 
+
+In fact, `to_sudoku` is merely a wrapper function around `Sudoku`; inside `to_sudoku`, `sudoku_str` is converted to a list of lists, and this is plugged into `array` argument of `Sudoku`.
+
+Both `Sudoku` and `to_sudoku` require three arguments in total:
+
+* For `Sudoku`, they are `array`, `empty`, and `elements`
+* For `to_sudoku`, they are `sudoku_str`, `empty`, and `elements`
+
+Details regarding these arguments are written in step 2.
+
+## Step 1: try it without any additional arguments
+
+You can first try initializing sudoku puzzle without specifying any additional arguments (i.e. `empty` and `elements`). Suppose you have the following puzzle:
 
 ```{python eg1}
 q1_array = [
@@ -74,37 +86,45 @@ q1_array = [
 ]
 ```
 
-then you have to use `Sudoku` class. If you have it in a form of string as follows:
+You may use `Sudoku` directly as follows:
+
+```{python eg1_1}
+q1_case1 = ss.Sudoku(q1_array)
+q1_case1
+```
+
+If you have it in a form of string:
 
 ```{python eg2}
 q1_str = '....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...'
 ```
 
-then you should use `to_sudoku` function. `to_sudoku` is merely a wrapper function of `Sudoku`; inside `to_sudoku`, `q1_str` is converted to the same form as `q1_array`, and this will be plugged into `array` argument of `Sudoku` along with other arguments.
+then you should use `to_sudoku` function as follows:
 
-Both require three arguments in total. Two common arguments are:
-
-* `empty`: a string that denotes the emptiness (`'.'` by default)
-* `elements`: a set of entries in an array that is NOT `empty`
-
-Usually, if a size of puzzle is 9-by-9 (or 3^2^-by-3^2^), then `elements` is a set of integers from `1` to `9`. Unlike `empty`, `elements` has no default argument.
-
-If `elements` is not specified in either `Sudoku` or `to_sudoku`, then it guesses `elements` from: 
-
-* `array` of `Sudoku`, or; 
-* `sudoku_str` of `to_sudoku`
-
-depending on what you are using to initialize one. For example, both `q1_array` and `q1_str` will be successfully initialized without any specification of either `empty` or `elements`:
-
-```{python eg3}
-q1_case1 = ss.Sudoku(q1_array)
-q1_case1
+```{python eg2_1}
 q1_case2 = ss.to_sudoku(q1_str)
 q1_case2
-print(q1_case1 == q1_case2)
 ```
 
-The following `q4_str`, however, will not be initialized properly and will return `ValueError` with the following message:
+Both initializations are successful without specifying `empty` and `elements`.
+
+
+## Step 2: specify `elements`
+
+As mentioned earlier, both `Sudoku` and `to_sudoku` require three arguments in total. Two common arguments are:
+
+* `empty`: a string that denotes the emptiness (`'.'` by default)
+* `elements`: a set of entries in `array`/`sudoku_str` that is NOT `empty`
+
+Notes:
+
+1. Unlike `empty`, `elements` has no default argument.
+2. Usually, if a size of puzzle is 9-by-9 (or 3^2^-by-3^2^), then `elements` is a set of integers from `1` to `9`.
+3. Every element in `elements` as well as `empty` must have length 1 if it is converted into type `str`. For example, `10` or `14` cannot be an element of `elements`, or `'..'` cannot be `empty`.
+
+If `elements` is not specified, then it *guesses* `elements` from `array` or `sudoku_str` depending on what you are using to initialize a puzzle. Specifically, `Sudoku` thinks any element in `array` that is NOT `empty` should be a member of `elements`. The reason for successful initializations of `q1_array` and `q1_str` in step 1 is because it has 9 distinct values --- integers from 1 to 9 --- in the `array` that is NOT `empty` (i.e. `'.'`).
+
+That is, any puzzle that does NOT have the "correct" number of distinct values will not be initialized in step 1. For example, `q4_str`, will not be initialized properly and will return `ValueError` with the following message:
 
 ```{python eg4}
 q4_str = ss.questions.q4
@@ -112,10 +132,8 @@ print(q4_str)
 ```
 
 ```{python eg4_trial, eval = F}
-q4 = ss.to_sudoku(q4_str)
+q4_case1 = ss.to_sudoku(q4_str)
 ```
-
-
 
 ```
 ValueError: Length of the guessed elements is 8, not 9. Either make sure that: 
@@ -129,16 +147,23 @@ range(1, 10)]), or see if the array uses '.' and some other string, like ',' or
 ' ', to denote the emptiness.
 ```
 
-This is because `Sudoku` thinks any element in `array` that is NOT `empty` should be a member of `elements`. `9` does not exist in `q4_str`, so it causes an error that says the number of guessed elements is 8, not 9. The solution of this problem is to specify `elements` as follows:
+Initialization is not successful because `9` does not exist in `q4_str`, so it causes an error that says the number of guessed elements is 8, not 9.
+
+The solution of this problem is to specify `elements` as follows:
 
 ```{python eg5}
-q4_case1 = ss.to_sudoku(q4_str, elements = set([i for i in range(1, 10)]))
+q4_case1 = ss.to_sudoku(
+    q4_str, 
+    elements = set([i for i in range(1, 10)])
+)
 q4_case1
 ```
 
-In the error message, it suggests to use `set([str(i) for i in range(1, 10)])`, but it is fine to use `set([i for i in range(1, 10)])`; `Sudoku` automatically converts every element in `elements` into `str` before creating an instance of `Sudoku` puzzle anyway.
+Notice that I used `set([i for i in range(1, 10)])` although the message suggests to use `set([str(i) for i in range(1, 10)])`. You can go with either of these as `Sudoku` automatically converts every element in `elements` into `str` before creating an instance of `Sudoku` puzzle anyway.
 
-If you don't like `'.'` as `empty` in your puzzle, you have to change it BEFORE initializing into a `Sudoku` puzzle. That is, the following is not acceptable:
+## Step 3: specify the correct `empty` string
+
+If you don't like `'.'` as `empty` in your puzzle, you have to change it BEFORE initializing into a `Sudoku` puzzle (I may provide the `empty` setter of `Sudoku` in future updates). That is, the following won't work:
 
 ```{python eg6}
 print(q1_str) # recall q1_str
@@ -154,7 +179,7 @@ string denoting the emptiness in the array, or change the string denoting the
 emptiness in the array by using sudsoln.change_empty(array, old, new)."
 ```
 
-Instead, you have to do the following:
+You see this error message because `q1_str` uses a period (`'.'`) to denote the emptiness. Instead, you have to do the following:
 
 ```{python eg7}
 q1_str = q1_str.replace('.', ' ')
@@ -163,7 +188,7 @@ q1_case3 = ss.to_sudoku(q1_str, empty = ' ')
 q1_case3
 ```
 
-or the following in case of `q4_str`:
+You may do the following in case of `q4_str`:
 
 ```{python eg8}
 q4_str = q4_str.replace('.', '*')
@@ -176,9 +201,70 @@ q4_case2 = ss.to_sudoku(
 q4_case2
 ```
 
-After successful initialization, you are ready to use methods to solve the puzzle.
 
-Note: every element in `elements` as well as `empty` must have length 1 if it is converted into type `str`. For example, `10` or `14` cannot be an element in `elements`, or `'..'` cannot be `empty`.
+
+## Step 4: check for typos
+
+Suppose you are heading towards the subway station commuting to your workplace. Along the way, you grab a newspaper, read two or three articles, criticize journalists on their political stances (too left or too right), and then get to the end of the newspaper. You see today's 3^2^-by-3^2^ sudoku puzzle is right there, remembering there is a Python package called `sudsoln` you downloaded before, and you decide to give it a try.
+
+You open your laptop/smartphone/tablet, open a Python shell (on [Pydroid](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en_CA)/[Termux](https://play.google.com/store/apps/details?id=com.termux&hl=en_CA)/etc in case of smartphone or tablet), and then type in the following:
+
+```{python step4_eg1}
+puzzle = '..3.,..2....416..56.8.......2.9.4.6..6..8..7..3.2.7.9.......6.42..841....5....9..'
+```
+
+You then `import sudsoln as ss`, and try initialize `Sudoku` using `to_sudoku` as follows:
+
+```{python step4_eg2, eval = F}
+puzzle = ss.to_sudoku(puzzle)
+```
+
+But you get the error message:
+
+```
+ValueError: Length of the guessed elements is 10, not 9. Either make sure that: 
+1. every element in the current array contains all of your intended elements at
+least once, or; 2. specify elements explicitly, or; 3. there is exactly one
+string, and only one, that denotes the emptiness in the array. For example, if
+you try to solve a 9-by-9 sudoku whose answer form consists of integers from 1 
+to 9, either make sure that every integer from 1 to 9 shows up in the current
+array at least once, or explicitly specify elements = set([str(i) for i in
+range(1, 10)]), or see if the array uses '.' and some other string, like ',' or 
+' ', to denote the emptiness.
+```
+
+Ah, you remember this error message. The writer of this package said that you have to specify `elements` in this case:
+
+```{python step4_eg3, eval = F}
+puzzle = ss.to_sudoku(puzzle, elements = set([i for i in range(1, 10)]))
+```
+
+But this time, you are getting a different error message:
+
+```
+ValueError: There exists an element in array that is not a member of 
+elements: {','}
+```
+
+What does this mean? This means that `puzzle` has a string that is neither `empty` nor an element of `elements`. Specifically, the error message says that `','` is in your `puzzle` which is not supposed to be an element of `elements`, but not `empty` either.
+
+You scroll up the shell to the point where you defined `puzzle`, and realize that the 5^th^ string of `puzzle` is `','` and not `'.'`. You must have made a mistake while typing the puzzle and have not realized it. After all, a comma and a period is right next to each other:
+
+```{python step4_eg4}
+puzzle[4]
+```
+
+You also see that the first error message said the "[l]ength of the guessed elements is **10**, not 9." The guessed elements was not 8 but 10 after all.
+
+Now you know the mistake, you fix the typo and then initialize it:
+
+```{python step_eg5}
+puzzle = puzzle.replace(',', '.')
+puzzle = ss.to_sudoku(puzzle)
+puzzle
+```
+
+After successful initialization, you are ready to use methods to solve the puzzle.
 
 
 
@@ -234,7 +320,7 @@ print(q4_case1 == q4_case1_cp)
 
 This looks at candidate values more carefully. It doesn't look at the only candidate value remaining; rather, it tries to acquire the only existing candidate value within the local group it belongs, i.e. `row`, `col`, or `submatrix`. If there is only one number that is exclusively a candidate value in one particular entry within a local group, that entry must have that value in its place. Just like `.solve_globally()`, `.solve_locally()` runs until no further mutation is made in `Sudoku` puzzle.
 
-It has to take the argument `by`, the name of a local group that it will work with. `by` must be either `row`, `col`, or `submatrix`
+It has to take the argument `by`, the name of a local group that it will work with. `by` must be either `row`, `col`, or `submatrix`.
 
 Here's an example:
 
@@ -250,26 +336,32 @@ q_small = ss.to_sudoku(q_small)
 q_small
 ```
 
-Take a look at the 2^nd^ row and candidate values in each entry of it. The entry at the 2^nd^ row and:
+Take a look at the 2^nd^ row and candidate values in each entry of it:
 
-* the 1^st^ column has `3` and `4` as candidate values because:
+```{python slocal_eg2_1}
+q_small.group(by = 'row')[1] # 0-indexing for row and col
+```
+
+The entry at the 2^nd^ row and:
+
+* the 1^st^ column (i.e. entry `(1, 0)`) has `3` and `4` as candidate values because:
     + `2` is in the same row
     + `1` is in the same column
     + `1` and `2` are in the same submatrix
-* the 3^rd^ column has `1` and `4` as candidate values because:
+* the 3^rd^ column (i.e. entry `(1, 2)`) has `1` and `4` as candidate values because:
     + `2` is in the same row
     + `3` is in the same column and submatrix
-* the 4^th^ column has `1` as the only candidate value because:
+* the 4^th^ column (i.e. entry `(1, 3)`) has `1` as the only candidate value because:
     + `2` is in the same row
     + `4` is in the same column
     + `3` is in the same submatrix
 
 Although the entry at the 2^nd^ row and the 1^st^ column has two candidate values (`3` and `4`), we can conclude that `3` must be the value at this entry because `3` is the only candidate value in the 2^nd^ row that exists at this entry only. 
 
-`q2_case1` is an example of a puzzle that needs `.solve_locally()` to get to the answer form:
+`puzzle` in step 4 above is an example of a puzzle that needs `.solve_locally()` to get to the answer form:
 
 ```{python slocal_eg3}
-q2_case1 = ss.to_sudoku(ss.questions.q2)
+q2_case1 = puzzle
 q2_case2 = q2_case1.copy()
 
 # Case 1: solve locally by row then column 
@@ -306,7 +398,7 @@ See the candidate values in the fourth submatrix:
 pzl.group(by = 'submatrix')[4] # 1-indexing for submatrix
 ```
 
-See the entries with keys `(5, x)` (i.e. entries of the 6^th^ row in the sudoku puzzle that belong to the 4^th^ submatrix). Notice that these entries exclusively have `8` as a candidate value within this submatrix. This means any entry that:
+See the entries with keys `(5, x)` (i.e. entries of the 6^th^ row in the sudoku puzzle that belong to the 4^th^ submatrix). Notice that `8` exclusively exists in the candidate value sets of entries `(5, x)` within this submatrix. This means any entry that:
 
 1. belongs to the 6^th^ row, and
 2. does NOT belong to the 4^th^ submatrix, and
@@ -315,7 +407,7 @@ See the entries with keys `(5, x)` (i.e. entries of the 6^th^ row in the sudoku 
 should eliminate `8` from one of its candidate values. That is, among those entries of the 6^th^ row:
 
 ```{python pzl_eg3}
-pzl.group(by = 'row')[5] # 0-indexing for row and col
+pzl.group(by = 'row')[5] # Again, 0-indexing for row and col
 ```
 
 the entries `(5, 3)`, `(5, 4)`, and `(5, 5)` should get rid of `8` from one of its candidate values since they do not belong to the 4^th^ submatrix and has `8` as one of its candidate values.
@@ -323,7 +415,7 @@ the entries `(5, 3)`, `(5, 4)`, and `(5, 5)` should get rid of `8` from one of i
 
 ## `.solve_by_hidden_pairs()`
 
-Within a local group (`row`, `col`, or `submatrix`), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.
+Within a local group `by` (`== row`, `col`, or `submatrix`), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.
 
 For example, consider the following `Candidate` group:
 
@@ -383,7 +475,7 @@ In this method, the following steps are repeated:
     + 4.1. `Sudoku` transforms into the answer form, OR
     + 4.2. at least one candidate set of `Sudoku` entries is `set()`, i.e. the empty set.
 
-In case of 4.2., `Sudoku` transforms back to the initial state, the method adds `1` to the `trial` number and goes back to step 1. This process continues until either `trial == max_trial` or `Sudoku` transforms into the answer form.
+In case of 4.2., `Sudoku` transforms back to the initial state, the method adds `1` to the `trial` number and goes back to step 1. This process continues until either `trial == max_trial` (`200` by default) or `Sudoku` transforms into the answer form.
 
 
 ## `.solve()`

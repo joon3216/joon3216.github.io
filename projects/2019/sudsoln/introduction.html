@@ -575,7 +575,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="TOC" class="toc">
 <ul>
-<li><a href="#initializing-a-puzzle">Initializing a puzzle</a></li>
+<li><a href="#initializing-a-puzzle">Initializing a puzzle</a><ul>
+<li><a href="#step-1-try-it-without-any-additional-arguments">Step 1: try it without any additional arguments</a></li>
+<li><a href="#step-2-specify-elements">Step 2: specify <code>elements</code></a></li>
+<li><a href="#step-3-specify-the-correct-empty-string">Step 3: specify the correct <code>empty</code> string</a></li>
+<li><a href="#step-4-check-for-typos">Step 4: check for typos</a></li>
+</ul></li>
 <li><a href="#solving-a-puzzle">Solving a puzzle</a><ul>
 <li><a href="#solve_globally"><code>.solve_globally()</code></a></li>
 <li><a href="#solve_locally"><code>.solve_locally()</code></a></li>
@@ -590,10 +595,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 
 <section class="main-content">
-<p>Note: <code>sudsoln</code> is only supported in Python 3.</p>
-<p>This vignette focuses on how you can initialize <code>Sudoku</code> puzzle and use methods to solve them. Any other details, such as classes like <code>Candidate</code>, <code>Array</code>, <code>Appearance</code>, or other <code>Sudoku</code> methods such as <code>.__eq__()</code>, <code>.group()</code>, <code>.copy()</code> and so on, are omitted.</p>
+<p>(Note: <code>sudsoln</code> is only supported in Python 3)</p>
 <p>To install <code>sudsoln</code>, type:</p>
 <pre><code>pip install sudsoln</code></pre>
+<p>This vignette focuses on how you can initialize <code>Sudoku</code> puzzle and use methods to solve them. Any other details, such as classes like <code>Candidate</code>, <code>Array</code>, <code>Appearance</code>, or other <code>Sudoku</code> methods such as <code>.__eq__()</code>, <code>.group()</code>, <code>.copy()</code> and so on, are omitted.</p>
 <p>In this document, the following version of <code>sudsoln</code> is imported with the following alias:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="im">import</span> sudsoln <span class="im">as</span> ss</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="bu">print</span>(ss.__version__)</a></code></pre></div>
@@ -605,7 +610,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>use <code>Sudoku</code> class directly</li>
 <li>use <code>to_sudoku</code> function</li>
 </ul>
-<p>The difference between the two is that <code>Sudoku</code> accepts a list of lists in its <code>array</code> argument, whereas <code>to_sudoku</code> function accepts a string in its <code>sudoku_str</code> argument and converts it into a list of lists. For example, if you have the following puzzle:</p>
+<p>The difference between the two is that <code>Sudoku</code> accepts a list of lists in <code>array</code> argument, whereas <code>to_sudoku</code> function accepts a string in <code>sudoku_str</code> argument.</p>
+<p>In fact, <code>to_sudoku</code> is merely a wrapper function around <code>Sudoku</code>; inside <code>to_sudoku</code>, <code>sudoku_str</code> is converted to a list of lists, and this is plugged into <code>array</code> argument of <code>Sudoku</code>.</p>
+<p>Both <code>Sudoku</code> and <code>to_sudoku</code> require three arguments in total:</p>
+<ul>
+<li>For <code>Sudoku</code>, they are <code>array</code>, <code>empty</code>, and <code>elements</code></li>
+<li>For <code>to_sudoku</code>, they are <code>sudoku_str</code>, <code>empty</code>, and <code>elements</code></li>
+</ul>
+<p>Details regarding these arguments are written in step 2.</p>
+<div id="step-1-try-it-without-any-additional-arguments" class="section level2">
+<h2>Step 1: try it without any additional arguments</h2>
+<p>You can first try initializing sudoku puzzle without specifying any additional arguments (i.e. <code>empty</code> and <code>elements</code>). Suppose you have the following puzzle:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1">q1_array <span class="op">=</span> [</a>
 <a class="sourceLine" id="cb4-2" title="2">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
 <a class="sourceLine" id="cb4-3" title="3">    [<span class="st">&#39;8&#39;</span>, <span class="st">&#39;3&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;6&#39;</span>],</a>
@@ -617,23 +632,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-9" title="9">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;5&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;7&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>],</a>
 <a class="sourceLine" id="cb4-10" title="10">    [<span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;9&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>, <span class="st">&#39;.&#39;</span>]</a>
 <a class="sourceLine" id="cb4-11" title="11">]</a></code></pre></div>
-<p>then you have to use <code>Sudoku</code> class. If you have it in a form of string as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">q1_str <span class="op">=</span> <span class="st">&#39;....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...&#39;</span></a></code></pre></div>
-<p>then you should use <code>to_sudoku</code> function. <code>to_sudoku</code> is merely a wrapper function of <code>Sudoku</code>; inside <code>to_sudoku</code>, <code>q1_str</code> is converted to the same form as <code>q1_array</code>, and this will be plugged into <code>array</code> argument of <code>Sudoku</code> along with other arguments.</p>
-<p>Both require three arguments in total. Two common arguments are:</p>
-<ul>
-<li><code>empty</code>: a string that denotes the emptiness (<code>'.'</code> by default)</li>
-<li><code>elements</code>: a set of entries in an array that is NOT <code>empty</code></li>
-</ul>
-<p>Usually, if a size of puzzle is 9-by-9 (or 3<sup>2</sup>-by-3<sup>2</sup>), then <code>elements</code> is a set of integers from <code>1</code> to <code>9</code>. Unlike <code>empty</code>, <code>elements</code> has no default argument.</p>
-<p>If <code>elements</code> is not specified in either <code>Sudoku</code> or <code>to_sudoku</code>, then it guesses <code>elements</code> from:</p>
-<ul>
-<li><code>array</code> of <code>Sudoku</code>, or;</li>
-<li><code>sudoku_str</code> of <code>to_sudoku</code></li>
-</ul>
-<p>depending on what you are using to initialize one. For example, both <code>q1_array</code> and <code>q1_str</code> will be successfully initialized without any specification of either <code>empty</code> or <code>elements</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1">q1_case1 <span class="op">=</span> ss.Sudoku(q1_array)</a>
-<a class="sourceLine" id="cb6-2" title="2">q1_case1</a></code></pre></div>
+<p>You may use <code>Sudoku</code> directly as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">q1_case1 <span class="op">=</span> ss.Sudoku(q1_array)</a>
+<a class="sourceLine" id="cb5-2" title="2">q1_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     .    .    .    |    .    2    .    |    .    .    .
 ##     8    3    .    |    7    1    4    |    .    9    6
@@ -650,6 +651,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
+<p>If you have it in a form of string:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1">q1_str <span class="op">=</span> <span class="st">&#39;....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...&#39;</span></a></code></pre></div>
+<p>then you should use <code>to_sudoku</code> function as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" title="1">q1_case2 <span class="op">=</span> ss.to_sudoku(q1_str)</a>
 <a class="sourceLine" id="cb8-2" title="2">q1_case2</a></code></pre></div>
 <pre><code>## Sudoku(
@@ -668,13 +672,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1"><span class="bu">print</span>(q1_case1 <span class="op">==</span> q1_case2)</a></code></pre></div>
-<pre><code>## True</code></pre>
-<p>The following <code>q4_str</code>, however, will not be initialized properly and will return <code>ValueError</code> with the following message:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb12-1" title="1">q4_str <span class="op">=</span> ss.questions.q4</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="bu">print</span>(q4_str)</a></code></pre></div>
+<p>Both initializations are successful without specifying <code>empty</code> and <code>elements</code>.</p>
+</div>
+<div id="step-2-specify-elements" class="section level2">
+<h2>Step 2: specify <code>elements</code></h2>
+<p>As mentioned earlier, both <code>Sudoku</code> and <code>to_sudoku</code> require three arguments in total. Two common arguments are:</p>
+<ul>
+<li><code>empty</code>: a string that denotes the emptiness (<code>'.'</code> by default)</li>
+<li><code>elements</code>: a set of entries in <code>array</code>/<code>sudoku_str</code> that is NOT <code>empty</code></li>
+</ul>
+<p>Notes:</p>
+<ol style="list-style-type: decimal">
+<li>Unlike <code>empty</code>, <code>elements</code> has no default argument.</li>
+<li>Usually, if a size of puzzle is 9-by-9 (or 3<sup>2</sup>-by-3<sup>2</sup>), then <code>elements</code> is a set of integers from <code>1</code> to <code>9</code>.</li>
+<li>Every element in <code>elements</code> as well as <code>empty</code> must have length 1 if it is converted into type <code>str</code>. For example, <code>10</code> or <code>14</code> cannot be an element of <code>elements</code>, or <code>'..'</code> cannot be <code>empty</code>.</li>
+</ol>
+<p>If <code>elements</code> is not specified, then it <em>guesses</em> <code>elements</code> from <code>array</code> or <code>sudoku_str</code> depending on what you are using to initialize a puzzle. Specifically, <code>Sudoku</code> thinks any element in <code>array</code> that is NOT <code>empty</code> should be a member of <code>elements</code>. The reason for successful initializations of <code>q1_array</code> and <code>q1_str</code> in step 1 is because it has 9 distinct values — integers from 1 to 9 — in the <code>array</code> that is NOT <code>empty</code> (i.e. <code>'.'</code>).</p>
+<p>That is, any puzzle that does NOT have the “correct” number of distinct values will not be initialized in step 1. For example, <code>q4_str</code>, will not be initialized properly and will return <code>ValueError</code> with the following message:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1">q4_str <span class="op">=</span> ss.questions.q4</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="bu">print</span>(q4_str)</a></code></pre></div>
 <pre><code>## 3.2....6....7.81...........58.4............12...1......1....4..6...3........2....</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb14-1" title="1">q4 <span class="op">=</span> ss.to_sudoku(q4_str)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb12-1" title="1">q4_case1 <span class="op">=</span> ss.to_sudoku(q4_str)</a></code></pre></div>
 <pre><code>ValueError: Length of the guessed elements is 8, not 9. Either make sure that: 
 1. every element in the current array contains all of your intended elements at
 least once, or; 2. specify elements explicitly, or; 3. there is exactly one
@@ -684,9 +702,13 @@ to 9, either make sure that every integer from 1 to 9 shows up in the current
 array at least once, or explicitly specify elements = set([str(i) for i in
 range(1, 10)]), or see if the array uses &#39;.&#39; and some other string, like &#39;,&#39; or 
 &#39; &#39;, to denote the emptiness.</code></pre>
-<p>This is because <code>Sudoku</code> thinks any element in <code>array</code> that is NOT <code>empty</code> should be a member of <code>elements</code>. <code>9</code> does not exist in <code>q4_str</code>, so it causes an error that says the number of guessed elements is 8, not 9. The solution of this problem is to specify <code>elements</code> as follows:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb16-1" title="1">q4_case1 <span class="op">=</span> ss.to_sudoku(q4_str, elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]))</a>
-<a class="sourceLine" id="cb16-2" title="2">q4_case1</a></code></pre></div>
+<p>Initialization is not successful because <code>9</code> does not exist in <code>q4_str</code>, so it causes an error that says the number of guessed elements is 8, not 9.</p>
+<p>The solution of this problem is to specify <code>elements</code> as follows:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb14-1" title="1">q4_case1 <span class="op">=</span> ss.to_sudoku(</a>
+<a class="sourceLine" id="cb14-2" title="2">    q4_str, </a>
+<a class="sourceLine" id="cb14-3" title="3">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)])</a>
+<a class="sourceLine" id="cb14-4" title="4">)</a>
+<a class="sourceLine" id="cb14-5" title="5">q4_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     3    .    2    |    .    .    .    |    .    6    .
 ##     .    .    .    |    7    .    8    |    1    .    .
@@ -703,20 +725,23 @@ range(1, 10)]), or see if the array uses &#39;.&#39; and some other string, like
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<p>In the error message, it suggests to use <code>set([str(i) for i in range(1, 10)])</code>, but it is fine to use <code>set([i for i in range(1, 10)])</code>; <code>Sudoku</code> automatically converts every element in <code>elements</code> into <code>str</code> before creating an instance of <code>Sudoku</code> puzzle anyway.</p>
-<p>If you don’t like <code>'.'</code> as <code>empty</code> in your puzzle, you have to change it BEFORE initializing into a <code>Sudoku</code> puzzle. That is, the following is not acceptable:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb18-1" title="1"><span class="bu">print</span>(q1_str) <span class="co"># recall q1_str</span></a></code></pre></div>
+<p>Notice that I used <code>set([i for i in range(1, 10)])</code> although the message suggests to use <code>set([str(i) for i in range(1, 10)])</code>. You can go with either of these as <code>Sudoku</code> automatically converts every element in <code>elements</code> into <code>str</code> before creating an instance of <code>Sudoku</code> puzzle anyway.</p>
+</div>
+<div id="step-3-specify-the-correct-empty-string" class="section level2">
+<h2>Step 3: specify the correct <code>empty</code> string</h2>
+<p>If you don’t like <code>'.'</code> as <code>empty</code> in your puzzle, you have to change it BEFORE initializing into a <code>Sudoku</code> puzzle (I may provide the <code>empty</code> setter of <code>Sudoku</code> in future updates). That is, the following won’t work:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb16-1" title="1"><span class="bu">print</span>(q1_str) <span class="co"># recall q1_str</span></a></code></pre></div>
 <pre><code>## ....2....83.714.96.6.9.54.8.9.3.1..4.1.4.2..7.75...21...4...7.....5.7......196...</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb20-1" title="1">q1_case3 <span class="op">=</span> ss.to_sudoku(q1_str, empty <span class="op">=</span> <span class="st">&#39; &#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb18-1" title="1">q1_case3 <span class="op">=</span> ss.to_sudoku(q1_str, empty <span class="op">=</span> <span class="st">&#39; &#39;</span>)</a></code></pre></div>
 <pre><code>KeyError: &quot;empty = &#39; &#39; does not exist in the array. Either specify the correct
 string denoting the emptiness in the array, or change the string denoting the
 emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</code></pre>
-<p>Instead, you have to do the following:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb22-1" title="1">q1_str <span class="op">=</span> q1_str.replace(<span class="st">&#39;.&#39;</span>, <span class="st">&#39; &#39;</span>)</a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="bu">print</span>(q1_str)</a></code></pre></div>
+<p>You see this error message because <code>q1_str</code> uses a period (<code>'.'</code>) to denote the emptiness. Instead, you have to do the following:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb20-1" title="1">q1_str <span class="op">=</span> q1_str.replace(<span class="st">&#39;.&#39;</span>, <span class="st">&#39; &#39;</span>)</a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="bu">print</span>(q1_str)</a></code></pre></div>
 <pre><code>##     2    83 714 96 6 9 54 8 9 3 1  4 1 4 2  7 75   21   4   7     5 7      196</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb24-1" title="1">q1_case3 <span class="op">=</span> ss.to_sudoku(q1_str, empty <span class="op">=</span> <span class="st">&#39; &#39;</span>)</a>
-<a class="sourceLine" id="cb24-2" title="2">q1_case3</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb22-1" title="1">q1_case3 <span class="op">=</span> ss.to_sudoku(q1_str, empty <span class="op">=</span> <span class="st">&#39; &#39;</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2">q1_case3</a></code></pre></div>
 <pre><code>## Sudoku(
 ##                    |         2         |               
 ##     8    3         |    7    1    4    |         9    6
@@ -733,16 +758,16 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty:  
 ## )</code></pre>
-<p>or the following in case of <code>q4_str</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb26-1" title="1">q4_str <span class="op">=</span> q4_str.replace(<span class="st">&#39;.&#39;</span>, <span class="st">&#39;*&#39;</span>)</a>
-<a class="sourceLine" id="cb26-2" title="2"><span class="bu">print</span>(q4_str)</a></code></pre></div>
+<p>You may do the following in case of <code>q4_str</code>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb24-1" title="1">q4_str <span class="op">=</span> q4_str.replace(<span class="st">&#39;.&#39;</span>, <span class="st">&#39;*&#39;</span>)</a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="bu">print</span>(q4_str)</a></code></pre></div>
 <pre><code>## 3*2****6****7*81***********58*4************12***1******1****4**6***3********2****</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb28-1" title="1">q4_case2 <span class="op">=</span> ss.to_sudoku(</a>
-<a class="sourceLine" id="cb28-2" title="2">    q4_str, </a>
-<a class="sourceLine" id="cb28-3" title="3">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]), </a>
-<a class="sourceLine" id="cb28-4" title="4">    empty <span class="op">=</span> <span class="st">&#39;*&#39;</span></a>
-<a class="sourceLine" id="cb28-5" title="5">)</a>
-<a class="sourceLine" id="cb28-6" title="6">q4_case2</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb26-1" title="1">q4_case2 <span class="op">=</span> ss.to_sudoku(</a>
+<a class="sourceLine" id="cb26-2" title="2">    q4_str, </a>
+<a class="sourceLine" id="cb26-3" title="3">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]), </a>
+<a class="sourceLine" id="cb26-4" title="4">    empty <span class="op">=</span> <span class="st">&#39;*&#39;</span></a>
+<a class="sourceLine" id="cb26-5" title="5">)</a>
+<a class="sourceLine" id="cb26-6" title="6">q4_case2</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     3    *    2    |    *    *    *    |    *    6    *
 ##     *    *    *    |    7    *    8    |    1    *    *
@@ -759,8 +784,56 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: *
 ## )</code></pre>
+</div>
+<div id="step-4-check-for-typos" class="section level2">
+<h2>Step 4: check for typos</h2>
+<p>Suppose you are heading towards the subway station commuting to your workplace. Along the way, you grab a newspaper, read two or three articles, criticize journalists on their political stances (too left or too right), and then get to the end of the newspaper. You see today’s 3<sup>2</sup>-by-3<sup>2</sup> sudoku puzzle is right there, remembering there is a Python package called <code>sudsoln</code> you downloaded before, and you decide to give it a try.</p>
+<p>You open your laptop/smartphone/tablet, open a Python shell (on <a href="https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&amp;hl=en_CA">Pydroid</a>/<a href="https://play.google.com/store/apps/details?id=com.termux&amp;hl=en_CA">Termux</a>/etc in case of smartphone or tablet), and then type in the following:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb28-1" title="1">puzzle <span class="op">=</span> <span class="st">&#39;..3.,..2....416..56.8.......2.9.4.6..6..8..7..3.2.7.9.......6.42..841....5....9..&#39;</span></a></code></pre></div>
+<p>You then <code>import sudsoln as ss</code>, and try initialize <code>Sudoku</code> using <code>to_sudoku</code> as follows:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb29-1" title="1">puzzle <span class="op">=</span> ss.to_sudoku(puzzle)</a></code></pre></div>
+<p>But you get the error message:</p>
+<pre><code>ValueError: Length of the guessed elements is 10, not 9. Either make sure that: 
+1. every element in the current array contains all of your intended elements at
+least once, or; 2. specify elements explicitly, or; 3. there is exactly one
+string, and only one, that denotes the emptiness in the array. For example, if
+you try to solve a 9-by-9 sudoku whose answer form consists of integers from 1 
+to 9, either make sure that every integer from 1 to 9 shows up in the current
+array at least once, or explicitly specify elements = set([str(i) for i in
+range(1, 10)]), or see if the array uses &#39;.&#39; and some other string, like &#39;,&#39; or 
+&#39; &#39;, to denote the emptiness.</code></pre>
+<p>Ah, you remember this error message. The writer of this package said that you have to specify <code>elements</code> in this case:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb31-1" title="1">puzzle <span class="op">=</span> ss.to_sudoku(puzzle, elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]))</a></code></pre></div>
+<p>But this time, you are getting a different error message:</p>
+<pre><code>ValueError: There exists an element in array that is not a member of 
+elements: {&#39;,&#39;}</code></pre>
+<p>What does this mean? This means that <code>puzzle</code> has a string that is neither <code>empty</code> nor an element of <code>elements</code>. Specifically, the error message says that <code>','</code> is in your <code>puzzle</code> which is not supposed to be an element of <code>elements</code>, but not <code>empty</code> either.</p>
+<p>You scroll up the shell to the point where you defined <code>puzzle</code>, and realize that the 5<sup>th</sup> string of <code>puzzle</code> is <code>','</code> and not <code>'.'</code>. You must have made a mistake while typing the puzzle and have not realized it. After all, a comma and a period is right next to each other:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" title="1">puzzle[<span class="dv">4</span>]</a></code></pre></div>
+<pre><code>## &#39;,&#39;</code></pre>
+<p>You also see that the first error message said the “[l]ength of the guessed elements is <strong>10</strong>, not 9.” The guessed elements was not 8 but 10 after all.</p>
+<p>Now you know the mistake, you fix the typo and then initialize it:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb35-1" title="1">puzzle <span class="op">=</span> puzzle.replace(<span class="st">&#39;,&#39;</span>, <span class="st">&#39;.&#39;</span>)</a>
+<a class="sourceLine" id="cb35-2" title="2">puzzle <span class="op">=</span> ss.to_sudoku(puzzle)</a>
+<a class="sourceLine" id="cb35-3" title="3">puzzle</a></code></pre></div>
+<pre><code>## Sudoku(
+##     .    .    3    |    .    .    .    |    .    2    .
+##     .    .    .    |    4    1    6    |    .    .    5
+##     6    .    8    |    .    .    .    |    .    .    .
+## -------------------+-------------------+-------------------
+##     .    2    .    |    9    .    4    |    .    6    .
+##     .    6    .    |    .    8    .    |    .    7    .
+##     .    3    .    |    2    .    7    |    .    9    .
+## -------------------+-------------------+-------------------
+##     .    .    .    |    .    .    .    |    6    .    4
+##     2    .    .    |    8    4    1    |    .    .    .
+##     .    5    .    |    .    .    .    |    9    .    .
+## n: 3
+## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
+## empty: .
+## )</code></pre>
 <p>After successful initialization, you are ready to use methods to solve the puzzle.</p>
-<p>Note: every element in <code>elements</code> as well as <code>empty</code> must have length 1 if it is converted into type <code>str</code>. For example, <code>10</code> or <code>14</code> cannot be an element in <code>elements</code>, or <code>'..'</code> cannot be <code>empty</code>.</p>
+</div>
 </div>
 <div id="solving-a-puzzle" class="section level1">
 <h1>Solving a puzzle</h1>
@@ -778,7 +851,7 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 <h2><code>.solve_globally()</code></h2>
 <p>For each entry, this method looks at the <code>row</code>, <code>col</code>umn, and <code>submatrix</code> it belongs and see if there is only one possible candidate value at that entry. If true, plug the value into that entry, and repeat the process until no new mutation is made to <code>Sudoku</code>.</p>
 <p>For example, take a look at <code>q1_case1</code>:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb30-1" title="1">q1_case1</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb37-1" title="1">q1_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     .    .    .    |    .    2    .    |    .    .    .
 ##     8    3    .    |    7    1    4    |    .    9    6
@@ -803,9 +876,9 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 </ul>
 <p>And therefore, the only candidate value left at that entry is <code>3</code>, indicating it must be the value at that entry. <code>.solve_globally()</code> does this for every entry in the sudoku array, and goes back to the very first entry after it goes through the entire array. The method stops if the process does not mutate <code>Sudoku</code> puzzle anymore.</p>
 <p><code>q1_case1</code> is actually a very easy sudoku puzzle and only requires <code>.solve_globally()</code> to be solved entirely:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb32-1" title="1"><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="im">as</span> dt</a>
-<a class="sourceLine" id="cb32-2" title="2">start <span class="op">=</span> dt.now()<span class="op">;</span> q1_case1.solve_globally()<span class="op">;</span> end <span class="op">=</span> dt.now()</a>
-<a class="sourceLine" id="cb32-3" title="3">q1_case1</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb39-1" title="1"><span class="im">from</span> datetime <span class="im">import</span> datetime <span class="im">as</span> dt</a>
+<a class="sourceLine" id="cb39-2" title="2">start <span class="op">=</span> dt.now()<span class="op">;</span> q1_case1.solve_globally()<span class="op">;</span> end <span class="op">=</span> dt.now()</a>
+<a class="sourceLine" id="cb39-3" title="3">q1_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     5    4    9    |    6    2    8    |    3    7    1
 ##     8    3    2    |    7    1    4    |    5    9    6
@@ -822,12 +895,12 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb34-1" title="1"><span class="bu">str</span>(end <span class="op">-</span> start)</a></code></pre></div>
-<pre><code>## &#39;0:00:00.049865&#39;</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb41-1" title="1"><span class="bu">str</span>(end <span class="op">-</span> start)</a></code></pre></div>
+<pre><code>## &#39;0:00:00.025930&#39;</code></pre>
 <p><code>q4_case1</code>, however, is a harder puzzle. You can see that <code>.solve_globally()</code> doesn’t do anything:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb36-1" title="1">q4_case1_cp <span class="op">=</span> q4_case1.copy()</a>
-<a class="sourceLine" id="cb36-2" title="2">q4_case1.solve_globally()</a>
-<a class="sourceLine" id="cb36-3" title="3">q4_case1</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb43-1" title="1">q4_case1_cp <span class="op">=</span> q4_case1.copy()</a>
+<a class="sourceLine" id="cb43-2" title="2">q4_case1.solve_globally()</a>
+<a class="sourceLine" id="cb43-3" title="3">q4_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     3    .    2    |    .    .    .    |    .    6    .
 ##     .    .    .    |    7    .    8    |    1    .    .
@@ -844,20 +917,20 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb38-1" title="1"><span class="bu">print</span>(q4_case1 <span class="op">==</span> q4_case1_cp)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb45-1" title="1"><span class="bu">print</span>(q4_case1 <span class="op">==</span> q4_case1_cp)</a></code></pre></div>
 <pre><code>## True</code></pre>
 </div>
 <div id="solve_locally" class="section level2">
 <h2><code>.solve_locally()</code></h2>
 <p>This looks at candidate values more carefully. It doesn’t look at the only candidate value remaining; rather, it tries to acquire the only existing candidate value within the local group it belongs, i.e. <code>row</code>, <code>col</code>, or <code>submatrix</code>. If there is only one number that is exclusively a candidate value in one particular entry within a local group, that entry must have that value in its place. Just like <code>.solve_globally()</code>, <code>.solve_locally()</code> runs until no further mutation is made in <code>Sudoku</code> puzzle.</p>
-<p>It has to take the argument <code>by</code>, the name of a local group that it will work with. <code>by</code> must be either <code>row</code>, <code>col</code>, or <code>submatrix</code></p>
+<p>It has to take the argument <code>by</code>, the name of a local group that it will work with. <code>by</code> must be either <code>row</code>, <code>col</code>, or <code>submatrix</code>.</p>
 <p>Here’s an example:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb40-1" title="1">q_small <span class="op">=</span> ss.questions.q_small</a>
-<a class="sourceLine" id="cb40-2" title="2"><span class="bu">print</span>(q_small)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb47-1" title="1">q_small <span class="op">=</span> ss.questions.q_small</a>
+<a class="sourceLine" id="cb47-2" title="2"><span class="bu">print</span>(q_small)</a></code></pre></div>
 <pre><code>## 1.3..2.........4</code></pre>
 <p><code>q_small</code> is a 4-by-4 (or 2<sup>2</sup>-by-2<sup>2</sup>) sudoku puzzle:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb42-1" title="1">q_small <span class="op">=</span> ss.to_sudoku(q_small)</a>
-<a class="sourceLine" id="cb42-2" title="2">q_small</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb49-1" title="1">q_small <span class="op">=</span> ss.to_sudoku(q_small)</a>
+<a class="sourceLine" id="cb49-2" title="2">q_small</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     1    .    |    3    .
 ##     .    2    |    .    .
@@ -868,20 +941,31 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4
 ## empty: .
 ## )</code></pre>
-<p>Take a look at the 2<sup>nd</sup> row and candidate values in each entry of it. The entry at the 2<sup>nd</sup> row and:</p>
+<p>Take a look at the 2<sup>nd</sup> row and candidate values in each entry of it:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb51-1" title="1">q_small.group(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)[<span class="dv">1</span>] <span class="co"># 0-indexing for row and col</span></a></code></pre></div>
+<pre><code>## Candidate(
+## {
+## (1, 0): {&#39;3&#39;, &#39;4&#39;},
+## (1, 2): {&#39;4&#39;, &#39;1&#39;},
+## (1, 3): {&#39;1&#39;},
+## },
+## elements = {&#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;1&#39;}
+## )
+## (n: 2)</code></pre>
+<p>The entry at the 2<sup>nd</sup> row and:</p>
 <ul>
-<li>the 1<sup>st</sup> column has <code>3</code> and <code>4</code> as candidate values because:
+<li>the 1<sup>st</sup> column (i.e. entry <code>(1, 0)</code>) has <code>3</code> and <code>4</code> as candidate values because:
 <ul>
 <li><code>2</code> is in the same row</li>
 <li><code>1</code> is in the same column</li>
 <li><code>1</code> and <code>2</code> are in the same submatrix</li>
 </ul></li>
-<li>the 3<sup>rd</sup> column has <code>1</code> and <code>4</code> as candidate values because:
+<li>the 3<sup>rd</sup> column (i.e. entry <code>(1, 2)</code>) has <code>1</code> and <code>4</code> as candidate values because:
 <ul>
 <li><code>2</code> is in the same row</li>
 <li><code>3</code> is in the same column and submatrix</li>
 </ul></li>
-<li>the 4<sup>th</sup> column has <code>1</code> as the only candidate value because:
+<li>the 4<sup>th</sup> column (i.e. entry <code>(1, 3)</code>) has <code>1</code> as the only candidate value because:
 <ul>
 <li><code>2</code> is in the same row</li>
 <li><code>4</code> is in the same column</li>
@@ -889,12 +973,12 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 </ul></li>
 </ul>
 <p>Although the entry at the 2<sup>nd</sup> row and the 1<sup>st</sup> column has two candidate values (<code>3</code> and <code>4</code>), we can conclude that <code>3</code> must be the value at this entry because <code>3</code> is the only candidate value in the 2<sup>nd</sup> row that exists at this entry only.</p>
-<p><code>q2_case1</code> is an example of a puzzle that needs <code>.solve_locally()</code> to get to the answer form:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb44-1" title="1">q2_case1 <span class="op">=</span> ss.to_sudoku(ss.questions.q2)</a>
-<a class="sourceLine" id="cb44-2" title="2">q2_case2 <span class="op">=</span> q2_case1.copy()</a>
-<a class="sourceLine" id="cb44-3" title="3"></a>
-<a class="sourceLine" id="cb44-4" title="4"><span class="co"># Case 1: solve locally by row then column </span></a>
-<a class="sourceLine" id="cb44-5" title="5">q2_case1</a></code></pre></div>
+<p><code>puzzle</code> in step 4 above is an example of a puzzle that needs <code>.solve_locally()</code> to get to the answer form:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb53-1" title="1">q2_case1 <span class="op">=</span> puzzle</a>
+<a class="sourceLine" id="cb53-2" title="2">q2_case2 <span class="op">=</span> q2_case1.copy()</a>
+<a class="sourceLine" id="cb53-3" title="3"></a>
+<a class="sourceLine" id="cb53-4" title="4"><span class="co"># Case 1: solve locally by row then column </span></a>
+<a class="sourceLine" id="cb53-5" title="5">q2_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     .    .    3    |    .    .    .    |    .    2    .
 ##     .    .    .    |    4    1    6    |    .    .    5
@@ -911,9 +995,9 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb46-1" title="1">q2_case1.solve_locally(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)</a>
-<a class="sourceLine" id="cb46-2" title="2">q2_case1.solve_locally(by <span class="op">=</span> <span class="st">&#39;col&#39;</span>)</a>
-<a class="sourceLine" id="cb46-3" title="3">q2_case1</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb55-1" title="1">q2_case1.solve_locally(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)</a>
+<a class="sourceLine" id="cb55-2" title="2">q2_case1.solve_locally(by <span class="op">=</span> <span class="st">&#39;col&#39;</span>)</a>
+<a class="sourceLine" id="cb55-3" title="3">q2_case1</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     5    4    3    |    7    9    8    |    1    2    6
 ##     9    7    2    |    4    1    6    |    8    3    5
@@ -930,8 +1014,8 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb48-1" title="1"><span class="co"># Case 2: solve locally by submatrix</span></a>
-<a class="sourceLine" id="cb48-2" title="2">q2_case2</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb57-1" title="1"><span class="co"># Case 2: solve locally by submatrix</span></a>
+<a class="sourceLine" id="cb57-2" title="2">q2_case2</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     .    .    3    |    .    .    .    |    .    2    .
 ##     .    .    .    |    4    1    6    |    .    .    5
@@ -948,8 +1032,8 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## elements: 1, 2, 3, 4, 5, 6, 7, 8, 9
 ## empty: .
 ## )</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb50-1" title="1">q2_case2.solve_locally(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)</a>
-<a class="sourceLine" id="cb50-2" title="2">q2_case2</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb59-1" title="1">q2_case2.solve_locally(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)</a>
+<a class="sourceLine" id="cb59-2" title="2">q2_case2</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     5    4    3    |    7    9    8    |    1    2    6
 ##     9    7    2    |    4    1    6    |    8    3    5
@@ -972,9 +1056,9 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 <p>As of version 0.1.0, this only works with <code>by = 'submatrix'</code>. Working methods for <code>by = 'row'</code> and <code>by = 'col'</code> will be supported in version 0.1.1.</p>
 <p>Inside a submatrix, if a single row or column exclusively contains one candidate number, then that candidate number should be eliminated from the same row or column that is not a part of the submatrix.</p>
 <p>Here is an example:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb52-1" title="1">pzl <span class="op">=</span> <span class="st">&#39;4873...9....6..271126.9.3847.5...162...2..8..........9..1.769233..1..45.....53.18&#39;</span></a>
-<a class="sourceLine" id="cb52-2" title="2">pzl <span class="op">=</span> ss.to_sudoku(pzl, elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]))</a>
-<a class="sourceLine" id="cb52-3" title="3">pzl</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb61-1" title="1">pzl <span class="op">=</span> <span class="st">&#39;4873...9....6..271126.9.3847.5...162...2..8..........9..1.769233..1..45.....53.18&#39;</span></a>
+<a class="sourceLine" id="cb61-2" title="2">pzl <span class="op">=</span> ss.to_sudoku(pzl, elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)]))</a>
+<a class="sourceLine" id="cb61-3" title="3">pzl</a></code></pre></div>
 <pre><code>## Sudoku(
 ##     4    8    7    |    3    .    .    |    .    9    .
 ##     .    .    .    |    6    .    .    |    2    7    1
@@ -992,61 +1076,61 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## empty: .
 ## )</code></pre>
 <p>See the candidate values in the fourth submatrix:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb54-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)[<span class="dv">4</span>] <span class="co"># 1-indexing for submatrix</span></a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb63-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)[<span class="dv">4</span>] <span class="co"># 1-indexing for submatrix</span></a></code></pre></div>
 <pre><code>## Candidate(
 ## {
-## (3, 1): {&#39;9&#39;, &#39;4&#39;, &#39;3&#39;},
-## (4, 0): {&#39;9&#39;, &#39;6&#39;},
-## (4, 1): {&#39;3&#39;, &#39;4&#39;, &#39;9&#39;, &#39;1&#39;, &#39;6&#39;},
-## (4, 2): {&#39;9&#39;, &#39;4&#39;, &#39;3&#39;},
-## (5, 0): {&#39;2&#39;, &#39;6&#39;, &#39;8&#39;},
-## (5, 1): {&#39;1&#39;, &#39;4&#39;, &#39;6&#39;, &#39;3&#39;},
-## (5, 2): {&#39;4&#39;, &#39;2&#39;, &#39;3&#39;, &#39;8&#39;},
+## (3, 1): {&#39;3&#39;, &#39;4&#39;, &#39;9&#39;},
+## (4, 0): {&#39;6&#39;, &#39;9&#39;},
+## (4, 1): {&#39;3&#39;, &#39;4&#39;, &#39;1&#39;, &#39;6&#39;, &#39;9&#39;},
+## (4, 2): {&#39;3&#39;, &#39;4&#39;, &#39;9&#39;},
+## (5, 0): {&#39;2&#39;, &#39;8&#39;, &#39;6&#39;},
+## (5, 1): {&#39;6&#39;, &#39;3&#39;, &#39;4&#39;, &#39;1&#39;},
+## (5, 2): {&#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;8&#39;},
 ## },
-## elements = {&#39;3&#39;, &#39;7&#39;, &#39;8&#39;, &#39;4&#39;, &#39;9&#39;, &#39;1&#39;, &#39;2&#39;, &#39;6&#39;, &#39;5&#39;}
+## elements = {&#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;1&#39;, &#39;7&#39;, &#39;6&#39;, &#39;9&#39;, &#39;8&#39;, &#39;5&#39;}
 ## )
 ## (n: 3)</code></pre>
-<p>See the entries with keys <code>(5, x)</code> (i.e. entries of the 6<sup>th</sup> row in the sudoku puzzle that belong to the 4<sup>th</sup> submatrix). Notice that these entries exclusively have <code>8</code> as a candidate value within this submatrix. This means any entry that:</p>
+<p>See the entries with keys <code>(5, x)</code> (i.e. entries of the 6<sup>th</sup> row in the sudoku puzzle that belong to the 4<sup>th</sup> submatrix). Notice that <code>8</code> exclusively exists in the candidate value sets of entries <code>(5, x)</code> within this submatrix. This means any entry that:</p>
 <ol style="list-style-type: decimal">
 <li>belongs to the 6<sup>th</sup> row, and</li>
 <li>does NOT belong to the 4<sup>th</sup> submatrix, and</li>
 <li>has <code>8</code> as one of its candidate values</li>
 </ol>
 <p>should eliminate <code>8</code> from one of its candidate values. That is, among those entries of the 6<sup>th</sup> row:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb56-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)[<span class="dv">5</span>] <span class="co"># 0-indexing for row and col</span></a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb65-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)[<span class="dv">5</span>] <span class="co"># Again, 0-indexing for row and col</span></a></code></pre></div>
 <pre><code>## Candidate(
 ## {
-## (5, 0): {&#39;2&#39;, &#39;6&#39;, &#39;8&#39;},
-## (5, 1): {&#39;1&#39;, &#39;4&#39;, &#39;6&#39;, &#39;3&#39;},
-## (5, 2): {&#39;4&#39;, &#39;2&#39;, &#39;3&#39;, &#39;8&#39;},
-## (5, 3): {&#39;4&#39;, &#39;7&#39;, &#39;8&#39;, &#39;5&#39;},
-## (5, 4): {&#39;3&#39;, &#39;8&#39;, &#39;4&#39;, &#39;1&#39;, &#39;6&#39;},
-## (5, 5): {&#39;7&#39;, &#39;8&#39;, &#39;4&#39;, &#39;1&#39;, &#39;5&#39;},
+## (5, 0): {&#39;2&#39;, &#39;8&#39;, &#39;6&#39;},
+## (5, 1): {&#39;6&#39;, &#39;3&#39;, &#39;4&#39;, &#39;1&#39;},
+## (5, 2): {&#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;8&#39;},
+## (5, 3): {&#39;8&#39;, &#39;4&#39;, &#39;7&#39;, &#39;5&#39;},
+## (5, 4): {&#39;3&#39;, &#39;4&#39;, &#39;1&#39;, &#39;6&#39;, &#39;8&#39;},
+## (5, 5): {&#39;4&#39;, &#39;1&#39;, &#39;7&#39;, &#39;8&#39;, &#39;5&#39;},
 ## (5, 6): {&#39;7&#39;, &#39;5&#39;},
-## (5, 7): {&#39;4&#39;, &#39;3&#39;},
+## (5, 7): {&#39;3&#39;, &#39;4&#39;},
 ## },
-## elements = {&#39;3&#39;, &#39;7&#39;, &#39;8&#39;, &#39;4&#39;, &#39;9&#39;, &#39;1&#39;, &#39;2&#39;, &#39;6&#39;, &#39;5&#39;}
+## elements = {&#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;1&#39;, &#39;7&#39;, &#39;6&#39;, &#39;9&#39;, &#39;8&#39;, &#39;5&#39;}
 ## )
 ## (n: 3)</code></pre>
 <p>the entries <code>(5, 3)</code>, <code>(5, 4)</code>, and <code>(5, 5)</code> should get rid of <code>8</code> from one of its candidate values since they do not belong to the 4<sup>th</sup> submatrix and has <code>8</code> as one of its candidate values.</p>
 </div>
 <div id="solve_by_hidden_pairs" class="section level2">
 <h2><code>.solve_by_hidden_pairs()</code></h2>
-<p>Within a local group (<code>row</code>, <code>col</code>, or <code>submatrix</code>), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.</p>
+<p>Within a local group <code>by</code> (<code>== row</code>, <code>col</code>, or <code>submatrix</code>), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.</p>
 <p>For example, consider the following <code>Candidate</code> group:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb58-1" title="1">candids <span class="op">=</span> ss.candidate.Candidate( <span class="co"># 6th row</span></a>
-<a class="sourceLine" id="cb58-2" title="2">    {</a>
-<a class="sourceLine" id="cb58-3" title="3">        (<span class="dv">5</span>, <span class="dv">0</span>): {<span class="st">&#39;6&#39;</span>, <span class="st">&#39;8&#39;</span>, <span class="st">&#39;2&#39;</span>},</a>
-<a class="sourceLine" id="cb58-4" title="4">        (<span class="dv">5</span>, <span class="dv">1</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>},</a>
-<a class="sourceLine" id="cb58-5" title="5">        (<span class="dv">5</span>, <span class="dv">2</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;8&#39;</span>, <span class="st">&#39;2&#39;</span>},</a>
-<a class="sourceLine" id="cb58-6" title="6">        (<span class="dv">5</span>, <span class="dv">3</span>): {<span class="st">&#39;5&#39;</span>, <span class="st">&#39;7&#39;</span>},</a>
-<a class="sourceLine" id="cb58-7" title="7">        (<span class="dv">5</span>, <span class="dv">4</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;6&#39;</span>},</a>
-<a class="sourceLine" id="cb58-8" title="8">        (<span class="dv">5</span>, <span class="dv">5</span>): {<span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>},</a>
-<a class="sourceLine" id="cb58-9" title="9">        (<span class="dv">5</span>, <span class="dv">6</span>): {<span class="st">&#39;5&#39;</span>, <span class="st">&#39;7&#39;</span>},</a>
-<a class="sourceLine" id="cb58-10" title="10">        (<span class="dv">5</span>, <span class="dv">7</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>},</a>
-<a class="sourceLine" id="cb58-11" title="11">    },</a>
-<a class="sourceLine" id="cb58-12" title="12">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)])</a>
-<a class="sourceLine" id="cb58-13" title="13">)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb67-1" title="1">candids <span class="op">=</span> ss.candidate.Candidate( <span class="co"># 6th row</span></a>
+<a class="sourceLine" id="cb67-2" title="2">    {</a>
+<a class="sourceLine" id="cb67-3" title="3">        (<span class="dv">5</span>, <span class="dv">0</span>): {<span class="st">&#39;6&#39;</span>, <span class="st">&#39;8&#39;</span>, <span class="st">&#39;2&#39;</span>},</a>
+<a class="sourceLine" id="cb67-4" title="4">        (<span class="dv">5</span>, <span class="dv">1</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;6&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>},</a>
+<a class="sourceLine" id="cb67-5" title="5">        (<span class="dv">5</span>, <span class="dv">2</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;8&#39;</span>, <span class="st">&#39;2&#39;</span>},</a>
+<a class="sourceLine" id="cb67-6" title="6">        (<span class="dv">5</span>, <span class="dv">3</span>): {<span class="st">&#39;5&#39;</span>, <span class="st">&#39;7&#39;</span>},</a>
+<a class="sourceLine" id="cb67-7" title="7">        (<span class="dv">5</span>, <span class="dv">4</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>, <span class="st">&#39;6&#39;</span>},</a>
+<a class="sourceLine" id="cb67-8" title="8">        (<span class="dv">5</span>, <span class="dv">5</span>): {<span class="st">&#39;4&#39;</span>, <span class="st">&#39;1&#39;</span>},</a>
+<a class="sourceLine" id="cb67-9" title="9">        (<span class="dv">5</span>, <span class="dv">6</span>): {<span class="st">&#39;5&#39;</span>, <span class="st">&#39;7&#39;</span>},</a>
+<a class="sourceLine" id="cb67-10" title="10">        (<span class="dv">5</span>, <span class="dv">7</span>): {<span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>},</a>
+<a class="sourceLine" id="cb67-11" title="11">    },</a>
+<a class="sourceLine" id="cb67-12" title="12">    elements <span class="op">=</span> <span class="bu">set</span>([i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)])</a>
+<a class="sourceLine" id="cb67-13" title="13">)</a></code></pre></div>
 <p>See <code>(5, 0)</code> and <code>(5, 2)</code>. These two entries contain <code>2</code> and <code>8</code> exclusively in this group, so the set of candidate values should be <code>{'2', '8'}</code> for both.</p>
 </div>
 <div id="solve_logically" class="section level2">
@@ -1073,7 +1157,7 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 <li>4.2. at least one candidate set of <code>Sudoku</code> entries is <code>set()</code>, i.e. the empty set.</li>
 </ul></li>
 </ol>
-<p>In case of 4.2., <code>Sudoku</code> transforms back to the initial state, the method adds <code>1</code> to the <code>trial</code> number and goes back to step 1. This process continues until either <code>trial == max_trial</code> or <code>Sudoku</code> transforms into the answer form.</p>
+<p>In case of 4.2., <code>Sudoku</code> transforms back to the initial state, the method adds <code>1</code> to the <code>trial</code> number and goes back to step 1. This process continues until either <code>trial == max_trial</code> (<code>200</code> by default) or <code>Sudoku</code> transforms into the answer form.</p>
 </div>
 <div id="solve" class="section level2">
 <h2><code>.solve()</code></h2>
