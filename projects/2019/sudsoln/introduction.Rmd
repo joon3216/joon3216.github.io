@@ -25,6 +25,8 @@ use_virtualenv('r-reticulate')
 py_available(T)
 ```
 
+Note: `sudsoln` is only supported in Python 3.
+
 This vignette focuses on how you can initialize `Sudoku` puzzle and use methods to solve them. Any other details, such as classes like `Candidate`, `Array`, `Appearance`, or other `Sudoku` methods such as `.__eq__()`, `.group()`, `.copy()` and so on, are omitted.
 
 
@@ -33,8 +35,6 @@ To install `sudsoln`, type:
 ```
 pip install sudsoln
 ```
-
-Note that `sudsoln` is only supported in Python 3.
 
 In this document, the following version of `sudsoln` is imported with the following alias:
 
@@ -327,7 +327,7 @@ Within a local group (`row`, `col`, or `submatrix`), if two distinct entries has
 
 For example, consider the following `Candidate` group:
 
-```{python pzl_eg4, eval = F}
+```{python pzl_eg4}
 candids = ss.candidate.Candidate( # 6th row
     {
         (5, 0): {'6', '8', '2'},
@@ -345,6 +345,21 @@ candids = ss.candidate.Candidate( # 6th row
 
 See `(5, 0)` and `(5, 2)`. These two entries contain `2` and `8` exclusively in this group, so the set of candidate values should be `{'2', '8'}` for both.
 
+```{python pzl_eg5, echo = F, eval = F}
+etm = ss.candidate.Candidate(
+    {}, 
+    elements = set([i for i in range(1, 10)])
+)
+candids_appear = candids.appearances(['col', 'submatrix'])
+candids_appear.sieve(condition = ['contains', 2], deep = True)
+candids.refine(
+    entries_to_mutate = etm,
+    appearances = candids_appear,
+    condition = ['contains', 2],
+    deep = True
+)
+candids
+```
 
 ## `.solve_logically()`
 
