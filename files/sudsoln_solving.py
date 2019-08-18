@@ -1,8 +1,9 @@
 
 import numpy as np
 import pandas as pd
-import sudsoln as ss
 import random
+import sudsoln as ss
+
 
 random.seed(1024)
 
