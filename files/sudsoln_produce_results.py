@@ -26,7 +26,9 @@ result_sudsoln.time = result_sudsoln.time.apply(to_sec)
 
 result_sudsoln_check = result_sudsoln\
     .loc[lambda x: x['is_solved'] == False]
-if set(result_sudsoln_check.trial) == {max_trial}:
+result_sudsoln_check2 = result_sudsoln\
+    .loc[lambda x: x['trial'] == 200]
+if result_sudsoln_check.equals(result_sudsoln_check2):
     msg = '         Yes, is_solved = False iff trial == ' +\
         str(max_trial) + ':'
 else:
