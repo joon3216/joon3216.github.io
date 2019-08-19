@@ -35,7 +35,7 @@ else:
     msg = '         No, there is at least one case where' +\
         ' is_solved == True and trial == ' + str(max_trial) + ':'
 print(
-    'Table 0: Check that is_solved = False iff trial == 200 ',
+    'Table 0: Check that is_solved == False iff trial == 200 ',
     'before analysis.\n' + msg + '\n\n', 
     result_sudsoln_check, '\n\n',
     sep = ''
@@ -45,7 +45,6 @@ result_sudsoln['min_time'] = result_sudsoln.time
 result_sudsoln['median_time'] = result_sudsoln.time
 result_sudsoln['avg_time'] = result_sudsoln.time
 result_sudsoln['max_time'] = result_sudsoln.time
-result_sudsoln.is_solved = result_sudsoln.is_solved.apply(int)
 result_sudsoln['total'] = 1
 result_sudsoln['solved'] = result_sudsoln.trial.apply(categorize_solved)
 
@@ -53,6 +52,7 @@ result_sudsoln_cp = result_sudsoln.copy()
 result_sudsoln_cp.category =\
     result_sudsoln_cp.category.apply(lambda x: 'all')
 result_sudsoln_dbl = result_sudsoln.append(result_sudsoln_cp)
+result_sudsoln_dbl.is_solved = result_sudsoln_dbl.is_solved.apply(int)
 result_sudsoln_report1 = result_sudsoln_dbl\
     .groupby('category')\
     .agg({
@@ -65,8 +65,8 @@ result_sudsoln_report1 = result_sudsoln_dbl\
     })\
     .sort_values('category', ascending = False)
 print(
-    'Table 1: Within each category, how many puzzles were solved?\n' +\
-    '         How long did Sudoku.solve() run on each puzzle?\n\n', 
+    'Table 1: Within each category, how many puzzles were solved?\n',
+    '         How long did Sudoku.solve() run most of the time?\n\n', 
     result_sudsoln_report1, '\n\n',
     sep = ''
 )
