@@ -29,7 +29,7 @@ result_sudsoln_check = result_sudsoln\
 result_sudsoln_check2 = result_sudsoln\
     .loc[lambda x: x['trial'] == 200]
 if result_sudsoln_check.equals(result_sudsoln_check2):
-    msg = '         Yes, is_solved = False iff trial == ' +\
+    msg = '         Yes, is_solved == False iff trial == ' +\
         str(max_trial) + ':'
 else:
     msg = '         No, there is at least one case where' +\
