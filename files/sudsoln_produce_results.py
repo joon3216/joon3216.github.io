@@ -5,7 +5,7 @@ import sudsoln as ss
 path_to_result_sudsoln_csv = 'result_sudsoln' + ss.__version__ + '.csv'
 max_trial = 200
 
-# Produce a result
+# Produce results
 
 def to_sec(time):
     h, m, s = time[0], time[2:4], time[5:]
