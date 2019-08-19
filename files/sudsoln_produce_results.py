@@ -35,7 +35,7 @@ else:
 print(
     'Table 0: Check that is_solved = False iff trial == 200 ',
     'before analysis.\n' + msg + '\n\n', 
-    result_sudsoln_check, '\n',
+    result_sudsoln_check, '\n\n',
     sep = ''
 )
 
@@ -64,8 +64,8 @@ result_sudsoln_report1 = result_sudsoln_dbl\
     .sort_values('category', ascending = False)
 print(
     'Table 1: Within each category, how many puzzles were solved?\n' +\
-    '         And how long did Sudoku.solve() run on average?\n\n', 
-    result_sudsoln_report1, '\n',
+    '         How long did Sudoku.solve() run on each puzzle?\n\n', 
+    result_sudsoln_report1, '\n\n',
     sep = ''
 )
 
@@ -83,7 +83,7 @@ result_sudsoln_report2 = result_sudsoln_dbl\
 print(
     'Table 2: Within each category, if a puzzle was solved,\n' +\
     '         how long did it take to solve one?\n\n', 
-    result_sudsoln_report2, '\n',
+    result_sudsoln_report2, '\n\n',
     sep = ''
 )
 
@@ -99,7 +99,7 @@ result_sudsoln_report3 = result_sudsoln\
     .reindex(['logically', 'forcefully', 'not_solved'])
 print(
     'Table 3: How many puzzles required a brute force to be solved?\n\n',
-    result_sudsoln_report3, '\n',
+    result_sudsoln_report3, '\n\n',
     sep = ''
 )
 
@@ -118,8 +118,8 @@ result_sudsoln_report4 = result_sudsoln\
         'max_trial': 'max'
     })
 print(
-    'Table 4: If a brute force is used and successfully solved a puzzle, \n' +\
+    'Table 4: If a brute force is used and successfully solved a puzzle,\n' +\
     '         how many attempts did it take to solve one?\n\n',
-    result_sudsoln_report4, '\n',
+    result_sudsoln_report4, '\n\n',
     sep = ''
 )
