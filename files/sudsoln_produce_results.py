@@ -104,7 +104,6 @@ tprint(table3, result_sudsoln_report3)
 
 logi_max = result_sudsoln_report3.iloc[0, 4]
 result_sudsoln_report3_1 = result_sudsoln\
-    .loc[:, ['category', 'time', 'trial', 'is_solved', 'solved']]\
     .loc[lambda x: (x.solved == 'forcefully') & (x.time <= logi_max)]\
     .loc[:, ['category', 'time', 'trial', 'is_solved']]
 table3_1 =\
@@ -112,6 +111,18 @@ table3_1 =\
     '\n           the maximum time consumed by one of ' +\
     'logically solved puzzles?'
 tprint(table3_1, result_sudsoln_report3_1)
+
+
+result_sudsoln_report3_2 = result_sudsoln\
+    .loc[
+        lambda x: (x.solved == 'forcefully') & (x.time > logi_max) &\
+            (x.trial <= 2)
+    ]\
+    .loc[:, ['category', 'time', 'trial', 'is_solved']]
+table3_2 =\
+    'Table 3.2: How many puzzles are forcefully solved and yet took\n' +\
+    '           less than two attempts?\n'
+tprint(table3_2, result_sudsoln_report3_2)
 
 
 result_sudsoln_report4 = result_sudsoln\
