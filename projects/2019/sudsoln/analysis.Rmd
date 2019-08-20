@@ -292,29 +292,7 @@ Although I didn't check whether the model is appropriate, the regression line fi
 # time vs. trial according to the fitted model
 model_time = lambda x: np.exp(betas[0] + betas[1] * np.log(x + 1))
 model_trials = np.arange(201)
-
-plt.clf()
-fig, ax = plt.subplots()
-for solved_how in ['logically', 'forcefully', 'not_solved']:
-    ax.scatter(
-        x = result_sudsoln.loc[lambda x: x['solved'] == solved_how].trial,
-        y = result_sudsoln.loc[lambda x: x['solved'] == solved_how].time,
-        alpha = .2,
-        label = solved_how
-    )
-ax.legend(title = 'How were they solved?')
-ax.grid(True)
-plt.xlabel('trial')
-plt.ylabel('time (in sec)')
-plt.title('Scatterplot of time vs. trial')
-plt.plot(model_trial, model_time(model_trials), alpha = .5)
-plt.show()
-```
-
-```{python scatter3_real, fig.asp = .6, fig.align = 'center', echo = F}
-# time vs. trial according to the fitted model
-model_time = lambda x: np.exp(betas[0] + betas[1] * np.log(x + 1))
-model_trials = np.arange(201)
+model_times = model_time(model_trials)
 
 plt.clf()
 fig, ax = plt.subplots()
@@ -330,14 +308,34 @@ ax.grid(True)
 plt.xlabel('trial')
 plt.ylabel('time (in sec)')
 plt.title('Scatterplot of time vs. trial with a regression line')
-plt.plot(model_trials, model_time(model_trials), alpha = .5)
+plt.plot(model_trials, model_times, alpha = .5)
 plt.show()
 ```
 
-
-```{python model_times, echo = F}
+```{python scatter3_real, fig.asp = .6, fig.align = 'center', echo = F}
+# time vs. trial according to the fitted model
+model_time = lambda x: np.exp(betas[0] + betas[1] * np.log(x + 1))
+model_trials = np.arange(201)
 model_times = model_time(model_trials)
+
+plt.clf()
+fig, ax = plt.subplots()
+for solved_how in ['logically', 'forcefully', 'not_solved']:
+    ax.scatter(
+        x = result_sudsoln.loc[lambda x: x['solved'] == solved_how].trial,
+        y = result_sudsoln.loc[lambda x: x['solved'] == solved_how].time,
+        alpha = .2,
+        label = solved_how
+    )
+ax.legend(title = 'How were they solved?')
+ax.grid(True)
+plt.xlabel('trial')
+plt.ylabel('time (in sec)')
+plt.title('Scatterplot of time vs. trial with a regression line')
+plt.plot(model_trials, model_times, alpha = .5)
+plt.show()
 ```
+
 
 ```{r model_times_py, echo = F}
 model_time_0 <- py$model_times[1]

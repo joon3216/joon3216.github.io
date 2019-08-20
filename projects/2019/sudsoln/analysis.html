@@ -749,23 +749,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># time vs. trial according to the fitted model</span></a>
 <a class="sourceLine" id="cb11-2" title="2">model_time <span class="op">=</span> <span class="kw">lambda</span> x: np.exp(betas[<span class="dv">0</span>] <span class="op">+</span> betas[<span class="dv">1</span>] <span class="op">*</span> np.log(x <span class="op">+</span> <span class="dv">1</span>))</a>
 <a class="sourceLine" id="cb11-3" title="3">model_trials <span class="op">=</span> np.arange(<span class="dv">201</span>)</a>
-<a class="sourceLine" id="cb11-4" title="4"></a>
-<a class="sourceLine" id="cb11-5" title="5">plt.clf()</a>
-<a class="sourceLine" id="cb11-6" title="6">fig, ax <span class="op">=</span> plt.subplots()</a>
-<a class="sourceLine" id="cb11-7" title="7"><span class="cf">for</span> solved_how <span class="kw">in</span> [<span class="st">&#39;logically&#39;</span>, <span class="st">&#39;forcefully&#39;</span>, <span class="st">&#39;not_solved&#39;</span>]:</a>
-<a class="sourceLine" id="cb11-8" title="8">    ax.scatter(</a>
-<a class="sourceLine" id="cb11-9" title="9">        x <span class="op">=</span> result_sudsoln.loc[<span class="kw">lambda</span> x: x[<span class="st">&#39;solved&#39;</span>] <span class="op">==</span> solved_how].trial,</a>
-<a class="sourceLine" id="cb11-10" title="10">        y <span class="op">=</span> result_sudsoln.loc[<span class="kw">lambda</span> x: x[<span class="st">&#39;solved&#39;</span>] <span class="op">==</span> solved_how].time,</a>
-<a class="sourceLine" id="cb11-11" title="11">        alpha <span class="op">=</span> <span class="fl">.2</span>,</a>
-<a class="sourceLine" id="cb11-12" title="12">        label <span class="op">=</span> solved_how</a>
-<a class="sourceLine" id="cb11-13" title="13">    )</a>
-<a class="sourceLine" id="cb11-14" title="14">ax.legend(title <span class="op">=</span> <span class="st">&#39;How were they solved?&#39;</span>)</a>
-<a class="sourceLine" id="cb11-15" title="15">ax.grid(<span class="va">True</span>)</a>
-<a class="sourceLine" id="cb11-16" title="16">plt.xlabel(<span class="st">&#39;trial&#39;</span>)</a>
-<a class="sourceLine" id="cb11-17" title="17">plt.ylabel(<span class="st">&#39;time (in sec)&#39;</span>)</a>
-<a class="sourceLine" id="cb11-18" title="18">plt.title(<span class="st">&#39;Scatterplot of time vs. trial&#39;</span>)</a>
-<a class="sourceLine" id="cb11-19" title="19">plt.plot(model_trial, model_time(model_trials), alpha <span class="op">=</span> <span class="fl">.5</span>)</a>
-<a class="sourceLine" id="cb11-20" title="20">plt.show()</a></code></pre></div>
+<a class="sourceLine" id="cb11-4" title="4">model_times <span class="op">=</span> model_time(model_trials)</a>
+<a class="sourceLine" id="cb11-5" title="5"></a>
+<a class="sourceLine" id="cb11-6" title="6">plt.clf()</a>
+<a class="sourceLine" id="cb11-7" title="7">fig, ax <span class="op">=</span> plt.subplots()</a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="cf">for</span> solved_how <span class="kw">in</span> [<span class="st">&#39;logically&#39;</span>, <span class="st">&#39;forcefully&#39;</span>, <span class="st">&#39;not_solved&#39;</span>]:</a>
+<a class="sourceLine" id="cb11-9" title="9">    ax.scatter(</a>
+<a class="sourceLine" id="cb11-10" title="10">        x <span class="op">=</span> result_sudsoln.loc[<span class="kw">lambda</span> x: x[<span class="st">&#39;solved&#39;</span>] <span class="op">==</span> solved_how].trial,</a>
+<a class="sourceLine" id="cb11-11" title="11">        y <span class="op">=</span> result_sudsoln.loc[<span class="kw">lambda</span> x: x[<span class="st">&#39;solved&#39;</span>] <span class="op">==</span> solved_how].time,</a>
+<a class="sourceLine" id="cb11-12" title="12">        alpha <span class="op">=</span> <span class="fl">.2</span>,</a>
+<a class="sourceLine" id="cb11-13" title="13">        label <span class="op">=</span> solved_how</a>
+<a class="sourceLine" id="cb11-14" title="14">    )</a>
+<a class="sourceLine" id="cb11-15" title="15">ax.legend(title <span class="op">=</span> <span class="st">&#39;How were they solved?&#39;</span>)</a>
+<a class="sourceLine" id="cb11-16" title="16">ax.grid(<span class="va">True</span>)</a>
+<a class="sourceLine" id="cb11-17" title="17">plt.xlabel(<span class="st">&#39;trial&#39;</span>)</a>
+<a class="sourceLine" id="cb11-18" title="18">plt.ylabel(<span class="st">&#39;time (in sec)&#39;</span>)</a>
+<a class="sourceLine" id="cb11-19" title="19">plt.title(<span class="st">&#39;Scatterplot of time vs. trial with a regression line&#39;</span>)</a>
+<a class="sourceLine" id="cb11-20" title="20">plt.plot(model_trials, model_times, alpha <span class="op">=</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb11-21" title="21">plt.show()</a></code></pre></div>
 <p><img src="analysis_files/figure-html/scatter3_real-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>According to the model:</p>
 <ul>
@@ -789,7 +790,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Windows-10-10.0.18362-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-08-20 19:25</code></pre>
+## Session information updated at 2019-08-20 19:35</code></pre>
 </div>
 </section>
 
