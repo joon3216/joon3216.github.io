@@ -5,11 +5,8 @@ import sudsoln as ss
 path_to_result_sudsoln_csv = 'result_sudsoln' + ss.__version__ + '.csv'
 max_trial = 200
 
-# Produce results
 
-def to_sec(time):
-    h, m, s = time[0], time[2:4], time[5:]
-    return float(h) * 3600 + float(m) * 60 + float(s)
+# Produce results
 
 def categorize_solved(trial):
     if trial == 0:
@@ -20,9 +17,20 @@ def categorize_solved(trial):
         else:
             return 'forcefully'
 
+def to_sec(time):
+    h, m, s = time[0], time[2:4], time[5:]
+    return float(h) * 3600 + float(m) * 60 + float(s)
+
+def tprint(message, table):
+    print(message, '\n\n', table, '\n\n', sep = '')
+
+
 result_sudsoln = pd.read_csv(path_to_result_sudsoln_csv)
 result_sudsoln = result_sudsoln.iloc[:, [0, 2, 3, 4]]
 result_sudsoln.time = result_sudsoln.time.apply(to_sec)
+result_sudsoln['total'] = 1
+result_sudsoln['solved'] = result_sudsoln.trial.apply(categorize_solved)
+
 
 result_sudsoln_check = result_sudsoln\
     .loc[lambda x: x['is_solved'] == False]
@@ -34,19 +42,11 @@ if result_sudsoln_check.equals(result_sudsoln_check2):
 else:
     msg = '         No, there is at least one case where' +\
         ' is_solved == True and trial == ' + str(max_trial) + ':'
-print(
-    'Table 0: Check that is_solved == False iff trial == 200 ',
-    'before analysis.\n' + msg + '\n\n', 
-    result_sudsoln_check, '\n\n',
-    sep = ''
-)
+table0 =\
+    'Table 0: Check that is_solved == False iff trial == 200 ' +\
+    'before analysis.\n'
+tprint(table0 + msg, result_sudsoln_check)
 
-result_sudsoln['min_time'] = result_sudsoln.time
-result_sudsoln['median_time'] = result_sudsoln.time
-result_sudsoln['avg_time'] = result_sudsoln.time
-result_sudsoln['max_time'] = result_sudsoln.time
-result_sudsoln['total'] = 1
-result_sudsoln['solved'] = result_sudsoln.trial.apply(categorize_solved)
 
 result_sudsoln_cp = result_sudsoln.copy()
 result_sudsoln_cp.category =\
@@ -55,73 +55,77 @@ result_sudsoln_dbl = result_sudsoln.append(result_sudsoln_cp)
 result_sudsoln_dbl.is_solved = result_sudsoln_dbl.is_solved.apply(int)
 result_sudsoln_report1 = result_sudsoln_dbl\
     .groupby('category')\
-    .agg({
-        'is_solved': 'sum', 
-        'total': 'sum',
-        'min_time': 'min',
-        'median_time': 'median',
-        'avg_time': 'mean',
-        'max_time': 'max'
-    })\
+    .agg(
+        is_solved = ('is_solved', 'sum'),
+        total = ('total', 'sum'),
+        min_time = ('time', 'min'),
+        median_time = ('time', 'median'),
+        avg_time = ('time', 'mean'),
+        max_time = ('time', 'max')
+    )\
     .sort_values('category', ascending = False)
-print(
-    'Table 1: Within each category, how many puzzles were solved?\n',
-    '         How long did Sudoku.solve() run most of the time?\n\n', 
-    result_sudsoln_report1, '\n\n',
-    sep = ''
-)
+table1 =\
+    'Table 1: Within each category, how many puzzles were solved?\n' +\
+    '         How long did Sudoku.solve() run most of the time?'
+tprint(table1, result_sudsoln_report1)
+
 
 result_sudsoln_dbl.is_solved = result_sudsoln_dbl.is_solved.apply(bool)
 result_sudsoln_report2 = result_sudsoln_dbl\
     .groupby(['category', 'is_solved'])\
-    .agg({
-        'total': 'sum',
-        'min_time': 'min',
-        'median_time': 'median',
-        'avg_time': 'mean',
-        'max_time': 'max'
-    })\
+    .agg(        
+        total = ('total', 'sum'),
+        min_time = ('time', 'min'),
+        median_time = ('time', 'median'),
+        avg_time = ('time', 'mean'),
+        max_time = ('time', 'max')
+    )\
     .sort_values(['category', 'is_solved'], ascending = False)
-print(
+table2 =\
     'Table 2: Within each category, if a puzzle was solved,\n' +\
-    '         how long did it take to solve one?\n\n', 
-    result_sudsoln_report2, '\n\n',
-    sep = ''
-)
+    '         how long did it take to solve one?'
+tprint(table2, result_sudsoln_report2)
+
 
 result_sudsoln_report3 = result_sudsoln\
     .groupby('solved')\
-    .agg({
-        'total': 'sum',
-        'min_time': 'min',
-        'median_time': 'median',
-        'avg_time': 'mean',
-        'max_time': 'max'
-    })\
+    .agg(
+        total = ('total', 'sum'),
+        min_time = ('time', 'min'),
+        median_time = ('time', 'median'),
+        avg_time = ('time', 'mean'),
+        max_time = ('time', 'max')
+    )\
     .reindex(['logically', 'forcefully', 'not_solved'])
-print(
-    'Table 3: How many puzzles required a brute force to be solved?\n\n',
-    result_sudsoln_report3, '\n\n',
-    sep = ''
-)
+table3 =\
+    'Table 3: How many puzzles required a brute force to be solved?'
+tprint(table3, result_sudsoln_report3)
 
-result_sudsoln['min_trial'] = result_sudsoln.trial
-result_sudsoln['median_trial'] = result_sudsoln.trial
-result_sudsoln['avg_trial'] = result_sudsoln.trial
-result_sudsoln['max_trial'] = result_sudsoln.trial
+
+logi_max = result_sudsoln_report3.iloc[0, 4]
+result_sudsoln_report3_1 = result_sudsoln\
+    .loc[:, ['category', 'time', 'trial', 'is_solved', 'solved']]\
+    .loc[lambda x: (x.solved == 'forcefully') & (x.time <= logi_max)]\
+    .loc[:, ['category', 'time', 'trial', 'is_solved']]
+table3_1 =\
+    'Table 3.1: Which forcefully solved puzzles were solved faster than' +\
+    '\n           the maximum time consumed by one of ' +\
+    'logically solved puzzles?'
+tprint(table3_1, result_sudsoln_report3_1)
+
+
 result_sudsoln_report4 = result_sudsoln\
     .loc[lambda x: x['solved'] == 'forcefully']\
     .groupby('solved')\
-    .agg({
-        'total': 'sum',
-        'min_trial': 'min',
-        'median_trial': 'median',
-        'avg_trial': 'mean',
-        'max_trial': 'max'
-    })
-print(
-    'Table 4: If a brute force is used and successfully solved a puzzle,\n' +\
-    '         how many attempts did it take to solve one?\n\n',
-    result_sudsoln_report4, '\n\n',
-    sep = ''
-)
+    .agg(
+        total = ('total', 'sum'),
+        min_trial = ('trial', 'min'),
+        median_trial = ('trial', 'median'),
+        avg_trial = ('trial', 'mean'),
+        max_trial = ('trial', 'max')
+    )
+table4 =\
+    'Table 4: If a brute force is used and successfully solved ' +\
+    'a puzzle,\n' +\
+    '         how many attempts did it take to solve one?'
+tprint(table4, result_sudsoln_report4)
