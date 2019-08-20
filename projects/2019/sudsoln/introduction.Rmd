@@ -215,9 +215,9 @@ q4_case2
 
 
 
-## Step 4: check for typos
+## Step 4: fix typos
 
-Suppose you are heading towards the subway station commuting to your workplace. Along the way, you grab a newspaper, read two or three articles, criticize journalists on their political stances (too left or too right), and then get to the end of the newspaper. You see today's 3^2^-by-3^2^ sudoku puzzle is right there, remembering there is a Python package called `sudsoln` you downloaded before, and you decide to give it a try.
+Suppose you are heading towards the subway station commuting to your workplace. Along the way, you grab a newspaper, read two or three articles, criticize journalists on their political orientations, and then get to the end of the newspaper. You see today's 3^2^-by-3^2^ sudoku puzzle is right there, remembering there is a Python package called `sudsoln` you downloaded before, and you decide to give it a try.
 
 You open your laptop/smartphone/tablet, open a Python shell (on [Pydroid](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en_CA)/[Termux](https://play.google.com/store/apps/details?id=com.termux&hl=en_CA)/etc in case of smartphone or tablet), and then type in the following:
 

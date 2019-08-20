@@ -580,7 +580,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#step-1-try-it-without-any-additional-arguments">Step 1: try it without any additional arguments</a></li>
 <li><a href="#step-2-specify-elements">Step 2: specify <code>elements</code></a></li>
 <li><a href="#step-3-specify-the-correct-empty-string">Step 3: specify the correct <code>empty</code> string</a></li>
-<li><a href="#step-4-check-for-typos">Step 4: check for typos</a></li>
+<li><a href="#step-4-fix-typos">Step 4: fix typos</a></li>
 </ul></li>
 <li><a href="#solving-a-puzzle">Solving a puzzle</a><ul>
 <li><a href="#solve_globally"><code>.solve_globally()</code></a></li>
@@ -797,9 +797,9 @@ emptiness in the array by using sudsoln.change_empty(array, old, new).&quot;</co
 ## empty: *
 ## )</code></pre>
 </div>
-<div id="step-4-check-for-typos" class="section level2">
-<h2>Step 4: check for typos</h2>
-<p>Suppose you are heading towards the subway station commuting to your workplace. Along the way, you grab a newspaper, read two or three articles, criticize journalists on their political stances (too left or too right), and then get to the end of the newspaper. You see today’s 3<sup>2</sup>-by-3<sup>2</sup> sudoku puzzle is right there, remembering there is a Python package called <code>sudsoln</code> you downloaded before, and you decide to give it a try.</p>
+<div id="step-4-fix-typos" class="section level2">
+<h2>Step 4: fix typos</h2>
+<p>Suppose you are heading towards the subway station commuting to your workplace. Along the way, you grab a newspaper, read two or three articles, criticize journalists on their political orientations, and then get to the end of the newspaper. You see today’s 3<sup>2</sup>-by-3<sup>2</sup> sudoku puzzle is right there, remembering there is a Python package called <code>sudsoln</code> you downloaded before, and you decide to give it a try.</p>
 <p>You open your laptop/smartphone/tablet, open a Python shell (on <a href="https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&amp;hl=en_CA">Pydroid</a>/<a href="https://play.google.com/store/apps/details?id=com.termux&amp;hl=en_CA">Termux</a>/etc in case of smartphone or tablet), and then type in the following:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb28-1" title="1">puzzle <span class="op">=</span> <span class="st">&#39;..3.,..2....416..56.8.......2.9.4.6..6..8..7..3.2.7.9.......6.42..841....5....9..&#39;</span></a></code></pre></div>
 <p>You then <code>import sudsoln as ss</code>, and try initialize <code>Sudoku</code> using <code>to_sudoku</code> as follows:</p>
@@ -908,7 +908,7 @@ elements: {&#39;,&#39;}</code></pre>
 ## empty: .
 ## )</code></pre>
 <div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb41-1" title="1"><span class="bu">str</span>(end <span class="op">-</span> start)</a></code></pre></div>
-<pre><code>## &#39;0:00:00.020908&#39;</code></pre>
+<pre><code>## &#39;0:00:00.028923&#39;</code></pre>
 <p><code>q4_case1</code>, however, is a harder puzzle. You can see that <code>.solve_globally()</code> doesn’t do anything:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb43-1" title="1">q4_case1_cp <span class="op">=</span> q4_case1.copy()</a>
 <a class="sourceLine" id="cb43-2" title="2">q4_case1.solve_globally()</a>
@@ -957,11 +957,11 @@ elements: {&#39;,&#39;}</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb51-1" title="1">q_small.group(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)[<span class="dv">1</span>] <span class="co"># 0-indexing for row and col</span></a></code></pre></div>
 <pre><code>## Candidate(
 ## {
-## (1, 0): {&#39;4&#39;, &#39;3&#39;},
-## (1, 2): {&#39;4&#39;, &#39;1&#39;},
+## (1, 0): {&#39;3&#39;, &#39;4&#39;},
+## (1, 2): {&#39;1&#39;, &#39;4&#39;},
 ## (1, 3): {&#39;1&#39;},
 ## },
-## elements = {&#39;4&#39;, &#39;3&#39;, &#39;2&#39;, &#39;1&#39;}
+## elements = {&#39;2&#39;, &#39;1&#39;, &#39;3&#39;, &#39;4&#39;}
 ## )
 ## (n: 2)</code></pre>
 <p>The entry at the 2<sup>nd</sup> row and:</p>
@@ -1091,15 +1091,15 @@ elements: {&#39;,&#39;}</code></pre>
 <div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb63-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;submatrix&#39;</span>)[<span class="dv">4</span>] <span class="co"># 1-indexing for submatrix</span></a></code></pre></div>
 <pre><code>## Candidate(
 ## {
-## (3, 1): {&#39;4&#39;, &#39;9&#39;, &#39;3&#39;},
-## (4, 0): {&#39;6&#39;, &#39;9&#39;},
-## (4, 1): {&#39;6&#39;, &#39;4&#39;, &#39;9&#39;, &#39;3&#39;, &#39;1&#39;},
-## (4, 2): {&#39;4&#39;, &#39;9&#39;, &#39;3&#39;},
-## (5, 0): {&#39;6&#39;, &#39;2&#39;, &#39;8&#39;},
-## (5, 1): {&#39;6&#39;, &#39;4&#39;, &#39;3&#39;, &#39;1&#39;},
-## (5, 2): {&#39;4&#39;, &#39;3&#39;, &#39;2&#39;, &#39;8&#39;},
+## (3, 1): {&#39;9&#39;, &#39;3&#39;, &#39;4&#39;},
+## (4, 0): {&#39;9&#39;, &#39;6&#39;},
+## (4, 1): {&#39;3&#39;, &#39;9&#39;, &#39;1&#39;, &#39;6&#39;, &#39;4&#39;},
+## (4, 2): {&#39;9&#39;, &#39;3&#39;, &#39;4&#39;},
+## (5, 0): {&#39;2&#39;, &#39;8&#39;, &#39;6&#39;},
+## (5, 1): {&#39;6&#39;, &#39;1&#39;, &#39;3&#39;, &#39;4&#39;},
+## (5, 2): {&#39;2&#39;, &#39;8&#39;, &#39;3&#39;, &#39;4&#39;},
 ## },
-## elements = {&#39;6&#39;, &#39;4&#39;, &#39;9&#39;, &#39;7&#39;, &#39;2&#39;, &#39;8&#39;, &#39;5&#39;, &#39;3&#39;, &#39;1&#39;}
+## elements = {&#39;5&#39;, &#39;8&#39;, &#39;3&#39;, &#39;9&#39;, &#39;1&#39;, &#39;7&#39;, &#39;6&#39;, &#39;2&#39;, &#39;4&#39;}
 ## )
 ## (n: 3)</code></pre>
 <p>See the entries with keys <code>(5, x)</code> (i.e. entries of the 6<sup>th</sup> row in the sudoku puzzle that belong to the 4<sup>th</sup> submatrix). Notice that <code>8</code> exclusively exists in the candidate value sets of entries <code>(5, x)</code> within this submatrix. This means any entry that:</p>
@@ -1112,16 +1112,16 @@ elements: {&#39;,&#39;}</code></pre>
 <div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb65-1" title="1">pzl.group(by <span class="op">=</span> <span class="st">&#39;row&#39;</span>)[<span class="dv">5</span>] <span class="co"># Again, 0-indexing for row and col</span></a></code></pre></div>
 <pre><code>## Candidate(
 ## {
-## (5, 0): {&#39;6&#39;, &#39;2&#39;, &#39;8&#39;},
-## (5, 1): {&#39;6&#39;, &#39;4&#39;, &#39;3&#39;, &#39;1&#39;},
-## (5, 2): {&#39;4&#39;, &#39;3&#39;, &#39;2&#39;, &#39;8&#39;},
-## (5, 3): {&#39;4&#39;, &#39;7&#39;, &#39;5&#39;, &#39;8&#39;},
-## (5, 4): {&#39;6&#39;, &#39;4&#39;, &#39;8&#39;, &#39;3&#39;, &#39;1&#39;},
-## (5, 5): {&#39;4&#39;, &#39;7&#39;, &#39;8&#39;, &#39;5&#39;, &#39;1&#39;},
-## (5, 6): {&#39;7&#39;, &#39;5&#39;},
-## (5, 7): {&#39;4&#39;, &#39;3&#39;},
+## (5, 0): {&#39;2&#39;, &#39;8&#39;, &#39;6&#39;},
+## (5, 1): {&#39;6&#39;, &#39;1&#39;, &#39;3&#39;, &#39;4&#39;},
+## (5, 2): {&#39;2&#39;, &#39;8&#39;, &#39;3&#39;, &#39;4&#39;},
+## (5, 3): {&#39;5&#39;, &#39;8&#39;, &#39;7&#39;, &#39;4&#39;},
+## (5, 4): {&#39;8&#39;, &#39;3&#39;, &#39;1&#39;, &#39;6&#39;, &#39;4&#39;},
+## (5, 5): {&#39;5&#39;, &#39;8&#39;, &#39;1&#39;, &#39;7&#39;, &#39;4&#39;},
+## (5, 6): {&#39;5&#39;, &#39;7&#39;},
+## (5, 7): {&#39;3&#39;, &#39;4&#39;},
 ## },
-## elements = {&#39;6&#39;, &#39;4&#39;, &#39;9&#39;, &#39;7&#39;, &#39;2&#39;, &#39;8&#39;, &#39;5&#39;, &#39;3&#39;, &#39;1&#39;}
+## elements = {&#39;5&#39;, &#39;8&#39;, &#39;3&#39;, &#39;9&#39;, &#39;1&#39;, &#39;7&#39;, &#39;6&#39;, &#39;2&#39;, &#39;4&#39;}
 ## )
 ## (n: 3)</code></pre>
 <p>the entries <code>(5, 3)</code>, <code>(5, 4)</code>, and <code>(5, 5)</code> should get rid of <code>8</code> from one of its candidate values since they do not belong to the 4<sup>th</sup> submatrix and has <code>8</code> as one of its candidate values.</p>
