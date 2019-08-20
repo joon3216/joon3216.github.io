@@ -111,7 +111,7 @@ hardest_true_avg <- py$hardest_true_avg
 hardest_true_max <- py$hardest_true_max
 ```
 
-In terms of times consumed, it is hard to say there is a difference in terms of difficulty between puzzles in `top95` category and `hardest` category. One reason for this is because there are only 11 puzzles in `hardest`. It is true that every solved puzzles in `hardest` category are solved in `r round(hardest_true_max, 3)` seconds, which is less than the average time (`r round(top95_true_avg, 3)` seconds) consumed by solved puzzles in `top95` category, and one might say puzzles in `hardest` are actually easier than `top95` counterparts. However, `top95` has 95 puzzles which makes it more prone to having outliers. `hardest` doesn't have enough puzzles to say about their nature. Also, the mean time consumed to solve `hardest` puzzles is `r round(hardest_true_avg, 3)` seconds, which is close to `r round(top95_true_median, 3)` seconds, the median time consumed by solved puzzles of `top95` category. This implies that solved puzzles in `hardest` and `top95` are quite similar in nature.
+In terms of times consumed, it is hard to say there is a difference in terms of difficulty between puzzles in `top95` category and `hardest` category. One reason for this is because there are only 11 puzzles in `hardest`. It is true that every solved puzzles in `hardest` category are solved in `r round(hardest_true_max, 3)` seconds, which is less than the average time (`r round(top95_true_avg, 3)` seconds) consumed by solved puzzles in `top95` category, and one might say puzzles in `hardest` are actually easier than `top95` counterparts. However, `top95` has 95 puzzles which makes it more prone to having outliers. `hardest` doesn't have enough puzzles to comment about their nature. Also, the mean time consumed to solve `hardest` puzzles is `r round(hardest_true_avg, 3)` seconds, which is close to `r round(top95_true_median, 3)` seconds, the median time consumed by solved puzzles of `top95` category. This implies that solved puzzles in `hardest` and `top95` are quite similar in nature.
 
 
 ## 2.2. How many puzzles required a brute force to be solved?
@@ -133,13 +133,33 @@ forcefully_min <- py$forcefully_min
 
 Out of `r all_is_solved` solved puzzles, `r logically_total` puzzles (`r round(logically_total / all_is_solved * 100, 3)`%) were solved by logical approaches only, and `r forcefully_total` puzzles (`r round(forcefully_total / all_is_solved * 100, 3)`%) required a brute force.
 
-It is not surprising to see that puzzles were solved significantly faster when they were solely solved by logical approaches. This is quite obvious because `Sudoku.solve()` first uses `Sudoku.solve_logically()` and then `Sudoku.solve_forcefully()` if logical approaches aren't enough. That is, every forcefully solved puzzle first went through `Sudoku.solve_logically()` and then `Sudoku.solve_forcefully()`. 
+It is not surprising to see that puzzles were solved significantly faster when they were solely solved by logical approaches. This is quite obvious because `ss.Sudoku.solve()` first uses `ss.Sudoku.solve_logically()` and then `ss.Sudoku.solve_forcefully()` if logical approaches aren't enough. That is, every forcefully solved puzzle first went through `ss.Sudoku.solve_logically()` and then `ss.Sudoku.solve_forcefully()`. 
 
-It is interesting to see the minimum time consumed by a forcefully solved puzzle (`r round(forcefully_min, 3)` seconds) is smaller than the maximum time consumed by a logically solved puzzle (`r round(logically_max, 3)` seconds), implying that there is a case where a forceful solving mechanism was actually faster than a logical approach. One explanation is that `Sudoku.solve_logically()` stops early if the method does not mutate, or improve, `Sudoku` anymore. It `Sudoku.solve()` then immediately goes to `Sudoku.solve_forcefully()` the other explanation is that that puzzle would be solved if `Sudoku.solve_logically()` is equipped with more logical approaches in future updates. 
+Interestingly, the minimum time consumed by one of forcefully solved puzzles (`r round(forcefully_min, 3)` seconds) is smaller than the maximum time consumed by one of logically solved puzzles (`r round(logically_max, 3)` seconds), implying that there is a case where a forceful solving mechanism was actually faster than a logical reasoning. One explanation is that those puzzles become solvable by logic after plugging in one candidate value to an entry. A puzzle of this type makes `ss.Sudoku.solve_logically()` to return a fairly small `ss.candidate.Candidate`, so a single selection of candidate value in `ss.Sudoku.solve_forcefully()` immediately leads to the answer form (or one of possibly many answer forms).
 
+```{python result_sudsoln_report3_1, echo = F}
+print(result_sudsoln_report3_1)
+```
 
+The following table lists forcefully solved puzzles that took less than `r round(logically_max, 3)` seconds, the maximum time consumed by one of logically solved puzzles. Notice that `trial`s are either 1 or 2, indicating that after plugging in one or two values to the puzzle's entries, [applying `ss.Sudoku.solve_logically()` inside `ss.Sudoku.solve_logically()`](https://joon3216.github.io/projects/2019/sudsoln/introduction.html#solve_forcefully) led to the answer.
 
+```{python result_sudsoln_report3_2, echo = F}
+print(result_sudsoln_report3_2)
+count_ones = list(result_sudsoln_report3_2.trial).count(1)
+max_time_ones = max(result_sudsoln_report3_2.loc[lambda x: x.trial == 1].time)
+max_time_all = max(result_sudsoln_report3_2.time)
+```
 
+```{r result_sudsoln_report3_2_py, echo = F}
+count_ones <- py$count_ones
+max_time_ones <- py$max_time_ones
+max_time_all <- py$max_time_all
+```
+
+This table shows forcefully solved puzzles that took longer than any other logically solved puzzles and yet took at most two attempts. We find that:
+
+1. there are only `r count_ones` puzzles with `trial == 1` in this table, i.e. puzzles that took one attempt to solve are essentially the same as logically solved puzzles in terms of times consumed (They took no longer than `r ceiling(max_time_ones * (10^3)) / (10^3)` seconds). We may expect them to be solved completely by logic as the version increases.
+2. puzzles solved within two attempts are all solved within `r ceiling(max_time_all * (10^3)) / (10^3)` seconds.
 
 
 

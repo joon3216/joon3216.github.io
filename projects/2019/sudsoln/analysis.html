@@ -623,7 +623,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##          False          2  116.078541   146.334111  146.334111  176.589680
 ## all      True         101    0.048868     3.557485   13.858337  203.363059
 ##          False          5  104.997169   116.626084  134.956644  176.589680</code></pre>
-<p>In terms of times consumed, it is hard to say there is a difference in terms of difficulty between puzzles in <code>top95</code> category and <code>hardest</code> category. One reason for this is because there are only 11 puzzles in <code>hardest</code>. It is true that every solved puzzles in <code>hardest</code> category are solved in 10.31 seconds, which is less than the average time (15.003 seconds) consumed by solved puzzles in <code>top95</code> category, and one might say puzzles in <code>hardest</code> are actually easier than <code>top95</code> counterparts. However, <code>top95</code> has 95 puzzles which makes it more prone to having outliers. <code>hardest</code> doesn’t have enough puzzles to say about their nature. Also, the mean time consumed to solve <code>hardest</code> puzzles is 2.162 seconds, which is close to 3.666 seconds, the median time consumed by solved puzzles of <code>top95</code> category. This implies that solved puzzles in <code>hardest</code> and <code>top95</code> are quite similar in nature.</p>
+<p>In terms of times consumed, it is hard to say there is a difference in terms of difficulty between puzzles in <code>top95</code> category and <code>hardest</code> category. One reason for this is because there are only 11 puzzles in <code>hardest</code>. It is true that every solved puzzles in <code>hardest</code> category are solved in 10.31 seconds, which is less than the average time (15.003 seconds) consumed by solved puzzles in <code>top95</code> category, and one might say puzzles in <code>hardest</code> are actually easier than <code>top95</code> counterparts. However, <code>top95</code> has 95 puzzles which makes it more prone to having outliers. <code>hardest</code> doesn’t have enough puzzles to comment about their nature. Also, the mean time consumed to solve <code>hardest</code> puzzles is 2.162 seconds, which is close to 3.666 seconds, the median time consumed by solved puzzles of <code>top95</code> category. This implies that solved puzzles in <code>hardest</code> and <code>top95</code> are quite similar in nature.</p>
 </div>
 <div id="how-many-puzzles-required-a-brute-force-to-be-solved" class="section level2">
 <h2>2.2. How many puzzles required a brute force to be solved?</h2>
@@ -633,8 +633,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## forcefully     83    0.370045     5.146216   16.786375  203.363059
 ## not_solved      5  104.997169   116.626084  134.956644  176.589680</code></pre>
 <p>Out of 101 solved puzzles, 18 puzzles (17.822%) were solved by logical approaches only, and 83 puzzles (82.178%) required a brute force.</p>
-<p>It is not surprising to see that puzzles were solved significantly faster when they were solely solved by logical approaches. This is quite obvious because <code>Sudoku.solve()</code> first uses <code>Sudoku.solve_logically()</code> and then <code>Sudoku.solve_forcefully()</code> if logical approaches aren’t enough. That is, every forcefully solved puzzle first went through <code>Sudoku.solve_logically()</code> and then <code>Sudoku.solve_forcefully()</code>.</p>
-<p>It is interesting to see the minimum time consumed by a forcefully solved puzzle (0.37 seconds) is smaller than the maximum time consumed by a logically solved puzzle (0.631 seconds), implying that there is a case where a forceful solving mechanism was actually faster than a logical approach. One explanation is that <code>Sudoku.solve_logically()</code> stops early if the method does not mutate, or improve, <code>Sudoku</code> anymore; the other explanation is that that puzzle would be solved if <code>Sudoku.solve_logically()</code> is equipped with more logical approaches in future updates.</p>
+<p>It is not surprising to see that puzzles were solved significantly faster when they were solely solved by logical approaches. This is quite obvious because <code>ss.Sudoku.solve()</code> first uses <code>ss.Sudoku.solve_logically()</code> and then <code>ss.Sudoku.solve_forcefully()</code> if logical approaches aren’t enough. That is, every forcefully solved puzzle first went through <code>ss.Sudoku.solve_logically()</code> and then <code>ss.Sudoku.solve_forcefully()</code>.</p>
+<p>Interestingly, the minimum time consumed by one of forcefully solved puzzles (0.37 seconds) is smaller than the maximum time consumed by one of logically solved puzzles (0.631 seconds), implying that there is a case where a forceful solving mechanism was actually faster than a logical reasoning. One explanation is that those puzzles become solvable by logic after plugging in one candidate value to an entry. A puzzle of this type makes <code>ss.Sudoku.solve_logically()</code> to return a fairly small <code>ss.candidate.Candidate</code>, so a single selection of candidate value in <code>ss.Sudoku.solve_forcefully()</code> immediately leads to the answer form (or one of possibly many answer forms).</p>
+<pre><code>##    category      time  trial  is_solved
+## 7     top95  0.565487      1       True
+## 10    top95  0.589420      1       True
+## 17    top95  0.426835      1       True
+## 26    top95  0.589407      1       True
+## 31    top95  0.370045      1       True
+## 38    top95  0.484700      1       True
+## 40    top95  0.546531      1       True
+## 42    top95  0.505638      2       True
+## 51    top95  0.501645      1       True
+## 63    top95  0.468709      1       True</code></pre>
+<p>The following table lists forcefully solved puzzles that took less than 0.631 seconds, the maximum time consumed by one of logically solved puzzles. Notice that <code>trial</code>s are either 1 or 2, indicating that after plugging in one or two values to the puzzle’s entries, <a href="https://joon3216.github.io/projects/2019/sudsoln/introduction.html#solve_forcefully">applying <code>ss.Sudoku.solve_logically()</code> inside <code>ss.Sudoku.solve_logically()</code></a> led to the answer.</p>
+<pre><code>##     category      time  trial  is_solved
+## 9      top95  1.269593      2       True
+## 27     top95  0.766949      2       True
+## 32     top95  1.883995      2       True
+## 34     top95  0.738061      2       True
+## 46     top95  0.838757      2       True
+## 49     top95  0.702157      1       True
+## 61     top95  1.067157      2       True
+## 64     top95  1.738350      2       True
+## 81     top95  1.537886      2       True
+## 90     top95  0.669186      1       True
+## 97   hardest  0.703121      1       True
+## 104  hardest  0.741012      2       True</code></pre>
+<p>This table shows forcefully solved puzzles that took longer than any other logically solved puzzles and yet took at most two attempts. We find that:</p>
+<ol style="list-style-type: decimal">
+<li>there are only 3 puzzles with <code>trial == 1</code> in this table, i.e. puzzles that took one attempt to solve are essentially the same as logically solved puzzles in terms of times consumed (They took no longer than 0.704 seconds). We may expect them to be solved completely by logic as the version increases.</li>
+<li>puzzles solved within two attempts are all solved within 1.884 seconds.</li>
+</ol>
 </div>
 <div id="how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved" class="section level2">
 <h2>2.3. How many attempts did it take to solve a puzzle if forcefully solved?</h2>
@@ -648,8 +678,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="im">import</span> sinfo <span class="co"># ver 0.1.4</span></a>
-<a class="sourceLine" id="cb6-2" title="2">sinfo.sinfo()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" title="1"><span class="im">import</span> sinfo <span class="co"># ver 0.1.4</span></a>
+<a class="sourceLine" id="cb8-2" title="2">sinfo.sinfo()</a></code></pre></div>
 <pre><code>## -----
 ## matplotlib   3.1.1
 ## numpy        1.17.0
@@ -660,7 +690,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Windows-10-10.0.18362-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-08-19 23:12</code></pre>
+## Session information updated at 2019-08-20 03:19</code></pre>
 </div>
 </section>
 
