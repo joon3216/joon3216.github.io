@@ -14,7 +14,7 @@
 <meta name="author" content="Junkyu Park" />
 
 
-<title>sudsoln package: analysis</title>
+<title>sudsoln: analysis</title>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139050237-1"></script>
@@ -568,142 +568,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">sudsoln package: analysis</h1>
+<h1 class="title toc-ignore project-name">sudsoln: analysis</h1>
 <h4 class="author project-author">Junkyu Park</h4>
 </section>
 
 
-<div id="TOC" class="toc">
-<ul>
-<li><a href="#summary">1. Summary</a></li>
-</ul>
-</div>
 
 <section class="main-content">
-<p>The following packages are used:</p>
+<p>The following packages are used for analysis:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="im">import</span> pandas <span class="im">as</span> pd</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="im">import</span> sudsoln <span class="im">as</span> ss <span class="co"># ver 0.1.0</span></a></code></pre></div>
-<p><code>sudsoln</code> package is used to solve <a href="https://norvig.com/top95.txt">95 hard questions</a> and <a href="https://norvig.com/hardest.txt">11 hardest</a> questions posted on Dr. Peter Norvig’s <a href="https://norvig.com/sudoku.html">website</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="kw">library</span>(tidyr)</a></code></pre></div>
-<div id="summary" class="section level1">
-<h1>1. Summary</h1>
-<p>The following <a href="../../../sudsoln_solving.py">script</a> has run on the command line, and the results have been saved as a <a href="../../../result_sudsoln.csv">.csv file</a>.</p>
-<p>Questions:</p>
+<a class="sourceLine" id="cb1-2" title="2"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="im">import</span> pandas <span class="im">as</span> pd</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="im">import</span> random</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="im">import</span> sudsoln <span class="im">as</span> ss</a></code></pre></div>
+<p><code>sudsoln.Sudoku.solve()</code> method is used to solve <a href="https://norvig.com/top95.txt">95 hard</a> questions and <a href="https://norvig.com/hardest.txt">11 hardest</a> questions posted on Dr. Peter Norvig’s <a href="https://norvig.com/sudoku.html">website</a>.</p>
+
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#results">1. Results</a></li>
+<li><a href="#analysis">2. Analysis</a><ul>
+<li><a href="#how-long-did-it-take-to-solve-a-puzzle">2.1. How long did it take to solve a puzzle?</a></li>
+<li><a href="#how-many-puzzles-required-a-brute-force-to-be-solved">2.2. How many puzzles required a brute force to be solved?</a></li>
+<li><a href="#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved">2.3. How many attempts did it take to solve a puzzle if forcefully solved?</a></li>
+</ul></li>
+<li><a href="#session-info">Session info</a></li>
+</ul>
+</div>
+&nbsp;
+
+<div id="results" class="section level1">
+<h1>1. Results</h1>
+<p>You can run the following <a href="../../../files/sudsoln_solving.py">script</a> to create <a href="../../../files/result_sudsoln0.1.0.csv">result_sudsoln0.1.0.csv</a> file, and then this <a href="../../../files/sudsoln_produce_results.py">script</a> to produce tables used in analysis. <code>time</code>s are in seconds:</p>
+<pre><code>##           is_solved  total  min_time  median_time   avg_time    max_time
+## category                                                                
+## top95            92     95  0.191515     3.739001  18.551033  203.363059
+## hardest           9     11  0.048868     1.840078  28.375194  176.589680
+## all             101    106  0.048868     3.616845  19.570521  203.363059</code></pre>
+<p>Note that:</p>
 <ol style="list-style-type: decimal">
-<li>How many of them are solved?</li>
-<li>How many of them are solved logically?</li>
-<li>How long did it take to solve them?</li>
+<li>101 out of 106 are solved, which results in a solving rate of 95.283%. I’m hoping to achieve 100% solution rate in future updates by incorporating more logical approaches and adapting a better search algorithm.</li>
+<li><code>time</code>s are extremely right-skewed in every <code>category</code>. See <a href="#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved">section 2.3.</a> below for details.</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">top95_result &lt;-<span class="st"> </span><span class="kw">read_csv</span>(</a>
-<a class="sourceLine" id="cb3-2" title="2">    <span class="st">&#39;../../../files/result_top95.csv&#39;</span>, </a>
-<a class="sourceLine" id="cb3-3" title="3">    <span class="dt">col_types =</span> <span class="st">&#39;ccil&#39;</span></a>
-<a class="sourceLine" id="cb3-4" title="4">)</a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="kw">glimpse</span>(top95_result)</a></code></pre></div>
-<pre><code>## Observations: 95
-## Variables: 4
-## $ result     &lt;chr&gt; &quot;&#39;4173698256321589479587243168254371697915864323469...
-## $ time       &lt;chr&gt; &quot;0:00:00.331116&quot;, &quot;0:00:00.352059&quot;, &quot;0:00:00.270314...
-## $ trial      &lt;int&gt; 0, 0, 0, 8, 11, 0, 2, 1, 3, 1, 1, 101, 25, 15, 108,...
-## $ has_solved &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRU...</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">count_milli &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb5-2" title="2">    hours &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb5-3" title="3">    minutes &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">substr</span>(x, <span class="dv">3</span>, <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb5-4" title="4">    seconds &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">substring</span>(x, <span class="dv">6</span>))</a>
-<a class="sourceLine" id="cb5-5" title="5">    hours <span class="op">*</span><span class="st"> </span><span class="dv">3600</span> <span class="op">+</span><span class="st"> </span>minutes <span class="op">*</span><span class="st"> </span><span class="dv">60</span> <span class="op">+</span><span class="st"> </span>seconds</a>
-<a class="sourceLine" id="cb5-6" title="6">}</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">(</a>
-<a class="sourceLine" id="cb6-2" title="2">top95_result &lt;-<span class="st"> </span>top95_result <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb6-4" title="4">        <span class="dt">result =</span> <span class="kw">gsub</span>(<span class="st">&quot;&#39;&quot;</span>, <span class="st">&quot;&quot;</span>, result),</a>
-<a class="sourceLine" id="cb6-5" title="5">        <span class="dt">time =</span> <span class="kw">count_milli</span>(time)</a>
-<a class="sourceLine" id="cb6-6" title="6">    )</a>
-<a class="sourceLine" id="cb6-7" title="7">)</a></code></pre></div>
-<pre><code>## # A tibble: 95 x 4
-##    result                                             time trial has_solved
-##    &lt;chr&gt;                                             &lt;dbl&gt; &lt;int&gt; &lt;lgl&gt;     
-##  1 41736982563215894795872431682543716979158643234~  0.331     0 TRUE      
-##  2 52731648989654273131498756217245389668927135445~  0.352     0 TRUE      
-##  3 61745982324873691553912846798256437137429158615~  0.270     0 TRUE      
-##  4 48731269559368427112659738473584916291426583726~  6.46      8 TRUE      
-##  5 96231485713458726957829641384796253165187394232~ 12.1      11 TRUE      
-##  6 41683752998246537173512946857129864329374618586~  0.252     0 TRUE      
-##  7 68215437995176384237489216543752891681693725429~  1.69      2 TRUE      
-##  8 65248193783467915297132586446781259331579462829~  1.39      1 TRUE      
-##  9 68215347995176483237489216543752891681694725329~  5.29      3 TRUE      
-## 10 79235164854378612968142953715764829392413786583~  0.559     1 TRUE      
-## # ... with 85 more rows</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">top95_result <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</a></code></pre></div>
-<pre><code>##     result               time              trial        has_solved     
-##  Length:95          Min.   :  0.2264   Min.   :  0.00   Mode :logical  
-##  Class :character   1st Qu.:  0.6557   1st Qu.:  1.00   FALSE:3        
-##  Mode  :character   Median :  3.2174   Median :  4.00   TRUE :92       
-##                     Mean   : 26.9373   Mean   : 27.63                  
-##                     3rd Qu.: 20.5532   3rd Qu.: 22.50                  
-##                     Max.   :335.2807   Max.   :200.00</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">top95_result <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> trial, <span class="dt">y =</span> time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="st">    </span><span class="kw">geom_point</span>()</a></code></pre></div>
-<p><img src="analysis_files/figure-html/plots-1.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">top95_result <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="st">    </span><span class="kw">select</span>(time, trial) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="st">    </span><span class="kw">gather</span>(key, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> key, <span class="dt">y =</span> value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-5" title="5"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-6" title="6"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&#39;&#39;</span>, <span class="dt">y =</span> <span class="st">&#39;Value&#39;</span>)</a></code></pre></div>
-<p><img src="analysis_files/figure-html/plots-2.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">top95_result <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">    </span><span class="kw">filter</span>(trial <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 15 x 4
-##    result                                             time trial has_solved
-##    &lt;chr&gt;                                             &lt;dbl&gt; &lt;int&gt; &lt;lgl&gt;     
-##  1 417369825632158947958724316825437169791586432346~ 0.331     0 TRUE      
-##  2 527316489896542731314987562172453896689271354453~ 0.352     0 TRUE      
-##  3 617459823248736915539128467982564371374291586156~ 0.270     0 TRUE      
-##  4 416837529982465371735129468571298643293746185864~ 0.252     0 TRUE      
-##  5 498716523257839461136425987971382654684157392523~ 0.290     0 TRUE      
-##  6 417369825638125947952748316825437169791856432346~ 0.538     0 TRUE      
-##  7 254379861761248593893516742326791458915824376487~ 0.391     0 TRUE      
-##  8 781942365324576918659831724815723496936154872247~ 0.400     0 TRUE      
-##  9 417369528839125746652748319925837461741956832386~ 0.251     0 TRUE      
-## 10 723469851651238794894715632375691428912874365486~ 0.575     0 TRUE      
-## 11 124597863937648215856231749513786492482913657769~ 0.264     0 TRUE      
-## 12 265389471874251693193647852327894165946125387518~ 0.498     0 TRUE      
-## 13 724369851651248793893715642375691428912874365486~ 1.000     0 TRUE      
-## 14 253479861761238594894516732326791458915824376487~ 0.411     0 TRUE      
-## 15 618459723342867519579123468296534187784291635153~ 0.317     0 TRUE</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">hardest_result &lt;-<span class="st"> </span><span class="kw">read_csv</span>(</a>
-<a class="sourceLine" id="cb14-2" title="2">    <span class="st">&#39;../../../files/result_hardest.csv&#39;</span>, </a>
-<a class="sourceLine" id="cb14-3" title="3">    <span class="dt">col_types =</span> <span class="st">&#39;ccil&#39;</span></a>
-<a class="sourceLine" id="cb14-4" title="4">) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="st">    </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb14-6" title="6">        <span class="dt">result =</span> <span class="kw">gsub</span>(<span class="st">&quot;&#39;&quot;</span>, <span class="st">&quot;&quot;</span>, result),</a>
-<a class="sourceLine" id="cb14-7" title="7">        <span class="dt">time =</span> <span class="kw">count_milli</span>(time)</a>
-<a class="sourceLine" id="cb14-8" title="8">    )</a>
-<a class="sourceLine" id="cb14-9" title="9">hardest_result <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</a></code></pre></div>
-<pre><code>##     result               time              trial       has_solved    
-##  Length:11          Min.   : 0.07556   Min.   : 0.00   Mode:logical  
-##  Class :character   1st Qu.: 0.44307   1st Qu.: 0.50   TRUE:11       
-##  Mode  :character   Median : 2.41935   Median : 3.00                 
-##                     Mean   : 9.78858   Mean   :10.73                 
-##                     3rd Qu.:11.09310   3rd Qu.:15.50                 
-##                     Max.   :51.01026   Max.   :40.00</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">hardest_result <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> trial, <span class="dt">y =</span> time)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
-<p><img src="analysis_files/figure-html/hardest-1.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">top95_result <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">trial_group =</span> <span class="kw">ifelse</span>(trial <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="st">&#39;logical&#39;</span>, <span class="st">&#39;forceful&#39;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(trial_group) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">meantime =</span> <span class="kw">mean</span>(time))</a></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   trial_group meantime
-##   &lt;chr&gt;          &lt;dbl&gt;
-## 1 forceful      31.9  
-## 2 logical        0.409</code></pre>
+</div>
+<div id="analysis" class="section level1">
+<h1>2. Analysis</h1>
+<div id="how-long-did-it-take-to-solve-a-puzzle" class="section level2">
+<h2>2.1. How long did it take to solve a puzzle?</h2>
+<p><code>time</code>s displayed in the table above show how long <code>ss.Sudoku.solve()</code> ran most of the time, NOT how long it took to solve a puzzle. To see how long the method ran most of the time <em>given that it solved a puzzle</em>, a grouping by <code>is_solved</code> column is required:</p>
+<pre><code>##                     total    min_time  median_time    avg_time    max_time
+## category is_solved                                                        
+## top95    True          92    0.191515     3.665694   15.002534  203.363059
+##          False          3  104.997169   116.626084  127.371666  160.491744
+## hardest  True           9    0.048868     0.741012    2.162101   10.310423
+##          False          2  116.078541   146.334111  146.334111  176.589680
+## all      True         101    0.048868     3.557485   13.858337  203.363059
+##          False          5  104.997169   116.626084  134.956644  176.589680</code></pre>
+<p>In terms of times consumed, it is hard to say there is a difference in terms of difficulty between puzzles in <code>top95</code> category and <code>hardest</code> category. One reason for this is because there are only 11 puzzles in <code>hardest</code>. It is true that every solved puzzles in <code>hardest</code> category are solved in 10.31 seconds, which is less than the average time (15.003 seconds) consumed by solved puzzles in <code>top95</code> category, and one might say puzzles in <code>hardest</code> are actually easier than <code>top95</code> counterparts. However, <code>top95</code> has 95 puzzles which makes it more prone to having outliers. <code>hardest</code> doesn’t have enough puzzles to say about their nature. Also, the mean time consumed to solve <code>hardest</code> puzzles is 2.162 seconds, which is close to 3.666 seconds, the median time consumed by solved puzzles of <code>top95</code> category. This implies that solved puzzles in <code>hardest</code> and <code>top95</code> are quite similar in nature.</p>
+</div>
+<div id="how-many-puzzles-required-a-brute-force-to-be-solved" class="section level2">
+<h2>2.2. How many puzzles required a brute force to be solved?</h2>
+<pre><code>##             total    min_time  median_time    avg_time    max_time
+## solved                                                            
+## logically      18    0.048868     0.415899    0.356829    0.631310
+## forcefully     83    0.370045     5.146216   16.786375  203.363059
+## not_solved      5  104.997169   116.626084  134.956644  176.589680</code></pre>
+<p>Out of 101 solved puzzles, 18 puzzles (17.822%) were solved by logical approaches only, and 83 puzzles (82.178%) required a brute force.</p>
+<p>It is not surprising to see that puzzles were solved significantly faster when they were solely solved by logical approaches. This is quite obvious because <code>Sudoku.solve()</code> first uses <code>Sudoku.solve_logically()</code> and then <code>Sudoku.solve_forcefully()</code> if logical approaches aren’t enough. That is, every forcefully solved puzzle first went through <code>Sudoku.solve_logically()</code> and then <code>Sudoku.solve_forcefully()</code>.</p>
+<p>It is interesting to see the minimum time consumed by a forcefully solved puzzle (0.37 seconds) is smaller than the maximum time consumed by a logically solved puzzle (0.631 seconds), implying that there is a case where a forceful solving mechanism was actually faster than a logical approach. One explanation is that <code>Sudoku.solve_logically()</code> stops early if the method does not mutate, or improve, <code>Sudoku</code> anymore; the other explanation is that that puzzle would be solved if <code>Sudoku.solve_logically()</code> is equipped with more logical approaches in future updates.</p>
+</div>
+<div id="how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved" class="section level2">
+<h2>2.3. How many attempts did it take to solve a puzzle if forcefully solved?</h2>
+<pre><code>##             total  min_trial  median_trial  avg_trial  max_trial
+## solved                                                          
+## forcefully     83          1             8  22.192771        196</code></pre>
+<p>(<code>total</code> in the table is the number of cases out of 106 puzzles.)</p>
+<p>The most apparent pattern is that both <code>time</code> and <code>trial</code> are extremely right-skewed regardless of the group. This shows that there is no “middle ground”, i.e. the package either solves a puzzle fairly quickly, or it takes a very long time to solve one. The median</p>
+<p><img src="analysis_files/figure-html/scatter1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="session-info" class="section level1">
+<h1>Session info</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"><span class="im">import</span> sinfo <span class="co"># ver 0.1.4</span></a>
+<a class="sourceLine" id="cb6-2" title="2">sinfo.sinfo()</a></code></pre></div>
+<pre><code>## -----
+## matplotlib   3.1.1
+## numpy        1.17.0
+## pandas       0.25.0
+## sudsoln      0.1.0
+## -----
+## Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 23:09:28) [MSC v.1916 64 bit (AMD64)]
+## Windows-10-10.0.18362-SP0
+## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
+## -----
+## Session information updated at 2019-08-19 23:12</code></pre>
 </div>
 </section>
 

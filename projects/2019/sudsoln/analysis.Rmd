@@ -1,5 +1,5 @@
 ---
-title: "sudsoln package: analysis"
+title: "sudsoln: analysis"
 author: Junkyu Park
 output: 
   prettydoc::html_pretty:
@@ -14,119 +14,174 @@ output:
         - ../../../style/all_navbar_body_03_lvl.html
       after_body:
         - ../../../style/all_footer_03_lvl.html
-    toc: TRUE
+    toc: FALSE
     self_contained: FALSE
 ---
 
-```{r setup, echo = F}
-knitr::opts_chunk$set(python = reticulate::eng_python)
+```{r setup, echo = F, results = 'hide'}
+library(reticulate)
+knitr::knit_engines$set(python = eng_python)
+use_virtualenv('r-reticulate')
+py_available(T)
 ```
 
-The following packages are used:
+The following packages are used for analysis:
 
 ```{python packages_loaded}
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
-import sudsoln as ss # ver 0.1.0
+import random
+import sudsoln as ss
 ```
 
-`sudsoln` package is used to solve [95 hard questions](https://norvig.com/top95.txt) and [11 hardest](https://norvig.com/hardest.txt) questions posted on Dr. Peter Norvig's [website](https://norvig.com/sudoku.html).
-
-```{r packages, warning = F, message = F}
-library(dplyr)
-library(ggplot2)
-library(readr)
-library(tidyr)
+```{python ss_ver, echo = F}
+ss_ver = ss.__version__
 ```
 
-# 1. Summary
-
-The following [script](../../../sudsoln_solving.py) has run on the command line, and the results have been saved as a [.csv file](../../../result_sudsoln.csv).
-
-
-
-Questions:
-
-1. How many of them are solved?
-2. How many of them are solved logically?
-3. How long did it take to solve them?
-
-
-```{r reading, warning = F, message = F}
-top95_result <- read_csv(
-    '../../../files/result_top95.csv', 
-    col_types = 'ccil'
-)
-glimpse(top95_result)
+```{r ss_ver_to_r, echo = F}
+ss_ver = py$ss_ver
 ```
 
-```{r millisecond_handler}
-count_milli <- function(x) {
-    hours <- as.numeric(substr(x, 1, 1))
-    minutes <- as.numeric(substr(x, 3, 4))
-    seconds <- as.numeric(substring(x, 6))
-    hours * 3600 + minutes * 60 + seconds
-}
+`sudsoln.Sudoku.solve()` method is used to solve [95 hard](https://norvig.com/top95.txt) questions and [11 hardest](https://norvig.com/hardest.txt) questions posted on Dr. Peter Norvig's [website](https://norvig.com/sudoku.html). 
+
+
+<!--html_preserve-->
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#results">1. Results</a></li>
+<li><a href="#analysis">2. Analysis</a><ul>
+<li><a href="#how-long-did-it-take-to-solve-a-puzzle">2.1. How long did it take to solve a puzzle?</a></li>
+<li><a href="#how-many-puzzles-required-a-brute-force-to-be-solved">2.2. How many puzzles required a brute force to be solved?</a></li>
+<li><a href="#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved">2.3. How many attempts did it take to solve a puzzle if forcefully solved?</a></li>
+</ul></li>
+<li><a href="#session-info">Session info</a></li>
+</ul>
+</div>
+&nbsp;
+<!--/html_preserve-->
+
+
+# 1. Results
+
+You can run the following [script](../../../files/sudsoln_solving.py) to create [result_sudsoln`r ss_ver`.csv](../../../files/result_sudsoln`r ss_ver`.csv) file, and then this [script](../../../files/sudsoln_produce_results.py) to produce tables used in analysis. `time`s are in seconds:
+
+```{python produce_results, echo = F, results = 'hide'}
+import os
+os.chdir('../../../files')
+exec(open('sudsoln_produce_results.py').read())
+os.chdir('../projects/2019/sudsoln')
 ```
 
-```{r clean}
-(
-top95_result <- top95_result %>%
-    mutate(
-        result = gsub("'", "", result),
-        time = count_milli(time)
+```{python result_sudsoln_report1, echo = F}
+print(result_sudsoln_report1)
+all_is_solved = result_sudsoln_report1.iloc[2, 0]
+all_total = result_sudsoln_report1.iloc[2, 1]
+```
+
+```{r result_sudsoln_report1_py, echo = F}
+all_is_solved <- py$all_is_solved
+all_total <- py$all_total
+```
+
+Note that:
+
+1. `r all_is_solved` out of `r all_total` are solved, which results in a solving rate of `r round(all_is_solved / all_total * 100, 3)`%. I'm hoping to achieve 100% solution rate in future updates by incorporating more logical approaches and adapting a better search algorithm.
+2. `time`s are extremely right-skewed in every `category`. See [section 2.3.](#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved) below for details.
+
+# 2. Analysis
+
+## 2.1. How long did it take to solve a puzzle?
+
+`time`s displayed in the table above show how long `ss.Sudoku.solve()` ran most of the time, NOT how long it took to solve a puzzle. To see how long the method ran most of the time *given that it solved a puzzle*, a grouping by `is_solved` column is required:
+
+```{python result_sudsoln_report2, echo = F}
+print(result_sudsoln_report2)
+top95_true_median = result_sudsoln_report2.iloc[0, 2]
+top95_true_avg = result_sudsoln_report2.iloc[0, 3]
+hardest_true_avg  = result_sudsoln_report2.iloc[2, 3]
+hardest_true_max  = result_sudsoln_report2.iloc[2, 4]
+```
+
+
+```{r result_sudsoln_report2_py, echo = F}
+top95_true_median <- py$top95_true_median
+top95_true_avg <- py$top95_true_avg
+hardest_true_avg <- py$hardest_true_avg
+hardest_true_max <- py$hardest_true_max
+```
+
+In terms of times consumed, it is hard to say there is a difference in terms of difficulty between puzzles in `top95` category and `hardest` category. One reason for this is because there are only 11 puzzles in `hardest`. It is true that every solved puzzles in `hardest` category are solved in `r round(hardest_true_max, 3)` seconds, which is less than the average time (`r round(top95_true_avg, 3)` seconds) consumed by solved puzzles in `top95` category, and one might say puzzles in `hardest` are actually easier than `top95` counterparts. However, `top95` has 95 puzzles which makes it more prone to having outliers. `hardest` doesn't have enough puzzles to say about their nature. Also, the mean time consumed to solve `hardest` puzzles is `r round(hardest_true_avg, 3)` seconds, which is close to `r round(top95_true_median, 3)` seconds, the median time consumed by solved puzzles of `top95` category. This implies that solved puzzles in `hardest` and `top95` are quite similar in nature.
+
+
+## 2.2. How many puzzles required a brute force to be solved?
+
+```{python result_sudsoln_report3, echo = F}
+print(result_sudsoln_report3)
+logically_total = result_sudsoln_report3.iloc[0, 0]
+logically_max = result_sudsoln_report3.iloc[0, 4]
+forcefully_total = result_sudsoln_report3.iloc[1, 0]
+forcefully_min = result_sudsoln_report3.iloc[1, 1]
+```
+
+```{r result_sudsoln_report3_py, echo = F}
+logically_total <- py$logically_total
+logically_max <- py$logically_max
+forcefully_total <- py$forcefully_total
+forcefully_min <- py$forcefully_min
+```
+
+Out of `r all_is_solved` solved puzzles, `r logically_total` puzzles (`r round(logically_total / all_is_solved * 100, 3)`%) were solved by logical approaches only, and `r forcefully_total` puzzles (`r round(forcefully_total / all_is_solved * 100, 3)`%) required a brute force.
+
+It is not surprising to see that puzzles were solved significantly faster when they were solely solved by logical approaches. This is quite obvious because `Sudoku.solve()` first uses `Sudoku.solve_logically()` and then `Sudoku.solve_forcefully()` if logical approaches aren't enough. That is, every forcefully solved puzzle first went through `Sudoku.solve_logically()` and then `Sudoku.solve_forcefully()`. 
+
+It is interesting to see the minimum time consumed by a forcefully solved puzzle (`r round(forcefully_min, 3)` seconds) is smaller than the maximum time consumed by a logically solved puzzle (`r round(logically_max, 3)` seconds), implying that there is a case where a forceful solving mechanism was actually faster than a logical approach. One explanation is that `Sudoku.solve_logically()` stops early if the method does not mutate, or improve, `Sudoku` anymore. It `Sudoku.solve()` then immediately goes to `Sudoku.solve_forcefully()` the other explanation is that that puzzle would be solved if `Sudoku.solve_logically()` is equipped with more logical approaches in future updates. 
+
+
+
+
+
+
+
+## 2.3. How many attempts did it take to solve a puzzle if forcefully solved?
+
+
+```{python result_sudsoln_report4, echo = F}
+print(result_sudsoln_report4)
+```
+
+(`total` in the table is the number of cases out of `r all_total` puzzles.)
+
+The most apparent pattern is that both `time` and `trial` are extremely right-skewed regardless of the group. This shows that there is no "middle ground", i.e. the package either solves a puzzle fairly quickly, or it takes a very long time to solve one. The median 
+
+
+```{python scatter1, fig.asp = .6, fig.align = 'center', echo = F}
+fig, ax = plt.subplots()
+for solved_how in ['logically', 'forcefully', 'not_solved']:
+    ax.scatter(
+        x = result_sudsoln.loc[lambda x: x['solved'] == solved_how].trial,
+        y = result_sudsoln.loc[lambda x: x['solved'] == solved_how].time,
+        alpha = .2,
+        label = solved_how
     )
-)
-```
-
-```{r summary}
-top95_result %>% summary()
-```
-
-```{r plots, fig.asp = .6, fig.align = 'center'}
-top95_result %>% 
-ggplot(aes(x = trial, y = time)) +
-    geom_point()
-top95_result %>%
-    select(time, trial) %>%
-    gather(key, value) %>%
-ggplot(aes(x = key, y = value)) +
-    geom_boxplot() +
-    labs(x = '', y = 'Value')
-```
-
-```{r solved_logically}
-top95_result %>%
-    filter(trial == 0)
-```
-
-```{r hardest, fig.asp = .6, fig.align = 'center'}
-hardest_result <- read_csv(
-    '../../../files/result_hardest.csv', 
-    col_types = 'ccil'
-) %>%
-    mutate(
-        result = gsub("'", "", result),
-        time = count_milli(time)
-    )
-hardest_result %>% summary()
-hardest_result %>%
-ggplot(aes(x = trial, y = time)) +
-  geom_point()
-```
-
-
-```{r filtered_time}
-top95_result %>%
-  mutate(trial_group = ifelse(trial == 0, 'logical', 'forceful')) %>%
-  group_by(trial_group) %>%
-  summarize(meantime = mean(time))
+ax.legend(title = 'How are they solved?')
+ax.grid(True)
+plt.xlabel('trial')
+plt.ylabel('time (in sec)')
+plt.show()
 ```
 
 
 
 
 
+
+# Session info
+
+```{python session_info}
+import sinfo # ver 0.1.4
+sinfo.sinfo()
+```
 
 
 
