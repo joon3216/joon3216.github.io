@@ -444,7 +444,7 @@ This method takes:
 
 This method works with all possible `by`s, which are `row`, `col`, and `submatrix`. And it returns a `Candidate` class reduced down to the furthest level achievable by the method itself. If `start` is specified, then this method will not only mutate `Sudoku`, but also mutate `start` AND return the reduced version of `start`.
 
-Within a local group `by` (`== row`, `col`, or `submatrix`), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.
+Within a local group `by` (`== row`, `col`, or `submatrix`), if two distinct entries have two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.
 
 For example, consider the following `Candidate` group:
 
