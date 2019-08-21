@@ -64,7 +64,7 @@ ss_ver = py$ss_ver
 
 # 1. Results
 
-You can run the following [script](../../../files/sudsoln_solving.py) to create [result_sudsoln`r ss_ver`.csv](../../../files/result_sudsoln`r ss_ver`.csv) file, and then this [script](../../../files/sudsoln_produce_results.py) to produce tables used in analysis. `time`s are in seconds:
+You can run the following [script](../../../files/sudsoln_solving.py) to create [result_sudsoln`r ss_ver`.csv](../../../files/result_sudsoln`r ss_ver`.csv) file, and then this [script](../../../files/sudsoln_produce_results.py) to produce tables used in analysis as well as `result_sudsoln`, the `DataFrame` that is used to draw plots in [section 2.3](#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved). `time`s are in seconds:
 
 ```{python produce_results, echo = F, results = 'hide'}
 import os
