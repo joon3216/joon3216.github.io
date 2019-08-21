@@ -32,7 +32,6 @@ for attempt in range(max_trial + 1):
     prob_vs_max_trial['prob'].append(denom / numer)
 prob_vs_max_trial = pd.DataFrame(prob_vs_max_trial)
 
-# plt.clf()
 plt.plot(prob_vs_max_trial.max_trial, prob_vs_max_trial.prob)
 plt.ylim(0, 1) 
 plt.yticks(np.arange(0, 1.1, .1))
@@ -53,7 +52,6 @@ betas = np.linalg.inv(X.T @ X) @ X.T @ y
 model_x = np.linspace(0, np.max(X[:, 1]))
 model_y = betas[0] + betas[1] * model_x
 
-# plt.clf()
 fig, ax = plt.subplots()
 for solved_how in ['logically', 'forcefully', 'not_solved']:
     ax.scatter(
@@ -80,7 +78,6 @@ model_time = lambda x: np.exp(betas[0] + betas[1] * np.log(x + 1))
 model_trials = np.arange(201)
 model_times = model_time(model_trials)
 
-# plt.clf()
 fig, ax = plt.subplots()
 for solved_how in ['logically', 'forcefully', 'not_solved']:
     ax.scatter(
