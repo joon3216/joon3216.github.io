@@ -31,6 +31,7 @@ output:
 To get familiar with object-oriented programming in Python, I created a package that solves a $n^2$-by-$n^2$ sudoku puzzle, where $n$ is the number of rows/columns in a subarray. 
 
 * [Description](2019/sudsoln.html)
+* [Repository](https://github.com/joon3216/sudsoln)
 * [Introduction to `sudsoln`](2019/sudsoln/introduction.html)
 * [Analysis](2019/sudsoln/analysis.html)
 
@@ -40,6 +41,7 @@ To get familiar with object-oriented programming in Python, I created a package 
 To gain experience in a package development in R, I started to gather and organize R functions I wrote in the [Research materials](research_materials.html) section.
 
 * [Description](2019/funpark.html)
+* [Repository](https://github.com/joon3216/funpark)
 
 
 # Publishing this [website](https://joon3216.github.io)
@@ -47,7 +49,7 @@ To gain experience in a package development in R, I started to gather and organi
 The challenge was to learn about HTML and CSS to make my website look like a website. Also, I learned some git commands for a better management of files in the [repository](https://github.com/joon3216/joon3216.github.io). 
 
 * [Description](2019/publishing_website.html)
-
+* [Repository](https://github.com/joon3216/joon3216.github.io)
 
 
 
