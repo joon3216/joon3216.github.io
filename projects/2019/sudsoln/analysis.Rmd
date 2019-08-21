@@ -64,7 +64,9 @@ ss_ver = py$ss_ver
 
 # 1. Results
 
-You can run the following [script](../../../files/sudsoln_solving.py) to create [result_sudsoln`r ss_ver`.csv](../../../files/result_sudsoln`r ss_ver`.csv) file, and then this [script](../../../files/sudsoln_produce_results.py) to produce tables used in analysis as well as `result_sudsoln`, the `DataFrame` that is used to draw plots in [section 2.3](#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved). `time`s are in seconds:
+You can run the following [script](../../../files/sudsoln_solving.py) to create [result_sudsoln`r ss_ver`.csv](../../../files/result_sudsoln`r ss_ver`.csv) file, and then this [script](../../../files/sudsoln_produce_results.py) to produce tables used in analysis. Codes that produced plots in [section 2.3](#how-many-attempts-did-it-take-to-solve-a-puzzle-if-forcefully-solved) are written [here](../../../files/sudsoln_produce_plots.py).
+
+`time`s are in seconds:
 
 ```{python produce_results, echo = F, results = 'hide'}
 import os
@@ -180,7 +182,7 @@ forcefully_median_trial <- py$forcefully_median_trial
 The most apparent pattern is that both `time` and `trial` are extremely right-skewed regardless of the group. This shows that there is no "middle ground", i.e. the package either solved a puzzle fairly quickly, or it took a very long time to solve one. Thus, the median is more reliable than the mean. According to the above table, about `r forcefully_median_trial` trials are required whenever a puzzle requires a brute force to be solved.
 
 
-```{python scatter1, fig.asp = .6, fig.align = 'center'}
+```{python scatter1, fig.asp = .6, fig.align = 'center', echo = F}
 # Scatterplot: time vs. trial
 fig, ax = plt.subplots()
 for solved_how in ['logically', 'forcefully', 'not_solved']:
@@ -199,30 +201,6 @@ plt.show()
 ```
 
 The scatterplot of `time` vs. `trial` shows that the vast majority of puzzles are solved within 50 trials or about a minute. That is, setting a big `max_trial` in `ss.Sudoku.solve()` (which leads to a longer running time) will increase a chance of a puzzle getting solved, but not by a large scale after `max_trial` gets greater than 50.
-
-```{python line1, fig.asp = .6, fig.align = 'center', eval = F}
-# Lineplot: prob vs. max_trial
-prob_vs_max_trial = {'max_trial': [], 'prob': []}
-numer = result_sudsoln.shape[0]
-for attempt in range(max_trial + 1):
-    denom = result_sudsoln\
-        .loc[lambda x: (x['trial'] <= attempt) & (x['is_solved'])]\
-        .total\
-        .sum()
-    prob_vs_max_trial['max_trial'].append(attempt)
-    prob_vs_max_trial['prob'].append(denom / numer)
-prob_vs_max_trial = pd.DataFrame(prob_vs_max_trial)
-
-plt.clf()
-plt.plot(prob_vs_max_trial.max_trial, prob_vs_max_trial.prob)
-plt.ylim(0, 1) 
-plt.yticks(np.arange(0, 1.1, .1))
-plt.grid(True)
-plt.xlabel('max_trial in ss.Sudoku.solve(max_trial)')
-plt.ylabel('P(getting solved)')
-plt.title('Expected P(getting solved) vs. max_trial')
-plt.show()
-```
 
 ```{python line1_real, fig.asp = .6, fig.align = 'center', echo = F, results = 'hide'}
 # Lineplot: prob vs. max_trial
@@ -252,7 +230,7 @@ This plot displays how the expected probability of a puzzle getting solved incre
 
 To get the idea of how much more `time` is required as `trial` increases, I fit a linear regression model between log-transformed `time` and `trial`. In particular, the following model is used: $$\log(\text{time}) = \beta_0 + \beta_1 \log(\text{trial} + 1) + \varepsilon$$ Log-transformations are performed due to a severe right-skewness on both the response and the feature; `trial + 1` is used because whenever $\text{trial} = 0$, $\log(\text{trial})$ is undefined, and $\log(\text{trial} + 1)$ becomes exactly $0$. Model-checking procedure is skipped, and the model is assumed to be appropriate to describe the relationship between the two.
 
-```{python scatter2, fig.asp = .6, fig.align = 'center'}
+```{python scatter2, fig.asp = .6, fig.align = 'center', echo = F}
 # Scatterplot: log(time) vs. log(trial + 1)
 X = result_sudsoln.loc[:, ['total', 'trial']]
 X.trial = np.log(X.trial + 1)
@@ -282,33 +260,6 @@ plt.plot(model_x, model_y, alpha = .5)
 plt.xlabel('log(trial + 1)')
 plt.ylabel('log(time)')
 plt.title('Scatterplot of log(time) vs. log(trial + 1)')
-plt.show()
-```
-
-Although I didn't check whether the model is appropriate, the regression line fits nicely in the scatterplot of `log(time)` vs. `log(trial + 1)`. It seems we don't need to implement a nonlinear model, and need to deal with a fanning effect only.
-
-
-```{python scatter3, fig.asp = .6, fig.align = 'center', eval = F}
-# time vs. trial according to the fitted model
-model_time = lambda x: np.exp(betas[0] + betas[1] * np.log(x + 1))
-model_trials = np.arange(201)
-model_times = model_time(model_trials)
-
-plt.clf()
-fig, ax = plt.subplots()
-for solved_how in ['logically', 'forcefully', 'not_solved']:
-    ax.scatter(
-        x = result_sudsoln.loc[lambda x: x['solved'] == solved_how].trial,
-        y = result_sudsoln.loc[lambda x: x['solved'] == solved_how].time,
-        alpha = .2,
-        label = solved_how
-    )
-ax.legend(title = 'How were they solved?')
-ax.grid(True)
-plt.xlabel('trial')
-plt.ylabel('time (in sec)')
-plt.title('Scatterplot of time vs. trial with a regression line')
-plt.plot(model_trials, model_times, alpha = .5)
 plt.show()
 ```
 
