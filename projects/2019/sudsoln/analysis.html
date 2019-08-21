@@ -713,7 +713,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb9-21" title="21">plt.show()</a></code></pre></div>
 <p><img src="analysis_files/figure-html/line1_real-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This plot displays how the expected probability of a puzzle getting solved increases as <code>max_trial</code> argument specified in <code>ss.Sudoku.solve()</code> gets bigger. Notice the plateau starts after 50 <code>max_trial</code>, and stays around the probability of 90%.</p>
-<p>To get the idea of how much more <code>time</code> is required as <code>trial</code> increases, I fit a linear regression model between log-transformed <code>time</code> and <code>trial</code>. In particular, the following model is used: <span class="math display">\[\log(\text{time}) = \beta_0 + \beta_1 \log(\text{trial} + 1) + \varepsilon\]</span> Log-transformations are performed due to a severe right-skewness on both the response and the feature; <code>trial + 1</code> is used because whenever <span class="math inline">\(\text{trial} = 0\)</span>, <span class="math inline">\(\log(\text{trial})\)</span> is undefined, and <span class="math inline">\(\log(\text{trial} + 1)\)</span> becomes exactly <span class="math inline">\(0\)</span>. Model-checking procedure is skipped since this model may need modifications as the package version increases.</p>
+<p>To get the idea of how much more <code>time</code> is required as <code>trial</code> increases, I fit a linear regression model between log-transformed <code>time</code> and <code>trial</code>. In particular, the following model is used: <span class="math display">\[\log(\text{time}) = \beta_0 + \beta_1 \log(\text{trial} + 1) + \varepsilon\]</span> Log-transformations are performed due to a severe right-skewness on both the response and the feature; <code>trial + 1</code> is used because whenever <span class="math inline">\(\text{trial} = 0\)</span>, <span class="math inline">\(\log(\text{trial})\)</span> is undefined, and <span class="math inline">\(\log(\text{trial} + 1)\)</span> becomes exactly <span class="math inline">\(0\)</span>. Model-checking procedure is skipped, and the model is assumed to be appropriate to describe the relationship between the two.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># Scatterplot: log(time) vs. log(trial + 1)</span></a>
 <a class="sourceLine" id="cb10-2" title="2">X <span class="op">=</span> result_sudsoln.loc[:, [<span class="st">&#39;total&#39;</span>, <span class="st">&#39;trial&#39;</span>]]</a>
 <a class="sourceLine" id="cb10-3" title="3">X.trial <span class="op">=</span> np.log(X.trial <span class="op">+</span> <span class="dv">1</span>)</a>
@@ -770,8 +770,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="analysis_files/figure-html/scatter3_real-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>According to the model:</p>
 <ul>
-<li>a sudoku puzzle with a <code>top95</code> or <code>hardest</code> difficulty is expected to be logically solved in about 0.326 seconds</li>
-<li>around 90% of sudoku puzzles with a <code>top95</code> or <code>hardest</code> difficulty is expected to be solved in about 50 attempts (trials), or 33.483 seconds</li>
+<li>around 20% of sudoku puzzles with a <code>top95</code> or <code>hardest</code> difficulty are expected to be solved by <code>ss.Sudoku.solve_logically()</code> in about 0.326 seconds</li>
+<li>around 90% of sudoku puzzles with a <code>top95</code> or <code>hardest</code> difficulty are expected to be solved in about 50 attempts (trials), or 33.483 seconds</li>
 <li><code>ss.Sudoku.solve()</code> is expected to terminate in about 168.522 seconds, regardless of whether the method solves a puzzle or not, if used the default setting of <code>max_trial = 200</code></li>
 </ul>
 </div>
@@ -790,7 +790,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Windows-10-10.0.18362-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-08-20 19:35</code></pre>
+## Session information updated at 2019-08-21 15:41</code></pre>
 </div>
 </section>
 
