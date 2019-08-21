@@ -346,7 +346,7 @@ model_time_200 <- py$model_times[201]
 According to the model:
 
 * around 20% of sudoku puzzles with a `top95` or `hardest` difficulty are expected to be solved by `ss.Sudoku.solve_logically()` in about `r round(model_time_0, 3)` seconds
-* around 90% of sudoku puzzles with a `top95` or `hardest` difficulty are expected to be solved in about 50 attempts (trials), or `r round(model_time_50, 3)` seconds
+* around 90% of sudoku puzzles with a `top95` or `hardest` difficulty are expected to be solved by `ss.Sudoku.solve()` in about 50 attempts (trials), or `r round(model_time_50, 3)` seconds
 * `ss.Sudoku.solve()` is expected to terminate in about `r round(model_time_200, 3)` seconds, regardless of whether the method solves a puzzle or not, if used the default setting of `max_trial = 200`
 
 
