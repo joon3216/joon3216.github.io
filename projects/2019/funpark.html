@@ -601,7 +601,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="how-it-works" class="section level1">
 <h1>How it works</h1>
-<p>As of 2019-08-13, <code>funpark</code> package tries to solve two types of tasks:</p>
+<p>As of 2019-08-21, <code>funpark</code> package tries to solve two types of tasks:</p>
 <ul>
 <li><strong>Response column(s) transformations</strong>: formulating the “response” column of data into another type of response. For example, if a data is prepared to fit a logistic regression (i.e. binary response), then the package provides functions to <a href="../../research_materials/2018/binarize.html">formulate the response column into either binomial or count response</a>, and vice versa.</li>
 <li><strong>Statistical computations</strong>: there are three subjects regarding this task:
@@ -611,7 +611,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="../../research_materials/2019/em_imputation.html">Imputation using the EM algorithm</a></li>
 </ul></li>
 </ul>
-<p>Click <a href="https://github.com/joon3216/funpark">here</a> for the GitHub link. You can download <code>funpark</code> package by:</p>
+<p>Click <a href="https://github.com/joon3216/funpark">here</a> for the GitHub repository. You can download <code>funpark</code> package by:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages(&quot;devtools&quot;)</span></a>
 <a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;joon3216/funpark&quot;</span>)</a></code></pre></div>
 </div>
@@ -627,7 +627,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next steps</h1>
-<p>Currently, I am planning on finishing another package called <code>qgf</code> (<a href="https://github.com/joon3216/qgf">GitHub link</a>) for generating SQL queries in R. The difference between <code>dbplyr</code> and <code>qgf</code> is that it returns a character (i.e. a string of queries), and uses <code>information_schema</code> extensively to conduct data tidying instead of general reshaping or aggregating in <code>dbplyr</code>.</p>
 <ul>
 <li>Definitely:
 <ul>

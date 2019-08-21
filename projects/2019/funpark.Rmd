@@ -45,7 +45,7 @@ As of `r Sys.Date()`, `funpark` package tries to solve two types of tasks:
     + [Imputation using the EM algorithm](../../research_materials/2019/em_imputation.html)
 
 
-Click [here](https://github.com/joon3216/funpark) for the GitHub link. You can download `funpark` package by:
+Click [here](https://github.com/joon3216/funpark) for the GitHub repository. You can download `funpark` package by:
 
 ```r
 # install.packages("devtools")
@@ -65,9 +65,6 @@ I learned how to:
 
 
 # Next steps
-
-Currently, I am planning on finishing another package called `qgf` ([GitHub link](https://github.com/joon3216/qgf)) for generating SQL queries in R. The difference between `dbplyr` and `qgf` is that it returns a character (i.e. a string of queries), and uses `information_schema` extensively to conduct data tidying instead of general reshaping or aggregating in `dbplyr`.
-
 
 * Definitely:
     + Include tests
