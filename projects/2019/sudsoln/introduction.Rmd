@@ -294,6 +294,8 @@ As of version `r ss_ver`, there are 7 solving methods provided:
 
 ## `.solve_globally()`
 
+This method accepts no argument, and returns `None`.
+
 For each entry, this method looks at the `row`, `col`umn, and `submatrix` it belongs and see if there is only one possible candidate value at that entry. If true, plug the value into that entry, and repeat the process until no new mutation is made to `Sudoku`.
 
 For example, take a look at `q1_case1`:
@@ -330,9 +332,10 @@ print(q4_case1 == q4_case1_cp)
 
 ## `.solve_locally()`
 
+This method has `by` argument, the name of a local group that it will work with. It must be specified, and must be one of either `row`, `col`, or `submatrix`. It returns `None`.
+
 This looks at candidate values more carefully. It doesn't look at the only candidate value remaining; rather, it tries to acquire the only existing candidate value within the local group it belongs, i.e. `row`, `col`, or `submatrix`. If there is only one number that is exclusively a candidate value in one particular entry within a local group, that entry must have that value in its place. Just like `.solve_globally()`, `.solve_locally()` runs until no further mutation is made in `Sudoku` puzzle.
 
-It has to take the argument `by`, the name of a local group that it will work with. `by` must be either `row`, `col`, or `submatrix`.
 
 Here's an example:
 
@@ -392,7 +395,14 @@ q2_case2
 
 ## `.solve_by_pointing_pairs()`
 
-As of version 0.1.0, this only works with `by = 'submatrix'`. Working methods for `by = 'row'` and `by = 'col'` will be supported in version 0.1.1.
+(As of version 0.1.0, this only works with `by = 'submatrix'`. Working methods for `by = 'row'` and `by = 'col'` will be supported in version 0.1.1)
+
+This method takes:
+
+* `by` argument, `submatrix` by default, and;
+* `start` argument, `None` by default, which is an initial `Candidate` that the method will start to reduce.
+
+It returns a `Candidate` class reduced down to the furthest level achievable by the method itself. If `start` is specified, then this method will not only mutate `Sudoku`, but also mutate `start` AND return the reduced version of `start`.
 
 Inside a submatrix, if a single row or column exclusively contains one candidate number, then that candidate number should be eliminated from the same row or column that is not a part of the submatrix.
 
@@ -426,6 +436,13 @@ the entries `(5, 3)`, `(5, 4)`, and `(5, 5)` should get rid of `8` from one of i
 
 
 ## `.solve_by_hidden_pairs()`
+
+This method takes:
+
+* `by` argument, `submatrix` by default, and;
+* `start` argument, `None` by default, which is an initial `Candidate` that the method will start to reduce.
+
+This method works with all possible `by`s, which are `row`, `col`, and `submatrix`. And it returns a `Candidate` class reduced down to the furthest level achievable by the method itself. If `start` is specified, then this method will not only mutate `Sudoku`, but also mutate `start` AND return the reduced version of `start`.
 
 Within a local group `by` (`== row`, `col`, or `submatrix`), if two distinct entries has two candidate values exclusively, then these two entries should only contain those two values in its set of candidate values.
 
@@ -467,6 +484,8 @@ candids
 
 ## `.solve_logically()`
 
+This method takes no argument. It returns either `None` or `Candidate`, depending on the difficulty level of `Sudoku` puzzle. If `Sudoku` is solved only by `Sudoku.solve_globally()` and `Sudoku.solve_locally()` (i.e. easy puzzle), then it returns `None`, and returns `Candidate` otherwise.
+
 This method applies:
 
 * `.solve_globally()`
@@ -477,6 +496,14 @@ This method applies:
 It continues to apply these methods until either no mutation is made to `Sudoku`, or `Sudoku` transforms into the answer form.
 
 ## `.solve_forcefully()`
+
+This method takes:
+
+* `max_trial`, `200` by default, which is the maximum number of attempts to be tried
+* `quietly`, `False` by default, which prints the message while solving forcefully
+* `seed` (`None` by default) which is a natural number to put into `random.seed()`. If `None`, then `random.seed()` is not set.
+
+It returns `int`, the number of attempts tried.
 
 In this method, the following steps are repeated:
 
@@ -491,6 +518,8 @@ In case of 4.2., `Sudoku` transforms back to the initial state, the method adds 
 
 
 ## `.solve()`
+
+This method has `max_trial`, `quietly`, and `seed` arguments, which are the same arguments as `Sudoku.solve_forcefully()`. It returns a tuple of `(str, int)`, where the first item is the string representation of `datetime.timedelta` (e.g. `'0:00:03.140492'`), and the second item is the return value of `Sudoku.solve_forcefully()`. That is, the second item will be `0` if a puzzle is solved by `Sudoku.solve_logically()` only.
 
 This method first uses `.solve_logically()`, and then `.solve_forcefully()`.
 
