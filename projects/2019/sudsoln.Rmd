@@ -46,7 +46,7 @@ And to be honest, dynamic badges looked awesome on README.md; I wanted to have u
 
 * Visit the [repository](https://github.com/joon3216/sudsoln) to see the source code
 * See [vignette](sudsoln/introduction.html) for the instructions on how to use solving features of the package
-* See [analysis](sudsoln.analysis.html) to see the performance of solving features
+* See [analysis](sudsoln/analysis.html) to see the performance of solving features
 
 
 # Learning outcomes
