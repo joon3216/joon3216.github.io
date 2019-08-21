@@ -484,7 +484,10 @@ candids
 
 ## `.solve_logically()`
 
-This method takes no argument. It returns either `None` or `Candidate`, depending on the difficulty level of `Sudoku` puzzle. If `Sudoku` is solved only by `Sudoku.solve_globally()` and `Sudoku.solve_locally()` (i.e. easy puzzle), then it returns `None`, and returns `Candidate` otherwise.
+This method takes no argument. It returns either `None` or `Candidate`, depending on the circumstances:
+
+* It returns `None` if `Sudoku` is successfully solved.
+* It returns `Candidate` if logical approaches in this method are not sufficient to solve a puzzle.
 
 This method applies:
 
