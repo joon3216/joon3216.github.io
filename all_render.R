@@ -53,6 +53,7 @@ c(
 
     ## research_materials
     ### 2018
+    'research_materials/2019/binarize.Rmd',
     'research_materials/2018/censored_data.Rmd',
     'research_materials/2018/non_separable_penalty.Rmd',
     'research_materials/2018/pgf.Rmd',
