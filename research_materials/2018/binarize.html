@@ -4,9 +4,10 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -86,11 +87,12 @@
 }
 
 /* new; why: prepare in case of text-align: right */
-#navbar nav ul li#news
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
 {
     padding: 8.5px 0;
     margin: 0;
-}
+} */
 
 /* new; why: this potentially has a different background color */
 #navbar nav ul li#home
@@ -423,47 +425,99 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
 <link rel="stylesheet" href="binarize_files/style.css" type="text/css" />
+
+
+
+
 
 </head>
 
@@ -499,11 +553,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                     </li>
                 </ul>
             </li>
-            <li id="news">
+            <!-- <li id="news">
                 <a href="../../news.html">News</a>
-            </li>
+            </li> -->
             <li>
-                <a href="../../files/cv_junkyu_park.pdf">CV</a>
+                <a href="../../files/resume_junkyu_park.pdf">Resume</a>
             </li>
         </ul>
     </nav>
@@ -522,16 +576,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <section class="main-content">
 <p>The following packages and datasets are used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(boot)
-<span class="kw">library</span>(data.table)
-<span class="co"># devtools::install_github(&#39;joon3216/funpark&#39;)</span>
-<span class="kw">library</span>(funpark)
-<span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(ggrepel)
-<span class="kw">library</span>(pROC)
-as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
-<span class="kw">data</span>(femsmoke, <span class="dt">package =</span> <span class="st">&#39;faraway&#39;</span>)
-<span class="kw">data</span>(nodal, <span class="dt">package =</span> <span class="st">&#39;SMPracticals&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(boot)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(data.table)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co"># devtools::install_github(&#39;joon3216/funpark&#39;)</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(funpark)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">library</span>(ggrepel)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">library</span>(pROC)</a>
+<a class="sourceLine" id="cb1-8" title="8">as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble</a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="kw">data</span>(femsmoke, <span class="dt">package =</span> <span class="st">&#39;faraway&#39;</span>)</a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="kw">data</span>(nodal, <span class="dt">package =</span> <span class="st">&#39;SMPracticals&#39;</span>)</a></code></pre></div>
 
 <div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
 <ul style="list-style:none;">
@@ -559,17 +613,17 @@ as_tibble &lt;-<span class="st"> </span>dplyr<span class="op">::</span>as_tibble
 <li><code>gender</code> is a categorical variable with two categories: <code>M</code> or <code>F</code></li>
 <li><code>criminal_record</code> is also a categorical variable: <code>yes</code> if the person has one, and <code>no</code> otherwise</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1024</span>)
-is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-
-<span class="co"># Binary response</span>
-(rich &lt;-<span class="st"> </span><span class="kw">data.table</span>(
-    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),
-    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),
-    <span class="dt">is_rich =</span> is_rich
-))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">set.seed</span>(<span class="dv">1024</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4">criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb2-5" title="5"></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co"># Binary response</span></a>
+<a class="sourceLine" id="cb2-7" title="7">(rich &lt;-<span class="st"> </span><span class="kw">data.table</span>(</a>
+<a class="sourceLine" id="cb2-8" title="8">    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),</a>
+<a class="sourceLine" id="cb2-9" title="9">    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),</a>
+<a class="sourceLine" id="cb2-10" title="10">    <span class="dt">is_rich =</span> is_rich</a>
+<a class="sourceLine" id="cb2-11" title="11">))</a></code></pre></div>
 <pre><code>##     gender criminal_record is_rich
 ##  1:      F              no       0
 ##  2:      M              no       1
@@ -582,25 +636,25 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ##  9:      M              no       1
 ## 10:      F             yes       1</code></pre>
 <p>This <code>rich</code> dataset has a binary response. However, when you are given a dataset for the first time, it may have a following form:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Binomial response</span>
-(rich_binom &lt;-<span class="st"> </span>rich[
-    <span class="kw">order</span>(gender, criminal_record), 
-    .(<span class="dt">rich =</span> <span class="kw">sum</span>(is_rich), <span class="dt">not_rich =</span> <span class="kw">sum</span>(<span class="op">!</span>is_rich)), 
-    <span class="dt">by =</span> <span class="st">&quot;gender,criminal_record&quot;</span>
-])</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Binomial response</span></a>
+<a class="sourceLine" id="cb4-2" title="2">(rich_binom &lt;-<span class="st"> </span>rich[</a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="kw">order</span>(gender, criminal_record), </a>
+<a class="sourceLine" id="cb4-4" title="4">    .(<span class="dt">rich =</span> <span class="kw">sum</span>(is_rich), <span class="dt">not_rich =</span> <span class="kw">sum</span>(<span class="op">!</span>is_rich)), </a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="dt">by =</span> <span class="st">&quot;gender,criminal_record&quot;</span></a>
+<a class="sourceLine" id="cb4-6" title="6">])</a></code></pre></div>
 <pre><code>##    gender criminal_record rich not_rich
 ## 1:      F              no    0        3
 ## 2:      F             yes    2        0
 ## 3:      M              no    2        1
 ## 4:      M             yes    0        2</code></pre>
 <p>or:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Count; response variable is now &#39;count&#39;, not &#39;is_rich&#39;</span>
-(rich_pois &lt;-<span class="st"> </span><span class="kw">melt</span>(
-    rich_binom, 
-    <span class="dt">id.vars =</span> <span class="kw">c</span>(<span class="st">&#39;gender&#39;</span>, <span class="st">&#39;criminal_record&#39;</span>),
-    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span>,
-    <span class="dt">value.name =</span> <span class="st">&#39;count&#39;</span>
-))</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Count; response variable is now &#39;count&#39;, not &#39;is_rich&#39;</span></a>
+<a class="sourceLine" id="cb6-2" title="2">(rich_pois &lt;-<span class="st"> </span><span class="kw">melt</span>(</a>
+<a class="sourceLine" id="cb6-3" title="3">    rich_binom, </a>
+<a class="sourceLine" id="cb6-4" title="4">    <span class="dt">id.vars =</span> <span class="kw">c</span>(<span class="st">&#39;gender&#39;</span>, <span class="st">&#39;criminal_record&#39;</span>),</a>
+<a class="sourceLine" id="cb6-5" title="5">    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="dt">value.name =</span> <span class="st">&#39;count&#39;</span></a>
+<a class="sourceLine" id="cb6-7" title="7">))</a></code></pre></div>
 <pre><code>##    gender criminal_record  is_rich count
 ## 1:      F              no     rich     0
 ## 2:      F             yes     rich     2
@@ -624,8 +678,8 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 <li><code>aged</code>, <code>stage</code>, <code>grade</code>, <code>xray</code>, <code>acid</code> are categorical features</li>
 </ul>
 <p>See <a href="https://rdrr.io/cran/SMPracticals/man/nodal.html">here</a> for more information.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setDT</span>(nodal)
-<span class="kw">as_tibble</span>(nodal)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">setDT</span>(nodal)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">as_tibble</span>(nodal)</a></code></pre></div>
 <pre><code>## # A tibble: 53 x 7
 ##        m     r aged  stage grade xray  acid 
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
@@ -641,17 +695,17 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 10     1     0 0     0     0     0     1    
 ## # ... with 43 more rows</code></pre>
 <p>We can transform this into <code>nodal_binom</code>, the data that has binomial responses:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nodal_binom &lt;-<span class="st"> </span>nodal[
-    , 
-    .(<span class="dt">m =</span> <span class="kw">sum</span>(m), <span class="dt">r =</span> <span class="kw">sum</span>(r)), 
-    by =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;aged&#39;</span>, <span class="st">&#39;stage&#39;</span>, <span class="st">&#39;grade&#39;</span>, <span class="st">&#39;xray&#39;</span>, <span class="st">&#39;acid&#39;</span>)
-][
-    , 
-    <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;r&#39;</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">list</span>(r, m <span class="op">-</span><span class="st"> </span>r, <span class="ot">NULL</span>, <span class="ot">NULL</span>)
-][
-    <span class="kw">order</span>(<span class="op">-</span>yes_node, <span class="op">-</span>no_node)
-][]
-<span class="kw">as_tibble</span>(nodal_binom)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">nodal_binom &lt;-<span class="st"> </span>nodal[</a>
+<a class="sourceLine" id="cb10-2" title="2">    , </a>
+<a class="sourceLine" id="cb10-3" title="3">    .(<span class="dt">m =</span> <span class="kw">sum</span>(m), <span class="dt">r =</span> <span class="kw">sum</span>(r)), </a>
+<a class="sourceLine" id="cb10-4" title="4">    by =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;aged&#39;</span>, <span class="st">&#39;stage&#39;</span>, <span class="st">&#39;grade&#39;</span>, <span class="st">&#39;xray&#39;</span>, <span class="st">&#39;acid&#39;</span>)</a>
+<a class="sourceLine" id="cb10-5" title="5">][</a>
+<a class="sourceLine" id="cb10-6" title="6">    , </a>
+<a class="sourceLine" id="cb10-7" title="7">    <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;r&#39;</span>) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">list</span>(r, m <span class="op">-</span><span class="st"> </span>r, <span class="ot">NULL</span>, <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb10-8" title="8">][</a>
+<a class="sourceLine" id="cb10-9" title="9">    <span class="kw">order</span>(<span class="op">-</span>yes_node, <span class="op">-</span>no_node)</a>
+<a class="sourceLine" id="cb10-10" title="10">][]</a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="kw">as_tibble</span>(nodal_binom)</a></code></pre></div>
 <pre><code>## # A tibble: 23 x 7
 ##    aged  stage grade xray  acid  yes_node no_node
 ##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;
@@ -668,83 +722,83 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## # ... with 13 more rows</code></pre>
 <p><code>nodal_binom</code> has a form of <code>rich_binom</code>, where the last two columns are computed from <code>r</code>, the binary response in the original <code>nodal</code> data. <code>yes_node</code> is a count of 1’s in <code>r</code> in the original dataset, and <code>no_node</code> a count of 0’s.</p>
 <p>The function <code>binarize_binom</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns in order to avoid duplicate names:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binarize_binom &lt;-<span class="st"> </span><span class="cf">function</span>(dat, responses, <span class="dt">variable.name =</span> <span class="ot">NULL</span>) {
-    <span class="co"># dat: a data whose features are categorical</span>
-    <span class="co"># responses: a character vector of length 2; each element is the name of</span>
-    <span class="co">#            column that stores the counts of positive and negative</span>
-    <span class="co">#            responses, in this order.</span>
-    <span class="co"># variable.name: a character; if NULL, then a randomly generated </span>
-    <span class="co">#                character will be used.</span>
-    
-    <span class="co"># Generate random names to avoid the same names as in features</span>
-    all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(
-        <span class="st">&#39;A&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;F&#39;</span>, <span class="st">&#39;f&#39;</span>,
-        <span class="st">&#39;G&#39;</span>, <span class="st">&#39;g&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;h&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;i&#39;</span>, <span class="st">&#39;J&#39;</span>, <span class="st">&#39;j&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;k&#39;</span>, <span class="st">&#39;L&#39;</span>, <span class="st">&#39;l&#39;</span>,
-        <span class="st">&#39;M&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="st">&#39;n&#39;</span>, <span class="st">&#39;O&#39;</span>, <span class="st">&#39;o&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;p&#39;</span>, <span class="st">&#39;Q&#39;</span>, <span class="st">&#39;q&#39;</span>, <span class="st">&#39;R&#39;</span>, <span class="st">&#39;r&#39;</span>,
-        <span class="st">&#39;S&#39;</span>, <span class="st">&#39;s&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;U&#39;</span>, <span class="st">&#39;u&#39;</span>, <span class="st">&#39;V&#39;</span>, <span class="st">&#39;v&#39;</span>, <span class="st">&#39;W&#39;</span>, <span class="st">&#39;w&#39;</span>, <span class="st">&#39;X&#39;</span>, <span class="st">&#39;x&#39;</span>,
-        <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;Z&#39;</span>, <span class="st">&#39;z&#39;</span>
-    )
-    dalphabet &lt;-<span class="st"> </span><span class="cf">function</span>(x){
-        <span class="kw">dpmf</span>(
-            x, 
-            <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(all_alphabets)) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(all_alphabets),
-            all_alphabets
-        )
-    }
-    separator &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    united &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    
-    <span class="co"># Setup</span>
-    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
-    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]
-    <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}
-    <span class="cf">if</span> (<span class="kw">is.null</span>(variable.name)) {
-        variable_name &lt;-<span class="st"> </span>
-<span class="st">            </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-        <span class="kw">message</span>(<span class="st">&#39;Randomly generated variable name used: &#39;</span>, variable_name)
-    } <span class="cf">else</span> {
-        variable_name &lt;-<span class="st"> </span>variable.name
-    }
-    value_name &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-
-    <span class="co"># Transform into the form that is used in poisson regression</span>
-    dat &lt;-<span class="st"> </span><span class="kw">melt</span>(
-        dat,
-        <span class="dt">id.vars =</span> id_vars,
-        <span class="dt">variable.name =</span> variable_name,
-        <span class="dt">value.name =</span> value_name
-    )
-    id_vars &lt;-<span class="st"> </span><span class="kw">c</span>(id_vars, variable_name)
-    
-    <span class="co"># Binarize</span>
-    dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-        <span class="st">&#39;dat[&#39;</span>, value_name, <span class="st">&#39; != 0, &#39;</span>,
-        <span class="st">&#39;.(&#39;</span>, united, <span class="st">&#39; = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, 
-        <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>, value_name, <span class="st">&#39;), .SDcols = id_vars]&#39;</span>
-    )))
-    dat &lt;-<span class="st"> </span>dat[
-        ,
-        <span class="kw">list</span>(
-            <span class="dt">result =</span> <span class="kw">rep</span>(
-                <span class="kw">as.data.frame</span>(dat)[, united],
-                <span class="kw">as.data.frame</span>(dat)[, value_name]
-            )
-        )
-    ][
-        , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span>
-        <span class="kw">c</span>(id_vars) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)
-    ][
-        , 
-        <span class="kw">c</span>(id_vars), 
-        with =<span class="st"> </span>F
-    ]
-    dat
-}</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">binarize_binom &lt;-<span class="st"> </span><span class="cf">function</span>(dat, responses, <span class="dt">variable.name =</span> <span class="ot">NULL</span>) {</a>
+<a class="sourceLine" id="cb12-2" title="2">    <span class="co"># dat: a data whose features are categorical</span></a>
+<a class="sourceLine" id="cb12-3" title="3">    <span class="co"># responses: a character vector of length 2; each element is the name of</span></a>
+<a class="sourceLine" id="cb12-4" title="4">    <span class="co">#            column that stores the counts of positive and negative</span></a>
+<a class="sourceLine" id="cb12-5" title="5">    <span class="co">#            responses, in this order.</span></a>
+<a class="sourceLine" id="cb12-6" title="6">    <span class="co"># variable.name: a character; if NULL, then a randomly generated </span></a>
+<a class="sourceLine" id="cb12-7" title="7">    <span class="co">#                character will be used.</span></a>
+<a class="sourceLine" id="cb12-8" title="8">    </a>
+<a class="sourceLine" id="cb12-9" title="9">    <span class="co"># Generate random names to avoid the same names as in features</span></a>
+<a class="sourceLine" id="cb12-10" title="10">    all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb12-11" title="11">        <span class="st">&#39;A&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;F&#39;</span>, <span class="st">&#39;f&#39;</span>,</a>
+<a class="sourceLine" id="cb12-12" title="12">        <span class="st">&#39;G&#39;</span>, <span class="st">&#39;g&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;h&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;i&#39;</span>, <span class="st">&#39;J&#39;</span>, <span class="st">&#39;j&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;k&#39;</span>, <span class="st">&#39;L&#39;</span>, <span class="st">&#39;l&#39;</span>,</a>
+<a class="sourceLine" id="cb12-13" title="13">        <span class="st">&#39;M&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="st">&#39;n&#39;</span>, <span class="st">&#39;O&#39;</span>, <span class="st">&#39;o&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;p&#39;</span>, <span class="st">&#39;Q&#39;</span>, <span class="st">&#39;q&#39;</span>, <span class="st">&#39;R&#39;</span>, <span class="st">&#39;r&#39;</span>,</a>
+<a class="sourceLine" id="cb12-14" title="14">        <span class="st">&#39;S&#39;</span>, <span class="st">&#39;s&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;U&#39;</span>, <span class="st">&#39;u&#39;</span>, <span class="st">&#39;V&#39;</span>, <span class="st">&#39;v&#39;</span>, <span class="st">&#39;W&#39;</span>, <span class="st">&#39;w&#39;</span>, <span class="st">&#39;X&#39;</span>, <span class="st">&#39;x&#39;</span>,</a>
+<a class="sourceLine" id="cb12-15" title="15">        <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;Z&#39;</span>, <span class="st">&#39;z&#39;</span></a>
+<a class="sourceLine" id="cb12-16" title="16">    )</a>
+<a class="sourceLine" id="cb12-17" title="17">    dalphabet &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb12-18" title="18">        <span class="kw">dpmf</span>(</a>
+<a class="sourceLine" id="cb12-19" title="19">            x, </a>
+<a class="sourceLine" id="cb12-20" title="20">            <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(all_alphabets)) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(all_alphabets),</a>
+<a class="sourceLine" id="cb12-21" title="21">            all_alphabets</a>
+<a class="sourceLine" id="cb12-22" title="22">        )</a>
+<a class="sourceLine" id="cb12-23" title="23">    }</a>
+<a class="sourceLine" id="cb12-24" title="24">    separator &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb12-25" title="25"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb12-26" title="26">    united &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb12-27" title="27"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb12-28" title="28">    </a>
+<a class="sourceLine" id="cb12-29" title="29">    <span class="co"># Setup</span></a>
+<a class="sourceLine" id="cb12-30" title="30">    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)</a>
+<a class="sourceLine" id="cb12-31" title="31">    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>responses)]</a>
+<a class="sourceLine" id="cb12-32" title="32">    <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}</a>
+<a class="sourceLine" id="cb12-33" title="33">    <span class="cf">if</span> (<span class="kw">is.null</span>(variable.name)) {</a>
+<a class="sourceLine" id="cb12-34" title="34">        variable_name &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb12-35" title="35"><span class="st">            </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb12-36" title="36">        <span class="kw">message</span>(<span class="st">&#39;Randomly generated variable name used: &#39;</span>, variable_name)</a>
+<a class="sourceLine" id="cb12-37" title="37">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb12-38" title="38">        variable_name &lt;-<span class="st"> </span>variable.name</a>
+<a class="sourceLine" id="cb12-39" title="39">    }</a>
+<a class="sourceLine" id="cb12-40" title="40">    value_name &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb12-41" title="41"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb12-42" title="42"></a>
+<a class="sourceLine" id="cb12-43" title="43">    <span class="co"># Transform into the form that is used in poisson regression</span></a>
+<a class="sourceLine" id="cb12-44" title="44">    dat &lt;-<span class="st"> </span><span class="kw">melt</span>(</a>
+<a class="sourceLine" id="cb12-45" title="45">        dat,</a>
+<a class="sourceLine" id="cb12-46" title="46">        <span class="dt">id.vars =</span> id_vars,</a>
+<a class="sourceLine" id="cb12-47" title="47">        <span class="dt">variable.name =</span> variable_name,</a>
+<a class="sourceLine" id="cb12-48" title="48">        <span class="dt">value.name =</span> value_name</a>
+<a class="sourceLine" id="cb12-49" title="49">    )</a>
+<a class="sourceLine" id="cb12-50" title="50">    id_vars &lt;-<span class="st"> </span><span class="kw">c</span>(id_vars, variable_name)</a>
+<a class="sourceLine" id="cb12-51" title="51">    </a>
+<a class="sourceLine" id="cb12-52" title="52">    <span class="co"># Binarize</span></a>
+<a class="sourceLine" id="cb12-53" title="53">    dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb12-54" title="54">        <span class="st">&#39;dat[&#39;</span>, value_name, <span class="st">&#39; != 0, &#39;</span>,</a>
+<a class="sourceLine" id="cb12-55" title="55">        <span class="st">&#39;.(&#39;</span>, united, <span class="st">&#39; = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, </a>
+<a class="sourceLine" id="cb12-56" title="56">        <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>, value_name, <span class="st">&#39;), .SDcols = id_vars]&#39;</span></a>
+<a class="sourceLine" id="cb12-57" title="57">    )))</a>
+<a class="sourceLine" id="cb12-58" title="58">    dat &lt;-<span class="st"> </span>dat[</a>
+<a class="sourceLine" id="cb12-59" title="59">        ,</a>
+<a class="sourceLine" id="cb12-60" title="60">        <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb12-61" title="61">            <span class="dt">result =</span> <span class="kw">rep</span>(</a>
+<a class="sourceLine" id="cb12-62" title="62">                <span class="kw">as.data.frame</span>(dat)[, united],</a>
+<a class="sourceLine" id="cb12-63" title="63">                <span class="kw">as.data.frame</span>(dat)[, value_name]</a>
+<a class="sourceLine" id="cb12-64" title="64">            )</a>
+<a class="sourceLine" id="cb12-65" title="65">        )</a>
+<a class="sourceLine" id="cb12-66" title="66">    ][</a>
+<a class="sourceLine" id="cb12-67" title="67">        , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span></a>
+<a class="sourceLine" id="cb12-68" title="68">        <span class="kw">c</span>(id_vars) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)</a>
+<a class="sourceLine" id="cb12-69" title="69">    ][</a>
+<a class="sourceLine" id="cb12-70" title="70">        , </a>
+<a class="sourceLine" id="cb12-71" title="71">        <span class="kw">c</span>(id_vars), </a>
+<a class="sourceLine" id="cb12-72" title="72">        with =<span class="st"> </span>F</a>
+<a class="sourceLine" id="cb12-73" title="73">    ]</a>
+<a class="sourceLine" id="cb12-74" title="74">    dat</a>
+<a class="sourceLine" id="cb12-75" title="75">}</a></code></pre></div>
 <p>Let’s see if it works on <code>rich_binom</code> data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich <span class="co"># original binary data</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">rich <span class="co"># original binary data</span></a></code></pre></div>
 <pre><code>##     gender criminal_record is_rich
 ##  1:      F              no       0
 ##  2:      M              no       1
@@ -756,18 +810,18 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ##  8:      M              no       0
 ##  9:      M              no       1
 ## 10:      F             yes       1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_binom <span class="co"># transformed into binomial response</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">rich_binom <span class="co"># transformed into binomial response</span></a></code></pre></div>
 <pre><code>##    gender criminal_record rich not_rich
 ## 1:      F              no    0        3
 ## 2:      F             yes    2        0
 ## 3:      M              no    2        1
 ## 4:      M             yes    0        2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># binarized</span>
-(rich_binary &lt;-<span class="st"> </span><span class="kw">binarize_binom</span>(
-    <span class="dt">dat =</span> rich_binom, 
-    <span class="dt">responses =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>), 
-    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span>
-))</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># binarized</span></a>
+<a class="sourceLine" id="cb17-2" title="2">(rich_binary &lt;-<span class="st"> </span><span class="kw">binarize_binom</span>(</a>
+<a class="sourceLine" id="cb17-3" title="3">    <span class="dt">dat =</span> rich_binom, </a>
+<a class="sourceLine" id="cb17-4" title="4">    <span class="dt">responses =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>), </a>
+<a class="sourceLine" id="cb17-5" title="5">    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span></a>
+<a class="sourceLine" id="cb17-6" title="6">))</a></code></pre></div>
 <pre><code>##     gender criminal_record  is_rich
 ##  1:      F             yes     rich
 ##  2:      F             yes     rich
@@ -780,11 +834,11 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ##  9:      M             yes not_rich
 ## 10:      M             yes not_rich</code></pre>
 <p>Are <code>rich</code> and <code>rich_binary</code> equivalent?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_binary[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]
-<span class="kw">setequal</span>(rich[<span class="kw">order</span>(<span class="op">-</span>is_rich, gender, criminal_record)], rich_binary)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">rich_binary[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]</a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="kw">setequal</span>(rich[<span class="kw">order</span>(<span class="op">-</span>is_rich, gender, criminal_record)], rich_binary)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Yes, they are. Likewise, the binarized <code>nodal_binom</code> is the same as the original <code>nodal</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as_tibble</span>(nodal_binom) <span class="co"># binomial response</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">as_tibble</span>(nodal_binom) <span class="co"># binomial response</span></a></code></pre></div>
 <pre><code>## # A tibble: 23 x 7
 ##    aged  stage grade xray  acid  yes_node no_node
 ##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;
@@ -799,8 +853,8 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ##  9 1     1     0     1     1            1       0
 ## 10 1     0     1     1     1            1       0
 ## # ... with 13 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># variable.name not specified</span>
-<span class="kw">as_tibble</span>(<span class="kw">binarize_binom</span>(nodal_binom, <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>))) </code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># variable.name not specified</span></a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="kw">as_tibble</span>(<span class="kw">binarize_binom</span>(nodal_binom, <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>))) </a></code></pre></div>
 <pre><code>## Randomly generated variable name used: LEXhgicUWS</code></pre>
 <pre><code>## # A tibble: 53 x 6
 ##    aged  stage grade xray  acid  LEXhgicUWS
@@ -826,7 +880,7 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 <li><code>smoker</code>, <code>dead</code>, <code>age</code>: categorical features</li>
 </ul>
 <p>See <a href="https://www.rdocumentation.org/packages/faraway/versions/1.0.7/topics/femsmoke">here</a> for details:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">femsmoke</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">femsmoke</a></code></pre></div>
 <pre><code>##      y smoker dead   age
 ## 1    2    yes  yes 18-24
 ## 2    1     no  yes 18-24
@@ -858,65 +912,65 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 28   0     no   no   75+</code></pre>
 <p>The task is to populate each (<code>smoker</code>, <code>dead</code>, <code>age</code>) combination according to the counts in <code>y</code>. For example, in the new binarized dataset, there will be two rows of (<code>smoker = yes</code>, <code>dead = yes</code>, <code>age = 18-24</code>), 64 rows of (<code>smoker = no</code>, <code>dead = yes</code>, <code>age = 75+</code>), and so on.</p>
 <p><code>binarize_pois</code> is designed to handle datasets designed for poisson regression:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binarize_pois &lt;-<span class="st"> </span><span class="cf">function</span>(dat, response) {
-    <span class="co"># dat: a data whose features are categorical</span>
-    <span class="co"># response: a character; the name of column that stores the counts</span>
-    
-    <span class="co"># Generate random names to avoid the same names as in features</span>
-    all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(
-        <span class="st">&#39;A&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;F&#39;</span>, <span class="st">&#39;f&#39;</span>,
-        <span class="st">&#39;G&#39;</span>, <span class="st">&#39;g&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;h&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;i&#39;</span>, <span class="st">&#39;J&#39;</span>, <span class="st">&#39;j&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;k&#39;</span>, <span class="st">&#39;L&#39;</span>, <span class="st">&#39;l&#39;</span>,
-        <span class="st">&#39;M&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="st">&#39;n&#39;</span>, <span class="st">&#39;O&#39;</span>, <span class="st">&#39;o&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;p&#39;</span>, <span class="st">&#39;Q&#39;</span>, <span class="st">&#39;q&#39;</span>, <span class="st">&#39;R&#39;</span>, <span class="st">&#39;r&#39;</span>,
-        <span class="st">&#39;S&#39;</span>, <span class="st">&#39;s&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;U&#39;</span>, <span class="st">&#39;u&#39;</span>, <span class="st">&#39;V&#39;</span>, <span class="st">&#39;v&#39;</span>, <span class="st">&#39;W&#39;</span>, <span class="st">&#39;w&#39;</span>, <span class="st">&#39;X&#39;</span>, <span class="st">&#39;x&#39;</span>,
-        <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;Z&#39;</span>, <span class="st">&#39;z&#39;</span>
-    )
-    dalphabet &lt;-<span class="st"> </span><span class="cf">function</span>(x){
-        <span class="kw">dpmf</span>(
-            x, 
-            <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(all_alphabets)) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(all_alphabets),
-            all_alphabets
-        )
-    }
-    separator &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    united &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    
-    <span class="co"># Setup</span>
-    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
-    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>response)]
-    <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}
-    variable_name &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    value_name &lt;-<span class="st"> </span>
-<span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)
-    
-    <span class="co"># Binarize</span>
-    dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-        <span class="st">&#39;dat[&#39;</span>, response, <span class="st">&#39; != 0, &#39;</span>,
-        <span class="st">&#39;.(&#39;</span>, united, <span class="st">&#39; = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, 
-        <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>, response, <span class="st">&#39;), .SDcols = id_vars]&#39;</span>
-    )))
-    dat &lt;-<span class="st"> </span>dat[
-        ,
-        <span class="kw">list</span>(
-            <span class="dt">result =</span> <span class="kw">rep</span>(
-                <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, united, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>))),
-                <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
-            )
-        )
-    ][
-        , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span>
-        <span class="kw">c</span>(id_vars) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)
-    ][
-        , 
-        <span class="kw">c</span>(id_vars), 
-        with =<span class="st"> </span>F
-    ]
-    dat
-}</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">binarize_pois &lt;-<span class="st"> </span><span class="cf">function</span>(dat, response) {</a>
+<a class="sourceLine" id="cb28-2" title="2">    <span class="co"># dat: a data whose features are categorical</span></a>
+<a class="sourceLine" id="cb28-3" title="3">    <span class="co"># response: a character; the name of column that stores the counts</span></a>
+<a class="sourceLine" id="cb28-4" title="4">    </a>
+<a class="sourceLine" id="cb28-5" title="5">    <span class="co"># Generate random names to avoid the same names as in features</span></a>
+<a class="sourceLine" id="cb28-6" title="6">    all_alphabets &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb28-7" title="7">        <span class="st">&#39;A&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;E&#39;</span>, <span class="st">&#39;e&#39;</span>, <span class="st">&#39;F&#39;</span>, <span class="st">&#39;f&#39;</span>,</a>
+<a class="sourceLine" id="cb28-8" title="8">        <span class="st">&#39;G&#39;</span>, <span class="st">&#39;g&#39;</span>, <span class="st">&#39;H&#39;</span>, <span class="st">&#39;h&#39;</span>, <span class="st">&#39;I&#39;</span>, <span class="st">&#39;i&#39;</span>, <span class="st">&#39;J&#39;</span>, <span class="st">&#39;j&#39;</span>, <span class="st">&#39;K&#39;</span>, <span class="st">&#39;k&#39;</span>, <span class="st">&#39;L&#39;</span>, <span class="st">&#39;l&#39;</span>,</a>
+<a class="sourceLine" id="cb28-9" title="9">        <span class="st">&#39;M&#39;</span>, <span class="st">&#39;m&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="st">&#39;n&#39;</span>, <span class="st">&#39;O&#39;</span>, <span class="st">&#39;o&#39;</span>, <span class="st">&#39;P&#39;</span>, <span class="st">&#39;p&#39;</span>, <span class="st">&#39;Q&#39;</span>, <span class="st">&#39;q&#39;</span>, <span class="st">&#39;R&#39;</span>, <span class="st">&#39;r&#39;</span>,</a>
+<a class="sourceLine" id="cb28-10" title="10">        <span class="st">&#39;S&#39;</span>, <span class="st">&#39;s&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;U&#39;</span>, <span class="st">&#39;u&#39;</span>, <span class="st">&#39;V&#39;</span>, <span class="st">&#39;v&#39;</span>, <span class="st">&#39;W&#39;</span>, <span class="st">&#39;w&#39;</span>, <span class="st">&#39;X&#39;</span>, <span class="st">&#39;x&#39;</span>,</a>
+<a class="sourceLine" id="cb28-11" title="11">        <span class="st">&#39;Y&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;Z&#39;</span>, <span class="st">&#39;z&#39;</span></a>
+<a class="sourceLine" id="cb28-12" title="12">    )</a>
+<a class="sourceLine" id="cb28-13" title="13">    dalphabet &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb28-14" title="14">        <span class="kw">dpmf</span>(</a>
+<a class="sourceLine" id="cb28-15" title="15">            x, </a>
+<a class="sourceLine" id="cb28-16" title="16">            <span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(all_alphabets)) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(all_alphabets),</a>
+<a class="sourceLine" id="cb28-17" title="17">            all_alphabets</a>
+<a class="sourceLine" id="cb28-18" title="18">        )</a>
+<a class="sourceLine" id="cb28-19" title="19">    }</a>
+<a class="sourceLine" id="cb28-20" title="20">    separator &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb28-21" title="21"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb28-22" title="22">    united &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb28-23" title="23"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb28-24" title="24">    </a>
+<a class="sourceLine" id="cb28-25" title="25">    <span class="co"># Setup</span></a>
+<a class="sourceLine" id="cb28-26" title="26">    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)</a>
+<a class="sourceLine" id="cb28-27" title="27">    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>response)]</a>
+<a class="sourceLine" id="cb28-28" title="28">    <span class="cf">if</span> (<span class="op">!</span>(<span class="st">&#39;data.table&#39;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">class</span>(dat))) {<span class="kw">setDT</span>(dat)}</a>
+<a class="sourceLine" id="cb28-29" title="29">    variable_name &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb28-30" title="30"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb28-31" title="31">    value_name &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb28-32" title="32"><span class="st">        </span><span class="kw">paste0</span>(<span class="kw">rpmf</span>(<span class="dv">10</span>, dalphabet, all_alphabets), <span class="dt">collapse =</span> <span class="st">&#39;&#39;</span>)</a>
+<a class="sourceLine" id="cb28-33" title="33">    </a>
+<a class="sourceLine" id="cb28-34" title="34">    <span class="co"># Binarize</span></a>
+<a class="sourceLine" id="cb28-35" title="35">    dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb28-36" title="36">        <span class="st">&#39;dat[&#39;</span>, response, <span class="st">&#39; != 0, &#39;</span>,</a>
+<a class="sourceLine" id="cb28-37" title="37">        <span class="st">&#39;.(&#39;</span>, united, <span class="st">&#39; = do.call(paste, c(.SD, sep = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, separator, </a>
+<a class="sourceLine" id="cb28-38" title="38">        <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">)), &#39;</span>, response, <span class="st">&#39;), .SDcols = id_vars]&#39;</span></a>
+<a class="sourceLine" id="cb28-39" title="39">    )))</a>
+<a class="sourceLine" id="cb28-40" title="40">    dat &lt;-<span class="st"> </span>dat[</a>
+<a class="sourceLine" id="cb28-41" title="41">        ,</a>
+<a class="sourceLine" id="cb28-42" title="42">        <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb28-43" title="43">            <span class="dt">result =</span> <span class="kw">rep</span>(</a>
+<a class="sourceLine" id="cb28-44" title="44">                <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, united, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>))),</a>
+<a class="sourceLine" id="cb28-45" title="45">                <span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))</a>
+<a class="sourceLine" id="cb28-46" title="46">            )</a>
+<a class="sourceLine" id="cb28-47" title="47">        )</a>
+<a class="sourceLine" id="cb28-48" title="48">    ][</a>
+<a class="sourceLine" id="cb28-49" title="49">        , <span class="co"># requires data.table ver &gt;= 1.9.6 because of tstrsplit</span></a>
+<a class="sourceLine" id="cb28-50" title="50">        <span class="kw">c</span>(id_vars) <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">tstrsplit</span>(result, separator, <span class="dt">fixed =</span> T)</a>
+<a class="sourceLine" id="cb28-51" title="51">    ][</a>
+<a class="sourceLine" id="cb28-52" title="52">        , </a>
+<a class="sourceLine" id="cb28-53" title="53">        <span class="kw">c</span>(id_vars), </a>
+<a class="sourceLine" id="cb28-54" title="54">        with =<span class="st"> </span>F</a>
+<a class="sourceLine" id="cb28-55" title="55">    ]</a>
+<a class="sourceLine" id="cb28-56" title="56">    dat</a>
+<a class="sourceLine" id="cb28-57" title="57">}</a></code></pre></div>
 <p>Now, recall <code>rich_pois</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_pois</code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">rich_pois</a></code></pre></div>
 <pre><code>##    gender criminal_record  is_rich count
 ## 1:      F              no     rich     0
 ## 2:      F             yes     rich     2
@@ -927,7 +981,7 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ## 7:      M              no not_rich     1
 ## 8:      M             yes not_rich     2</code></pre>
 <p>If we pass <code>rich_pois</code> into <code>binarize_pois</code>, we get:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(rich_binary2 &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(<span class="dt">dat =</span> rich_pois, <span class="dt">response =</span> <span class="st">&#39;count&#39;</span>))</code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">(rich_binary2 &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(<span class="dt">dat =</span> rich_pois, <span class="dt">response =</span> <span class="st">&#39;count&#39;</span>))</a></code></pre></div>
 <pre><code>##     gender criminal_record  is_rich
 ##  1:      F             yes     rich
 ##  2:      F             yes     rich
@@ -940,11 +994,11 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 ##  9:      M             yes not_rich
 ## 10:      M             yes not_rich</code></pre>
 <p>Are <code>rich_binary</code> and <code>rich_binary2</code> equivalent?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rich_binary2[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]
-<span class="kw">setequal</span>(rich_binary, rich_binary2)</code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">rich_binary2[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]</a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="kw">setequal</span>(rich_binary, rich_binary2)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>We check that they are. We can apply <code>binarize_pois</code> to <code>femsmoke</code> as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(femsmoke_binary &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(femsmoke, <span class="st">&#39;y&#39;</span>))</code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">(femsmoke_binary &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(femsmoke, <span class="st">&#39;y&#39;</span>))</a></code></pre></div>
 <pre><code>##       smoker dead   age
 ##    1:    yes  yes 18-24
 ##    2:    yes  yes 18-24
@@ -964,89 +1018,89 @@ criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<sp
 <div id="roc-curve" class="section level2">
 <h2>ROC curve</h2>
 <p>By having a binary response, we can draw a ROC curve using <code>plot_roc</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_roc &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fmlr) {
-    <span class="co"># dat: a data with categorical features</span>
-    <span class="co"># fmlr: a formula</span>
-    
-    mod &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> dat)
-    ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
-    response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
-    actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
-    roc_result &lt;-<span class="st"> </span><span class="kw">roc</span>(actual, ests)
-    roc_table &lt;-<span class="st"> </span><span class="kw">data.table</span>(
-        <span class="dt">TPR =</span> roc_result<span class="op">$</span>sensitivities,
-        <span class="dt">FPR =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>roc_result<span class="op">$</span>specificities,
-        <span class="dt">thresholds =</span> roc_result<span class="op">$</span>thresholds
-    )[
-        <span class="kw">order</span>(TPR)
-    ]
-    <span class="kw">ggplot</span>(roc_table, <span class="kw">aes</span>(FPR, TPR, <span class="dt">label =</span> <span class="kw">round</span>(thresholds, <span class="dv">4</span>))) <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_label_repel</span>(
-            <span class="dt">box.padding =</span> <span class="fl">0.3</span>, 
-            <span class="dt">point.padding =</span> <span class="fl">0.3</span>, 
-            <span class="dt">segment.color =</span> <span class="st">&quot;grey50&quot;</span>
-        ) <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">        </span><span class="kw">geom_segment</span>(
-            <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">xend =</span> <span class="dv">1</span>, <span class="dt">yend =</span> <span class="dv">1</span>), 
-            <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>
-        ) <span class="op">+</span>
-<span class="st">        </span><span class="kw">annotate</span>(
-            <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> .<span class="dv">05</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, 
-            <span class="dt">label =</span> <span class="kw">paste0</span>(
-                <span class="st">&quot;AUC : &quot;</span>, <span class="kw">round</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(roc_result)), <span class="dv">4</span>)
-            )
-        ) <span class="op">+</span>
-<span class="st">        </span><span class="kw">labs</span>(
-            <span class="dt">x =</span> <span class="st">&quot;False positive rate&quot;</span>, 
-            <span class="dt">y =</span> <span class="st">&quot;True positive rate&quot;</span>,
-            <span class="dt">title =</span> <span class="st">&quot;ROC curve&quot;</span>, 
-            <span class="dt">subtitle =</span> <span class="kw">paste0</span>(<span class="st">&quot;- &quot;</span>, response, <span class="st">&quot; ~ &quot;</span>, <span class="kw">as.character</span>(fmlr[<span class="dv">3</span>]))
-        )
-}</code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">plot_roc &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fmlr) {</a>
+<a class="sourceLine" id="cb37-2" title="2">    <span class="co"># dat: a data with categorical features</span></a>
+<a class="sourceLine" id="cb37-3" title="3">    <span class="co"># fmlr: a formula</span></a>
+<a class="sourceLine" id="cb37-4" title="4">    </a>
+<a class="sourceLine" id="cb37-5" title="5">    mod &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb37-6" title="6">    ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
+<a class="sourceLine" id="cb37-7" title="7">    response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb37-8" title="8">    actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;dat$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))</a>
+<a class="sourceLine" id="cb37-9" title="9">    roc_result &lt;-<span class="st"> </span><span class="kw">roc</span>(actual, ests)</a>
+<a class="sourceLine" id="cb37-10" title="10">    roc_table &lt;-<span class="st"> </span><span class="kw">data.table</span>(</a>
+<a class="sourceLine" id="cb37-11" title="11">        <span class="dt">TPR =</span> roc_result<span class="op">$</span>sensitivities,</a>
+<a class="sourceLine" id="cb37-12" title="12">        <span class="dt">FPR =</span> <span class="dv">1</span> <span class="op">-</span><span class="st"> </span>roc_result<span class="op">$</span>specificities,</a>
+<a class="sourceLine" id="cb37-13" title="13">        <span class="dt">thresholds =</span> roc_result<span class="op">$</span>thresholds</a>
+<a class="sourceLine" id="cb37-14" title="14">    )[</a>
+<a class="sourceLine" id="cb37-15" title="15">        <span class="kw">order</span>(TPR)</a>
+<a class="sourceLine" id="cb37-16" title="16">    ]</a>
+<a class="sourceLine" id="cb37-17" title="17">    <span class="kw">ggplot</span>(roc_table, <span class="kw">aes</span>(FPR, TPR, <span class="dt">label =</span> <span class="kw">round</span>(thresholds, <span class="dv">4</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-18" title="18"><span class="st">        </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-19" title="19"><span class="st">        </span><span class="kw">geom_label_repel</span>(</a>
+<a class="sourceLine" id="cb37-20" title="20">            <span class="dt">box.padding =</span> <span class="fl">0.3</span>, </a>
+<a class="sourceLine" id="cb37-21" title="21">            <span class="dt">point.padding =</span> <span class="fl">0.3</span>, </a>
+<a class="sourceLine" id="cb37-22" title="22">            <span class="dt">segment.color =</span> <span class="st">&quot;grey50&quot;</span></a>
+<a class="sourceLine" id="cb37-23" title="23">        ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-24" title="24"><span class="st">        </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-25" title="25"><span class="st">        </span><span class="kw">geom_segment</span>(</a>
+<a class="sourceLine" id="cb37-26" title="26">            <span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">xend =</span> <span class="dv">1</span>, <span class="dt">yend =</span> <span class="dv">1</span>), </a>
+<a class="sourceLine" id="cb37-27" title="27">            <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span></a>
+<a class="sourceLine" id="cb37-28" title="28">        ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-29" title="29"><span class="st">        </span><span class="kw">annotate</span>(</a>
+<a class="sourceLine" id="cb37-30" title="30">            <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> <span class="fl">.05</span>, <span class="dt">hjust =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb37-31" title="31">            <span class="dt">label =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb37-32" title="32">                <span class="st">&quot;AUC : &quot;</span>, <span class="kw">round</span>(<span class="kw">as.numeric</span>(<span class="kw">auc</span>(roc_result)), <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb37-33" title="33">            )</a>
+<a class="sourceLine" id="cb37-34" title="34">        ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb37-35" title="35"><span class="st">        </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb37-36" title="36">            <span class="dt">x =</span> <span class="st">&quot;False positive rate&quot;</span>, </a>
+<a class="sourceLine" id="cb37-37" title="37">            <span class="dt">y =</span> <span class="st">&quot;True positive rate&quot;</span>,</a>
+<a class="sourceLine" id="cb37-38" title="38">            <span class="dt">title =</span> <span class="st">&quot;ROC curve&quot;</span>, </a>
+<a class="sourceLine" id="cb37-39" title="39">            <span class="dt">subtitle =</span> <span class="kw">paste0</span>(<span class="st">&quot;- &quot;</span>, response, <span class="st">&quot; ~ &quot;</span>, <span class="kw">as.character</span>(fmlr[<span class="dv">3</span>]))</a>
+<a class="sourceLine" id="cb37-40" title="40">        )</a>
+<a class="sourceLine" id="cb37-41" title="41">}</a></code></pre></div>
 <p>Here are some examples of ROC curves:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># femsmoke_binary</span>
-femsmoke_binary[, dead <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(dead <span class="op">==</span><span class="st"> &#39;yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)]
-<span class="kw">plot_roc</span>(femsmoke_binary, dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age)</code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="co"># femsmoke_binary</span></a>
+<a class="sourceLine" id="cb38-2" title="2">femsmoke_binary[, dead <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(dead <span class="op">==</span><span class="st"> &#39;yes&#39;</span>, <span class="dv">1</span>, <span class="dv">0</span>)]</a>
+<a class="sourceLine" id="cb38-3" title="3"><span class="kw">plot_roc</span>(femsmoke_binary, dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age)</a></code></pre></div>
 <p><img src="binarize_files/figure-html/eg3_2-1.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># rich_big</span>
-is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> .<span class="dv">5</span>)
-rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
-    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),
-    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),
-    <span class="dt">is_rich =</span> is_rich
-)
-<span class="kw">plot_roc</span>(rich_big, is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record)</code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="co"># rich_big</span></a>
+<a class="sourceLine" id="cb39-2" title="2">is_rich &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb39-3" title="3">gender &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb39-4" title="4">criminal_record &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">10000</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> <span class="fl">.5</span>)</a>
+<a class="sourceLine" id="cb39-5" title="5">rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(</a>
+<a class="sourceLine" id="cb39-6" title="6">    <span class="dt">gender =</span> <span class="kw">ifelse</span>(gender <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;M&#39;</span>, <span class="st">&#39;F&#39;</span>),</a>
+<a class="sourceLine" id="cb39-7" title="7">    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),</a>
+<a class="sourceLine" id="cb39-8" title="8">    <span class="dt">is_rich =</span> is_rich</a>
+<a class="sourceLine" id="cb39-9" title="9">)</a>
+<a class="sourceLine" id="cb39-10" title="10"><span class="kw">plot_roc</span>(rich_big, is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record)</a></code></pre></div>
 <p><img src="binarize_files/figure-html/eg3_2-2.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># nodal</span>
-<span class="kw">plot_roc</span>(nodal, r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid)</code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="co"># nodal</span></a>
+<a class="sourceLine" id="cb40-2" title="2"><span class="kw">plot_roc</span>(nodal, r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid)</a></code></pre></div>
 <p><img src="binarize_files/figure-html/eg3_2-3.png" style="display: block; margin: auto;" /></p>
 </div>
 <div id="confidence-interval-for-auc" class="section level2">
 <h2>Confidence interval for AUC</h2>
 <p>Using <code>boot::boot</code> and <code>boot::boot.ci</code>, we can compute the approximate CI for AUC:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CI_auc &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fmlr, <span class="dt">R =</span> <span class="dv">500</span>, <span class="dt">type =</span> <span class="st">&#39;norm&#39;</span>, ...) {
-    <span class="co"># dat, fmlr: the same as in roc_curve</span>
-    <span class="co"># R: the same as R in boot::boot</span>
-    <span class="co"># type: the same as type in boot::boot.ci</span>
-    <span class="co"># ...: additional arguments of boot::boot.ci</span>
-    
-    AUC_boot &lt;-<span class="st"> </span><span class="cf">function</span>(dat, i) {
-        y &lt;-<span class="st"> </span>dat[i, ]
-        mod &lt;-<span class="st"> </span><span class="kw">glm</span>(fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> y)
-        ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)
-        response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])
-        actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;y$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))
-        <span class="kw">suppressMessages</span>(<span class="kw">as.numeric</span>(pROC<span class="op">::</span><span class="kw">auc</span>(pROC<span class="op">::</span><span class="kw">roc</span>(actual, ests))))
-    }
-    boot_output &lt;-<span class="st"> </span>boot<span class="op">::</span><span class="kw">boot</span>(dat, <span class="dt">statistic =</span> AUC_boot, <span class="dt">R =</span> R)
-    boot<span class="op">::</span><span class="kw">boot.ci</span>(boot_output, <span class="dt">type =</span> type, ...)
-}</code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">CI_auc &lt;-<span class="st"> </span><span class="cf">function</span>(dat, fmlr, <span class="dt">R =</span> <span class="dv">500</span>, <span class="dt">type =</span> <span class="st">&#39;norm&#39;</span>, ...) {</a>
+<a class="sourceLine" id="cb41-2" title="2">    <span class="co"># dat, fmlr: the same as in roc_curve</span></a>
+<a class="sourceLine" id="cb41-3" title="3">    <span class="co"># R: the same as R in boot::boot</span></a>
+<a class="sourceLine" id="cb41-4" title="4">    <span class="co"># type: the same as type in boot::boot.ci</span></a>
+<a class="sourceLine" id="cb41-5" title="5">    <span class="co"># ...: additional arguments of boot::boot.ci</span></a>
+<a class="sourceLine" id="cb41-6" title="6">    </a>
+<a class="sourceLine" id="cb41-7" title="7">    AUC_boot &lt;-<span class="st"> </span><span class="cf">function</span>(dat, i) {</a>
+<a class="sourceLine" id="cb41-8" title="8">        y &lt;-<span class="st"> </span>dat[i, ]</a>
+<a class="sourceLine" id="cb41-9" title="9">        mod &lt;-<span class="st"> </span><span class="kw">glm</span>(fmlr, <span class="dt">family =</span> binomial, <span class="dt">data =</span> y)</a>
+<a class="sourceLine" id="cb41-10" title="10">        ests &lt;-<span class="st"> </span><span class="kw">predict</span>(mod, <span class="dt">type =</span> <span class="st">&#39;response&#39;</span>)</a>
+<a class="sourceLine" id="cb41-11" title="11">        response &lt;-<span class="st"> </span><span class="kw">as.character</span>(fmlr[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb41-12" title="12">        actual &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(<span class="st">&#39;y$</span><span class="ch">\&quot;</span><span class="st">&#39;</span>, response, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">&#39;</span>)))</a>
+<a class="sourceLine" id="cb41-13" title="13">        <span class="kw">suppressMessages</span>(<span class="kw">as.numeric</span>(pROC<span class="op">::</span><span class="kw">auc</span>(pROC<span class="op">::</span><span class="kw">roc</span>(actual, ests))))</a>
+<a class="sourceLine" id="cb41-14" title="14">    }</a>
+<a class="sourceLine" id="cb41-15" title="15">    boot_output &lt;-<span class="st"> </span>boot<span class="op">::</span><span class="kw">boot</span>(dat, <span class="dt">statistic =</span> AUC_boot, <span class="dt">R =</span> R)</a>
+<a class="sourceLine" id="cb41-16" title="16">    boot<span class="op">::</span><span class="kw">boot.ci</span>(boot_output, <span class="dt">type =</span> type, ...)</a>
+<a class="sourceLine" id="cb41-17" title="17">}</a></code></pre></div>
 <p>Examples are as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(femsmoke_binary, dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age)</code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">CI_auc</span>(femsmoke_binary, dead <span class="op">~</span><span class="st"> </span>smoker <span class="op">+</span><span class="st"> </span>age)</a></code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 ## Based on 500 bootstrap replicates
 ## 
@@ -1057,7 +1111,7 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## Level      Normal        
 ## 95%   ( 0.8697,  0.9077 )  
 ## Calculations and Intervals on Original Scale</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(rich_big, is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, <span class="dt">R =</span> <span class="dv">200</span>)</code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">CI_auc</span>(rich_big, is_rich <span class="op">~</span><span class="st"> </span>gender <span class="op">+</span><span class="st"> </span>criminal_record, <span class="dt">R =</span> <span class="dv">200</span>)</a></code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 ## Based on 200 bootstrap replicates
 ## 
@@ -1068,7 +1122,7 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## Level      Normal        
 ## 95%   ( 0.4969,  0.5128 )  
 ## Calculations and Intervals on Original Scale</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">CI_auc</span>(nodal, r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, <span class="dt">type =</span> <span class="st">&#39;perc&#39;</span>)</code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">CI_auc</span>(nodal, r <span class="op">~</span><span class="st"> </span>aged <span class="op">+</span><span class="st"> </span>stage <span class="op">+</span><span class="st"> </span>grade <span class="op">+</span><span class="st"> </span>xray <span class="op">+</span><span class="st"> </span>acid, <span class="dt">type =</span> <span class="st">&#39;perc&#39;</span>)</a></code></pre></div>
 <pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 ## Based on 500 bootstrap replicates
 ## 
@@ -1084,119 +1138,119 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 <div id="aside-change_form" class="section level1">
 <h1>4. Aside: <code>change_form</code></h1>
 <p>The function <code>change_form</code> is designed to turn one form of data into another:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">change_form &lt;-<span class="st"> </span><span class="cf">function</span>(dat, from, to, 
-                        old_response, category, new_response) {
-    <span class="co"># dat: a data with categorical features; a response column/columns</span>
-    <span class="co">#      must be numeric (0 and 1 if from = &#39;binary&#39;, or nonnegative </span>
-    <span class="co">#      integers if from is either &#39;binomial&#39; or &#39;poisson&#39;). </span>
-    <span class="co"># from: a character; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
-    <span class="co"># to: a character != from; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span>
-    <span class="co"># old_response: (always specified) a character vector of:</span>
-    <span class="co">#     * length 1 if from = &#39;binary&#39; or &#39;poisson&#39;; the name of column</span>
-    <span class="co">#       in dat that stores a response/count</span>
-    <span class="co">#     * lenght 2 if from = &#39;binomial&#39;; the names of columns in dat</span>
-    <span class="co">#       that store positive and negative case counts, in this order.</span>
-    <span class="co"># category: (specified only if to = &#39;poisson&#39;) a character vector of:</span>
-    <span class="co">#     * length 1 if from = &#39;binomial&#39;; the new name of column that</span>
-    <span class="co">#       will store two names in old_response as positive and</span>
-    <span class="co">#       negative cases, in this order.</span>
-    <span class="co">#     * length 2 if from = &#39;binary&#39;; the new names for positive and</span>
-    <span class="co">#       negative cases in the binary response column, in this order.</span>
-    <span class="co"># new_response: (specified only if from != &#39;poisson&#39;) a character </span>
-    <span class="co">#               vector of:</span>
-    <span class="co">#     * length 1 if to = &#39;binary&#39; or &#39;poisson&#39;; the name of the new</span>
-    <span class="co">#       column in new data that will store either a binary or count </span>
-    <span class="co">#       response</span>
-    <span class="co">#     * length 2 if to = &#39;binomial&#39;; the names of two columns in</span>
-    <span class="co">#       new data that will store positive and negative case counts,</span>
-    <span class="co">#       in this order.</span>
-
-    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)
-    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>old_response)]
-    id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)
-    <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-            <span class="kw">return</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-                <span class="st">&#39;dat[, &#39;</span>,
-                <span class="st">&#39;.(&#39;</span>, new_response[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, old_response, <span class="st">&#39;), &#39;</span>,
-                new_response[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, old_response, <span class="st">&#39;)), &#39;</span>,
-                <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span>
-            ))))
-        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
-            dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(
-                <span class="st">&#39;dat[, &#39;</span>,
-                <span class="st">&#39;.(&#39;</span>, category[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, old_response, <span class="st">&#39;), &#39;</span>,
-                category[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, old_response, <span class="st">&#39;)), &#39;</span>,
-                <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span>
-            )))
-            <span class="kw">return</span>(<span class="kw">suppressWarnings</span>(<span class="kw">melt</span>(
-                dat,
-                <span class="dt">id.vars =</span> id_vars,
-                <span class="dt">variable.name =</span> old_response,
-                <span class="dt">value.name =</span> new_response
-            )))
-        } <span class="cf">else</span> {
-            <span class="kw">stop</span>(
-                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,
-                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
-            )
-        }
-    } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-            <span class="kw">return</span>(<span class="kw">binarize_binom</span>(dat, old_response, new_response))
-        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
-            <span class="kw">melt</span>(
-                dat,
-                <span class="dt">id.vars =</span> id_vars,
-                <span class="dt">variable.name =</span> category,
-                <span class="dt">value.name =</span> new_response
-            )
-        } <span class="cf">else</span> {
-            <span class="kw">stop</span>(
-                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,
-                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
-            )
-        }
-    } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {
-        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {
-            <span class="kw">return</span>(<span class="kw">binarize_pois</span>(dat, old_response))
-        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {
-            id_vars &lt;-<span class="st"> </span>id_vars[<span class="op">!</span>(id_vars <span class="op">%in%</span><span class="st"> </span>category)]
-            id_vars_fmlr &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>)
-            fmlr &lt;-<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste0</span>(id_vars_fmlr, <span class="st">&#39; ~ &#39;</span>, category))
-            <span class="kw">return</span>(<span class="kw">dcast</span>(dat, fmlr, <span class="dt">value.var =</span> old_response))
-        } <span class="cf">else</span> {
-            <span class="kw">stop</span>(
-                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,
-                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
-            )
-        }
-    } <span class="cf">else</span> {
-        <span class="kw">stop</span>(<span class="kw">paste0</span>(
-            <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> must be either&#39;</span>, 
-            <span class="st">&#39; </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">, or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>
-        ))
-    }
-}</code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">change_form &lt;-<span class="st"> </span><span class="cf">function</span>(dat, from, to, </a>
+<a class="sourceLine" id="cb48-2" title="2">                        old_response, category, new_response) {</a>
+<a class="sourceLine" id="cb48-3" title="3">    <span class="co"># dat: a data with categorical features; a response column/columns</span></a>
+<a class="sourceLine" id="cb48-4" title="4">    <span class="co">#      must be numeric (0 and 1 if from = &#39;binary&#39;, or nonnegative </span></a>
+<a class="sourceLine" id="cb48-5" title="5">    <span class="co">#      integers if from is either &#39;binomial&#39; or &#39;poisson&#39;). </span></a>
+<a class="sourceLine" id="cb48-6" title="6">    <span class="co"># from: a character; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span></a>
+<a class="sourceLine" id="cb48-7" title="7">    <span class="co"># to: a character != from; either &#39;binary&#39;, &#39;binomial&#39;, or &#39;poisson&#39;</span></a>
+<a class="sourceLine" id="cb48-8" title="8">    <span class="co"># old_response: (always specified) a character vector of:</span></a>
+<a class="sourceLine" id="cb48-9" title="9">    <span class="co">#     * length 1 if from = &#39;binary&#39; or &#39;poisson&#39;; the name of column</span></a>
+<a class="sourceLine" id="cb48-10" title="10">    <span class="co">#       in dat that stores a response/count</span></a>
+<a class="sourceLine" id="cb48-11" title="11">    <span class="co">#     * lenght 2 if from = &#39;binomial&#39;; the names of columns in dat</span></a>
+<a class="sourceLine" id="cb48-12" title="12">    <span class="co">#       that store positive and negative case counts, in this order.</span></a>
+<a class="sourceLine" id="cb48-13" title="13">    <span class="co"># category: (specified only if to = &#39;poisson&#39;) a character vector of:</span></a>
+<a class="sourceLine" id="cb48-14" title="14">    <span class="co">#     * length 1 if from = &#39;binomial&#39;; the new name of column that</span></a>
+<a class="sourceLine" id="cb48-15" title="15">    <span class="co">#       will store two names in old_response as positive and</span></a>
+<a class="sourceLine" id="cb48-16" title="16">    <span class="co">#       negative cases, in this order.</span></a>
+<a class="sourceLine" id="cb48-17" title="17">    <span class="co">#     * length 2 if from = &#39;binary&#39;; the new names for positive and</span></a>
+<a class="sourceLine" id="cb48-18" title="18">    <span class="co">#       negative cases in the binary response column, in this order.</span></a>
+<a class="sourceLine" id="cb48-19" title="19">    <span class="co"># new_response: (specified only if from != &#39;poisson&#39;) a character </span></a>
+<a class="sourceLine" id="cb48-20" title="20">    <span class="co">#               vector of:</span></a>
+<a class="sourceLine" id="cb48-21" title="21">    <span class="co">#     * length 1 if to = &#39;binary&#39; or &#39;poisson&#39;; the name of the new</span></a>
+<a class="sourceLine" id="cb48-22" title="22">    <span class="co">#       column in new data that will store either a binary or count </span></a>
+<a class="sourceLine" id="cb48-23" title="23">    <span class="co">#       response</span></a>
+<a class="sourceLine" id="cb48-24" title="24">    <span class="co">#     * length 2 if to = &#39;binomial&#39;; the names of two columns in</span></a>
+<a class="sourceLine" id="cb48-25" title="25">    <span class="co">#       new data that will store positive and negative case counts,</span></a>
+<a class="sourceLine" id="cb48-26" title="26">    <span class="co">#       in this order.</span></a>
+<a class="sourceLine" id="cb48-27" title="27"></a>
+<a class="sourceLine" id="cb48-28" title="28">    col_names &lt;-<span class="st"> </span><span class="kw">colnames</span>(dat)</a>
+<a class="sourceLine" id="cb48-29" title="29">    id_vars &lt;-<span class="st"> </span>col_names[<span class="op">!</span>(col_names <span class="op">%in%</span><span class="st"> </span>old_response)]</a>
+<a class="sourceLine" id="cb48-30" title="30">    id_vars_collapsed &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span><span class="st">&#39;,&#39;</span>)</a>
+<a class="sourceLine" id="cb48-31" title="31">    <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-32" title="32">        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-33" title="33">            <span class="kw">return</span>(<span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb48-34" title="34">                <span class="st">&#39;dat[, &#39;</span>,</a>
+<a class="sourceLine" id="cb48-35" title="35">                <span class="st">&#39;.(&#39;</span>, new_response[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, old_response, <span class="st">&#39;), &#39;</span>,</a>
+<a class="sourceLine" id="cb48-36" title="36">                new_response[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, old_response, <span class="st">&#39;)), &#39;</span>,</a>
+<a class="sourceLine" id="cb48-37" title="37">                <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span></a>
+<a class="sourceLine" id="cb48-38" title="38">            ))))</a>
+<a class="sourceLine" id="cb48-39" title="39">        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-40" title="40">            dat &lt;-<span class="st"> </span><span class="kw">eval</span>(<span class="kw">parse</span>(<span class="dt">text =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb48-41" title="41">                <span class="st">&#39;dat[, &#39;</span>,</a>
+<a class="sourceLine" id="cb48-42" title="42">                <span class="st">&#39;.(&#39;</span>, category[<span class="dv">1</span>] , <span class="st">&#39; = sum(&#39;</span>, old_response, <span class="st">&#39;), &#39;</span>,</a>
+<a class="sourceLine" id="cb48-43" title="43">                category[<span class="dv">2</span>], <span class="st">&#39; = sum(!&#39;</span>, old_response, <span class="st">&#39;)), &#39;</span>,</a>
+<a class="sourceLine" id="cb48-44" title="44">                <span class="st">&#39;by = </span><span class="ch">\&quot;</span><span class="st">&#39;</span>, id_vars_collapsed, <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">]&#39;</span></a>
+<a class="sourceLine" id="cb48-45" title="45">            )))</a>
+<a class="sourceLine" id="cb48-46" title="46">            <span class="kw">return</span>(<span class="kw">suppressWarnings</span>(<span class="kw">melt</span>(</a>
+<a class="sourceLine" id="cb48-47" title="47">                dat,</a>
+<a class="sourceLine" id="cb48-48" title="48">                <span class="dt">id.vars =</span> id_vars,</a>
+<a class="sourceLine" id="cb48-49" title="49">                <span class="dt">variable.name =</span> old_response,</a>
+<a class="sourceLine" id="cb48-50" title="50">                <span class="dt">value.name =</span> new_response</a>
+<a class="sourceLine" id="cb48-51" title="51">            )))</a>
+<a class="sourceLine" id="cb48-52" title="52">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb48-53" title="53">            <span class="kw">stop</span>(</a>
+<a class="sourceLine" id="cb48-54" title="54">                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,</a>
+<a class="sourceLine" id="cb48-55" title="55">                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb48-56" title="56">            )</a>
+<a class="sourceLine" id="cb48-57" title="57">        }</a>
+<a class="sourceLine" id="cb48-58" title="58">    } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-59" title="59">        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-60" title="60">            <span class="kw">return</span>(<span class="kw">binarize_binom</span>(dat, old_response, new_response))</a>
+<a class="sourceLine" id="cb48-61" title="61">        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-62" title="62">            <span class="kw">melt</span>(</a>
+<a class="sourceLine" id="cb48-63" title="63">                dat,</a>
+<a class="sourceLine" id="cb48-64" title="64">                <span class="dt">id.vars =</span> id_vars,</a>
+<a class="sourceLine" id="cb48-65" title="65">                <span class="dt">variable.name =</span> category,</a>
+<a class="sourceLine" id="cb48-66" title="66">                <span class="dt">value.name =</span> new_response</a>
+<a class="sourceLine" id="cb48-67" title="67">            )</a>
+<a class="sourceLine" id="cb48-68" title="68">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb48-69" title="69">            <span class="kw">stop</span>(</a>
+<a class="sourceLine" id="cb48-70" title="70">                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,</a>
+<a class="sourceLine" id="cb48-71" title="71">                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb48-72" title="72">            )</a>
+<a class="sourceLine" id="cb48-73" title="73">        }</a>
+<a class="sourceLine" id="cb48-74" title="74">    } <span class="cf">else</span> <span class="cf">if</span> (from <span class="op">==</span><span class="st"> &#39;poisson&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-75" title="75">        <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binary&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-76" title="76">            <span class="kw">return</span>(<span class="kw">binarize_pois</span>(dat, old_response))</a>
+<a class="sourceLine" id="cb48-77" title="77">        } <span class="cf">else</span> <span class="cf">if</span> (to <span class="op">==</span><span class="st"> &#39;binomial&#39;</span>) {</a>
+<a class="sourceLine" id="cb48-78" title="78">            id_vars &lt;-<span class="st"> </span>id_vars[<span class="op">!</span>(id_vars <span class="op">%in%</span><span class="st"> </span>category)]</a>
+<a class="sourceLine" id="cb48-79" title="79">            id_vars_fmlr &lt;-<span class="st"> </span><span class="kw">paste0</span>(id_vars, <span class="dt">collapse =</span> <span class="st">&#39; + &#39;</span>)</a>
+<a class="sourceLine" id="cb48-80" title="80">            fmlr &lt;-<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste0</span>(id_vars_fmlr, <span class="st">&#39; ~ &#39;</span>, category))</a>
+<a class="sourceLine" id="cb48-81" title="81">            <span class="kw">return</span>(<span class="kw">dcast</span>(dat, fmlr, <span class="dt">value.var =</span> old_response))</a>
+<a class="sourceLine" id="cb48-82" title="82">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb48-83" title="83">            <span class="kw">stop</span>(</a>
+<a class="sourceLine" id="cb48-84" title="84">                <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">to</span><span class="ch">\&quot;</span><span class="st"> must be either </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st"> or </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">&#39;</span>,</a>
+<a class="sourceLine" id="cb48-85" title="85">                <span class="st">&#39; if </span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> = </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb48-86" title="86">            )</a>
+<a class="sourceLine" id="cb48-87" title="87">        }</a>
+<a class="sourceLine" id="cb48-88" title="88">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb48-89" title="89">        <span class="kw">stop</span>(<span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb48-90" title="90">            <span class="st">&#39;</span><span class="ch">\&quot;</span><span class="st">from</span><span class="ch">\&quot;</span><span class="st"> must be either&#39;</span>, </a>
+<a class="sourceLine" id="cb48-91" title="91">            <span class="st">&#39; </span><span class="ch">\&quot;</span><span class="st">binary</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">binomial</span><span class="ch">\&quot;</span><span class="st">, or </span><span class="ch">\&quot;</span><span class="st">poisson</span><span class="ch">\&quot;</span><span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb48-92" title="92">        ))</a>
+<a class="sourceLine" id="cb48-93" title="93">    }</a>
+<a class="sourceLine" id="cb48-94" title="94">}</a></code></pre></div>
 <p>Examples are as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    rich,
-    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,
-    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,
-    <span class="dt">new_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb49-2" title="2">    rich,</a>
+<a class="sourceLine" id="cb49-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,</a>
+<a class="sourceLine" id="cb49-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
+<a class="sourceLine" id="cb49-5" title="5">    <span class="dt">new_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>)</a>
+<a class="sourceLine" id="cb49-6" title="6">)</a></code></pre></div>
 <pre><code>##    gender criminal_record rich not_rich
 ## 1:      F              no    0        3
 ## 2:      M              no    2        1
 ## 3:      M             yes    0        2
 ## 4:      F             yes    2        0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    rich,
-    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,
-    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,
-    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),
-    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb51-2" title="2">    rich,</a>
+<a class="sourceLine" id="cb51-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,</a>
+<a class="sourceLine" id="cb51-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
+<a class="sourceLine" id="cb51-5" title="5">    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),</a>
+<a class="sourceLine" id="cb51-6" title="6">    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span></a>
+<a class="sourceLine" id="cb51-7" title="7">)</a></code></pre></div>
 <pre><code>##    gender criminal_record  is_rich count
 ## 1:      F              no     rich     0
 ## 2:      M              no     rich     2
@@ -1206,14 +1260,14 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## 6:      M              no not_rich     1
 ## 7:      M             yes not_rich     2
 ## 8:      F             yes not_rich     0</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nodal &lt;-<span class="st"> </span>nodal[, <span class="op">-</span><span class="dv">1</span>]
-<span class="kw">as_tibble</span>(<span class="kw">change_form</span>(
-    nodal, 
-    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>, 
-    <span class="dt">old_response =</span> <span class="st">&#39;r&#39;</span>, 
-    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>), 
-    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span>
-))</code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">nodal &lt;-<span class="st"> </span>nodal[, <span class="dv">-1</span>]</a>
+<a class="sourceLine" id="cb53-2" title="2"><span class="kw">as_tibble</span>(<span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb53-3" title="3">    nodal, </a>
+<a class="sourceLine" id="cb53-4" title="4">    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>, </a>
+<a class="sourceLine" id="cb53-5" title="5">    <span class="dt">old_response =</span> <span class="st">&#39;r&#39;</span>, </a>
+<a class="sourceLine" id="cb53-6" title="6">    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>), </a>
+<a class="sourceLine" id="cb53-7" title="7">    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span></a>
+<a class="sourceLine" id="cb53-8" title="8">))</a></code></pre></div>
 <pre><code>## # A tibble: 46 x 7
 ##    aged  stage grade xray  acid  r     count
 ##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
@@ -1228,12 +1282,12 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ##  9 1     0     0     0     0     yes       0
 ## 10 1     0     0     1     0     yes       0
 ## # ... with 36 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    rich_binom,
-    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,
-    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),
-    <span class="dt">new_response =</span> <span class="st">&#39;is_rich&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb55-2" title="2">    rich_binom,</a>
+<a class="sourceLine" id="cb55-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,</a>
+<a class="sourceLine" id="cb55-4" title="4">    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),</a>
+<a class="sourceLine" id="cb55-5" title="5">    <span class="dt">new_response =</span> <span class="st">&#39;is_rich&#39;</span></a>
+<a class="sourceLine" id="cb55-6" title="6">)</a></code></pre></div>
 <pre><code>##     gender criminal_record  is_rich
 ##  1:      F             yes     rich
 ##  2:      F             yes     rich
@@ -1245,13 +1299,13 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ##  8:      M              no not_rich
 ##  9:      M             yes not_rich
 ## 10:      M             yes not_rich</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    rich_binom,
-    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,
-    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),
-    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span>,
-    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb57-2" title="2">    rich_binom,</a>
+<a class="sourceLine" id="cb57-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,</a>
+<a class="sourceLine" id="cb57-4" title="4">    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),</a>
+<a class="sourceLine" id="cb57-5" title="5">    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
+<a class="sourceLine" id="cb57-6" title="6">    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span></a>
+<a class="sourceLine" id="cb57-7" title="7">)</a></code></pre></div>
 <pre><code>##    gender criminal_record  is_rich count
 ## 1:      F              no     rich     0
 ## 2:      F             yes     rich     2
@@ -1261,11 +1315,11 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## 6:      F             yes not_rich     0
 ## 7:      M              no not_rich     1
 ## 8:      M             yes not_rich     2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    rich_pois,
-    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,
-    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb59-2" title="2">    rich_pois,</a>
+<a class="sourceLine" id="cb59-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,</a>
+<a class="sourceLine" id="cb59-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span></a>
+<a class="sourceLine" id="cb59-5" title="5">)</a></code></pre></div>
 <pre><code>##     gender criminal_record  is_rich
 ##  1:      F             yes     rich
 ##  2:      F             yes     rich
@@ -1277,23 +1331,23 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ##  8:      M              no not_rich
 ##  9:      M             yes not_rich
 ## 10:      M             yes not_rich</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    rich_pois,
-    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,
-    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span>,
-    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb61-2" title="2">    rich_pois,</a>
+<a class="sourceLine" id="cb61-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,</a>
+<a class="sourceLine" id="cb61-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span>,</a>
+<a class="sourceLine" id="cb61-5" title="5">    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span></a>
+<a class="sourceLine" id="cb61-6" title="6">)</a></code></pre></div>
 <pre><code>##    gender criminal_record rich not_rich
 ## 1:      F              no    0        3
 ## 2:      F             yes    2        0
 ## 3:      M              no    2        1
 ## 4:      M             yes    0        2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">change_form</span>(
-    femsmoke,
-    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,
-    <span class="dt">old_response =</span> <span class="st">&#39;y&#39;</span>,
-    <span class="dt">category =</span> <span class="st">&#39;dead&#39;</span>
-) <span class="co"># i.e. yes if dead, no if alive</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">change_form</span>(</a>
+<a class="sourceLine" id="cb63-2" title="2">    femsmoke,</a>
+<a class="sourceLine" id="cb63-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,</a>
+<a class="sourceLine" id="cb63-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;y&#39;</span>,</a>
+<a class="sourceLine" id="cb63-5" title="5">    <span class="dt">category =</span> <span class="st">&#39;dead&#39;</span></a>
+<a class="sourceLine" id="cb63-6" title="6">) <span class="co"># i.e. yes if dead, no if alive</span></a></code></pre></div>
 <pre><code>##     smoker   age yes  no
 ##  1:    yes 18-24   2  53
 ##  2:    yes 25-34   3 121
@@ -1313,10 +1367,10 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
 <p>R session info:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 17763)
+## Running under: Windows 10 x64 (build 18362)
 ## 
 ## Matrix products: default
 ## 
@@ -1329,17 +1383,17 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] pROC_1.15.0       ggrepel_0.8.1     ggplot2_3.1.1     funpark_0.2.1    
+## [1] pROC_1.15.0       ggrepel_0.8.1     ggplot2_3.2.0     funpark_0.2.6    
 ## [5] data.table_1.12.2 boot_1.3-22      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       compiler_3.6.0   pillar_1.4.1     plyr_1.8.4      
-##  [5] prettydoc_0.2.1  tools_3.6.0      zeallot_0.1.0    digest_0.6.19   
+##  [1] Rcpp_1.0.1       pillar_1.4.2     compiler_3.6.1   plyr_1.8.4      
+##  [5] prettydoc_0.3.0  tools_3.6.1      zeallot_0.1.0    digest_0.6.20   
 ##  [9] evaluate_0.14    tibble_2.1.3     gtable_0.3.0     pkgconfig_2.0.2 
-## [13] rlang_0.3.4      cli_1.1.0        yaml_2.2.0       xfun_0.7        
-## [17] withr_2.1.2      stringr_1.4.0    dplyr_0.8.1      knitr_1.23      
-## [21] vctrs_0.1.0      grid_3.6.0       tidyselect_0.2.5 glue_1.3.1      
-## [25] R6_2.4.0         fansi_0.4.0      rmarkdown_1.13   purrr_0.3.2     
+## [13] rlang_0.4.0      cli_1.1.0        yaml_2.2.0       xfun_0.8        
+## [17] withr_2.1.2      stringr_1.4.0    dplyr_0.8.3      knitr_1.23      
+## [21] vctrs_0.2.0      grid_3.6.1       tidyselect_0.2.5 glue_1.3.1      
+## [25] R6_2.4.0         fansi_0.4.0      rmarkdown_1.14   purrr_0.3.2     
 ## [29] magrittr_1.5     backports_1.1.4  scales_1.0.0     htmltools_0.3.6 
 ## [33] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     utf8_1.1.4      
 ## [37] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
@@ -1358,7 +1412,7 @@ rich_big &lt;-<span class="st"> </span><span class="kw">data.table</span>(
 <hr /> <!-- line -->
 <div class="footer">
     <p style="text-align: center;">
-        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../news.html" style="font-size: 11pt;">News</a> · <a href="../../files/cv_junkyu_park.pdf" style="font-size: 11pt;">CV</a>
+        <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
         © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
