@@ -70,7 +70,8 @@ creditcard = creditcard.loc[:, cols]
 <li><a href="#models">2.2. Models</a></li>
 <li><a href="#performance">2.3. Performance</a></li>
 </ul></li>
-<li><a href="#concerns">3. Concerns</a></li>
+<li><a href="#conclusions">3. Conclusions</a></li>
+<li><a href="#concerns">4. Concerns</a></li>
 <li><a href="#session-info">Session info</a></li>
 </ul>
 </div>
