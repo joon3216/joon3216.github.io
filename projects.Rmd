@@ -29,6 +29,14 @@ output:
 
 <!-- Using `DBI` package, this R package aims to generate SQL queries that perform data tidying and create simple analysis. Details will be written soon. -->
 
+## Credit card fraud detection
+
+To gain skills in using and exploring Python external packages such as `matplotlib.pyplot`, `seaborn`, `pandas`, `statsmodels.api` and so forth, I finished a project related to supervised learning.
+
+* [Description](2019/creditcardfraud.html)
+* [Analysis](2019/creditcardfraud/analysis.html)
+
+
 ## `sudsoln` package in Python
 
 To get familiar with object-oriented programming in Python, I created a package that solves a $n^2$-by-$n^2$ sudoku puzzle, where $n$ is the number of rows/columns in a subarray. 

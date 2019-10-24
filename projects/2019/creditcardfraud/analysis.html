@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Junkyu Park" />
+
+
+<title>Credit card fraud detection: analysis</title>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139050237-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-139050237-1');
+</script>
+<!-- A new navigation bar style settings -->
+<style type="text/css">
+/* at the top */
+#navbar
+{
+    position: sticky;
+    z-index: 1000; /* new; why: make navbar closest to the observer */
+    top: 0;
+    left: 0;
+    padding: 0; /* old: 10px 25px */
+    background: rgba(28, 44, 56, 0.99);
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #EAEAEB;
+    transition: .5s;
+}
+#navbar .logo
+{
+    float: left;
+}
+#navbar .logo img
+{
+    height: 30px;
+    /* new: margin; why: so that in header, padding can be 0 */
+    /* note: header nav ul li a has margin 20px on left and right, 
+    so here I let the right margin of img to be 5px so that it matches
+    with the left margin 25px */
+    /* edit: 5 to 20px since it looks nicer */
+    margin: 10px 20px 10px 25px; 
+}
+#navbar nav
+{
+    float: right; /* old: left; why change: to give a more standard look */
+    margin: 0 27.5px 0 0;
+}
+#navbar nav ul
+{
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+}
+#navbar nav ul li
+{
+    padding: 0;
+    list-style: none;
+    position: relative;
+    /* new: margin and padding; why: header padding is now 0 */
+    margin: 0;
+    padding: 8.5px 0 8.5px 0;
+}
+/* new; why: texts with arrow on the right gets more space  */
+#navbar nav ul li.sub-menu
+{
+    /* why 8.5px: that's the value in header nav ul li padding */
+    padding: 8.5px 27.5px 8.5px 0;
+    padding-bottom: 12px;
+    /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
+}
+
+/* new; why: prepare in case of text-align: right */
+/* commented out because news menu is now gone in navbar*/
+/* #navbar nav ul li#news
+{
+    padding: 8.5px 0;
+    margin: 0;
+} */
+
+/* new; why: this potentially has a different background color */
+#navbar nav ul li#home
+{
+    background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
+    border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0;
+}
+
+#navbar nav ul li.sub-menu:before
+{
+    content: '\f0d7'; /* &#9660 ▼ nabla */
+    font-family: fontAwesome; /* old: sans-serif */
+    font-size: 16pt;
+    position: absolute;
+    /*line-height: 30px;*/
+    color: #ffffff;
+    top: 7pt;
+    right: 22.5px;
+    cursor: pointer;
+}
+#navbar nav ul li.active.sub-menu:before
+{
+    content: '\f0d8';  /* &#9650 ▲ Delta */
+    font-family: fontAwesome; /* new */
+    font-size: 16pt;
+    position: absolute;
+    color: #666;
+    top: 7pt;
+    right: 22.5px;
+    cursor: pointer;
+}
+#navbar nav ul li ul
+{
+    position: absolute;
+    left: 0;
+    top: 50px; /* controls the box position of dropdown menus */
+    background: rgba(57, 143, 209, 0.99);
+    display: none;
+}
+#navbar nav ul li.active ul
+{
+    display: block;
+}
+
+/* new; why: make dropdown menu box fit to the menu above */
+/* padding: 0; is for slimmer individual dropdown menu items */
+/* old */
+#navbar nav ul li.sub-menu ul li
+{
+    display: block;
+    width: 200px;
+    padding: 5px 0;
+}
+
+/* new: header nav ul li ul li a */
+/* why: giving an indentation */
+#navbar nav ul li ul li a
+{
+    margin: 0 40px;
+}
+
+/* header nav ul li#projects.sub-menu ul li
+{
+    display: block;
+    width: 115px;
+    padding: 0;
+}
+header nav ul li#rm.sub-menu ul li
+{
+    display: block;
+    width: 197px;
+    padding: 0;
+} */
+
+#navbar nav ul li a
+{
+    height: 30px;
+    line-height: 30px;
+    padding: 0; /* old: 0 20px, and margin didn't exist; why change: to make text the only clickable object */
+    margin: 0 20px;
+    color: #ffffff;
+    text-decoration: none;
+    text-shadow: none; /* new; why: to be compatible with the Tactile theme */
+    /*display: block;*/
+}
+
+/* new: news; why add: to make News go to the right */
+/* commented out because the same effect is achieved by having 
+header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
+/* header nav ul li.news
+{
+    margin: 0 0 0 20px;
+} */
+
+/* new: rm; why: to make r_m go to the right */
+/* commented out because the same effect is achieved by having 
+header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
+/* header nav ul li#rm
+{
+    margin: 0 0 0 20px;
+} */
+
+
+#navbar nav ul li a:hover
+{
+    color: #666;
+}
+
+/* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
+#navbar nav ul li:hover ul
+{
+    display: block;
+}
+
+#navbar nav ul li:hover ul li:hover
+{
+    background-color: rgba(5, 83, 143, 0.99);
+}
+
+.menu-toggle
+{
+    color: #ffffff;
+    float: right;
+    line-height: 30px;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+    text-shadow: none;
+}
+@media (max-width: 800px) /* old1: 991px; old2: 721px */
+{
+    /* at the top */
+    #navbar
+    {
+        padding: 0; /* old: 10px 25px */
+    }
+    .menu-toggle
+    {
+        display: block;
+        margin: 10px 25px /* new; why: header padding is now 0 */
+    }
+    #navbar nav
+    {
+        /*display: none;*/
+        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
+        position: absolute;
+        width: 100%;
+        height: calc(100vh - 50px);
+        background: rgba(28, 44, 56, 0.99);
+        top: 50px;
+        left: -100%;
+        transition: .5s;
+    }
+    #navbar nav.active
+    {
+        left: 0;
+    }
+    #navbar nav ul
+    {
+        display: block;
+        /*text-align: center;*/
+    }
+
+    /* new; why: to make sure it doesn't appear in mobile view;
+    I don't want to see it in mobile since the logo already directs you
+    to home. Adding home in mobile seems a clutter.
+    */
+    #navbar nav ul li#home
+    {
+        display: none;
+    }
+
+    #navbar nav ul li a
+    {
+        border-bottom: 1px solid rgba(255, 255, 255, .5);
+        height: 50px;
+        line-height: 50px;
+        padding: 0 20px;
+    }
+    #navbar nav ul li.active ul
+    {
+        position: relative;
+    }
+    #navbar nav ul li ul li
+    {
+        width: 100%;
+    }
+
+    /* new: header nav ul li.sub-menu */
+    /* why: so that dropdown menus fill the entire row in mobile */
+    #navbar nav ul li.sub-menu
+    {
+        padding: 8.5px 0;
+    }
+
+    #navbar nav ul li.sub-menu:before
+    {
+        content: '+'; /* old: &#9660 nabla */
+        font-size: 20pt;
+        font-family: sans-serif;
+        height: 40px;
+        position: absolute;
+        /* line-height: 30px; */
+        color: #ffffff;
+        width: 20px;
+        /* top: 5pt; */
+        right: 25px;
+        cursor: pointer;
+        bottom: 18px;
+    }
+    #navbar nav ul li.active.sub-menu:before
+    {
+        content: '–';  /* new: &#9650 Delta */
+        font-size: 20pt;
+        /* top: 5pt; */
+        right: 25px;
+        /* line-height: 30px; */
+        cursor: pointer;
+        position: absolute;
+        color: #666;
+        bottom: 18px;
+        height: 40px;
+    }
+    #navbar nav ul li ul
+    {
+        position: absolute;
+        left: 0;
+        top: 0px; /* controls the box position of 2018 and 2019 under Research materials */
+        background: rgba(57, 143, 209, 0.99);
+        display: none;
+    }
+
+    /* new: hover and active
+    why: do not display drop down menus when mouse is over it in mobile, 
+    but display them when plus signs are clicked */
+    #navbar nav ul li:hover ul
+    {
+        display: none;
+    }
+    #navbar nav ul li.active ul
+    {
+        display: block;
+    }
+
+    /* new; why: no background color change in dropdown menu when hovering over in mobile */
+    #navbar nav ul li.sub-menu:hover ul li:hover
+    {
+        background-color: rgba(5, 83, 143, 0);
+    }
+
+    /* new: News; why: to make News align with the others in mobile */
+    /* commented out since Research Materials uses different method
+    to get more space on its right (header nav ul li.sub-menu padding) */
+
+    /* header nav ul li.news
+    {
+        margin: 0;
+    } */
+    /* new: rm; why: to make rm align with the others in mobile */
+    /* commented out for the same reason */
+    /* header nav ul li#rm
+    {
+        margin: 0;
+    } */
+
+    /* while scrolling */
+    #navbar.black nav ul li a:hover
+    {
+        color: #666;
+    }
+}
+
+/* while scrolling */
+#navbar.black
+{
+    background: rgba(21, 92, 148, .9);
+}
+#navbar.black nav ul li#home
+{
+    background-color: rgba(28, 44, 56, 0);
+    /* border-bottom: 1px solid #EAEAEB;
+    margin: 0 0 .5px 0; why commented: unnecessary */
+    transition: .2s;
+}
+#navbar.black nav ul li a:hover
+{
+    color: darkgrey;
+}
+#navbar.black nav ul li.active.sub-menu:before
+{
+    color: darkgrey;
+}
+</style>
+
+<!-- 1. Navigation bar color change as one scrolls -->
+<!-- by adding a new class="black" while scrolling -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript">
+    $(window).on('scroll', function(){
+        if ($(window).scrollTop()){
+           navbar.classList.add('black');
+           /* old: $('header').addClass('black'); */
+        }
+        else
+        {
+            navbar.classList.remove('black');
+            /* old: $('header').removeClass('black'); */
+        }
+    })
+</script>
+
+<!-- 2. Navigation bar slides from the left in mobile -->
+<!-- 3. Only one dropdown menu at a time will appear -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.menu-toggle').click(function(){
+            $('nav').toggleClass('active')
+        })
+        $('ul li').click(function(){
+            $(this).siblings().removeClass('active');
+            $(this).toggleClass('active');
+        })
+    })
+</script>
+
+<!-- Using caret down and up symbols -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<link rel="icon" href="../../../style/all_orange_jp.png">
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<link rel="stylesheet" href="analysis_files/style.css" type="text/css" />
+
+
+
+
+
+</head>
+
+<body>
+
+
+<!-- A new navigation bar -->
+<div id="navbar">
+    <div class="logo">
+        <a href="../../../index.html"><img src="../../../style/all_orange_jp.png"></a>
+    </div>
+    <nav>
+        <ul>
+            <li id="home">
+                <a href="../../../index.html">Home</a>
+            </li>
+            <li class="sub-menu" id="projects">
+                <a href="../../../projects.html">Projects</a>
+                <ul>
+                    <li>
+                        <a href="../../../projects/2019.html">2019</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sub-menu" id="rm">
+                <a href="../../../research_materials.html">Research materials</a>
+                <ul>
+                    <li>
+                        <a href="../../../research_materials/2018.html">2018</a>
+                    </li>
+                    <li>
+                        <a href="../../../research_materials/2019.html">2019</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li id="news">
+                <a href="../../../news.html">News</a>
+            </li> -->
+            <li>
+                <a href="../../../files/resume_junkyu_park.pdf">Resume</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="menu-toggle">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </div>
+</div>
+
+
+<section class="page-header">
+<h1 class="title toc-ignore project-name">Credit card fraud detection: analysis</h1>
+<h4 class="author project-author">Junkyu Park</h4>
+</section>
+
+
+
+<section class="main-content">
+<p>Three Python scripts are required to reproduce the analysis:</p>
+<ul>
+<li>the <a href="../../../files/creditcardfraud/creditcardfraud.py">script</a> that loads dataset, and produces figures and tables</li>
+<li>the <a href="../../../files/creditcardfraud/creditcardfraud_functions.py">script</a> where functions used in the analysis are stored</li>
+<li>the <a href="../../../files/creditcardfraud/creditcardfraud_models.py">script</a> that produces models and classification results</li>
+</ul>
+
+<div id="TOC" class="toc" style="padding:2rem 2rem 0 0;">
+<ul style="list-style:none;">
+<li><a href="#summary">1. Summary</a></li>
+<li><a href="#analysis">2. Analysis</a><ul>
+<li><a href="#features">2.1. Features</a></li>
+<li><a href="#models">2.2. Models</a></li>
+<li><a href="#performance">2.3. Performance</a></li>
+</ul></li>
+<li><a href="#concerns">3. Concerns</a></li>
+<li><a href="#session-info">Session info</a></li>
+</ul>
+</div>
+&nbsp;
+
+<div id="summary" class="section level1">
+<h1>1. Summary</h1>
+<p>Logistic regression is initially used to classify fraudulent transactions in <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud/"><code>creditcard</code> dataset</a> and to define binary classifiers. Also, to increase the overall accuracy of classification by diversifying thresholds, the “compounded model” is designed and then compared to the vanilla logistic regression. The compounded model first uses multinomial logistic regression to predict the outcome of binary classification into <code>TPN</code> (true positive or negative), <code>FP</code> (false positive), and <code>FN</code> (false negative), and then applies different probability thresholds for each expected outcome to classify an observation as fraudulent or non-fraudulent. Regardless of the choice of binary classifier, the compounded model achieves a higher accuracy in both training and test sets due to an improved performance in detecting non-fraudulent transactions. However, the true positive rate is lowered mainly due to a rarity of fraudulent cases in the original dataset.</p>
+</div>
+<div id="analysis" class="section level1">
+<h1>2. Analysis</h1>
+<p>Pre-existing features of the dataset are explored to conduct feature selection and, if applicable, transformations. After exploration, a few plausible logistic regression models and then corresponding “compounded” models, i.e. models that perform ternary classification for each observation and then apply different probability thresholds for binary classification, are fitted.</p>
+<div id="features" class="section level2">
+<h2>2.1. Features</h2>
+<p>The data consists of the response <code>Class</code>, 2 features <code>Time</code> and <code>Amount</code>, and 28 principal components. No missing data is present.</p>
+<ul>
+<li><code>Class</code> is the response: 1 in case of fraud and 0 otherwise.</li>
+<li><code>Time</code> contains the seconds elapsed between each transaction and the first transaction in the dataset. The maximum <code>Time</code> of <code>creditcard</code> data is 172792 seconds, indicating that the data amounts to 48 hours minus 8 seconds worth.</li>
+<li><code>Amount</code> is the transaction amount.</li>
+<li>Columns that start with <code>V</code> are principal components.</li>
+</ul>
+<div id="time" class="section level3">
+<h3>2.1.1. <code>Time</code></h3>
+<p>Due to the ordered structure of <code>creditcard</code> by <code>Time</code>, the following 4 train-test combinations are used for model fitting and evaluation:</p>
+<ol style="list-style-type: decimal">
+<li>the first 24 hours and the following 6 hours of data as training and test sets respectively</li>
+<li>the first 30 hours and the following 6 hours</li>
+<li>the first 36 hours and the following 6 hours</li>
+<li>the first 42 hours and the following 6 hours</li>
+</ol>
+<p><code>cc_train</code>, the first 24 hours worth of data (i.e. the training data in the first fold), is selected as a representative of training datasets.</p>
+<p><img src="../../../files/creditcardfraud/fold_scheme.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Not every observation in <code>cc_train</code> has the unique <code>Time</code> value, indicating that some <code>Time</code> occurs more often than the other. The number of occurrence of each <code>Time</code> in <code>cc_train</code> is precisely the number of transactions at that <code>Time</code>. <a href="https://en.wikipedia.org/wiki/Fast_Fourier_transform">Fast Fourier transform</a> is used to fit a sine function (call it <code>fitted_func</code>) that estimates the <code>Occurrence</code> of <code>Time</code> and to check the <code>Time</code> trend:</p>
+<p><img src="analysis_files/figure-html/number_of_transactions-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The occurrence estimate gets better as the size of training set increases. <code>Time</code> occurrence of the entire <code>creditcard</code> dataset is plotted along with fitted curves of each fold. Bumps and valleys of the <code>Time</code> occurrence match for fold 3 and 4 throughout <code>Time</code>, but not so much for fold 1 (<code>cc_train</code>) and fold 2 after about 100,800. Also, the lines of fold 3 and fold 4 are almost identical, indicating that the size of training set is irrelevant after the size gets sufficiently large when it comes to estimating periodicity.</p>
+<p><img src="../../../files/creditcardfraud/comparison_occu_est.png" width="1114" style="display: block; margin: auto;" /></p>
+<p>Distributions of the <code>Occurrence</code> estimates based on <code>cc_train</code> are visualized for each <code>Class</code> to see whether they draw different density estimations. KDE plots with bandwidth 0.075 show that there are three dominant peaks in each cycle of fraudulent transactions (i.e. <code>Class</code> 1): near minimum, near 1.9, and near maximum. Non-fraudulent transactions (<code>Class</code> 0) have a high peak near maximum and a lower peak near minimum.</p>
+<p><img src="analysis_files/figure-html/red_line_dist-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The reason for not using <code>Occurrence</code> as-is is because the purpose of the model is to classify inputs of any number of observations. For example, if a single observation is given to a model, then it won’t be able to compute the appropriate <code>Occurrence</code> from a given <code>Time</code> since <code>Occurrence</code> is the count of repeating <code>Time</code>s in a data.</p>
+<p><img src="analysis_files/figure-html/fraudulent_transactions_at_a_time-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The vast majority (95.018%) of fraudulent transactions in <code>cc_train</code> occur one at a time. 4 fraudulent transactions occur all at once at two different moments in <code>Time</code>; at one <code>Time</code> alone, there are 6 fraudulent transactions.</p>
+<p>If a large proportion of fraudulent transactions have occurred multiple times at many fixed points in <code>Time</code>, then <code>Occurrence</code> and its estimate may have had given “more weights” in the model fitting process as detecting at least one <code>Time</code> point of fraud will lead to more cases of fraud. Unfortunately, that doesn’t seem like the case.</p>
+</div>
+<div id="amount" class="section level3">
+<h3>2.1.2. <code>Amount</code></h3>
+<p><code>Amount</code> is heavily right-skewed regardless of the <code>Class</code>. Also, minimums of both <code>Class</code>es are <code>0.0</code>, indicating there are transactions with no money transfer and yet recorded as transactions anyway. The minimum of 0 also means that there are no observations having negative amounts, i.e. observations that would have meant cases like cancellation or refund:</p>
+<pre><code>##          Amount                                                            
+##           count        mean         std  min   25%    50%     75%       max
+## Class                                                                      
+## 0      144506.0   90.382402  245.912264  0.0  5.99  23.40   80.00  19656.53
+## 1         281.0  118.288648  242.249762  0.0  1.00   9.99  104.81   1809.68</code></pre>
+<p>The <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud/">description of <code>creditcard</code></a> does not say whether the <code>Amount</code> is 0 because of:</p>
+<ul>
+<li>the prices actually being 0</li>
+<li>the request made by a credit card user (such as a fraud report or cancellation)</li>
+<li>the financial institution blocking the transaction (i.e. the actual <code>Amount</code> is not 0, but is set to 0 by the decision of the institution)</li>
+<li>the mixture of all of the above</li>
+</ul>
+<p>If the <code>Amount</code> is 0 NOT because of the first case, it doesn’t quite make sense to use <code>Amount</code> in the model fitting process. This is because in either of these cases, the original <code>Amount</code> would not have been 0. The cardholder would have noticed the nonzero-<code>Amount</code> transaction he or she didn’t make; the institution would probably have made the decision with the nonzero <code>Amount</code> along with other values of features. Also, the model is about detecting the fraud BEFORE it gets reported from a cardholder, not after.</p>
+<p>In this analysis, however, the entire observations are utilized including those with <code>Amount</code> 0 because the <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud/">description</a> states that the “transaction <code>Amount</code> … can be used for example-dependant cost-sensitive learning”, implying this is a legitimate feature for a modeling.</p>
+<pre><code>## Class
+## 0    937
+## 1     11
+## dtype: int64</code></pre>
+<p>A proportion of transactions with no money transfer in each <code>Class</code> is checked. Out of 144506 non-fraudulent transactions, there are 937 transactions with the involved <code>Amount</code> 0 (which accounts 0.648% of the entire non-fraudulent transactions), and 11 transactions out of all 281 fraudulent cases (3.915%). That is:</p>
+<ul>
+<li>the probability of a transaction having <code>Amount</code> 0 is 0.655%.</li>
+<li>the probability of a transaction being fraud given the <code>Amount</code> is 0 is 1.16%.</li>
+</ul>
+<p>Distributions of log-transformed <code>Amount</code> in each <code>Class</code> are also checked. Log-transformation is applied due to a heavy right-skewness; 1 is added to <code>Amount</code> and then transformed in order to ensure observations with <code>Amount</code> 0 to be evaluated as 0 and not <code>-inf</code>.</p>
+<p><img src="analysis_files/figure-html/eg2_1_2_3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Three peaks are present in case of fraudulent cases. One of them is at 0, in which we know that the estimated probability of a transaction being fraud given the <code>Amount</code> is 0 is 1.16%. The other two draws a higher peak, indicating there are more fraudulent transactions at those <code>Amount</code>s than at the <code>Amount</code> 0. Estimating those two remaining modes using the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC183840/">HSM method</a> yields values 0.6931472 and 4.6150215. In actual dollar <code>Amount</code>, these are 1 and 99.99 respectively.</p>
+<p>From these modes, the probability of a transaction being fraud given that:</p>
+<ul>
+<li>the <code>Amount</code> is 1 is computed as 1.153%</li>
+<li>the <code>Amount</code> is 99.99 is computed as 11.25%</li>
+<li>the <code>Amount</code> is either 0, 1, or 99.99 is computed as 1.442%</li>
+</ul>
+<p>Also, out of all fraudulent transactions in <code>cc_train</code>, the probability of:</p>
+<ul>
+<li>the involved <code>Amount</code> is 0 is 3.915%.</li>
+<li>the involved <code>Amount</code> is 1 is 29.537%.</li>
+<li>the involved <code>Amount</code> is 99.99 is 9.609%.</li>
+<li>the involved <code>Amount</code> is either 0, 1, or 99.99 is 43.06%</li>
+</ul>
+<p>In other words, 43.06% of all fraudulent transactions in <code>cc_train</code> involve the <code>Amount</code> of either 0, 1, or 99.99.</p>
+<pre><code>## Amount  0.00   1.00   99.99
+## Class                      
+## 0         937   7118    213
+## 1          11     83     27</code></pre>
+<p>The above table shows counts of each cell <code>(Class, Amount)</code>.</p>
+</div>
+<div id="pcs" class="section level3">
+<h3>2.1.3. PCs</h3>
+<p>Assuming all principal components of selected features are present in the original <code>creditcard</code> dataset (i.e. the 28<sup>th</sup> PC is indeed the last PC), the first PC explains around 12.484% of the total variance in features. This means no PCs in <code>creditcard</code> is dominant when it comes to explaining variances of transformed features.</p>
+<p><img src="analysis_files/figure-html/eg2_1_3_1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Distributions of numeric values for each <code>Class</code> in each PC of <code>cc_train</code> are checked. It is observed that some PCs have a somewhat clearer distinction between <code>Class</code>es than other PCs; explaining more variance in the data (i.e. PCs with low numberings like 1 or 2) doesn’t necessarily give a clear separation of <code>Class</code>.</p>
+<p><img src="../../../files/creditcardfraud/dists_of_v.png" width="1208" style="display: block; margin: auto;" /></p>
+</div>
+<div id="relationships-among-pcs" class="section level3">
+<h3>2.1.4. Relationships among PCs</h3>
+<p>Scatterplots of PC pairs in <code>cc_train</code> are investigated. Every PC except <code>V13</code> and <code>V15</code> is considered because not only a separation of two <code>Class</code>es within each PC is vague, but also any pairwise interaction with these two PCs yields an almost entirely encompassed cluster of <code>Class</code> 1s within the cluster of <code>Class</code> 0s. The chosen 26 PCs, from <code>V1</code> to <code>V28</code> except <code>V13</code> and <code>V15</code>, then explains 94.051% of the total variance in features. Interactions of order higher than two (e.g. three-way interactions) are not considered due to a combinatorial explosion. It makes sense to consider pairwise interactions of PCs since many pairs of them have a non-linear relationship.</p>
+<p>Some observations regarding relationships between any two PCs in <code>cc_train</code> emerge:</p>
+<ol style="list-style-type: decimal">
+<li>Some pairs of PCs give either a pattern or distinctive clustering of those observations with the <code>Class</code> 1 label.</li>
+<li>There exist pairs of PCs that have a similar relationship drawn by other pairs.</li>
+</ol>
+<p><img src="analysis_files/figure-html/eg2_1_4_2_py-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>For example, observations of <code>Class</code> 1 in the scatterplot of <code>V1</code> vs. <code>V2</code> draw an almost-linear relationship. Most of these <code>Class</code> 1 observations have non-negative <code>V2</code> values, and they are plotted as if they lie on the straight line. This linear pattern is also visible in some of the other plots as well, such as <code>V1</code> vs. <code>V5</code>.</p>
+<p><img src="analysis_files/figure-html/eg2_1_4_3_py-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Occasionally, some pairs of PCs draw a relatively distinctive cluster of <code>Class</code> 1s. In the plot of <code>V4</code> vs. <code>V16</code>, most of the observations with the <code>Class</code> 0 label are centered around the origin. Although some <code>Class</code> 1 observations are also around the origin, many of them are near <span class="math inline">\((3, -4)\)</span>, <span class="math inline">\((5, -6)\)</span>, or <span class="math inline">\((8, -11)\)</span>.</p>
+<p><img src="../../../files/creditcardfraud/v1_v1617.png" width="919" style="display: block; margin: auto;" /></p>
+<p>The scatterplots of <code>V1</code> vs. <code>V16</code> and <code>V1</code> vs. <code>V17</code> illustrate the second finding. Both scatterplots look very similar in terms of patterns. This suggests that if an interaction of one pair is considered, then the interaction of the other pair may be discarded.</p>
+<p><img src="../../../files/creditcardfraud/v1718_v19.png" width="919" style="display: block; margin: auto;" /></p>
+<p>Also, among pairs that have similar patterns, there are cases where one pair has a clearer distinction among <code>Class</code>es than the other pair. In case of <code>V17</code> vs. <code>V19</code> and <code>V18</code> vs. <code>V19</code>, the former gives a better separation between two classes since many <code>Class</code> 1 observations of <code>V17</code> are scattered more widely than in <code>V18</code>.</p>
+</div>
+<div id="which-features-should-be-included" class="section level3">
+<h3>2.1.5. Which features should be included?</h3>
+<p>Due to the additive nature of logistic regression, some features and pairs of two different features are weighted by KDE functions fitted with <code>Class</code> 1 observations of the training set and then used for modeling. That is, uni-/multivariate KDE functions are fitted based on <code>Class</code> 1 observations of applicable features, and each observation is evaluated at the corresponding KDE function. Some logistic regression models are based on these weighted features.</p>
+<p>A pairwise interaction of PCs is included under the following rules:</p>
+<ol style="list-style-type: decimal">
+<li>Have a clear separation of two <code>Class</code>es, or a distinctive clustering of fraudulent transactions.</li>
+<li>Have a simple clustering that looks generalizable, i.e. the true distribution of <code>Class</code> 1 observations is expected to be similar to what one sees in <code>cc_train</code>.</li>
+<li>Do not encompass, or give weights to, too many non-fraudulent transactions in order to reduce the number of false positives.</li>
+<li>Be different from other pairwise interactions.</li>
+<li>Be better than other similar pairwise interactions in terms of <code>Class</code> separation.</li>
+</ol>
+<p>After inspecting features and interactions of PCs in <code>cc_train</code>, the decision is made to include the following features to the “full” model:</p>
+<ul>
+<li><code>(Intercept)</code>: the intercept term (column of 1s)</li>
+<li><code>kde_occu_est</code>: (with bandwidth 0.075) KDE-weighted <code>Occurrence</code> estimates of <code>Time</code></li>
+<li><code>kde_logAmt_p1</code>: (with bandwidth 0.1) KDE-weighted log-transformed right-shifted <code>Amount</code>, or <code>log(Amount + 1)</code></li>
+<li>26 PCs: from <code>V1</code> to <code>V28</code> except <code>V13</code> and <code>V15</code></li>
+<li>KDE-weighted pairwise interactions:
+<ul>
+<li><code>kde_V1_V2</code>, <code>kde_V1_V4</code>, <code>kde_V1_V5</code>, <code>kde_V1_V10</code>, <code>kde_V1_V17</code>, <code>kde_V1_V20</code></li>
+<li><code>kde_V2_V3</code>, <code>kde_V2_V7</code>, <code>kde_V2_V10</code>, <code>kde_V2_V17</code>, <code>kde_V2_V20</code></li>
+<li><code>kde_V3_V10</code>, <code>kde_V3_V20</code></li>
+<li><code>kde_V4_V10</code>, <code>kde_V4_V17</code>, <code>kde_V4_V20</code>, <code>kde_V4_V24</code></li>
+<li><code>kde_V5_V6</code>, <code>kde_V5_V10</code>, <code>kde_V5_V20</code>, <code>kde_V5_V23</code></li>
+<li><code>kde_V6_V10</code></li>
+<li><code>kde_V7_V10</code>, <code>kde_V7_V14</code>, <code>kde_V7_V20</code>, <code>kde_V7_V21</code></li>
+<li><code>kde_V8_V10</code></li>
+<li><code>kde_V9_V10</code>, <code>kde_V9_V14</code>, <code>kde_V9_V20</code>, <code>kde_V9_V25</code></li>
+<li><code>kde_V10_V11</code>, <code>kde_V10_V20</code>, <code>kde_V10_V28</code></li>
+<li><code>kde_V11_V12</code>, <code>kde_V11_V26</code></li>
+<li><code>kde_V12_V14</code>, <code>kde_V12_V20</code></li>
+<li><code>kde_V14_V19</code>, <code>kde_V14_V20</code></li>
+<li><code>kde_V16_V17</code></li>
+<li><code>kde_V17_V19</code>, <code>kde_V17_V20</code></li>
+</ul></li>
+</ul>
+<p>These features are also used for modeling which involves training sets of other folds.</p>
+</div>
+</div>
+<div id="models" class="section level2">
+<h2>2.2. Models</h2>
+<p>Various binary classifiers are obtained based on training sets in <code>cc_trains</code>, logistic regressions, and selected measures. Then, based on each binary classifier, the corresponding compounded model is obtained as well. The quality of these models, including vanilla binary classifiers, is assessed based on false positive rates, true positive rates, and overall accuracies in training and test sets.</p>
+<div id="logistic-regressions-and-binary-classifiers" class="section level3">
+<h3>2.2.1. Logistic regressions and binary classifiers</h3>
+<p>Four models are considered: <code>mod_asis</code>, <code>mod_full</code>, <code>mod_v</code>, and <code>mod_r</code>. All models are equipped with <code>(Intercept)</code>:</p>
+<ul>
+<li><code>mod_asis</code> is a simple model that includes all the initial features of the training set except <code>Time</code>, and no interactions.</li>
+<li><code>mod_full</code> includes selected features in <a href="#which-features-should-be-included">section 2.1.5</a>. <code>mod_full</code> and <code>mod_asis</code> are not <a href="https://en.wikipedia.org/wiki/Statistical_model#Nested_models">nested</a> as <code>mod_asis</code> includes <code>V13</code> and <code>V15</code> but <code>mod_full</code> doesn’t.</li>
+<li><code>mod_v</code> contains features selected by the stepwise VIF calculation from <code>mod_full</code>.</li>
+<li><code>mod_r</code> contains features selected by the stepwise LRTs from <code>mod_full</code>.</li>
+</ul>
+<p>For each model, the probability threshold (<span class="math inline">\(p_{\text{thres}}\)</span>) for binary classification is computed as: <span class="math display">\[p_{\text{thres}} = \underset{p}{\text{argmin}}\big\{||\text{ROC}(p) - (0, 1)||_2\big\}\]</span></p>
+<p>That is, the threshold is the value which yields the minimum distance between the ROC curve and the point <span class="math inline">\((\text{fpr}, \text{tpr}) = (0, 1)\)</span>. <span class="math inline">\(\text{ROC}: P \subset [0, 1] \to T \subset [0, 1]^2\)</span> is a discrete bijective function (i.e. <span class="math inline">\(P\)</span> and <span class="math inline">\(T\)</span> are discrete and <span class="math inline">\(|P| = |T|\)</span>) that returns <span class="math inline">\((\text{fpr}, \text{tpr})\)</span> (false positive rate and true positive rate) given <span class="math inline">\(p = p_{\text{thres}}\)</span>.</p>
+<div id="mod_v" class="section level4">
+<h4><code>mod_v</code></h4>
+<p>In the stepwise VIF calculation, VIFs of features in the model are computed and then the feature with the highest VIF is eliminated. VIFs of the remaining features are then computed, and the same process is sequentially done until all features have VIFs lower than the predefined threshold (5 in this analysis). In each iteration, VIF <em>of</em> the <code>(Intercept)</code> is not computed, but the <code>(Intercept)</code> itself is included to compute VIFs of the other features.</p>
+<p>Stepwise feature selection based on VIFs is performed in order to reduce <code>mod_full</code>. Pairwise interactions of <code>mod_full</code> are included based on my personal judgment, and some interactions in the model may still have a similar pattern. If two or more interactions explain similar clusters or phenomenon, then only one of those interactions is sufficient for modeling.</p>
+<p>Stepwise VIF calculation is done only once with <code>cc_train</code> since it takes a very long time (about 30 minutes) to get the final model. Features selected based on <code>cc_train</code> are also used for <code>mod_v</code>s of other training sets in <code>cc_trains</code>.</p>
+<p>Features of <code>mod_v</code> based on <code>cc_train</code> are as follows (including the <code>(Intercept)</code>):</p>
+<ul>
+<li><code>kde_occu_est</code>, <code>kde_logAmt_p1</code></li>
+<li>26 PCs: from <code>V1</code> to <code>V28</code> except <code>V13</code> and <code>V15</code></li>
+<li>KDE-weighed pairwise interactions:
+<ul>
+<li><code>kde_V1_V5</code>, <code>kde_V1_V20</code></li>
+<li><code>kde_V2_V3</code></li>
+<li><code>kde_V4_V10</code>, <code>kde_V4_V24</code></li>
+<li><code>kde_V5_V23</code></li>
+<li><code>kde_V6_V10</code></li>
+<li><code>kde_V7_V21</code></li>
+<li><code>kde_V9_V14</code>, <code>kde_V9_V25</code></li>
+<li><code>kde_V10_V11</code>, <code>kde_V10_V28</code></li>
+<li><code>kde_V11_V12</code>, <code>kde_V11_V26</code></li>
+<li><code>kde_V12_V14</code></li>
+<li><code>kde_V14_V19</code></li>
+<li><code>kde_V16_V17</code></li>
+<li><code>kde_V17_V19</code></li>
+</ul></li>
+</ul>
+<p>(<code>V4</code> and <code>V11</code> are actually eliminated in the process of stepwise selection, but are added back again to the model since some pairwise interactions involving these terms remain intact.)</p>
+</div>
+<div id="mod_r" class="section level4">
+<h4><code>mod_r</code></h4>
+<p><code>mod_r</code> is fitted with stepwise LRTs. That is, in each step, a likelihood ratio test is conducted with a model that lacks exactly one feature from <code>mod_full</code> and <code>mod_full</code> itself, and the same LRTs are done for each feature. Among features having a p-value higher than the predefined threshold (0.05 in this analysis), a feature that yields the highest p-value is eliminated in the same step. These steps are taken until all remaining features yield p-values lower than the predefined threshold. Like in <code>mod_v</code>, models compared in each LRT have the intercept, but the intercept itself is not subject to the LRT.</p>
+<p>The idea is to leave only those interactions that actually improve the fit of the model, and to reduce <code>mod_full</code> at the same time.</p>
+<p>Stepwise LRTs are done only once with <code>cc_train</code> since it takes a very long time to get the final model. Features selected based on <code>cc_train</code> are also used for <code>mod_r</code>s of other training sets in <code>cc_trains</code>.</p>
+<p>Features of <code>mod_r</code> based on <code>cc_train</code> are as follows (including the <code>(Intercept)</code>):</p>
+<ul>
+<li><code>kde_occu_est</code></li>
+<li>12 PCs
+<ul>
+<li><code>V3</code>, <code>V4</code>, <code>V5</code>, <code>V7</code>, <code>V9</code></li>
+<li><code>V11</code>, <code>V14</code>, <code>V17</code>, <code>V19</code>, <code>V20</code></li>
+<li><code>V24</code>, <code>V27</code></li>
+</ul></li>
+<li>KDE-weighed pairwise interactions:
+<ul>
+<li><code>kde_V1_V5</code>, <code>kde_V1_V17</code></li>
+<li><code>kde_V2_V3</code>, <code>kde_V2_V10</code>, <code>kde_V2_V17</code></li>
+<li><code>kde_V3_V10</code>, <code>kde_V3_V20</code></li>
+<li><code>kde_V5_V6</code></li>
+<li><code>kde_V7_V14</code>, <code>kde_V7_V21</code></li>
+<li><code>kde_V8_V10</code></li>
+<li><code>kde_V10_V28</code></li>
+<li><code>kde_V11_V12</code>, <code>kde_V11_V26</code></li>
+<li><code>kde_V14_V20</code></li>
+<li><code>kde_V17_V19</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="compounded-models-and-ternary-binary-classifiers" class="section level3">
+<h3>2.2.2. Compounded models and ternary-binary classifiers</h3>
+<p>Any data point <span class="math inline">\(x\)</span> is considered positive if: <span class="math display">\[I\big[h_{\hat{\boldsymbol{\beta}}}(x) &gt; p_{\text{thres}}\big] = 1\]</span> where <span class="math inline">\(\hat{\boldsymbol{\beta}} = \hat{\boldsymbol{\beta}}(\mathbf{X}, \mathbf{y})\)</span> is obtained by logistic regression that utilized <span class="math inline">\(\mathbf{X}\)</span> (rows of observations) and <span class="math inline">\(\mathbf{y}\)</span> (actual classes), and <span class="math inline">\(h_{\boldsymbol{\beta}}(x)\)</span> is some function of <span class="math inline">\(x\)</span> with parameter <span class="math inline">\(\boldsymbol{\beta}\)</span>. The compounded model designed in this document has two components: ternary and binary classification. Multinomial logistic regression is fitted with classification results obtained by the initial binary logistic regression.</p>
+<p>The compounded model is designed in a following way:</p>
+<ol style="list-style-type: decimal">
+<li>Fit a logistic regression using training data.</li>
+<li>Select <span class="math inline">\(p_{\text{thres}}\)</span> for binary classification.</li>
+<li>Obtain classification results in training data: <code>TPN</code>s (true positives or negatives), <code>FP</code>s (false positives), and <code>FN</code>s (false negatives).</li>
+<li>Using the classification result, fit a multinomial logistic regression.</li>
+<li>Select probability thresholds <span class="math inline">\(p_{\text{fp}} &gt; p_{\text{thres}}\)</span> and <span class="math inline">\(p_{\text{fn}} &lt; p_{\text{thres}}\)</span> in case of <code>FP</code> and <code>FN</code> respectively; use <span class="math inline">\(p_{\text{tpn}} = p_{\text{thres}}\)</span> in case of <code>TPN</code>.</li>
+</ol>
+<p>Here’s how one would use the compounded model to classify the data point <span class="math inline">\(x\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li>Plug in the data point <span class="math inline">\(x\)</span> to a ternary classifier.</li>
+<li>If the ternary classifier expects <span class="math inline">\(x\)</span> to be:
+<ul>
+<li><code>TPN</code>: use <span class="math inline">\(p_{\text{tpn}} = p_\text{thres}\)</span> for binary classification</li>
+<li><code>FP</code>: use <span class="math inline">\(p_{\text{fp}}\)</span> for binary classification</li>
+<li><code>FN</code>: use <span class="math inline">\(p_{\text{fn}}\)</span> for binary classification</li>
+</ul></li>
+</ol>
+<p>That is, an observation <span class="math inline">\(x\)</span> is classified as positive if: <span class="math display">\[I\big[h_{\hat{\boldsymbol{\beta}}}(x) &gt; p_{\text{ter}_{\hat{\mathbf{W}}}(x)} \big] = 1\]</span> where <span class="math inline">\(\text{ter}_{\hat{\mathbf{W}}}(x)\)</span> is a ternary classifier (with fitted parameters <span class="math inline">\(\hat{\mathbf{W}}\)</span>) which returns one of <span class="math inline">\(\text{tpn}\)</span>, <span class="math inline">\(\text{fp}\)</span>, or <span class="math inline">\(\text{fn}\)</span>. Note that:</p>
+<ul>
+<li><span class="math inline">\(\hat{\mathbf{W}} = \hat{\mathbf{W}}(\mathbf{X}, \mathbf{y}, \hat{\mathbf{y}})\)</span>, i.e. <span class="math inline">\(\hat{\mathbf{W}}\)</span> is obtained by utilizing <span class="math inline">\(\mathbf{X}\)</span>, <span class="math inline">\(\mathbf{y}\)</span>, AND the results of binary classifications <span class="math inline">\(\hat{\mathbf{y}} = \hat{\mathbf{y}}\big(h_{\hat{\boldsymbol{\beta}}}(\mathbf{X}), p_{\text{thres}}\big)\)</span>.</li>
+<li>Given <span class="math inline">\(x\)</span>’s, the probabilities used for classification are the same for both the vanilla logistic regression and the corresponding compounded model (i.e. <span class="math inline">\(h_{\hat{\boldsymbol{\beta}}}(x)\)</span>’s used are the same).</li>
+</ul>
+<p>In this analysis, the following rules are applied to compounded models. Beware that these rules are based on my personal judgment and not some form of logical deduction:</p>
+<ul>
+<li>Among all probabilities of actual false negatives, select the 10th percentile as <span class="math inline">\(p_{\text{fn}}\)</span>.</li>
+<li>Among all probabilities of actual false positives, select the 90th percentile as <span class="math inline">\(p_{\text{fp}}\)</span>.</li>
+<li><span class="math inline">\(\text{ter}_{\hat{\mathbf{W}}}(x) := \underset{z}{\text{argmax}}\big\{P(z \text{ | } \hat{\mathbf{W}}, x) \text{ | } z \in \{\text{fn}, \text{tpn}, \text{fp} \} \big\}\)</span></li>
+</ul>
+<p>Additionally, for multinomial logistic regressions having classification results of <code>mod_full</code> and <code>mod_v</code> as response variables, the decision is made to use only the following features due to a convergence issue:</p>
+<ul>
+<li><code>(Intercept)</code></li>
+<li><code>kde_occu_est</code> and <code>kde_logAmt_p1</code></li>
+<li>26 PCs: from <code>V1</code> through <code>V28</code> except <code>V13</code> and <code>V15</code></li>
+</ul>
+<p>By the same token, for a multinomial logistic regression having classification results of <code>mod_r</code> as a response variable, the following features are used:</p>
+<ul>
+<li><code>(Intercept)</code></li>
+<li><code>kde_occu_est</code></li>
+<li>12 PCs
+<ul>
+<li><code>V3</code>, <code>V4</code>, <code>V5</code>, <code>V7</code>, <code>V9</code></li>
+<li><code>V11</code>, <code>V14</code>, <code>V17</code>, <code>V19</code>, <code>V20</code></li>
+<li><code>V24</code>, <code>V27</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="performance" class="section level2">
+<h2>2.3. Performance</h2>
+<p>Accuracies, true negative rates, and true positive rates are investigated for different classifiers and models under the same datasets. In case of classifiers, it is evident that vanilla binary classifiers achieve lower accuracies and true negative rates in general, but they achieve higher true positive rates than their ternary-binary counterparts in both training and test sets. Models show little differences in accuracies and true negative rates, but all <code>mod_full</code>-nested models achieve higher true positive rates in training sets than <code>mod_asis</code> in general. They also achieve higher average true positive rates in test sets, but differences are small.</p>
+<div id="classifiers" class="section level3">
+<h3>2.3.1. Classifiers</h3>
+<p><img src="analysis_files/figure-html/eg2_3_1_1-1.png" width="1587" style="display: block; margin: auto;" /></p>
+<p>Accuracies and true negative rates are almost identical because the vast majority of transactions are non-fraudulent. Each fold and each classifier draws a vertical line because the line comprises four different models used.</p>
+<p>A ternary-binary classifier achieves a primary goal of improving the overall accuracy of classification. It increases an accuracy by improving the classification of true negatives. The effect is evident in both training and test set of any given fold.</p>
+<p>However, it also yields lower true positive rates. Main reason is that barely any observation is classified as <code>FN</code> by multinomial logistic regression due to the rarity of false negative cases. Thus, compared to vanilla binary classification where all observations are classified by one probability threshold <span class="math inline">\(p_{\text{thres}} = p_{\text{tpn}}\)</span>, almost all observations are classified by either <span class="math inline">\(p_{\text{tpn}}\)</span> or <span class="math inline">\(p_{\text{fp}}( &gt; p_{\text{tpn}})\)</span>. There are fraudulent transactions that are correctly classified as fraudulent when using <span class="math inline">\(p_{\text{thres}}\)</span>, but not classified as fraudulent if misclassified as <code>FP</code> by multinomial model and then classified by <span class="math inline">\(p_{\text{fp}}\)</span>.</p>
+<pre><code>## Vanilla binary classifier in the test set of each fold:
+## model                              mod_asis  mod_full  mod_r  mod_v
+## fold class class_total classified                                  
+## 1    0     11525       0              11323     11155  11315  11303
+##                        1                202       370    210    222
+##      1     69          0                 10         4      5      4
+##                        1                 59        65     64     65
+## 2    0     35824       0              32296     34444  34943  33809
+##                        1               3528      1380    881   2015
+##      1     27          0                  3         5      5      5
+##                        1                 24        22     22     22
+## 3    0     49524       0              45957     48190  47570  47291
+##                        1               3567      1334   1954   2233
+##      1     63          0                  4         4      7      5
+##                        1                 59        59     56     58
+## 4    0     42936       0              40872     41379  41236  40801
+##                        1               2064      1557   1700   2135
+##      1     52          0                  7         8      9      8
+##                        1                 45        44     43     44</code></pre>
+<pre><code>## Ternary-binary classifier in the test set of each fold:
+## model                              mod_asis  mod_full  mod_r  mod_v
+## fold class class_total classified                                  
+## 1    0     11525       0              11473     11253  11342  11379
+##                        1                 52       272    183    146
+##      1     69          0                 13         7      6      6
+##                        1                 56        62     63     63
+## 2    0     35824       0              35228     34863  35071  34502
+##                        1                596       961    753   1322
+##      1     27          0                  5         5      5      5
+##                        1                 22        22     22     22
+## 3    0     49524       0              48911     48599  47838  48144
+##                        1                613       925   1686   1380
+##      1     63          0                  8         6      7      8
+##                        1                 55        57     56     55
+## 4    0     42936       0              42543     41950  41532  41712
+##                        1                393       986   1404   1224
+##      1     52          0                 11         9      9     11
+##                        1                 41        43     43     41</code></pre>
+</div>
+<div id="models-1" class="section level3">
+<h3>2.3.2. Models</h3>
+<p><img src="analysis_files/figure-html/eg2_3_2_1-1.png" width="1550" style="display: block; margin: auto;" /></p>
+<p>The above figure also draws a vertical line at each fold and each model because each of them is made out of two endpoints marked by two different classifiers, vanilla binary and ternary-binary.</p>
+<p>Regardless of the dataset, using different classifiers doesn’t cause a drastic change in accuracy and true negative rate for models that are nested with <code>mod_full</code>. That is, for each model, two endpoints of a vertical line at each fold are close. Also, rate differences between these models are small. This trend extends to true positive rates of these models in training sets as well. <code>mod_asis</code>, on the other hand, exhibits bigger rate differences between classifiers used within each dataset and fold. As for accuracy and true negative rate, differences between vanilla binary and ternary-binary classifiers are the biggest compared to other models. It hints a possible lack of fit compared to other <code>mod_full</code>-nested models.</p>
+<p>Likelihood ratio tests are conducted. <code>mod_r</code> vs. <code>mod_full</code> (having <code>cc_train</code> as a training set) yields the test statistic of 35.1218 with 42 degrees of freedom, which gives the p-value of 0.764852 under the chi-squared distribution; <code>mod_v</code> vs. <code>mod_full</code> with the same training set yields 75.825 with 26 degrees of freedom, or the p-value of 9.08177e-07. These tests show that <code>mod_r</code> fits as good as <code>mod_full</code>, but <code>mod_v</code> does not.</p>
+</div>
+<div id="overall" class="section level3">
+<h3>2.3.3 Overall</h3>
+<pre><code>## perc_types               Accuracy  True positive rate
+## classifier     model                                 
+## Binary         mod_asis  0.940758            0.886463
+##                mod_full  0.966430            0.884876
+##                mod_r     0.969360            0.864541
+##                mod_v     0.957295            0.880908
+## Ternary-binary mod_asis  0.988927            0.821972
+##                mod_full  0.976767            0.861263
+##                mod_r     0.973886            0.860918
+##                mod_v     0.973289            0.847334</code></pre>
+<p>Means of accuracies and true positive rates are calculated based on test sets of given folds. When using vanilla binary classifier, <code>mod_r</code> achieves the highest average accuracy, and <code>mod_asis</code> the highest average true positive rate. In case of ternary-binary classifier, <code>mod_asis</code> achieves the highest average accuracy but the lowest average true positive rate; <code>mod_full</code> achieves the second highest average accuracy and the highest average true positive rate.</p>
+<p>When it comes to differences between averages of different classifiers for the same model, <code>mod_asis</code> yields the highest difference in both accuracies and true positive rates. In other words, the difference between the average accuracy of <code>Binary</code>-<code>mod_asis</code> and <code>Ternary-binary</code>-<code>mod_asis</code> combinations is around 4.817%, the biggest compared to all other models, and the difference between the average true positive rate of each combination is 6.449%, which is also the biggest. <code>mod_r</code> exhibits smallest differences in both the average and true positive rate, which are 0.453% and 0.362% respectively. <code>mod_v</code> shows bigger differences in both rates than <code>mod_full</code>.</p>
+<p><img src="../../../files/creditcardfraud/plot_ops.png" width="640" style="display: block; margin: auto;" /></p>
+<p>A goodness of fit is assessed for all models. All <span class="math inline">\(n\)</span> observations of <code>cc_train</code> are binned based on linear predictors <span class="math inline">\(\text{logit}(\hat{p})\)</span>, where the number of bins is set to be <span class="math inline">\(\lfloor{\frac{n}{50}}\rfloor\)</span>. Any bin with no observations is dropped, and for the remaining bins, the mean of binary responses (or “observed proportion”) and the mean of predicted probabilities are computed. By plotting the observed proportions against the predicted probabilities, one can check whether the fraudulent transaction occurs in practice with the predicted probability. Each blue vertical line passing through a point is an approximate 95% confidence interval using the binomial variation, and the yellow line is in a 45-degree angle with zero intercept.</p>
+<p>Every <code>mod_full</code>-nested model has intervals passing through the yellow line, confirming that the variation from the expected outcome is not excessive. Although the majority of points are close to the origin <span class="math inline">\((0, 0)\)</span>, it is understandable given the rarity of fraudulent transactions. <code>mod_asis</code>, on the other hand, displays a lack of fit as suspected in <a href="#models-1">section 2.3.2</a>.</p>
+<p>Here are expected accuracies and true positive rates for the classification of next 6 hours given that the entire 48-hour worth of dataset is used to train the models. Quantities are obtained as follows:</p>
+<ul>
+<li><code>accuracy</code>: <span class="math inline">\(\frac{\sum_{j} \text{# correctly classified obs. in the test set of fold } j}{\sum_{j} \text{# obs. in the test set of fold } j}\)</span></li>
+<li>true positive rate (<code>tpr</code>): <span class="math inline">\(\frac{\sum_{j} \text{# true positives in the test set of fold } j}{\sum_{j} \text{# positive obs. in the test set of fold } j}\)</span></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Given that the classifier is vanilla binary:</li>
+</ol>
+<pre><code>##       model  accuracy       tpr
+## 0  mod_asis  0.932974  0.886256
+## 1  mod_full  0.966705  0.900474
+## 2     mod_r  0.965926  0.876777
+## 3     mod_v  0.952671  0.895735</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Given that the classifier is ternary-binary:</li>
+</ol>
+<pre><code>##       model  accuracy       tpr
+## 0  mod_asis  0.987923  0.824645
+## 1  mod_full  0.977353  0.872038
+## 2     mod_r  0.971054  0.872038
+## 3     mod_v  0.970704  0.857820</code></pre>
+</div>
+</div>
+</div>
+<div id="conclusions" class="section level1">
+<h1>3. Conclusions</h1>
+<ol style="list-style-type: decimal">
+<li>A simple additive model (<code>mod_asis</code>) is not recommended as observed proportions of fraudulent transactions do not occur in practice with the predicted probabilities.</li>
+<li>A ternary-binary classifier is expected to achieve a higher accuracy than a vanilla binary classifier regardless of model and dataset (train or test) used. However, a lower true positive rate is also expected.</li>
+<li>Say the entire 48-hour worth of <code>creditcard</code> dataset is utilized to classify transactions for the next 6 hours. A model with select KDE-weighted features (<code>mod_full</code>) and the corresponding reduced models obtained by the stepwise LRT (<code>mod_r</code>) and VIF computation (<code>mod_v</code>) are expected to perform better than <code>mod_asis</code> in terms of accuracy and true negative rate regardless of classifiers used. In terms of true positive rate, <code>mod_full</code>-nested models are expected to achieve a similar rate to <code>mod_asis</code> if using vanilla binary classifier, but a higher rate if using ternary-binary.</li>
+<li><code>mod_r</code> is expected to have lowest differences in accuracies and true positive rates when changing the classifier. <code>mod_asis</code>, on the other hand, is expected to have highest differences in both rates.</li>
+<li>It is recommended to use <code>mod_r</code>. Update the training set every 6 hours and use the 48-hour worth of data at every refresh.</li>
+<li>Although it depends on emphasis placed, a ternary-binary classifier with <code>mod_r</code> seems like the best combination so far. With this combination and the training set worth of 48 hours, one may expect to achieve an accuracy of 97.105% and a true positive rate of 87.204% in the next 6 hours. Currently, the ternary-binary classifier and <code>mod_r</code> trained with the entire <code>creditcard</code> dataset achieves 96.175% accuracy and 90.65% true positive rate in the training set.</li>
+</ol>
+</div>
+<div id="concerns" class="section level1">
+<h1>4. Concerns</h1>
+<p>One concern is the data transformation time. It takes about 9 minutes to compute all the necessary KDE-weighted features used in <code>mod_r</code> from the entire <code>creditcard</code> dataset. One should be careful about the timing of the training data refresh.</p>
+<p>Feature update is another problem. One should not expect that features used in <code>mod_r</code> would be significant throughout the year. My rough guess is that features in <code>mod_r</code> would be relevant for a week, or a couple of weeks at most. After a week, one may want to check if KDE-weighted features are still significant.</p>
+</div>
+<div id="session-info" class="section level1">
+<h1>Session info</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" title="1"><span class="im">import</span> sinfo <span class="co"># ver 0.1.4</span></a>
+<a class="sourceLine" id="cb9-2" title="2">sinfo.sinfo(print_jupyter <span class="op">=</span> <span class="va">False</span>)</a></code></pre></div>
+<pre><code>## -----
+## matplotlib   3.1.1
+## numpy        1.17.0
+## pandas       0.25.0
+## patsy        0.5.1
+## scipy        1.1.0
+## seaborn      0.9.0
+## sklearn      0.21.3
+## statsmodels  0.9.0
+## -----
+## Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 23:09:28) [MSC v.1916 64 bit (AMD64)]
+## Windows-10-10.0.18362-SP0
+## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
+## -----
+## Session information updated at 2019-10-24 18:48</code></pre>
+</div>
+</section>
+
+<!-- Footer -->
+<!-- Reference: https://holtzy.github.io/Pimp-my-rmd/ -->
+&nbsp; <!-- whitespace -->
+<hr /> <!-- line -->
+<div class="footer">
+    <p style="text-align: center;">
+        <a href="../../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
+    </p>
+    <p style="text-align: center;">
+        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+    </p>
+            
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+            
+    <!-- Add font awesome icons -->
+    <p style="text-align: center;">
+        <span style="color: #555555;"><em>joon3216@gmail.com</em></span>
+        <br>
+        <a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook"></a>
+        <a href="https://github.com/joon3216" class="fa fa-github"></a>
+        <a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a>
+        <a href="https://twitter.com/joon3216" class="fa fa-twitter"></a>
+    </p>
+</div>
+&nbsp; <!-- whitespace -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

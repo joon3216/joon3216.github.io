@@ -50,7 +50,8 @@ c(
     'projects/2019/funpark.Rmd',
     'projects/2019/publishing_website.Rmd',
     'projects/2019/sudsoln.Rmd',
-
+    'projects/2019/creditcardfraud.Rmd',
+    
     ## research_materials
     ### 2018
     'research_materials/2019/binarize.Rmd',
@@ -76,7 +77,10 @@ c(
     ### 2019
     #### sudsoln
     'projects/2019/sudsoln/analysis.Rmd',
-    'projects/2019/sudsoln/introduction.Rmd'
+    'projects/2019/sudsoln/introduction.Rmd',
+    
+    #### creditcardfraud
+    'projects/2019/creditcardfraud/analysis.Rmd'
 ) %>%
     imap(function(x){render(x)}, .) %>%
     as.list()
@@ -101,7 +105,10 @@ c(
     'projects/2019.html'
 ) %>% imap(
     function(html_dir, to_delete) {
-        orig <- paste(readLines(html_dir, encoding = "UTF-8"), collapse = '\n')
+        orig <- paste(
+            readLines(html_dir, encoding = "UTF-8"), 
+            collapse = '\n'
+        )
         orig <- gsub(to_delete, '', orig)
         orig <- xml2::read_html(orig)
         xml2::write_html(orig, html_dir)
