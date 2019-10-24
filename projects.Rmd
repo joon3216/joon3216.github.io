@@ -33,8 +33,8 @@ output:
 
 To gain skills in using and exploring Python external packages such as `matplotlib.pyplot`, `seaborn`, `pandas`, `statsmodels.api` and so forth, I finished a project related to supervised learning.
 
-* [Description](2019/creditcardfraud.html)
-* [Analysis](2019/creditcardfraud/analysis.html)
+* [Description](projects/2019/creditcardfraud.html)
+* [Analysis](projects/2019/creditcardfraud/analysis.html)
 
 
 ## `sudsoln` package in Python
