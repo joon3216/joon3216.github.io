@@ -28,9 +28,9 @@ py_available(T)
 
 Three Python scripts are required to reproduce the analysis:
 
-* the [script](../../../files/creditcardfraud/creditcardfraud.py) that loads dataset, and produces figures and tables
-* the [script](../../../files/creditcardfraud/creditcardfraud_functions.py) where functions used in the analysis are stored
-* the [script](../../../files/creditcardfraud/creditcardfraud_models.py) that produces models and classification results
+* the [script](https://github.com/joon3216/joon3216.github.io/blob/master/files/creditcardfraud/creditcardfraud.py) that loads dataset, and produces figures and tables
+* the [script](https://github.com/joon3216/joon3216.github.io/blob/master/files/creditcardfraud/creditcardfraud_functions.py) where functions used in the analysis are stored
+* the [script](https://github.com/joon3216/joon3216.github.io/blob/master/files/creditcardfraud/creditcardfraud_models.py) that produces models and classification results
 
 
 ```{python packages, echo = F, results = 'hide'}
