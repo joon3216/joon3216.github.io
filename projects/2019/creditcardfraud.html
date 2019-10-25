@@ -500,18 +500,41 @@ header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
 <section class="main-content">
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
+<ul>
+<li>Get experience in machine learning with Python</li>
+<li>Have use cases of Python external packages on my end</li>
+<li>Go over package manuals and online references whenever needed</li>
+</ul>
 </div>
 <div id="background" class="section level1">
 <h1>Background</h1>
+<p>To get comfortable with using external packages in Python, I started a project regarding a supervised learning and classification. I downloaded a <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud/">dataset</a>, explored it, tested out a few models and classifiers, and wrote analysis about them.</p>
+<p>Not only I got more familiar with those packages, but I also started to look at manuals written by package developers. I used to read only answers in Stack Overflow whenever I needed an answer for my problems, but I started to face problems that are hard to solve if I don’t get into internals of a package. For example, there wasn’t a simple way to horizontally align items of a legend of a <code>seaborn.catplot</code>. I decided to look into the internals of a <code>seaborn.catplot</code>, and figured out that <code>matplotlib.offsetbox.VPacker</code> makes items to align vertically. I replaced it with <code>HPacker</code> of the same module, and successfully aligned items horizontally. By adjusting numbers in <code>fig._legend.set_bbox_to_anchor()</code>, I was able to move a legend to the top as well.</p>
 </div>
 <div id="how-it-works" class="section level1">
 <h1>How it works</h1>
+<p>See <a href="creditcardfraud/analysis.html">here</a> for description of a problem, the dataset I used, and approaches I have taken to solve that problem.</p>
 </div>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
+<p>I improved my skills to:</p>
+<ul>
+<li>use visualization tools such as <code>matplotlib.pyplot</code> and <code>seaborn</code></li>
+<li>use data manipulation tools such as <code>pandas</code> and <code>patsy</code></li>
+<li>use statistics-related packages such as <code>numpy</code>, <code>scipy</code>, and <code>statsmodels.api</code></li>
+<li>explore manuals, references, and a Python source code</li>
+</ul>
+<p>I also learned:</p>
+<ul>
+<li>the importance of documentation of my work</li>
+<li>the usefulness of raising errors in my function whenever appropriate</li>
+</ul>
 </div>
 <div id="next-steps" class="section level1">
 <h1>Next steps</h1>
+<ul>
+<li>Publish some functions used in the <a href="creditcardfraud/analysis.html">analysis</a> as a package to PyPI</li>
+</ul>
 </div>
 </section>
 
