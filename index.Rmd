@@ -20,16 +20,20 @@ output:
 <!-- Additional rendering required after knitting the document. -->
 <!-- source() index_render.R after knitting. -->
 
-# About me <a><img src="front.png" align="right" height="225" style="margin: 25px 50px;"/></a>
+# **About me** <a><img src="front.png" align="right" height="225" style="margin: 25px 50px;"/></a>
 
 <!--html_preserve-->
-<a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook" style="height: 20px;"></a>
-<a href="https://github.com/joon3216" class="fa fa-github"></a>
-<a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a>
-<a href="https://twitter.com/joon3216" class="fa fa-twitter"></a>
+<ul class="social-network">
+<li class="button"><a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook"></a></li>
+<li class="button"><a href="https://github.com/joon3216" class="fa fa-github"></a></li>
+<li class="button"><a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a></li>
+<li class="button"><a href="https://twitter.com/joon3216" class="fa fa-twitter"></a></li>
+</ul>
 <!--/html_preserve-->
 
+
 I'm a recent graduate who earned a bachelor's degree in statistics in June 2019 from the University of Toronto. My interests include data manipulation and visualization, implementation of statistical knowledge, Python/R programming, and statistical computations. You can find my resume [here](files/resume_junkyu_park.pdf).
+
 
 
 
@@ -38,11 +42,17 @@ I'm a recent graduate who earned a bachelor's degree in statistics in June 2019 
 knitr::include_graphics('front.png')
 ```
 
+---
 
-# Contents
+# **Recent posts**
 
-* [Projects](projects.html): works and activities
-* [Research materials](research_materials.html): a study materials archive
+## Credit card fraud detection
+
+To gain skills in using and exploring Python external packages such as `matplotlib.pyplot`, `seaborn`, `pandas`, `statsmodels.api` and so forth, I finished a project related to supervised learning.
+
+* [Description](projects/2019/creditcardfraud.html)
+* [Analysis](projects/2019/creditcardfraud/analysis.html)
+
 
 
 
