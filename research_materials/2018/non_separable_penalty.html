@@ -27,400 +27,414 @@
 </script>
 <!-- A new navigation bar style settings -->
 <style type="text/css">
-/* at the top */
-#navbar
-{
-    position: sticky;
-    z-index: 1000; /* new; why: make navbar closest to the observer */
-    top: 0;
-    left: 0;
-    padding: 0; /* old: 10px 25px */
-    background: rgba(28, 44, 56, 0.99);
-    width: 100%;
-    height: 50px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #EAEAEB;
-    transition: .5s;
-}
-#navbar .logo
-{
-    float: left;
-}
-#navbar .logo img
-{
-    height: 30px;
-    /* new: margin; why: so that in header, padding can be 0 */
-    /* note: header nav ul li a has margin 20px on left and right, 
-    so here I let the right margin of img to be 5px so that it matches
-    with the left margin 25px */
-    /* edit: 5 to 20px since it looks nicer */
-    margin: 10px 20px 10px 25px; 
-}
-#navbar nav
-{
-    float: right; /* old: left; why change: to give a more standard look */
-    margin: 0 27.5px 0 0;
-}
-#navbar nav ul
-{
-    margin: 0;
-    padding: 0;
-    display: flex;
-
-}
-#navbar nav ul li
-{
-    padding: 0;
-    list-style: none;
-    position: relative;
-    /* new: margin and padding; why: header padding is now 0 */
-    margin: 0;
-    padding: 8.5px 0 8.5px 0;
-}
-/* new; why: texts with arrow on the right gets more space  */
-#navbar nav ul li.sub-menu
-{
-    /* why 8.5px: that's the value in header nav ul li padding */
-    padding: 8.5px 27.5px 8.5px 0;
-    padding-bottom: 12px;
-    /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
-}
-
-/* new; why: prepare in case of text-align: right */
-/* commented out because news menu is now gone in navbar*/
-/* #navbar nav ul li#news
-{
-    padding: 8.5px 0;
-    margin: 0;
-} */
-
-/* new; why: this potentially has a different background color */
-#navbar nav ul li#home
-{
-    background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
-    border-bottom: 1px solid #EAEAEB;
-    margin: 0 0 .5px 0;
-}
-
-#navbar nav ul li.sub-menu:before
-{
-    content: '\f0d7'; /* &#9660 ▼ nabla */
-    font-family: fontAwesome; /* old: sans-serif */
-    font-size: 16pt;
-    position: absolute;
-    /*line-height: 30px;*/
-    color: #ffffff;
-    top: 7pt;
-    right: 22.5px;
-    cursor: pointer;
-}
-#navbar nav ul li.active.sub-menu:before
-{
-    content: '\f0d8';  /* &#9650 ▲ Delta */
-    font-family: fontAwesome; /* new */
-    font-size: 16pt;
-    position: absolute;
-    color: #666;
-    top: 7pt;
-    right: 22.5px;
-    cursor: pointer;
-}
-#navbar nav ul li ul
-{
-    position: absolute;
-    left: 0;
-    top: 50px; /* controls the box position of dropdown menus */
-    background: rgba(57, 143, 209, 0.99);
-    display: none;
-}
-#navbar nav ul li.active ul
-{
-    display: block;
-}
-
-/* new; why: make dropdown menu box fit to the menu above */
-/* padding: 0; is for slimmer individual dropdown menu items */
-/* old */
-#navbar nav ul li.sub-menu ul li
-{
-    display: block;
-    width: 200px;
-    padding: 5px 0;
-}
-
-/* new: header nav ul li ul li a */
-/* why: giving an indentation */
-#navbar nav ul li ul li a
-{
-    margin: 0 40px;
-}
-
-/* header nav ul li#projects.sub-menu ul li
-{
-    display: block;
-    width: 115px;
-    padding: 0;
-}
-header nav ul li#rm.sub-menu ul li
-{
-    display: block;
-    width: 197px;
-    padding: 0;
-} */
-
-#navbar nav ul li a
-{
-    height: 30px;
-    line-height: 30px;
-    padding: 0; /* old: 0 20px, and margin didn't exist; why change: to make text the only clickable object */
-    margin: 0 20px;
-    color: #ffffff;
-    text-decoration: none;
-    text-shadow: none; /* new; why: to be compatible with the Tactile theme */
-    /*display: block;*/
-}
-
-/* new: news; why add: to make News go to the right */
-/* commented out because the same effect is achieved by having 
-header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
-/* header nav ul li.news
-{
-    margin: 0 0 0 20px;
-} */
-
-/* new: rm; why: to make r_m go to the right */
-/* commented out because the same effect is achieved by having 
-header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
-/* header nav ul li#rm
-{
-    margin: 0 0 0 20px;
-} */
-
-
-#navbar nav ul li a:hover
-{
-    color: #666;
-}
-
-/* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
-#navbar nav ul li:hover ul
-{
-    display: block;
-}
-
-#navbar nav ul li:hover ul li:hover
-{
-    background-color: rgba(5, 83, 143, 0.99);
-}
-
-.menu-toggle
-{
-    color: #ffffff;
-    float: right;
-    line-height: 30px;
-    font-size: 24px;
-    cursor: pointer;
-    display: none;
-    text-shadow: none;
-}
-@media (max-width: 800px) /* old1: 991px; old2: 721px */
-{
     /* at the top */
     #navbar
     {
+        position: sticky;
+        z-index: 1000; /* new; why: make navbar closest to the observer */
+        top: 0;
+        left: 0;
         padding: 0; /* old: 10px 25px */
+        background: rgba(28, 44, 56, 0.99);
+        width: 100%;
+        height: 50px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #EAEAEB;
+        transition: .5s;
     }
-    .menu-toggle
+    #navbar .logo
     {
-        display: block;
-        margin: 10px 25px /* new; why: header padding is now 0 */
+        float: left;
+    }
+    #navbar .logo img
+    {
+        height: 30px;
+        /* new: margin; why: so that in header, padding can be 0 */
+        /* note: header nav ul li a has margin 20px on left and right, 
+        so here I let the right margin of img to be 5px so that it matches
+        with the left margin 25px */
+        /* edit: 5 to 20px since it looks nicer */
+        margin: 10px 20px 10px 25px; 
     }
     #navbar nav
     {
-        /*display: none;*/
-        overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
-        position: absolute;
-        width: 100%;
-        height: calc(100vh - 50px);
-        background: rgba(28, 44, 56, 0.99);
-        top: 50px;
-        left: -100%;
-        transition: .5s;
-    }
-    #navbar nav.active
-    {
-        left: 0;
+        float: right; /* old: left; why change: to give a more standard look */
+        margin: 0 27.5px 0 0;
     }
     #navbar nav ul
     {
-        display: block;
-        /*text-align: center;*/
+        margin: 0;
+        padding: 0;
+        display: flex;
+    
     }
-
-    /* new; why: to make sure it doesn't appear in mobile view;
-    I don't want to see it in mobile since the logo already directs you
-    to home. Adding home in mobile seems a clutter.
-    */
-    #navbar nav ul li#home
+    #navbar nav ul li
     {
-        display: none;
-    }
-
-    #navbar nav ul li a
-    {
-        border-bottom: 1px solid rgba(255, 255, 255, .5);
-        height: 50px;
-        line-height: 50px;
-        padding: 0 20px;
-    }
-    #navbar nav ul li.active ul
-    {
+        padding: 0;
+        list-style: none;
         position: relative;
+        /* new: margin and padding; why: header padding is now 0 */
+        margin: 0;
+        padding: 8.5px 0 8.5px 0;
     }
-    #navbar nav ul li ul li
-    {
-        width: 100%;
-    }
-
-    /* new: header nav ul li.sub-menu */
-    /* why: so that dropdown menus fill the entire row in mobile */
+    /* new; why: texts with arrow on the right gets more space  */
     #navbar nav ul li.sub-menu
     {
-        padding: 8.5px 0;
+        /* why 8.5px: that's the value in header nav ul li padding */
+        padding: 8.5px 27.5px 8.5px 0;
+        padding-bottom: 12px;
+        /* new; why: to make dropdown menu available once the mouse is on the menu item that it belongs, and to not affect other menu items that is not of class sub-menu */
     }
-
+    
+    /* new; why: prepare in case of text-align: right */
+    /* commented out because news menu is now gone in navbar*/
+    /* #navbar nav ul li#news
+    {
+        padding: 8.5px 0;
+        margin: 0;
+    } */
+    
+    /* new; why: this potentially has a different background color */
+    #navbar nav ul li#home
+    {
+        background-color: rgba(21, 92, 148, .9); /* old: rgba(28, 44, 56, 0); */
+        border-bottom: 1px solid #EAEAEB;
+        margin: 0 0 .5px 0;
+    }
+    
     #navbar nav ul li.sub-menu:before
     {
-        content: '+'; /* old: &#9660 nabla */
-        font-size: 20pt;
-        font-family: sans-serif;
-        height: 40px;
+        content: '\f0d7'; /* &#9660 ▼ nabla */
+        font-family: fontAwesome; /* old: sans-serif */
+        font-size: 16pt;
         position: absolute;
-        /* line-height: 30px; */
+        /*line-height: 30px;*/
         color: #ffffff;
-        width: 20px;
-        /* top: 5pt; */
-        right: 25px;
+        top: 7pt;
+        right: 22.5px;
         cursor: pointer;
-        bottom: 18px;
     }
     #navbar nav ul li.active.sub-menu:before
     {
-        content: '–';  /* new: &#9650 Delta */
-        font-size: 20pt;
-        /* top: 5pt; */
-        right: 25px;
-        /* line-height: 30px; */
-        cursor: pointer;
+        content: '\f0d8';  /* &#9650 ▲ Delta */
+        font-family: fontAwesome; /* new */
+        font-size: 16pt;
         position: absolute;
         color: #666;
-        bottom: 18px;
-        height: 40px;
+        top: 7pt;
+        right: 22.5px;
+        cursor: pointer;
     }
     #navbar nav ul li ul
     {
         position: absolute;
         left: 0;
-        top: 0px; /* controls the box position of 2018 and 2019 under Research materials */
+        top: 50px; /* controls the box position of dropdown menus */
         background: rgba(57, 143, 209, 0.99);
-        display: none;
-    }
-
-    /* new: hover and active
-    why: do not display drop down menus when mouse is over it in mobile, 
-    but display them when plus signs are clicked */
-    #navbar nav ul li:hover ul
-    {
         display: none;
     }
     #navbar nav ul li.active ul
     {
         display: block;
     }
-
-    /* new; why: no background color change in dropdown menu when hovering over in mobile */
-    #navbar nav ul li.sub-menu:hover ul li:hover
+    
+    /* new; why: make dropdown menu box fit to the menu above */
+    /* padding: 0; is for slimmer individual dropdown menu items */
+    /* old */
+    #navbar nav ul li.sub-menu ul li
     {
-        background-color: rgba(5, 83, 143, 0);
+        display: block;
+        width: 200px;
+        padding: 5px 0;
     }
-
-    /* new: News; why: to make News align with the others in mobile */
-    /* commented out since Research Materials uses different method
-    to get more space on its right (header nav ul li.sub-menu padding) */
-
+    
+    /* new: header nav ul li ul li a */
+    /* why: giving an indentation */
+    #navbar nav ul li ul li a
+    {
+        margin: 0 40px;
+    }
+    
+    /* header nav ul li#projects.sub-menu ul li
+    {
+        display: block;
+        width: 115px;
+        padding: 0;
+    }
+    header nav ul li#rm.sub-menu ul li
+    {
+        display: block;
+        width: 197px;
+        padding: 0;
+    } */
+    
+    #navbar nav ul li a
+    {
+        height: 30px;
+        line-height: 30px;
+        padding: 0; /* old: 0 20px, and margin didn't exist; why change: to make text the only clickable object */
+        margin: 0 20px;
+        color: #ffffff;
+        text-decoration: none;
+        text-shadow: none; /* new; why: to be compatible with the Tactile theme */
+        /*display: block;*/
+    }
+    
+    /* new: news; why add: to make News go to the right */
+    /* commented out because the same effect is achieved by having 
+    header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     /* header nav ul li.news
     {
-        margin: 0;
+        margin: 0 0 0 20px;
     } */
-    /* new: rm; why: to make rm align with the others in mobile */
-    /* commented out for the same reason */
+    
+    /* new: rm; why: to make r_m go to the right */
+    /* commented out because the same effect is achieved by having 
+    header nav ul li.sub-menu padding: 8.5px 15px 8.5px 0; */
     /* header nav ul li#rm
     {
-        margin: 0;
+        margin: 0 0 0 20px;
     } */
-
-    /* while scrolling */
-    #navbar.black nav ul li a:hover
+    
+    
+    #navbar nav ul li a:hover
     {
         color: #666;
     }
-}
+    
+    /* new: header nav ul li:hover ul, why: to make dropdown menu appear whenever mouse is above */
+    #navbar nav ul li:hover ul
+    {
+        display: block;
+    }
+    
+    #navbar nav ul li:hover ul li:hover
+    {
+        background-color: rgba(5, 83, 143, 0.99);
+    }
+    
+    .menu-toggle
+    {
+        color: #ffffff;
+        float: right;
+        line-height: 30px;
+        font-size: 24px;
+        cursor: pointer;
+        display: none;
+        text-shadow: none;
+    }
 
-/* while scrolling */
-#navbar.black
-{
-    background: rgba(21, 92, 148, .9);
-}
-#navbar.black nav ul li#home
-{
-    background-color: rgba(28, 44, 56, 0);
-    /* border-bottom: 1px solid #EAEAEB;
-    margin: 0 0 .5px 0; why commented: unnecessary */
-    transition: .2s;
-}
-#navbar.black nav ul li a:hover
-{
-    color: darkgrey;
-}
-#navbar.black nav ul li.active.sub-menu:before
-{
-    color: darkgrey;
-}
-</style>
+    ul.social-network
+    {
+        text-align: center;
+        padding: 0;
+        margin: 5px 0;
+    }
 
-<!-- 1. Navigation bar color change as one scrolls -->
-<!-- by adding a new class="black" while scrolling -->
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript">
-    $(window).on('scroll', function(){
-        if ($(window).scrollTop()){
-           navbar.classList.add('black');
-           /* old: $('header').addClass('black'); */
-        }
-        else
+    ul.social-network li
+    {
+        display: inline;
+        list-style: none;
+        padding: 0 5px;
+    }
+    @media (max-width: 800px) /* old1: 991px; old2: 721px */
+    {
+        /* at the top */
+        #navbar
         {
-            navbar.classList.remove('black');
-            /* old: $('header').removeClass('black'); */
+            padding: 0; /* old: 10px 25px */
         }
-    })
-</script>
-
-<!-- 2. Navigation bar slides from the left in mobile -->
-<!-- 3. Only one dropdown menu at a time will appear -->
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.menu-toggle').click(function(){
-            $('nav').toggleClass('active')
+        .menu-toggle
+        {
+            display: block;
+            margin: 10px 25px /* new; why: header padding is now 0 */
+        }
+        #navbar nav
+        {
+            /*display: none;*/
+            overflow: auto; /* new; why: when mobile, make sure scroll shows up if vertical space not sufficient to display every element of nav */
+            position: absolute;
+            width: 100%;
+            height: calc(100vh - 50px);
+            background: rgba(28, 44, 56, 0.99);
+            top: 50px;
+            left: -100%;
+            transition: .5s;
+        }
+        #navbar nav.active
+        {
+            left: 0;
+        }
+        #navbar nav ul
+        {
+            display: block;
+            /*text-align: center;*/
+        }
+    
+        /* new; why: to make sure it doesn't appear in mobile view;
+        I don't want to see it in mobile since the logo already directs you
+        to home. Adding home in mobile seems a clutter.
+        */
+        #navbar nav ul li#home
+        {
+            display: none;
+        }
+    
+        #navbar nav ul li a
+        {
+            border-bottom: 1px solid rgba(255, 255, 255, .5);
+            height: 50px;
+            line-height: 50px;
+            padding: 0 20px;
+        }
+        #navbar nav ul li.active ul
+        {
+            position: relative;
+        }
+        #navbar nav ul li ul li
+        {
+            width: 100%;
+        }
+    
+        /* new: header nav ul li.sub-menu */
+        /* why: so that dropdown menus fill the entire row in mobile */
+        #navbar nav ul li.sub-menu
+        {
+            padding: 8.5px 0;
+        }
+    
+        #navbar nav ul li.sub-menu:before
+        {
+            content: '+'; /* old: &#9660 nabla */
+            font-size: 20pt;
+            font-family: sans-serif;
+            height: 40px;
+            position: absolute;
+            /* line-height: 30px; */
+            color: #ffffff;
+            width: 20px;
+            /* top: 5pt; */
+            right: 25px;
+            cursor: pointer;
+            bottom: 18px;
+        }
+        #navbar nav ul li.active.sub-menu:before
+        {
+            content: '–';  /* new: &#9650 Delta */
+            font-size: 20pt;
+            /* top: 5pt; */
+            right: 25px;
+            /* line-height: 30px; */
+            cursor: pointer;
+            position: absolute;
+            color: #666;
+            bottom: 18px;
+            height: 40px;
+        }
+        #navbar nav ul li ul
+        {
+            position: absolute;
+            left: 0;
+            top: 0px; /* controls the box position of 2018 and 2019 under Research materials */
+            background: rgba(57, 143, 209, 0.99);
+            display: none;
+        }
+    
+        /* new: hover and active
+        why: do not display drop down menus when mouse is over it in mobile, 
+        but display them when plus signs are clicked */
+        #navbar nav ul li:hover ul
+        {
+            display: none;
+        }
+        #navbar nav ul li.active ul
+        {
+            display: block;
+        }
+    
+        /* new; why: no background color change in dropdown menu when hovering over in mobile */
+        #navbar nav ul li.sub-menu:hover ul li:hover
+        {
+            background-color: rgba(5, 83, 143, 0);
+        }
+    
+        /* new: News; why: to make News align with the others in mobile */
+        /* commented out since Research Materials uses different method
+        to get more space on its right (header nav ul li.sub-menu padding) */
+    
+        /* header nav ul li.news
+        {
+            margin: 0;
+        } */
+        /* new: rm; why: to make rm align with the others in mobile */
+        /* commented out for the same reason */
+        /* header nav ul li#rm
+        {
+            margin: 0;
+        } */
+    
+        /* while scrolling */
+        #navbar.black nav ul li a:hover
+        {
+            color: #666;
+        }
+    }
+    
+    /* while scrolling */
+    #navbar.black
+    {
+        background: rgba(21, 92, 148, .9);
+    }
+    #navbar.black nav ul li#home
+    {
+        background-color: rgba(28, 44, 56, 0);
+        /* border-bottom: 1px solid #EAEAEB;
+        margin: 0 0 .5px 0; why commented: unnecessary */
+        transition: .2s;
+    }
+    #navbar.black nav ul li a:hover
+    {
+        color: darkgrey;
+    }
+    #navbar.black nav ul li.active.sub-menu:before
+    {
+        color: darkgrey;
+    }
+    </style>
+    
+    <!-- 1. Navigation bar color change as one scrolls -->
+    <!-- by adding a new class="black" while scrolling -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+        $(window).on('scroll', function(){
+            if ($(window).scrollTop()){
+               navbar.classList.add('black');
+               /* old: $('header').addClass('black'); */
+            }
+            else
+            {
+                navbar.classList.remove('black');
+                /* old: $('header').removeClass('black'); */
+            }
         })
-        $('ul li').click(function(){
-            $(this).siblings().removeClass('active');
-            $(this).toggleClass('active');
+    </script>
+    
+    <!-- 2. Navigation bar slides from the left in mobile -->
+    <!-- 3. Only one dropdown menu at a time will appear -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.menu-toggle').click(function(){
+                $('nav').toggleClass('active')
+            })
+            $('ul li').click(function(){
+                $(this).siblings().removeClass('active');
+                $(this).toggleClass('active');
+            })
         })
-    })
-</script>
-
-<!-- Using caret down and up symbols -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    </script>
+    
+    <!-- Using caret down and up symbols -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 <link rel="icon" href="../../style/all_orange_jp.png">
 
 
@@ -913,7 +927,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb10-11" title="11">plt.xlabel(<span class="st">&#39;Iteration&#39;</span>)</a>
 <a class="sourceLine" id="cb10-12" title="12">plt.ylabel(<span class="st">&#39;Cost&#39;</span>)</a>
 <a class="sourceLine" id="cb10-13" title="13">plt.show()</a></code></pre></div>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x0000029121708128&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x000001D9F08F8DD8&gt;]</code></pre>
 <pre><code>## Text(0.5, 0, &#39;Iteration&#39;)</code></pre>
 <pre><code>## Text(0, 0.5, &#39;Cost&#39;)</code></pre>
 <p><img src="non_separable_penalty_files/figure-html/does_work1-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -925,10 +939,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb14-6" title="6">plt.xlabel(<span class="st">&#39;t&#39;</span>)</a>
 <a class="sourceLine" id="cb14-7" title="7">plt.ylabel(<span class="st">&#39;y&#39;</span>)</a>
 <a class="sourceLine" id="cb14-8" title="8">plt.show()</a></code></pre></div>
-<pre><code>## &lt;matplotlib.collections.PathCollection object at 0x0000029121885C18&gt;</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x0000029121708A20&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x0000029121885EB8&gt;]</code></pre>
-<pre><code>## &lt;matplotlib.legend.Legend object at 0x0000029121894780&gt;</code></pre>
+<pre><code>## &lt;matplotlib.collections.PathCollection object at 0x000001D9F0AA09E8&gt;</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x000001D9F09322E8&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x000001D9F0AA0C88&gt;]</code></pre>
+<pre><code>## &lt;matplotlib.legend.Legend object at 0x000001D9F0ABE550&gt;</code></pre>
 <pre><code>## Text(0.5, 0, &#39;t&#39;)</code></pre>
 <pre><code>## Text(0, 0.5, &#39;y&#39;)</code></pre>
 <p><img src="non_separable_penalty_files/figure-html/does_work2-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -959,33 +973,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_3.2.0    dplyr_0.8.3      reticulate_1.12  rmarkdown_1.14  
-## [5] magrittr_1.5     itertools2_0.1.1
+##  [1] dplyr_0.8.3       reticulate_1.13   pROC_1.15.3      
+##  [4] ggrepel_0.8.1     ggplot2_3.2.1     funpark_0.2.6    
+##  [7] data.table_1.12.2 boot_1.3-22       rmarkdown_1.15   
+## [10] magrittr_1.5      itertools2_0.1.1 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       compiler_3.6.1   pillar_1.4.2     prettydoc_0.3.0 
-##  [5] iterators_1.0.10 tools_3.6.1      zeallot_0.1.0    digest_0.6.20   
-##  [9] jsonlite_1.6     evaluate_0.14    tibble_2.1.3     gtable_0.3.0    
-## [13] lattice_0.20-38  png_0.1-7        pkgconfig_2.0.2  rlang_0.4.0     
-## [17] Matrix_1.2-17    rstudioapi_0.10  yaml_2.2.0       xfun_0.8        
-## [21] withr_2.1.2      stringr_1.4.0    xml2_1.2.0       knitr_1.23      
-## [25] vctrs_0.2.0      hms_0.5.0        grid_3.6.1       tidyselect_0.2.5
-## [29] glue_1.3.1       R6_2.4.0         readr_1.3.1      tidyr_0.8.3     
-## [33] purrr_0.3.2      backports_1.1.4  scales_1.0.0     htmltools_0.3.6 
-## [37] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     stringi_1.4.3   
-## [41] lazyeval_0.2.2   munsell_0.5.0    crayon_1.3.4</code></pre>
+##  [1] prettydoc_0.3.0  tidyselect_0.2.5 xfun_0.9         purrr_0.3.2     
+##  [5] lattice_0.20-38  colorspace_1.4-1 vctrs_0.2.0      htmltools_0.3.6 
+##  [9] yaml_2.2.0       utf8_1.1.4       rlang_0.4.0      pillar_1.4.2    
+## [13] glue_1.3.1       withr_2.1.2      plyr_1.8.4       stringr_1.4.0   
+## [17] munsell_0.5.0    gtable_0.3.0     evaluate_0.14    labeling_0.3    
+## [21] knitr_1.24       fansi_0.4.0      Rcpp_1.0.1       readr_1.3.1     
+## [25] scales_1.0.0     backports_1.1.4  jsonlite_1.6     hms_0.5.1       
+## [29] png_0.1-7        digest_0.6.20    stringi_1.4.3    grid_3.6.1      
+## [33] cli_1.1.0        tools_3.6.1      lazyeval_0.2.2   tibble_2.1.3    
+## [37] crayon_1.3.4     tidyr_0.8.3      pkgconfig_2.0.2  zeallot_0.1.0   
+## [41] Matrix_1.2-17    xml2_1.2.2       assertthat_0.2.1 rstudioapi_0.10 
+## [45] iterators_1.0.12 R6_2.4.0         compiler_3.6.1</code></pre>
 <p>Python session info:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb27-1" title="1"><span class="im">import</span> sinfo</a>
 <a class="sourceLine" id="cb27-2" title="2">sinfo.sinfo()</a></code></pre></div>
 <pre><code>## -----
-## matplotlib   3.0.2
-## numpy        1.15.0
+## matplotlib   3.1.1
+## numpy        1.17.0
 ## -----
 ## Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 23:09:28) [MSC v.1916 64 bit (AMD64)]
 ## Windows-10-10.0.18362-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-08-13 16:34</code></pre>
+## Session information updated at 2019-11-01 02:14</code></pre>
 </div>
 <div id="related-page" class="section level1">
 <h1>Related page</h1>
@@ -1012,13 +1029,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     
             
     <!-- Add font awesome icons -->
-    <p style="text-align: center;">
+    <p style="text-align: center; margin: 5px 0;">
         <span style="color: #555555;"><em>joon3216@gmail.com</em></span>
         <br>
-        <a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook"></a>
-        <a href="https://github.com/joon3216" class="fa fa-github"></a>
-        <a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a>
-        <a href="https://twitter.com/joon3216" class="fa fa-twitter"></a>
+        <ul class="social-network">
+            <li class="button"><a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook"></a></li>
+            <li class="button"><a href="https://github.com/joon3216" class="fa fa-github"></a></li>
+            <li class="button"><a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a></li>
+            <li class="button"><a href="https://twitter.com/joon3216" class="fa fa-twitter"></a></li>
+        </ul>
     </p>
 </div>
 &nbsp; <!-- whitespace -->
