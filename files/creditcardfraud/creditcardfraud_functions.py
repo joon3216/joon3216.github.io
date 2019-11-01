@@ -296,7 +296,7 @@ def model_matrix(formula, data):
     '''
     
     name_df =\
-        lambda df: pd.DataFrame(df, columns = df.design_info.term_names)
+        lambda df: pd.DataFrame(df, columns = df.design_info.column_names)
     response, features = dmatrices(formula, data)
     response = name_df(response)
     features = name_df(features)

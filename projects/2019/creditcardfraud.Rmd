@@ -57,7 +57,7 @@ I also learned:
 
 # Next steps
 
-* Publish some functions used in the [analysis](creditcardfraud/analysis.html) as a package to PyPI
+* ~~Publish some functions used in the [analysis](creditcardfraud/analysis.html) as a package to PyPI~~ Ongoing, see [`statspark` repository](https://github.com/joon3216/statspark/)
 
 
 
