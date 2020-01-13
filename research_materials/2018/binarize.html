@@ -502,6 +502,11 @@ code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -554,6 +559,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     <li>
                         <a href="../../projects/2019.html">2019</a>
                     </li>
+                    <li>
+                        <a href="../../projects/2020.html">2020</a>
+                    </li>
                 </ul>
             </li>
             <li class="sub-menu" id="rm">
@@ -564,6 +572,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     </li>
                     <li>
                         <a href="../../research_materials/2019.html">2019</a>
+                    </li>
+                    <li>
+                        <a href="../../research_materials/2020.html">2020</a>
                     </li>
                 </ul>
             </li>
@@ -638,17 +649,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-9" title="9">    <span class="dt">criminal_record =</span> <span class="kw">ifelse</span>(criminal_record <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="st">&#39;yes&#39;</span>, <span class="st">&#39;no&#39;</span>),</a>
 <a class="sourceLine" id="cb2-10" title="10">    <span class="dt">is_rich =</span> is_rich</a>
 <a class="sourceLine" id="cb2-11" title="11">))</a></code></pre></div>
-<pre><code>##     gender criminal_record is_rich
-##  1:      F              no       0
-##  2:      M              no       1
-##  3:      F              no       0
-##  4:      F              no       0
-##  5:      M             yes       0
-##  6:      F             yes       1
-##  7:      M             yes       0
-##  8:      M              no       0
-##  9:      M              no       1
-## 10:      F             yes       1</code></pre>
+<pre><code>##     gender criminal_record
+##  1:      F              no
+##  2:      M              no
+##  3:      F              no
+##  4:      F              no
+##  5:      M             yes
+##  6:      F             yes
+##  7:      M             yes
+##  8:      M              no
+##  9:      M              no
+## 10:      F             yes
+##     is_rich
+##  1:       0
+##  2:       1
+##  3:       0
+##  4:       0
+##  5:       0
+##  6:       1
+##  7:       0
+##  8:       0
+##  9:       1
+## 10:       1</code></pre>
 <p>This <code>rich</code> dataset has a binary response. However, when you are given a dataset for the first time, it may have a following form:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Binomial response</span></a>
 <a class="sourceLine" id="cb4-2" title="2">(rich_binom &lt;-<span class="st"> </span>rich[</a>
@@ -656,11 +678,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb4-4" title="4">    .(<span class="dt">rich =</span> <span class="kw">sum</span>(is_rich), <span class="dt">not_rich =</span> <span class="kw">sum</span>(<span class="op">!</span>is_rich)), </a>
 <a class="sourceLine" id="cb4-5" title="5">    <span class="dt">by =</span> <span class="st">&quot;gender,criminal_record&quot;</span></a>
 <a class="sourceLine" id="cb4-6" title="6">])</a></code></pre></div>
-<pre><code>##    gender criminal_record rich not_rich
-## 1:      F              no    0        3
-## 2:      F             yes    2        0
-## 3:      M              no    2        1
-## 4:      M             yes    0        2</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      F             yes
+## 3:      M              no
+## 4:      M             yes
+##    rich not_rich
+## 1:    0        3
+## 2:    2        0
+## 3:    2        1
+## 4:    0        2</code></pre>
 <p>or:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># Count; response variable is now &#39;count&#39;, not &#39;is_rich&#39;</span></a>
 <a class="sourceLine" id="cb6-2" title="2">(rich_pois &lt;-<span class="st"> </span><span class="kw">melt</span>(</a>
@@ -669,15 +696,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-5" title="5">    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
 <a class="sourceLine" id="cb6-6" title="6">    <span class="dt">value.name =</span> <span class="st">&#39;count&#39;</span></a>
 <a class="sourceLine" id="cb6-7" title="7">))</a></code></pre></div>
-<pre><code>##    gender criminal_record  is_rich count
-## 1:      F              no     rich     0
-## 2:      F             yes     rich     2
-## 3:      M              no     rich     2
-## 4:      M             yes     rich     0
-## 5:      F              no not_rich     3
-## 6:      F             yes not_rich     0
-## 7:      M              no not_rich     1
-## 8:      M             yes not_rich     2</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      F             yes
+## 3:      M              no
+## 4:      M             yes
+## 5:      F              no
+## 6:      F             yes
+## 7:      M              no
+## 8:      M             yes
+##     is_rich count
+## 1:     rich     0
+## 2:     rich     2
+## 3:     rich     2
+## 4:     rich     0
+## 5: not_rich     3
+## 6: not_rich     0
+## 7: not_rich     1
+## 8: not_rich     2</code></pre>
 <p>Forms of <code>rich_binom</code> and <code>rich_pois</code> allow us to fit binomial and poisson regression respectively, but not the logistic regression. This document is about transforming the second and third dataset into the first one, i.e. binarizing datasets.</p>
 </div>
 <div id="case-studies" class="section level1">
@@ -695,19 +731,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">setDT</span>(nodal)</a>
 <a class="sourceLine" id="cb8-2" title="2"><span class="kw">as_tibble</span>(nodal)</a></code></pre></div>
 <pre><code>## # A tibble: 53 x 7
-##        m     r aged  stage grade xray  acid 
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
-##  1     1     1 0     1     1     1     1    
-##  2     1     1 0     1     1     1     1    
-##  3     1     1 0     1     1     1     1    
-##  4     1     1 0     1     1     1     1    
-##  5     1     1 0     1     1     1     1    
-##  6     1     0 0     1     1     1     1    
-##  7     1     1 0     0     0     0     1    
-##  8     1     0 0     0     0     0     1    
-##  9     1     0 0     0     0     0     1    
-## 10     1     0 0     0     0     0     1    
-## # ... with 43 more rows</code></pre>
+##        m     r aged  stage
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;
+##  1     1     1 0     1    
+##  2     1     1 0     1    
+##  3     1     1 0     1    
+##  4     1     1 0     1    
+##  5     1     1 0     1    
+##  6     1     0 0     1    
+##  7     1     1 0     0    
+##  8     1     0 0     0    
+##  9     1     0 0     0    
+## 10     1     0 0     0    
+## # ... with 43 more rows, and
+## #   3 more variables:
+## #   grade &lt;fct&gt;, xray &lt;fct&gt;,
+## #   acid &lt;fct&gt;</code></pre>
 <p>We can transform this into <code>nodal_binom</code>, the data that has binomial responses:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">nodal_binom &lt;-<span class="st"> </span>nodal[</a>
 <a class="sourceLine" id="cb10-2" title="2">    , </a>
@@ -721,19 +760,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb10-10" title="10">][]</a>
 <a class="sourceLine" id="cb10-11" title="11"><span class="kw">as_tibble</span>(nodal_binom)</a></code></pre></div>
 <pre><code>## # A tibble: 23 x 7
-##    aged  stage grade xray  acid  yes_node no_node
-##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;
-##  1 0     1     1     1     1            5       1
-##  2 1     1     0     0     1            2       2
-##  3 0     1     1     0     1            2       1
-##  4 0     0     0     0     1            1       5
-##  5 1     1     0     0     0            1       2
-##  6 0     1     0     0     1            1       1
-##  7 0     0     1     0     0            1       1
-##  8 1     1     1     1     1            1       0
-##  9 1     1     0     1     1            1       0
-## 10 1     0     1     1     1            1       0
-## # ... with 13 more rows</code></pre>
+##    aged  stage grade xray 
+##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+##  1 0     1     1     1    
+##  2 1     1     0     0    
+##  3 0     1     1     0    
+##  4 0     0     0     0    
+##  5 1     1     0     0    
+##  6 0     1     0     0    
+##  7 0     0     1     0    
+##  8 1     1     1     1    
+##  9 1     1     0     1    
+## 10 1     0     1     1    
+## # ... with 13 more rows, and
+## #   3 more variables:
+## #   acid &lt;fct&gt;,
+## #   yes_node &lt;dbl&gt;,
+## #   no_node &lt;dbl&gt;</code></pre>
 <p><code>nodal_binom</code> has a form of <code>rich_binom</code>, where the last two columns are computed from <code>r</code>, the binary response in the original <code>nodal</code> data. <code>yes_node</code> is a count of 1’s in <code>r</code> in the original dataset, and <code>no_node</code> a count of 0’s.</p>
 <p>The function <code>binarize_binom</code> will convert <code>nodal_binom</code> back to <code>nodal</code>. <code>dpmf</code> and <code>rpmf</code> (in <code>funpark</code> package) are used to create random names for variable and value columns in order to avoid duplicate names:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">binarize_binom &lt;-<span class="st"> </span><span class="cf">function</span>(dat, responses, <span class="dt">variable.name =</span> <span class="ot">NULL</span>) {</a>
@@ -813,40 +856,67 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb12-75" title="75">}</a></code></pre></div>
 <p>Let’s see if it works on <code>rich_binom</code> data:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">rich <span class="co"># original binary data</span></a></code></pre></div>
-<pre><code>##     gender criminal_record is_rich
-##  1:      F              no       0
-##  2:      M              no       1
-##  3:      F              no       0
-##  4:      F              no       0
-##  5:      M             yes       0
-##  6:      F             yes       1
-##  7:      M             yes       0
-##  8:      M              no       0
-##  9:      M              no       1
-## 10:      F             yes       1</code></pre>
+<pre><code>##     gender criminal_record
+##  1:      F              no
+##  2:      M              no
+##  3:      F              no
+##  4:      F              no
+##  5:      M             yes
+##  6:      F             yes
+##  7:      M             yes
+##  8:      M              no
+##  9:      M              no
+## 10:      F             yes
+##     is_rich
+##  1:       0
+##  2:       1
+##  3:       0
+##  4:       0
+##  5:       0
+##  6:       1
+##  7:       0
+##  8:       0
+##  9:       1
+## 10:       1</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">rich_binom <span class="co"># transformed into binomial response</span></a></code></pre></div>
-<pre><code>##    gender criminal_record rich not_rich
-## 1:      F              no    0        3
-## 2:      F             yes    2        0
-## 3:      M              no    2        1
-## 4:      M             yes    0        2</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      F             yes
+## 3:      M              no
+## 4:      M             yes
+##    rich not_rich
+## 1:    0        3
+## 2:    2        0
+## 3:    2        1
+## 4:    0        2</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># binarized</span></a>
 <a class="sourceLine" id="cb17-2" title="2">(rich_binary &lt;-<span class="st"> </span><span class="kw">binarize_binom</span>(</a>
 <a class="sourceLine" id="cb17-3" title="3">    <span class="dt">dat =</span> rich_binom, </a>
 <a class="sourceLine" id="cb17-4" title="4">    <span class="dt">responses =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>), </a>
 <a class="sourceLine" id="cb17-5" title="5">    <span class="dt">variable.name =</span> <span class="st">&#39;is_rich&#39;</span></a>
 <a class="sourceLine" id="cb17-6" title="6">))</a></code></pre></div>
-<pre><code>##     gender criminal_record  is_rich
-##  1:      F             yes     rich
-##  2:      F             yes     rich
-##  3:      M              no     rich
-##  4:      M              no     rich
-##  5:      F              no not_rich
-##  6:      F              no not_rich
-##  7:      F              no not_rich
-##  8:      M              no not_rich
-##  9:      M             yes not_rich
-## 10:      M             yes not_rich</code></pre>
+<pre><code>##     gender criminal_record
+##  1:      F             yes
+##  2:      F             yes
+##  3:      M              no
+##  4:      M              no
+##  5:      F              no
+##  6:      F              no
+##  7:      F              no
+##  8:      M              no
+##  9:      M             yes
+## 10:      M             yes
+##      is_rich
+##  1:     rich
+##  2:     rich
+##  3:     rich
+##  4:     rich
+##  5: not_rich
+##  6: not_rich
+##  7: not_rich
+##  8: not_rich
+##  9: not_rich
+## 10: not_rich</code></pre>
 <p>Are <code>rich</code> and <code>rich_binary</code> equivalent?</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">rich_binary[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]</a>
 <a class="sourceLine" id="cb19-2" title="2"><span class="kw">setequal</span>(rich[<span class="kw">order</span>(<span class="op">-</span>is_rich, gender, criminal_record)], rich_binary)</a></code></pre></div>
@@ -854,36 +924,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Yes, they are. Likewise, the binarized <code>nodal_binom</code> is the same as the original <code>nodal</code>:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">as_tibble</span>(nodal_binom) <span class="co"># binomial response</span></a></code></pre></div>
 <pre><code>## # A tibble: 23 x 7
-##    aged  stage grade xray  acid  yes_node no_node
-##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;
-##  1 0     1     1     1     1            5       1
-##  2 1     1     0     0     1            2       2
-##  3 0     1     1     0     1            2       1
-##  4 0     0     0     0     1            1       5
-##  5 1     1     0     0     0            1       2
-##  6 0     1     0     0     1            1       1
-##  7 0     0     1     0     0            1       1
-##  8 1     1     1     1     1            1       0
-##  9 1     1     0     1     1            1       0
-## 10 1     0     1     1     1            1       0
-## # ... with 13 more rows</code></pre>
+##    aged  stage grade xray 
+##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+##  1 0     1     1     1    
+##  2 1     1     0     0    
+##  3 0     1     1     0    
+##  4 0     0     0     0    
+##  5 1     1     0     0    
+##  6 0     1     0     0    
+##  7 0     0     1     0    
+##  8 1     1     1     1    
+##  9 1     1     0     1    
+## 10 1     0     1     1    
+## # ... with 13 more rows, and
+## #   3 more variables:
+## #   acid &lt;fct&gt;,
+## #   yes_node &lt;dbl&gt;,
+## #   no_node &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co"># variable.name not specified</span></a>
 <a class="sourceLine" id="cb23-2" title="2"><span class="kw">as_tibble</span>(<span class="kw">binarize_binom</span>(nodal_binom, <span class="kw">c</span>(<span class="st">&#39;yes_node&#39;</span>, <span class="st">&#39;no_node&#39;</span>))) </a></code></pre></div>
 <pre><code>## Randomly generated variable name used: LEXhgicUWS</code></pre>
 <pre><code>## # A tibble: 53 x 6
-##    aged  stage grade xray  acid  LEXhgicUWS
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     
-##  1 0     1     1     1     1     yes_node  
-##  2 0     1     1     1     1     yes_node  
-##  3 0     1     1     1     1     yes_node  
-##  4 0     1     1     1     1     yes_node  
-##  5 0     1     1     1     1     yes_node  
-##  6 1     1     0     0     1     yes_node  
-##  7 1     1     0     0     1     yes_node  
-##  8 0     1     1     0     1     yes_node  
-##  9 0     1     1     0     1     yes_node  
-## 10 0     0     0     0     1     yes_node  
-## # ... with 43 more rows</code></pre>
+##    aged  stage grade xray 
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 0     1     1     1    
+##  2 0     1     1     1    
+##  3 0     1     1     1    
+##  4 0     1     1     1    
+##  5 0     1     1     1    
+##  6 1     1     0     0    
+##  7 1     1     0     0    
+##  8 0     1     1     0    
+##  9 0     1     1     0    
+## 10 0     0     0     0    
+## # ... with 43 more rows, and
+## #   2 more variables:
+## #   acid &lt;chr&gt;,
+## #   LEXhgicUWS &lt;chr&gt;</code></pre>
 <p>Note that categorical variables are changed from factors into character vectors.</p>
 </div>
 <div id="case-2-femsmoke" class="section level2">
@@ -985,28 +1062,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb28-57" title="57">}</a></code></pre></div>
 <p>Now, recall <code>rich_pois</code>:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">rich_pois</a></code></pre></div>
-<pre><code>##    gender criminal_record  is_rich count
-## 1:      F              no     rich     0
-## 2:      F             yes     rich     2
-## 3:      M              no     rich     2
-## 4:      M             yes     rich     0
-## 5:      F              no not_rich     3
-## 6:      F             yes not_rich     0
-## 7:      M              no not_rich     1
-## 8:      M             yes not_rich     2</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      F             yes
+## 3:      M              no
+## 4:      M             yes
+## 5:      F              no
+## 6:      F             yes
+## 7:      M              no
+## 8:      M             yes
+##     is_rich count
+## 1:     rich     0
+## 2:     rich     2
+## 3:     rich     2
+## 4:     rich     0
+## 5: not_rich     3
+## 6: not_rich     0
+## 7: not_rich     1
+## 8: not_rich     2</code></pre>
 <p>If we pass <code>rich_pois</code> into <code>binarize_pois</code>, we get:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">(rich_binary2 &lt;-<span class="st"> </span><span class="kw">binarize_pois</span>(<span class="dt">dat =</span> rich_pois, <span class="dt">response =</span> <span class="st">&#39;count&#39;</span>))</a></code></pre></div>
-<pre><code>##     gender criminal_record  is_rich
-##  1:      F             yes     rich
-##  2:      F             yes     rich
-##  3:      M              no     rich
-##  4:      M              no     rich
-##  5:      F              no not_rich
-##  6:      F              no not_rich
-##  7:      F              no not_rich
-##  8:      M              no not_rich
-##  9:      M             yes not_rich
-## 10:      M             yes not_rich</code></pre>
+<pre><code>##     gender criminal_record
+##  1:      F             yes
+##  2:      F             yes
+##  3:      M              no
+##  4:      M              no
+##  5:      F              no
+##  6:      F              no
+##  7:      F              no
+##  8:      M              no
+##  9:      M             yes
+## 10:      M             yes
+##      is_rich
+##  1:     rich
+##  2:     rich
+##  3:     rich
+##  4:     rich
+##  5: not_rich
+##  6: not_rich
+##  7: not_rich
+##  8: not_rich
+##  9: not_rich
+## 10: not_rich</code></pre>
 <p>Are <code>rich_binary</code> and <code>rich_binary2</code> equivalent?</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">rich_binary2[, is_rich <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">ifelse</span>(is_rich <span class="op">==</span><span class="st"> &#39;rich&#39;</span>, 1L, 0L)]</a>
 <a class="sourceLine" id="cb33-2" title="2"><span class="kw">setequal</span>(rich_binary, rich_binary2)</a></code></pre></div>
@@ -1253,11 +1350,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb49-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
 <a class="sourceLine" id="cb49-5" title="5">    <span class="dt">new_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>)</a>
 <a class="sourceLine" id="cb49-6" title="6">)</a></code></pre></div>
-<pre><code>##    gender criminal_record rich not_rich
-## 1:      F              no    0        3
-## 2:      M              no    2        1
-## 3:      M             yes    0        2
-## 4:      F             yes    2        0</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      M              no
+## 3:      M             yes
+## 4:      F             yes
+##    rich not_rich
+## 1:    0        3
+## 2:    2        1
+## 3:    0        2
+## 4:    2        0</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb51-2" title="2">    rich,</a>
 <a class="sourceLine" id="cb51-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binary&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,</a>
@@ -1265,15 +1367,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb51-5" title="5">    <span class="dt">category =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),</a>
 <a class="sourceLine" id="cb51-6" title="6">    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span></a>
 <a class="sourceLine" id="cb51-7" title="7">)</a></code></pre></div>
-<pre><code>##    gender criminal_record  is_rich count
-## 1:      F              no     rich     0
-## 2:      M              no     rich     2
-## 3:      M             yes     rich     0
-## 4:      F             yes     rich     2
-## 5:      F              no not_rich     3
-## 6:      M              no not_rich     1
-## 7:      M             yes not_rich     2
-## 8:      F             yes not_rich     0</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      M              no
+## 3:      M             yes
+## 4:      F             yes
+## 5:      F              no
+## 6:      M              no
+## 7:      M             yes
+## 8:      F             yes
+##     is_rich count
+## 1:     rich     0
+## 2:     rich     2
+## 3:     rich     0
+## 4:     rich     2
+## 5: not_rich     3
+## 6: not_rich     1
+## 7: not_rich     2
+## 8: not_rich     0</code></pre>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1">nodal &lt;-<span class="st"> </span>nodal[, <span class="dv">-1</span>]</a>
 <a class="sourceLine" id="cb53-2" title="2"><span class="kw">as_tibble</span>(<span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb53-3" title="3">    nodal, </a>
@@ -1283,36 +1394,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb53-7" title="7">    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span></a>
 <a class="sourceLine" id="cb53-8" title="8">))</a></code></pre></div>
 <pre><code>## # A tibble: 46 x 7
-##    aged  stage grade xray  acid  r     count
-##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt;
-##  1 0     1     1     1     1     yes       5
-##  2 0     0     0     0     1     yes       1
-##  3 1     1     1     0     0     yes       0
-##  4 1     1     0     0     1     yes       2
-##  5 0     0     0     0     0     yes       0
-##  6 0     1     1     0     1     yes       2
-##  7 1     1     0     0     0     yes       1
-##  8 1     0     0     0     1     yes       0
-##  9 1     0     0     0     0     yes       0
-## 10 1     0     0     1     0     yes       0
-## # ... with 36 more rows</code></pre>
+##    aged  stage grade xray 
+##    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+##  1 0     1     1     1    
+##  2 0     0     0     0    
+##  3 1     1     1     0    
+##  4 1     1     0     0    
+##  5 0     0     0     0    
+##  6 0     1     1     0    
+##  7 1     1     0     0    
+##  8 1     0     0     0    
+##  9 1     0     0     0    
+## 10 1     0     0     1    
+## # ... with 36 more rows, and
+## #   3 more variables:
+## #   acid &lt;fct&gt;, r &lt;fct&gt;,
+## #   count &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1"><span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb55-2" title="2">    rich_binom,</a>
 <a class="sourceLine" id="cb55-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,</a>
 <a class="sourceLine" id="cb55-4" title="4">    <span class="dt">old_response =</span> <span class="kw">c</span>(<span class="st">&#39;rich&#39;</span>, <span class="st">&#39;not_rich&#39;</span>),</a>
 <a class="sourceLine" id="cb55-5" title="5">    <span class="dt">new_response =</span> <span class="st">&#39;is_rich&#39;</span></a>
 <a class="sourceLine" id="cb55-6" title="6">)</a></code></pre></div>
-<pre><code>##     gender criminal_record  is_rich
-##  1:      F             yes     rich
-##  2:      F             yes     rich
-##  3:      M              no     rich
-##  4:      M              no     rich
-##  5:      F              no not_rich
-##  6:      F              no not_rich
-##  7:      F              no not_rich
-##  8:      M              no not_rich
-##  9:      M             yes not_rich
-## 10:      M             yes not_rich</code></pre>
+<pre><code>##     gender criminal_record
+##  1:      F             yes
+##  2:      F             yes
+##  3:      M              no
+##  4:      M              no
+##  5:      F              no
+##  6:      F              no
+##  7:      F              no
+##  8:      M              no
+##  9:      M             yes
+## 10:      M             yes
+##      is_rich
+##  1:     rich
+##  2:     rich
+##  3:     rich
+##  4:     rich
+##  5: not_rich
+##  6: not_rich
+##  7: not_rich
+##  8: not_rich
+##  9: not_rich
+## 10: not_rich</code></pre>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb57-2" title="2">    rich_binom,</a>
 <a class="sourceLine" id="cb57-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;binomial&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;poisson&#39;</span>,</a>
@@ -1320,42 +1445,67 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb57-5" title="5">    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span>,</a>
 <a class="sourceLine" id="cb57-6" title="6">    <span class="dt">new_response =</span> <span class="st">&#39;count&#39;</span></a>
 <a class="sourceLine" id="cb57-7" title="7">)</a></code></pre></div>
-<pre><code>##    gender criminal_record  is_rich count
-## 1:      F              no     rich     0
-## 2:      F             yes     rich     2
-## 3:      M              no     rich     2
-## 4:      M             yes     rich     0
-## 5:      F              no not_rich     3
-## 6:      F             yes not_rich     0
-## 7:      M              no not_rich     1
-## 8:      M             yes not_rich     2</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      F             yes
+## 3:      M              no
+## 4:      M             yes
+## 5:      F              no
+## 6:      F             yes
+## 7:      M              no
+## 8:      M             yes
+##     is_rich count
+## 1:     rich     0
+## 2:     rich     2
+## 3:     rich     2
+## 4:     rich     0
+## 5: not_rich     3
+## 6: not_rich     0
+## 7: not_rich     1
+## 8: not_rich     2</code></pre>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb59-2" title="2">    rich_pois,</a>
 <a class="sourceLine" id="cb59-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binary&#39;</span>,</a>
 <a class="sourceLine" id="cb59-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span></a>
 <a class="sourceLine" id="cb59-5" title="5">)</a></code></pre></div>
-<pre><code>##     gender criminal_record  is_rich
-##  1:      F             yes     rich
-##  2:      F             yes     rich
-##  3:      M              no     rich
-##  4:      M              no     rich
-##  5:      F              no not_rich
-##  6:      F              no not_rich
-##  7:      F              no not_rich
-##  8:      M              no not_rich
-##  9:      M             yes not_rich
-## 10:      M             yes not_rich</code></pre>
+<pre><code>##     gender criminal_record
+##  1:      F             yes
+##  2:      F             yes
+##  3:      M              no
+##  4:      M              no
+##  5:      F              no
+##  6:      F              no
+##  7:      F              no
+##  8:      M              no
+##  9:      M             yes
+## 10:      M             yes
+##      is_rich
+##  1:     rich
+##  2:     rich
+##  3:     rich
+##  4:     rich
+##  5: not_rich
+##  6: not_rich
+##  7: not_rich
+##  8: not_rich
+##  9: not_rich
+## 10: not_rich</code></pre>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb61-2" title="2">    rich_pois,</a>
 <a class="sourceLine" id="cb61-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,</a>
 <a class="sourceLine" id="cb61-4" title="4">    <span class="dt">old_response =</span> <span class="st">&#39;count&#39;</span>,</a>
 <a class="sourceLine" id="cb61-5" title="5">    <span class="dt">category =</span> <span class="st">&#39;is_rich&#39;</span></a>
 <a class="sourceLine" id="cb61-6" title="6">)</a></code></pre></div>
-<pre><code>##    gender criminal_record rich not_rich
-## 1:      F              no    0        3
-## 2:      F             yes    2        0
-## 3:      M              no    2        1
-## 4:      M             yes    0        2</code></pre>
+<pre><code>##    gender criminal_record
+## 1:      F              no
+## 2:      F             yes
+## 3:      M              no
+## 4:      M             yes
+##    rich not_rich
+## 1:    0        3
+## 2:    2        0
+## 3:    2        1
+## 4:    0        2</code></pre>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">change_form</span>(</a>
 <a class="sourceLine" id="cb63-2" title="2">    femsmoke,</a>
 <a class="sourceLine" id="cb63-3" title="3">    <span class="dt">from =</span> <span class="st">&#39;poisson&#39;</span>, <span class="dt">to =</span> <span class="st">&#39;binomial&#39;</span>,</a>
@@ -1389,30 +1539,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Matrix products: default
 ## 
 ## locale:
-## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
-## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [1] LC_COLLATE=English_Canada.1252 
+## [2] LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252
+## [4] LC_NUMERIC=C                   
 ## [5] LC_TIME=English_Canada.1252    
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] stats     graphics 
+## [3] grDevices utils    
+## [5] datasets  methods  
+## [7] base     
 ## 
 ## other attached packages:
-## [1] pROC_1.15.3       ggrepel_0.8.1     ggplot2_3.2.1     funpark_0.2.6    
-## [5] data.table_1.12.2 boot_1.3-22       rmarkdown_1.15    magrittr_1.5     
+## [1] pROC_1.15.3      
+## [2] ggrepel_0.8.1    
+## [3] ggplot2_3.2.1    
+## [4] funpark_0.2.6    
+## [5] data.table_1.12.6
+## [6] boot_1.3-22      
+## [7] rmarkdown_1.17   
+## [8] magrittr_1.5     
 ## [9] itertools2_0.1.1 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.1       plyr_1.8.4       compiler_3.6.1   pillar_1.4.2    
-##  [5] prettydoc_0.3.0  iterators_1.0.12 tools_3.6.1      zeallot_0.1.0   
-##  [9] digest_0.6.20    jsonlite_1.6     evaluate_0.14    tibble_2.1.3    
-## [13] gtable_0.3.0     pkgconfig_2.0.2  rlang_0.4.0      cli_1.1.0       
-## [17] rstudioapi_0.10  yaml_2.2.0       xfun_0.9         withr_2.1.2     
-## [21] stringr_1.4.0    dplyr_0.8.3      xml2_1.2.2       knitr_1.24      
-## [25] vctrs_0.2.0      grid_3.6.1       tidyselect_0.2.5 glue_1.3.1      
-## [29] R6_2.4.0         fansi_0.4.0      purrr_0.3.2      backports_1.1.4 
-## [33] scales_1.0.0     htmltools_0.3.6  assertthat_0.2.1 colorspace_1.4-1
-## [37] labeling_0.3     utf8_1.1.4       stringi_1.4.3    lazyeval_0.2.2  
-## [41] munsell_0.5.0    crayon_1.3.4</code></pre>
+##  [1] Rcpp_1.0.3      
+##  [2] plyr_1.8.4      
+##  [3] compiler_3.6.1  
+##  [4] pillar_1.4.2    
+##  [5] prettydoc_0.3.1 
+##  [6] iterators_1.0.12
+##  [7] tools_3.6.1     
+##  [8] zeallot_0.1.0   
+##  [9] digest_0.6.23   
+## [10] jsonlite_1.6    
+## [11] evaluate_0.14   
+## [12] lifecycle_0.1.0 
+## [13] tibble_2.1.3    
+## [14] gtable_0.3.0    
+## [15] pkgconfig_2.0.3 
+## [16] rlang_0.4.2     
+## [17] cli_1.1.0       
+## [18] rstudioapi_0.10 
+## [19] yaml_2.2.0      
+## [20] xfun_0.11       
+## [21] withr_2.1.2     
+## [22] stringr_1.4.0   
+## [23] dplyr_0.8.3     
+## [24] xml2_1.2.2      
+## [25] knitr_1.26      
+## [26] vctrs_0.2.0     
+## [27] tidyselect_0.2.5
+## [28] grid_3.6.1      
+## [29] glue_1.3.1      
+## [30] R6_2.4.1        
+## [31] fansi_0.4.0     
+## [32] farver_2.0.1    
+## [33] purrr_0.3.3     
+## [34] backports_1.1.5 
+## [35] scales_1.1.0    
+## [36] htmltools_0.4.0 
+## [37] assertthat_0.2.1
+## [38] colorspace_1.4-1
+## [39] labeling_0.3    
+## [40] utf8_1.1.4      
+## [41] stringi_1.4.3   
+## [42] lazyeval_0.2.2  
+## [43] munsell_0.5.0   
+## [44] crayon_1.3.4</code></pre>
 </div>
 <div id="related-pages" class="section level1">
 <h1>Related pages</h1>
@@ -1431,7 +1625,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
-        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+        © 2019-2020 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

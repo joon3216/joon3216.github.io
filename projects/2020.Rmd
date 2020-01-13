@@ -1,0 +1,21 @@
+---
+title: "Projects: 2020"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    includes:
+      in_header: 
+        - ../style/all_ga_script.html
+        - ../style/all_navbar_head.html
+        - ../style/all_orange_jp_01_lvl.html
+      before_body:
+        - ../style/all_navbar_body_01_lvl.html
+        #- ../style/projects_2019_page_header.html
+      after_body:
+        - ../style/all_footer_01_lvl.html
+    self_contained: FALSE
+---
+
+To be continued...
+

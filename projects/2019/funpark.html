@@ -502,6 +502,11 @@ code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -554,6 +559,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     <li>
                         <a href="../../projects/2019.html">2019</a>
                     </li>
+                    <li>
+                        <a href="../../projects/2020.html">2020</a>
+                    </li>
                 </ul>
             </li>
             <li class="sub-menu" id="rm">
@@ -564,6 +572,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     </li>
                     <li>
                         <a href="../../research_materials/2019.html">2019</a>
+                    </li>
+                    <li>
+                        <a href="../../research_materials/2020.html">2020</a>
                     </li>
                 </ul>
             </li>
@@ -615,7 +626,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="how-it-works" class="section level1">
 <h1>How it works</h1>
-<p>As of 2019-11-01, <code>funpark</code> package tries to solve two types of tasks:</p>
+<p>As of 2020-01-12, <code>funpark</code> package tries to solve two types of tasks:</p>
 <ul>
 <li><strong>Response column(s) transformations</strong>: formulating the “response” column of data into another type of response. For example, if a data is prepared to fit a logistic regression (i.e. binary response), then the package provides functions to <a href="../../research_materials/2018/binarize.html">formulate the response column into either binomial or count response</a>, and vice versa.</li>
 <li><strong>Statistical computations</strong>: there are three subjects regarding this task:
@@ -666,7 +677,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
-        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+        © 2019-2020 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

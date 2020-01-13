@@ -31,10 +31,12 @@ c(
 
     ## projects
     'projects/2019.Rmd',
+    'projects/2020.Rmd',
 
     ## research_materials
     'research_materials/2018.Rmd',
     'research_materials/2019.Rmd',
+    'research_materials/2020.Rmd',
 
     ## style
     'style/testing.Rmd',
@@ -97,24 +99,24 @@ c(
 
 
 # These scripts are not in the same directory as all_render.R
-phrases_to_delete <- c(
-    '<section class=\"page-header\">\n<h1 class=\"title toc-ignore project-name\">Projects: 2019</h1>\n</section>'
-)
-
-c(
-    'projects/2019.html'
-) %>% imap(
-    function(html_dir, to_delete) {
-        orig <- paste(
-            readLines(html_dir, encoding = "UTF-8"), 
-            collapse = '\n'
-        )
-        orig <- gsub(to_delete, '', orig)
-        orig <- xml2::read_html(orig)
-        xml2::write_html(orig, html_dir)
-    },
-    ., phrases_to_delete
-) %>% as.list()
+# phrases_to_delete <- c(
+#     '<section class=\"page-header\">\n<h1 class=\"title toc-ignore project-name\">Projects: 2019</h1>\n</section>'
+# )
+# 
+# c(
+#     'projects/2019.html'
+# ) %>% imap(
+#     function(html_dir, to_delete) {
+#         orig <- paste(
+#             readLines(html_dir, encoding = "UTF-8"), 
+#             collapse = '\n'
+#         )
+#         orig <- gsub(to_delete, '', orig)
+#         orig <- xml2::read_html(orig)
+#         xml2::write_html(orig, html_dir)
+#     },
+#     ., phrases_to_delete
+# ) %>% as.list()
 
 
 

@@ -502,6 +502,11 @@ code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -554,6 +559,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     <li>
                         <a href="../../projects/2019.html">2019</a>
                     </li>
+                    <li>
+                        <a href="../../projects/2020.html">2020</a>
+                    </li>
                 </ul>
             </li>
             <li class="sub-menu" id="rm">
@@ -564,6 +572,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     </li>
                     <li>
                         <a href="../../research_materials/2019.html">2019</a>
+                    </li>
+                    <li>
+                        <a href="../../research_materials/2020.html">2020</a>
                     </li>
                 </ul>
             </li>
@@ -633,14 +644,30 @@ p_{45} &amp;= P(X_{n + 1} = 5 \text{ | } X_n = 4) = P(Y_{n + 1} = 5) = \frac{1}{
 <a class="sourceLine" id="cb2-12" title="12">    }</a>
 <a class="sourceLine" id="cb2-13" title="13">}</a>
 <a class="sourceLine" id="cb2-14" title="14">(P &lt;-<span class="st"> </span>P <span class="op">/</span><span class="st"> </span><span class="dv">6</span>)</a></code></pre></div>
-<pre><code>##      [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
-## [1,]    0 0.1666667 0.1666667 0.1666667 0.1666667 0.1666667 0.1666667
-## [2,]    0 0.1666667 0.1666667 0.1666667 0.1666667 0.1666667 0.1666667
-## [3,]    0 0.0000000 0.3333333 0.1666667 0.1666667 0.1666667 0.1666667
-## [4,]    0 0.0000000 0.0000000 0.5000000 0.1666667 0.1666667 0.1666667
-## [5,]    0 0.0000000 0.0000000 0.0000000 0.6666667 0.1666667 0.1666667
-## [6,]    0 0.0000000 0.0000000 0.0000000 0.0000000 0.8333333 0.1666667
-## [7,]    0 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 1.0000000</code></pre>
+<pre><code>##      [,1]      [,2]      [,3]
+## [1,]    0 0.1666667 0.1666667
+## [2,]    0 0.1666667 0.1666667
+## [3,]    0 0.0000000 0.3333333
+## [4,]    0 0.0000000 0.0000000
+## [5,]    0 0.0000000 0.0000000
+## [6,]    0 0.0000000 0.0000000
+## [7,]    0 0.0000000 0.0000000
+##           [,4]      [,5]
+## [1,] 0.1666667 0.1666667
+## [2,] 0.1666667 0.1666667
+## [3,] 0.1666667 0.1666667
+## [4,] 0.5000000 0.1666667
+## [5,] 0.0000000 0.6666667
+## [6,] 0.0000000 0.0000000
+## [7,] 0.0000000 0.0000000
+##           [,6]      [,7]
+## [1,] 0.1666667 0.1666667
+## [2,] 0.1666667 0.1666667
+## [3,] 0.1666667 0.1666667
+## [4,] 0.1666667 0.1666667
+## [5,] 0.1666667 0.1666667
+## [6,] 0.8333333 0.1666667
+## [7,] 0.0000000 1.0000000</code></pre>
 <p>Say <span class="math inline">\(P^k = P^{(k)}\)</span> stores <span class="math inline">\(p_{ij}^{(k)} = P(X_{n + k} = j \text{ | } X_n = i)\)</span>, i.e. the probability that <span class="math inline">\(j\)</span> will be the maximum after throwing a die exactly <span class="math inline">\(k\)</span> times given the current maximum of <span class="math inline">\(i\)</span>. Also, say <span class="math inline">\(\mu_k\)</span> is the (row) vector of all <span class="math inline">\(P(X_k = i)\)</span>’s, <span class="math inline">\(i \in S\)</span>. Then given a vector of initial probabilities <span class="math inline">\(v = \begin{bmatrix} v_0 &amp; v_1 &amp; \dots &amp; v_6 \end{bmatrix}_{1 \times 7}\)</span>: <span class="math display">\[\mu_k = v P^k\]</span></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">Pk &lt;-<span class="st"> </span><span class="cf">function</span>(P, k) {</a>
 <a class="sourceLine" id="cb4-2" title="2">    <span class="co"># P: a numeric matrix</span></a>
@@ -661,19 +688,22 @@ p_{45} &amp;= P(X_{n + 1} = 5 \text{ | } X_n = 4) = P(Y_{n + 1} = 5) = \frac{1}{
 <a class="sourceLine" id="cb5-5" title="5"><span class="st">    &#39;colnames&lt;-&#39;</span>(<span class="kw">c</span>(<span class="st">&#39;n&#39;</span>, <span class="dv">0</span><span class="op">:</span><span class="dv">6</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb5-6" title="6"><span class="st">    </span><span class="kw">as_tibble</span>())</a></code></pre></div>
 <pre><code>## # A tibble: 51 x 8
-##        n   `0`          `1`       `2`     `3`    `4`   `5`   `6`
-##    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1     0     1 0            0         0       0      0     0    
-##  2     1     0 0.167        0.167     0.167   0.167  0.167 0.167
-##  3     2     0 0.0278       0.0833    0.139   0.194  0.25  0.306
-##  4     3     0 0.00463      0.0324    0.0880  0.171  0.282 0.421
-##  5     4     0 0.000772     0.0116    0.0502  0.135  0.285 0.518
-##  6     5     0 0.000129     0.00399   0.0271  0.100  0.270 0.598
-##  7     6     0 0.0000214    0.00135   0.0143  0.0722 0.247 0.665
-##  8     7     0 0.00000357   0.000454  0.00736 0.0507 0.221 0.721
-##  9     8     0 0.000000595  0.000152  0.00375 0.0351 0.194 0.767
-## 10     9     0 0.0000000992 0.0000507 0.00190 0.0241 0.168 0.806
-## # ... with 41 more rows</code></pre>
+##        n   `0`     `1`     `2`
+##    &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1     0     1 0.      0.     
+##  2     1     0 1.67e-1 1.67e-1
+##  3     2     0 2.78e-2 8.33e-2
+##  4     3     0 4.63e-3 3.24e-2
+##  5     4     0 7.72e-4 1.16e-2
+##  6     5     0 1.29e-4 3.99e-3
+##  7     6     0 2.14e-5 1.35e-3
+##  8     7     0 3.57e-6 4.54e-4
+##  9     8     0 5.95e-7 1.52e-4
+## 10     9     0 9.92e-8 5.07e-5
+## # ... with 41 more rows, and
+## #   4 more variables:
+## #   `3` &lt;dbl&gt;, `4` &lt;dbl&gt;,
+## #   `5` &lt;dbl&gt;, `6` &lt;dbl&gt;</code></pre>
 <p>It makes sense to see <span class="math inline">\(P(X_n = 6) \to 1\)</span> as <span class="math inline">\(n\)</span> increases. Now we should manipulate <code>mu_collection</code> so that it is ready for plotting a barplot of marginal probabilities at each <span class="math inline">\(n\)</span>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">mu_tidy &lt;-<span class="st"> </span>mu_collection <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(key, value, <span class="op">-</span>n)</a></code></pre></div>
 <p>And here’s how marginal probabilities evolve as <span class="math inline">\(n \to \infty\)</span>:</p>
@@ -703,39 +733,90 @@ p_{45} &amp;= P(X_{n + 1} = 5 \text{ | } X_n = 4) = P(Y_{n + 1} = 5) = \frac{1}{
 ## Matrix products: default
 ## 
 ## locale:
-## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
-## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [1] LC_COLLATE=English_Canada.1252 
+## [2] LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252
+## [4] LC_NUMERIC=C                   
 ## [5] LC_TIME=English_Canada.1252    
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] stats     graphics 
+## [3] grDevices utils    
+## [5] datasets  methods  
+## [7] base     
 ## 
 ## other attached packages:
-##  [1] tidyr_0.8.3        gganimate_1.0.3    ggConvexHull_0.1.0
-##  [4] dplyr_0.8.3        reticulate_1.13    pROC_1.15.3       
-##  [7] ggrepel_0.8.1      ggplot2_3.2.1      funpark_0.2.6     
-## [10] data.table_1.12.2  boot_1.3-22        rmarkdown_1.15    
-## [13] magrittr_1.5       itertools2_0.1.1  
+##  [1] tidyr_1.0.0       
+##  [2] gganimate_1.0.4   
+##  [3] ggConvexHull_0.1.0
+##  [4] dplyr_0.8.3       
+##  [5] reticulate_1.13   
+##  [6] pROC_1.15.3       
+##  [7] ggrepel_0.8.1     
+##  [8] ggplot2_3.2.1     
+##  [9] funpark_0.2.6     
+## [10] data.table_1.12.6 
+## [11] boot_1.3-22       
+## [12] rmarkdown_1.17    
+## [13] magrittr_1.5      
+## [14] itertools2_0.1.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] progress_1.2.2    prettydoc_0.3.0   tidyselect_0.2.5 
-##  [4] xfun_0.9          purrr_0.3.2       lattice_0.20-38  
-##  [7] colorspace_1.4-1  vctrs_0.2.0       htmltools_0.3.6  
-## [10] yaml_2.2.0        utf8_1.1.4        rlang_0.4.0      
-## [13] pillar_1.4.2      glue_1.3.1        withr_2.1.2      
-## [16] tweenr_1.0.1      plyr_1.8.4        stringr_1.4.0    
-## [19] munsell_0.5.0     gtable_0.3.0      evaluate_0.14    
-## [22] labeling_0.3      knitr_1.24        fansi_0.4.0      
-## [25] Rcpp_1.0.1        readr_1.3.1       scales_1.0.0     
-## [28] backports_1.1.4   jsonlite_1.6      farver_1.1.0     
-## [31] gridExtra_2.3     hms_0.5.1         png_0.1-7        
-## [34] digest_0.6.20     stringi_1.4.3     grid_3.6.1       
-## [37] cli_1.1.0         tools_3.6.1       lazyeval_0.2.2   
-## [40] tibble_2.1.3      crayon_1.3.4      pkgconfig_2.0.2  
-## [43] zeallot_0.1.0     MASS_7.3-51.4     Matrix_1.2-17    
-## [46] prettyunits_1.0.2 xml2_1.2.2        assertthat_0.2.1 
-## [49] rstudioapi_0.10   iterators_1.0.12  R6_2.4.0         
-## [52] compiler_3.6.1</code></pre>
+##  [1] progress_1.2.2   
+##  [2] prettydoc_0.3.1  
+##  [3] tidyselect_0.2.5 
+##  [4] xfun_0.11        
+##  [5] purrr_0.3.3      
+##  [6] lattice_0.20-38  
+##  [7] colorspace_1.4-1 
+##  [8] vctrs_0.2.0      
+##  [9] htmltools_0.4.0  
+## [10] yaml_2.2.0       
+## [11] utf8_1.1.4       
+## [12] rlang_0.4.2      
+## [13] pillar_1.4.2     
+## [14] glue_1.3.1       
+## [15] withr_2.1.2      
+## [16] tweenr_1.0.1     
+## [17] lifecycle_0.1.0  
+## [18] plyr_1.8.4       
+## [19] stringr_1.4.0    
+## [20] munsell_0.5.0    
+## [21] gtable_0.3.0     
+## [22] evaluate_0.14    
+## [23] labeling_0.3     
+## [24] knitr_1.26       
+## [25] gifski_0.8.6     
+## [26] fansi_0.4.0      
+## [27] Rcpp_1.0.3       
+## [28] readr_1.3.1      
+## [29] scales_1.1.0     
+## [30] backports_1.1.5  
+## [31] jsonlite_1.6     
+## [32] farver_2.0.1     
+## [33] gridExtra_2.3    
+## [34] png_0.1-7        
+## [35] hms_0.5.2        
+## [36] digest_0.6.23    
+## [37] stringi_1.4.3    
+## [38] grid_3.6.1       
+## [39] cli_1.1.0        
+## [40] tools_3.6.1      
+## [41] lazyeval_0.2.2   
+## [42] tibble_2.1.3     
+## [43] crayon_1.3.4     
+## [44] pkgconfig_2.0.3  
+## [45] zeallot_0.1.0    
+## [46] MASS_7.3-51.4    
+## [47] ellipsis_0.3.0   
+## [48] Matrix_1.2-17    
+## [49] prettyunits_1.0.2
+## [50] xml2_1.2.2       
+## [51] assertthat_0.2.1 
+## [52] rstudioapi_0.10  
+## [53] iterators_1.0.12 
+## [54] R6_2.4.1         
+## [55] compiler_3.6.1</code></pre>
 </div>
 <div class="footnotes">
 <hr />
@@ -754,7 +835,7 @@ p_{45} &amp;= P(X_{n + 1} = 5 \text{ | } X_n = 4) = P(Y_{n + 1} = 5) = \frac{1}{
         <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
-        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+        © 2019-2020 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

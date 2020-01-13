@@ -502,6 +502,11 @@ code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -554,6 +559,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     <li>
                         <a href="../../../projects/2019.html">2019</a>
                     </li>
+                    <li>
+                        <a href="../../../projects/2020.html">2020</a>
+                    </li>
                 </ul>
             </li>
             <li class="sub-menu" id="rm">
@@ -564,6 +572,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     </li>
                     <li>
                         <a href="../../../research_materials/2019.html">2019</a>
+                    </li>
+                    <li>
+                        <a href="../../../research_materials/2020.html">2020</a>
                     </li>
                 </ul>
             </li>
@@ -688,35 +699,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## forcefully     83          1             8  22.192771        196</code></pre>
 <p>(<code>total</code> in the table is the number of cases out of 106 puzzles.)</p>
 <p>The most apparent pattern is that both <code>time</code> and <code>trial</code> are extremely right-skewed regardless of the group. This shows that there is no “middle ground”, i.e. the package either solved a puzzle fairly quickly, or it took a very long time to solve one. Thus, the median is more reliable than the mean. According to the above table, about 8 trials are required whenever a puzzle requires a brute force to be solved.</p>
-<pre><code>## &lt;matplotlib.collections.PathCollection object at 0x000001D981B961D0&gt;
-## &lt;matplotlib.collections.PathCollection object at 0x000001D981B96080&gt;
-## &lt;matplotlib.collections.PathCollection object at 0x000001D981B966A0&gt;</code></pre>
-<pre><code>## &lt;matplotlib.legend.Legend object at 0x000001D981B83EF0&gt;</code></pre>
-<pre><code>## Text(0.5, 0, &#39;trial&#39;)</code></pre>
-<pre><code>## Text(0, 0.5, &#39;time (in sec)&#39;)</code></pre>
-<pre><code>## Text(0.5, 1.0, &#39;Scatterplot of time vs. trial&#39;)</code></pre>
 <p><img src="analysis_files/figure-html/scatter1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The scatterplot of <code>time</code> vs. <code>trial</code> shows that the vast majority of puzzles are solved within 50 trials or about a minute. That is, setting a big <code>max_trial</code> in <code>ss.Sudoku.solve()</code> (which leads to a longer running time) will increase a chance of a puzzle getting solved, but not by a large scale after <code>max_trial</code> gets greater than 50.</p>
 <p><img src="analysis_files/figure-html/line1_real-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This plot displays how the expected probability of a puzzle getting solved increases as <code>max_trial</code> argument specified in <code>ss.Sudoku.solve()</code> gets bigger. Notice the plateau starts after 50 <code>max_trial</code>, and stays around the probability of 90%.</p>
 <p>To get the idea of how much more <code>time</code> is required as <code>trial</code> increases, I fit a linear regression model between log-transformed <code>time</code> and <code>trial</code>. In particular, the following model is used: <span class="math display">\[\log(\text{time}) = \beta_0 + \beta_1 \log(\text{trial} + 1) + \varepsilon\]</span> Log-transformations are performed due to a severe right-skewness on both the response and the feature; <code>trial + 1</code> is used because whenever <span class="math inline">\(\text{trial} = 0\)</span>, <span class="math inline">\(\log(\text{trial})\)</span> is undefined, and <span class="math inline">\(\log(\text{trial} + 1)\)</span> becomes exactly <span class="math inline">\(0\)</span>. Model-checking procedure is skipped, and the model is assumed to be appropriate to describe the relationship between the two.</p>
-<pre><code>## &lt;matplotlib.collections.PathCollection object at 0x000001D981E859B0&gt;
-## &lt;matplotlib.collections.PathCollection object at 0x000001D981E85EF0&gt;
-## &lt;matplotlib.collections.PathCollection object at 0x000001D981E79320&gt;</code></pre>
-<pre><code>## &lt;matplotlib.legend.Legend object at 0x000001D981BC1828&gt;</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x000001D981E79F60&gt;]</code></pre>
-<pre><code>## Text(0.5, 0, &#39;log(trial + 1)&#39;)</code></pre>
-<pre><code>## Text(0, 0.5, &#39;log(time)&#39;)</code></pre>
-<pre><code>## Text(0.5, 1.0, &#39;Scatterplot of log(time) vs. log(trial + 1)&#39;)</code></pre>
 <p><img src="analysis_files/figure-html/scatter2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>## &lt;matplotlib.collections.PathCollection object at 0x000001D982005C88&gt;
-## &lt;matplotlib.collections.PathCollection object at 0x000001D981BD20F0&gt;
-## &lt;matplotlib.collections.PathCollection object at 0x000001D981BD2400&gt;</code></pre>
-<pre><code>## &lt;matplotlib.legend.Legend object at 0x000001D982005A58&gt;</code></pre>
-<pre><code>## Text(0.5, 0, &#39;trial&#39;)</code></pre>
-<pre><code>## Text(0, 0.5, &#39;time (in sec)&#39;)</code></pre>
-<pre><code>## Text(0.5, 1.0, &#39;Scatterplot of time vs. trial with a regression line&#39;)</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x000001D981FDB588&gt;]</code></pre>
 <p><img src="analysis_files/figure-html/scatter3_real-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>According to the model:</p>
 <ul>
@@ -728,20 +716,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="session-info" class="section level1">
 <h1>Session info</h1>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" title="1"><span class="im">import</span> sinfo <span class="co"># ver 0.1.4</span></a>
-<a class="sourceLine" id="cb25-2" title="2">sinfo.sinfo()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" title="1"><span class="im">import</span> sinfo <span class="co"># ver 0.1.4</span></a>
+<a class="sourceLine" id="cb8-2" title="2">sinfo.sinfo()</a></code></pre></div>
 <pre><code>## -----
 ## matplotlib   3.1.1
 ## numpy        1.17.0
 ## pandas       0.25.0
-## scipy        1.1.0
 ## sudsoln      0.1.0
 ## -----
 ## Python 3.7.2 (tags/v3.7.2:9a3ffc0492, Dec 23 2018, 23:09:28) [MSC v.1916 64 bit (AMD64)]
 ## Windows-10-10.0.18362-SP0
 ## 4 logical CPU cores, Intel64 Family 6 Model 78 Stepping 3, GenuineIntel
 ## -----
-## Session information updated at 2019-11-01 02:16</code></pre>
+## Session information updated at 2020-01-12 22:50</code></pre>
 </div>
 </section>
 
@@ -754,7 +741,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href="../../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
-        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+        © 2019-2020 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->

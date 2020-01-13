@@ -502,6 +502,11 @@ code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -554,6 +559,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     <li>
                         <a href="../../projects/2019.html">2019</a>
                     </li>
+                    <li>
+                        <a href="../../projects/2020.html">2020</a>
+                    </li>
                 </ul>
             </li>
             <li class="sub-menu" id="rm">
@@ -564,6 +572,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                     </li>
                     <li>
                         <a href="../../research_materials/2019.html">2019</a>
+                    </li>
+                    <li>
+                        <a href="../../research_materials/2020.html">2020</a>
                     </li>
                 </ul>
             </li>
@@ -662,10 +673,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">glimpse</span>(frets)</a></code></pre></div>
 <pre><code>## Observations: 25
 ## Variables: 4
-## $ l1 &lt;dbl&gt; 191, 195, 181, 183, 176, 208, 189, 197, 188, 192, 179, 183,...
-## $ b1 &lt;dbl&gt; 155, 149, 148, 153, 144, 157, 150, 159, 152, 150, 158, 147,...
-## $ l2 &lt;dbl&gt; 179, 201, 185, 188, 171, 192, 190, 189, 197, 187, 186, 174,...
-## $ b2 &lt;dbl&gt; 145, 152, 149, 149, 142, 152, 149, 152, 159, 151, 148, 147,...</code></pre>
+## $ l1 &lt;dbl&gt; 191, 195, 181,...
+## $ b1 &lt;dbl&gt; 155, 149, 148,...
+## $ l2 &lt;dbl&gt; 179, 201, 185,...
+## $ b2 &lt;dbl&gt; 145, 152, 149,...</code></pre>
 <p>The data consists of the length and breadth of heads of an adult brother pair in 25 randomly sampled families. All measurements are expressed in millimetres. Let’s take <span class="math inline">\(x =\)</span> <code>l1</code> and <span class="math inline">\(y =\)</span> <code>b1</code>, and ask: “Is there a linear relationship between the eldest son’s breadth and length of his head?”</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">X &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Int =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">25</span>), <span class="dt">l1 =</span> frets[, <span class="dv">1</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>()</a>
 <a class="sourceLine" id="cb5-2" title="2">Y &lt;-<span class="st"> </span>frets[, <span class="dv">2</span>]</a></code></pre></div>
@@ -806,32 +817,83 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Matrix products: default
 ## 
 ## locale:
-## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
-## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [1] LC_COLLATE=English_Canada.1252 
+## [2] LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252
+## [4] LC_NUMERIC=C                   
 ## [5] LC_TIME=English_Canada.1252    
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] stats     graphics 
+## [3] grDevices utils    
+## [5] datasets  methods  
+## [7] base     
 ## 
 ## other attached packages:
-##  [1] ggConvexHull_0.1.0 dplyr_0.8.3        reticulate_1.13   
-##  [4] pROC_1.15.3        ggrepel_0.8.1      ggplot2_3.2.1     
-##  [7] funpark_0.2.6      data.table_1.12.2  boot_1.3-22       
-## [10] rmarkdown_1.15     magrittr_1.5       itertools2_0.1.1  
+##  [1] ggConvexHull_0.1.0
+##  [2] dplyr_0.8.3       
+##  [3] reticulate_1.13   
+##  [4] pROC_1.15.3       
+##  [5] ggrepel_0.8.1     
+##  [6] ggplot2_3.2.1     
+##  [7] funpark_0.2.6     
+##  [8] data.table_1.12.6 
+##  [9] boot_1.3-22       
+## [10] rmarkdown_1.17    
+## [11] magrittr_1.5      
+## [12] itertools2_0.1.1  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] prettydoc_0.3.0  tidyselect_0.2.5 xfun_0.9         purrr_0.3.2     
-##  [5] lattice_0.20-38  colorspace_1.4-1 vctrs_0.2.0      htmltools_0.3.6 
-##  [9] yaml_2.2.0       utf8_1.1.4       rlang_0.4.0      pillar_1.4.2    
-## [13] glue_1.3.1       withr_2.1.2      plyr_1.8.4       stringr_1.4.0   
-## [17] munsell_0.5.0    gtable_0.3.0     evaluate_0.14    labeling_0.3    
-## [21] knitr_1.24       fansi_0.4.0      Rcpp_1.0.1       readr_1.3.1     
-## [25] scales_1.0.0     backports_1.1.4  jsonlite_1.6     hms_0.5.1       
-## [29] png_0.1-7        digest_0.6.20    stringi_1.4.3    grid_3.6.1      
-## [33] cli_1.1.0        tools_3.6.1      lazyeval_0.2.2   tibble_2.1.3    
-## [37] crayon_1.3.4     tidyr_0.8.3      pkgconfig_2.0.2  zeallot_0.1.0   
-## [41] Matrix_1.2-17    xml2_1.2.2       assertthat_0.2.1 rstudioapi_0.10 
-## [45] iterators_1.0.12 R6_2.4.0         compiler_3.6.1</code></pre>
+##  [1] prettydoc_0.3.1 
+##  [2] tidyselect_0.2.5
+##  [3] xfun_0.11       
+##  [4] purrr_0.3.3     
+##  [5] lattice_0.20-38 
+##  [6] colorspace_1.4-1
+##  [7] vctrs_0.2.0     
+##  [8] htmltools_0.4.0 
+##  [9] yaml_2.2.0      
+## [10] utf8_1.1.4      
+## [11] rlang_0.4.2     
+## [12] pillar_1.4.2    
+## [13] glue_1.3.1      
+## [14] withr_2.1.2     
+## [15] lifecycle_0.1.0 
+## [16] plyr_1.8.4      
+## [17] stringr_1.4.0   
+## [18] munsell_0.5.0   
+## [19] gtable_0.3.0    
+## [20] evaluate_0.14   
+## [21] labeling_0.3    
+## [22] knitr_1.26      
+## [23] fansi_0.4.0     
+## [24] Rcpp_1.0.3      
+## [25] readr_1.3.1     
+## [26] scales_1.1.0    
+## [27] backports_1.1.5 
+## [28] jsonlite_1.6    
+## [29] farver_2.0.1    
+## [30] png_0.1-7       
+## [31] hms_0.5.2       
+## [32] digest_0.6.23   
+## [33] stringi_1.4.3   
+## [34] grid_3.6.1      
+## [35] cli_1.1.0       
+## [36] tools_3.6.1     
+## [37] lazyeval_0.2.2  
+## [38] tibble_2.1.3    
+## [39] crayon_1.3.4    
+## [40] tidyr_1.0.0     
+## [41] pkgconfig_2.0.3 
+## [42] zeallot_0.1.0   
+## [43] ellipsis_0.3.0  
+## [44] Matrix_1.2-17   
+## [45] xml2_1.2.2      
+## [46] assertthat_0.2.1
+## [47] rstudioapi_0.10 
+## [48] iterators_1.0.12
+## [49] R6_2.4.1        
+## [50] compiler_3.6.1</code></pre>
 </div>
 <div class="footnotes">
 <hr />
@@ -850,7 +912,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <a href="../../index.html" style="font-size: 11pt;">Home</a> · <a href="../../projects.html" style="font-size: 11pt;">Projects</a> · <a href="../../research_materials.html" style="font-size: 11pt;">Research materials</a> · <a href="../../files/resume_junkyu_park.pdf" style="font-size: 11pt;">Resume</a>
     </p>
     <p style="text-align: center;">
-        © 2019 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
+        © 2019-2020 Junkyu Park<br>Powered by the <a href="https://github.com/yixuan/prettydoc">prettydoc::html_pretty</a> engine<br>Current theme: modified <a href="https://github.com/jasonlong/cayman-theme">Cayman</a>
     </p>
             
     <!-- Add icon library -->
