@@ -32,7 +32,7 @@ output:
 <!--/html_preserve-->
 
 
-I'm a recent graduate who earned a bachelor's degree in statistics in June 2019 from the University of Toronto. My interests include data manipulation and visualization, implementation of statistical knowledge, Python/R programming, and statistical computations. You can find my resume [here](files/resume_junkyu_park.pdf).
+Methodologist (MA-01) at Statistics Canada. Graduate of the University of Toronto in June 2019 with a bachelor's degree in statistics. Interested in data manipulation and visualization, implementation of statistical knowledge, Python/R programming, and statistical computations. Find my resume [here](files/resume_junkyu_park.pdf).
 
 
 
