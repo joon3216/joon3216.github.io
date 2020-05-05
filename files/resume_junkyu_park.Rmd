@@ -47,11 +47,7 @@ cat("
 \begin{minipage}{\linewidth}
 \begingroup
 \fontsize{10pt}{10pt}
-\texttt{1603-580 The East Mall, Etobicoke, ON M9B 4A7}
-
-\texttt{647-676-4374}
-
-\texttt{joonjunkyu.park@mail.utoronto.ca}
+\texttt{joonjunkyu.park@alum.utoronto.ca}
 
 \texttt{\textcolor{linkblue}{\url{https://www.linkedin.com/in/asdfzxcvjkl1/}}}
 
@@ -70,98 +66,174 @@ cat("\\end{multicols}")
 **H.B.Sc.: statistics specialist and math minor** (GPA: 3.83) \hspace*{\fill} Jun 2019  
 University of Toronto  
 
-\smallskip
 
-**Certifications**  
-Society of Actuaries (SOA)
+<!-- **Certifications**   -->
+<!-- Society of Actuaries (SOA) -->
 
-* Exams: P (passed), FM (passed), SRM (accredited)
-* All VEEs obtained: Economics, Applied Statistics, Corporate Finance
+<!-- * Exams: P (passed), FM (passed), SRM (accredited) -->
+<!-- * All VEEs obtained: Economics, Applied Statistics, Corporate Finance -->
 
 
 # Experience
 
-**Volunteer note-taker** \hspace*{\fill} Sep 2016 - Apr 2019  
-University of Toronto Accessibility Services \hspace*{\fill} 2 years 8 months
+<!-- **Volunteer note-taker** \hspace*{\fill} Sep 2016 - Apr 2019   -->
+<!-- University of Toronto Accessibility Services \hspace*{\fill} 2 years 8 months -->
 
-* volunteered as a note-taker for students with disabilities
+<!-- * volunteered as a note-taker for students with disabilities -->
 
-\smallskip
+<!-- \smallskip -->
 
-**Assistant Squad Leader** (Sergeant) \hspace*{\fill} Oct 2014 - Jul 2016  
-The 15^th^ Infantry Division, Republic of Korea Army \hspace*{\fill} 1 year 9 months
+```{r duration_calc, echo = F, warning = F, message = F}
+library(lubridate)
+library(zoo)
+month_writer <- function(testing, writing) {
+  
+    ifelse(
+        testing == 0,
+        writing,
+        ifelse(
+            testing == 1, '1 mo', 
+            paste(as.character(testing), 'mos')
+        )
+    )
+}
+to_ym <- function(day_start, day_end = today()) {
+  
+    result <- (as.yearmon(day_end) - as.yearmon(day_start)) * 12
+    result <- round(result)
+    if (result < 12) {
+        month_writer(result, '1 mo')
+    } else {
+        y <- result %/% 12
+        m <- result - 12 * y
+        paste0(
+            paste(as.character(y), ifelse(y == 1, 'yr', 'yrs')),
+            ifelse(m == 0, '', ' '),
+            month_writer(m, '')
+        )
+    }
+}
+```
 
-* deployed the second time to the General Outpost from Jun 2016 until discharged
-* assumed the position of Assistant Squad Leader as of Dec 2015 until discharged
-* deployed to the 38^th^ Regiment's General Outpost from Sep 2015 to Feb 2016
+**Methodologist** (MA-01) \hspace*{\fill} Jan 2020 - Present $\cdot$ `r to_ym('2020-01-06')`  
+Statistics Canada \hspace*{\fill} Ottawa, ON
+
+* documented on various topics and ideas in statistics and computations
+* involved in analysis and modeling process conducted by senior methodologists
+* initiated a development of packages in R and Python
 
 
 # Skills
 
-```{r beginmulticols2, echo = F, results = 'asis'}
+* Data analysis
+    + data manipulation: `dplyr`, `tidyr`, `pandas`
+    + data visualization: `ggplot2`, `matplotlib.pyplot`, `seaborn`
+    + regression analysis: R functions and packages, `statsmodels.api`
+    + statistical computations: manually written functions, `numpy`, `scipy`
+    + comprehension: able to find references and read documentations of external packages
+* Technical
+    + Markdown/R Markdown: able to form documentations
+    + Git and git repositories: 
+        + able to use basic git commands
+        + able to integrate dynamic badges supported by Travis CI and Codecov.io 
+    + Some knowledge of HTML and CSS: currently maintaining \textcolor{linkblue}{\href{https://joon3216.github.io/}{\texttt{joon3216.github.io}}}
+    + SQL: able to join tables and write subqueries
+    + Python and R
+        + able to utilize external packages for modeling, computations, and visualiztions
+        + able to develop a simple package and upload to the archives
+* Languages: English, Korean
+
+```{r beginmulticols2, echo = F, results = 'asis', eval = F}
 cat("
 \\begin{multicols}{2}
 \\raggedcolumns
 ")
 ```
 
-\begin{minipage}{.99\linewidth}
-\textbf{Data analysis}
-\begin{itemize}
-  \item Data manipulation
-  \begin{itemize}
-    \item aggregating, reshaping, and tidying
-  \end{itemize}
-  \item Data visualization
-  \item Regression analysis
-  \item Statistical computations
-  \item Quantitative methods
-\end{itemize}
+<!-- \begin{minipage}{.99\linewidth} -->
+<!--     \textbf{Data analysis} -->
+<!--         \begin{itemize} -->
+<!--             \item Data manipulation -->
+<!--                 \begin{itemize} -->
+<!--                     \item \texttt{pandas}, \texttt{patsy} -->
+<!--                     \item \texttt{dplyr}, \texttt{tidyr} -->
+<!--                     \item SQL queries -->
+<!--                 \end{itemize} -->
+<!--             \item Data visualization -->
+<!--                 \begin{itemize} -->
+<!--                     \item \texttt{matplotlib.pyplot}, \texttt{seaborn} -->
+<!--                     \item \texttt{ggplot2} -->
+<!--                 \end{itemize} -->
+<!--             \item Regression analysis -->
+<!--                 \begin{itemize} -->
+<!--                     \item \texttt{statsmodels.api} -->
+<!--                 \end{itemize} -->
+<!--             \item Statistical computations -->
+<!--                 \begin{itemize} -->
+<!--                     \item \texttt{numpy}, \texttt{scipy} -->
+<!--                 \end{itemize} -->
+<!--         \end{itemize} -->
+<!--     \smallskip -->
+<!--     \textbf{Languages} -->
+<!--         \begin{itemize} -->
+<!--             \item English -->
+<!--             \item Korean -->
+<!--         \end{itemize} -->
+<!-- \end{minipage} -->
 
-\bigskip
+<!-- \begin{minipage}{.99\linewidth} -->
+<!--     \textbf{Technical} -->
+<!--         \begin{itemize} -->
+<!--             \item Markdown/R Markdown -->
+<!--                 \begin{itemize} -->
+<!--                     \item able to integrate dynamic badges supported by Travis CI and Codecov.io -->
+<!--                 \end{itemize} -->
+<!--             \item Some knowledge of HTML and CSS -->
+<!--                 \begin{itemize} -->
+<!--                     \item currently maintaining \textcolor{linkblue}{\href{https://joon3216.github.io/}{joon3216.github.io}} -->
+<!--                 \end{itemize} -->
+<!--             \item PostgreSQL -->
+<!--                 \begin{itemize} -->
+<!--                     \item able to use keywords such as \texttt{unnest}, \texttt{array}, and \texttt{information\_schema} -->
+<!--                     \item able to join tables and write subqueries -->
+<!--                 \end{itemize} -->
+<!--             \item Python -->
+<!--                 \begin{itemize} -->
+<!--                     \item currently maintaining \textcolor{linkblue}{\href{https://github.com/joon3216/statspark}{\texttt{statspark}}} and \textcolor{linkblue}{\href{https://github.com/joon3216/sudsoln}{\texttt{sudsoln}}} packages -->
+<!--                 \end{itemize} -->
+<!--             \item R -->
+<!--             \begin{itemize} -->
+<!--                 \item currently maintaining \textcolor{linkblue}{\href{https://github.com/joon3216/funpark}{\texttt{funpark}}} package -->
+<!--             \end{itemize} -->
+<!--         \end{itemize} -->
+<!-- \end{minipage} -->
 
-\textbf{Languages}: English, Korean
-
-\bigskip
-
-\textbf{Technical}: Git, Google Analytics
-\end{minipage}
-
-\begin{minipage}{.99\linewidth}
-\textbf{Programming}
-\begin{itemize}
-  \item Some knowledge of HTML and CSS
-  \begin{itemize}
-    \item currently maintaining \textcolor{linkblue}{\href{https://joon3216.github.io/}{joon3216.github.io}}
-  \end{itemize}
-  \item PostgreSQL (moderately familiar)
-    \begin{itemize}
-      \item able to use keywords such as \texttt{unnest}, \texttt{array}, and \texttt{information\_schema}
-      \item able to join tables and write subqueries
-    \end{itemize}
-  \item Python (competent)
-  \item R (proficient)
-    \begin{itemize}
-      \item currently maintaining \textcolor{linkblue}{\href{https://github.com/joon3216/funpark}{\texttt{funpark} package}}
-    \end{itemize}
-\end{itemize}
-\end{minipage}
-
-```{r endmulticols, echo = F, results = 'asis'}
+```{r endmulticols, echo = F, results = 'asis', eval = F}
 cat("\\end{multicols}")
 ```
 
+<!-- # Awards -->
 
-# Awards
-
-* Dean's List Scholar \hspace*{\fill} 2013 - 2014, 2016 - 2019
-* Louis Savlov Scholarship \hspace*{\fill} Oct 2017
-* Awards for Excellence in Army Training Test \hspace*{\fill} May 2016
-* Math Honour Roll \hspace*{\fill} Jun 2014
-* University of Toronto Entrance Scholarship \hspace*{\fill} Oct 2013
-
+<!-- * Dean's List Scholar \hspace*{\fill} 2013 - 2014, 2016 - 2019 -->
+<!-- * Louis Savlov Scholarship \hspace*{\fill} Oct 2017 -->
+<!-- * Awards for Excellence in Army Training Test \hspace*{\fill} May 2016 -->
+<!-- * Math Honour Roll \hspace*{\fill} Jun 2014 -->
+<!-- * University of Toronto Entrance Scholarship \hspace*{\fill} Oct 2013 -->
 
 
+# Projects
+
+**Package development** (work): `sprcr` package in R
+
+* included the following functionalities to the package:
+    + plotting kernel density estimates and empirical cdfs based on different colour and panel groups
+    + smoothing out data points based on constraints and selected options
+    + performing k-fold cross-validation in the smoothing process
+
+**Modeling** (personal): credit card fraud detection
+
+* built statistical models and provided \textcolor{linkblue}{\href{https://joon3216.github.io/projects/2019/creditcardfraud/analysis}{analysis}} of data to detect fraudulent credit card use
+* expected to achieve an accuracy of 97.105% and a true positive rate of 87.204% for every 6-hour worth of transaction data with the current model and the training set
 
 
 
