@@ -20,7 +20,9 @@ output:
 <!-- Additional rendering required after knitting the document. -->
 <!-- source() index_render.R after knitting. -->
 
-# **About me** <a><img src="front.png" align="right" height="225" style="margin: 25px 50px;"/></a>
+<!-- # **About me** <a><img src="front.png" align="right" height="225" style="margin: 25px 50px;"/></a> -->
+
+# **About me**
 
 <!--html_preserve-->
 <ul class="social-network">
