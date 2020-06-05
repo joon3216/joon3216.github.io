@@ -17,7 +17,7 @@ output:
   pdf_document:
     toc_depth: 1
 fontsize: 11pt
-geometry: margin = .75in
+geometry: "left=.75in,right=.75in,top=.7in,bottom=.7in"
 ---
 
 <!-- Last updated: 2019-06-25 -->
@@ -59,69 +59,6 @@ cat("
 ```{r endmulticols1, echo = F, results = 'asis'}
 cat("\\end{multicols}")
 ```
-
-
-# Education
-
-**H.B.Sc.: statistics specialist and math minor** (GPA: 3.83) \hspace*{\fill} Jun 2019  
-University of Toronto  
-
-
-<!-- **Certifications**   -->
-<!-- Society of Actuaries (SOA) -->
-
-<!-- * Exams: P (passed), FM (passed), SRM (accredited) -->
-<!-- * All VEEs obtained: Economics, Applied Statistics, Corporate Finance -->
-
-
-# Experience
-
-<!-- **Volunteer note-taker** \hspace*{\fill} Sep 2016 - Apr 2019   -->
-<!-- University of Toronto Accessibility Services \hspace*{\fill} 2 years 8 months -->
-
-<!-- * volunteered as a note-taker for students with disabilities -->
-
-<!-- \smallskip -->
-
-```{r duration_calc, echo = F, warning = F, message = F}
-library(lubridate)
-library(zoo)
-month_writer <- function(testing, writing) {
-  
-    ifelse(
-        testing == 0,
-        writing,
-        ifelse(
-            testing == 1, '1 mo', 
-            paste(as.character(testing), 'mos')
-        )
-    )
-}
-to_ym <- function(day_start, day_end = today()) {
-  
-    result <- (as.yearmon(day_end) - as.yearmon(day_start)) * 12
-    result <- round(result)
-    if (result < 12) {
-        month_writer(result, '1 mo')
-    } else {
-        y <- result %/% 12
-        m <- result - 12 * y
-        paste0(
-            paste(as.character(y), ifelse(y == 1, 'yr', 'yrs')),
-            ifelse(m == 0, '', ' '),
-            month_writer(m, '')
-        )
-    }
-}
-```
-
-**Methodologist** (MA-01) \hspace*{\fill} Jan 2020 - Present $\cdot$ `r to_ym('2020-01-06')`  
-Statistics Canada \hspace*{\fill} Ottawa, ON
-
-* documented on various topics and ideas in statistics and computations
-* involved in analysis and modeling process conducted by senior methodologists
-* initiated a development of packages in R and Python
-
 
 # Skills
 
@@ -212,6 +149,73 @@ cat("
 cat("\\end{multicols}")
 ```
 
+
+# Projects
+
+**Package development** (work): `sprcr` package in R
+
+* included the following functionalities to the package:
+    + plotting kernel density estimates and empirical cdfs based on different colour and panel groups
+    + smoothing out data points based on constraints and configurations
+    + performing k-fold cross-validation in the smoothing process
+
+**Modeling** (personal): credit card fraud detection
+
+* built statistical models and provided \textcolor{linkblue}{\href{https://joon3216.github.io/projects/2019/creditcardfraud/analysis}{analysis}} of data to detect fraudulent credit card use
+* expected to achieve an accuracy of 97.105% and a true positive rate of 87.204% for every 6-hour worth of transaction data with the current model and the training set
+
+
+# Experience
+
+<!-- **Volunteer note-taker** \hspace*{\fill} Sep 2016 - Apr 2019   -->
+<!-- University of Toronto Accessibility Services \hspace*{\fill} 2 years 8 months -->
+
+<!-- * volunteered as a note-taker for students with disabilities -->
+
+<!-- \smallskip -->
+
+```{r duration_calc, echo = F, warning = F, message = F}
+library(lubridate)
+library(zoo)
+month_writer <- function(testing, writing) {
+  
+    ifelse(
+        testing == 0,
+        writing,
+        ifelse(
+            testing == 1, '1 mo', 
+            paste(as.character(testing), 'mos')
+        )
+    )
+}
+to_ym <- function(day_start, day_end = today()) {
+  
+    result <- (as.yearmon(day_end) - as.yearmon(day_start)) * 12
+    result <- round(result)
+    if (result < 12) {
+        month_writer(result, '1 mo')
+    } else {
+        y <- result %/% 12
+        m <- result - 12 * y
+        paste0(
+            paste(as.character(y), ifelse(y == 1, 'yr', 'yrs')),
+            ifelse(m == 0, '', ' '),
+            month_writer(m, '')
+        )
+    }
+}
+```
+
+**Methodologist** (MA-01) \hspace*{\fill} Jan 2020 - Present $\cdot$ `r to_ym('2020-01-06')`  
+Statistics Canada \hspace*{\fill} Ottawa, ON
+
+* documented on various topics and ideas in statistics and computations
+* involved in analysis and modeling process conducted by senior methodologists
+* initiated a development of packages in R and Python
+
+
+
+
 <!-- # Awards -->
 
 <!-- * Dean's List Scholar \hspace*{\fill} 2013 - 2014, 2016 - 2019 -->
@@ -221,22 +225,17 @@ cat("\\end{multicols}")
 <!-- * University of Toronto Entrance Scholarship \hspace*{\fill} Oct 2013 -->
 
 
-# Projects
+# Education
 
-**Package development** (work): `sprcr` package in R
-
-* included the following functionalities to the package:
-    + plotting kernel density estimates and empirical cdfs based on different colour and panel groups
-    + smoothing out data points based on constraints and selected options
-    + performing k-fold cross-validation in the smoothing process
-
-**Modeling** (personal): credit card fraud detection
-
-* built statistical models and provided \textcolor{linkblue}{\href{https://joon3216.github.io/projects/2019/creditcardfraud/analysis}{analysis}} of data to detect fraudulent credit card use
-* expected to achieve an accuracy of 97.105% and a true positive rate of 87.204% for every 6-hour worth of transaction data with the current model and the training set
+**H.B.Sc.: statistics specialist and math minor** (GPA: 3.83) \hspace*{\fill} Jun 2019  
+University of Toronto  
 
 
+<!-- **Certifications**   -->
+<!-- Society of Actuaries (SOA) -->
 
+<!-- * Exams: P (passed), FM (passed), SRM (accredited) -->
+<!-- * All VEEs obtained: Economics, Applied Statistics, Corporate Finance -->
 
 
 
