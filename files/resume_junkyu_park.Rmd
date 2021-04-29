@@ -206,7 +206,7 @@ Statistics Canada \hspace*{\fill} Ottawa, ON
 
 * wrote documentations on various topics and ideas in statistics and computations
 * conducted analysis and modeling requested by clients and/or senior methodologists
-* developed, and maintaining, packages in R and Python
+* developed, and maintaining, packages wrtten in R and Python
 
 
 
@@ -222,7 +222,7 @@ Statistics Canada \hspace*{\fill} Ottawa, ON
 
 # Education
 
-**H.B.Sc.: statistics specialist and math minor** \hspace*{\fill} Jun 2019  
+**H.B.Sc.: statistics specialist and math minor** \hspace*{\fill} 2019  
 University of Toronto  
 
 
