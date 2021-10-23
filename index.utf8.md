@@ -24,14 +24,7 @@ output:
 
 # **About me**
 
-<!--html_preserve-->
-<ul class="social-network">
-<li class="button"><a href="https://www.facebook.com/asdfzxcvjkl1" class="fa fa-facebook"></a></li>
-<li class="button"><a href="https://github.com/joon3216" class="fa fa-github"></a></li>
-<li class="button"><a href="https://linkedin.com/in/asdfzxcvjkl1/" class="fa fa-linkedin"></a></li>
-<li class="button"><a href="https://twitter.com/joon3216" class="fa fa-twitter"></a></li>
-</ul>
-<!--/html_preserve-->
+preserve5c94c44a48841477
 
 
 Methodologist (MA-02) at Statistics Canada. Graduate of the University of Toronto in June 2019 with a bachelor's degree in statistics. Interested in data manipulation and visualization, implementation of statistical knowledge, Python/R programming, and statistical computations. Find my resume [here](files/resume_junkyu_park.pdf).
@@ -40,9 +33,7 @@ Methodologist (MA-02) at Statistics Canada. Graduate of the University of Toront
 
 
 
-```{r fig1, echo = F, out.width = '50%', fig.align = 'center', eval = F}
-knitr::include_graphics('front.png')
-```
+
 
 ---
 
