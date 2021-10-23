@@ -8,6 +8,7 @@
 #  | \small{https://www.linkedin.com/in/asdfzxcvjkl1/}
 #  | \small{https://joon3216.github.io/}
 header-includes:
+ - \usepackage{changepage}
  - \usepackage{multicol}
  # - \usepackage{scrextend}
  - \usepackage{xcolor}
@@ -203,16 +204,23 @@ to_ym <- function(day_start, day_end = today()) {
 }
 ```
 
-**Statistics Canada** $\cdot$ Ottawa, ON $\cdot$ `r to_ym('2020-01-06', '2021-11-01')`
+**Statistics Canada** $\cdot$ Ottawa, ON \hspace*{\fill} `r to_ym('2020-01-06', '2021-11-01')`
 
-> **Methodologist** (MA-02) $\cdot$ Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`  
-> 
-> * wrote documentations on various topics and ideas in statistics and computations
-> * conducted analysis and modeling requested by clients and/or senior methodologists
-> * developed, and maintaining, packages written in R and Python
-> 
-> **Methodologist** (MA-01) $\cdot$ Jan 2020 - Oct 2021 $\cdot$ `r to_ym('2020-01-06', '2021-11-01')`  
+\begin{adjustwidth}{0.5cm}{}
+\textbf{Methodologist} (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`  
 
+\begin{itemize}
+\tightlist
+\item
+ wrote documentations on various topics and ideas in statistics and computations
+\item
+ conducted analysis and modeling requested by clients and/or senior methodologists
+\item
+ developed, and maintaining, packages written in R and Python
+\end{itemize}
+
+\textbf{Methodologist} (MA-01) \hspace*{\fill} Jan 2020 - Oct 2021 $\cdot$ `r to_ym('2020-01-06', '2021-11-01')`  
+\end{adjustwidth}
 
 <!-- **Methodologist** (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`   -->
 <!-- Statistics Canada \hspace*{\fill} Ottawa, ON -->
