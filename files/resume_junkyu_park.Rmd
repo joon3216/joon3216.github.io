@@ -9,6 +9,7 @@
 #  | \small{https://joon3216.github.io/}
 header-includes:
  - \usepackage{multicol}
+ # - \usepackage{scrextend}
  - \usepackage{xcolor}
  - \definecolor{linkblue}{RGB}{30, 107, 184}
  - \renewcommand{\baselinestretch}{.85}
@@ -16,6 +17,7 @@ header-includes:
 output: 
   pdf_document:
     toc_depth: 1
+    keep_tex: false
 fontsize: 11pt
 geometry: "left=.75in,right=.75in,top=.7in,bottom=.7in"
 ---
@@ -201,15 +203,23 @@ to_ym <- function(day_start, day_end = today()) {
 }
 ```
 
-**Methodologist** (MA-01) \hspace*{\fill} Jan 2020 - Present $\cdot$ `r to_ym('2020-01-06')`  
-Statistics Canada \hspace*{\fill} Ottawa, ON
+**Statistics Canada** $\cdot$ Ottawa, ON $\cdot$ `r to_ym('2020-01-06', '2021-11-01')`
 
-* wrote documentations on various topics and ideas in statistics and computations
-* conducted analysis and modeling requested by clients and/or senior methodologists
-* developed, and maintaining, packages wrtten in R and Python
+> **Methodologist** (MA-02) $\cdot$ Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`  
+> 
+> * wrote documentations on various topics and ideas in statistics and computations
+> * conducted analysis and modeling requested by clients and/or senior methodologists
+> * developed, and maintaining, packages written in R and Python
+> 
+> **Methodologist** (MA-01) $\cdot$ Jan 2020 - Oct 2021 $\cdot$ `r to_ym('2020-01-06', '2021-11-01')`  
 
 
+<!-- **Methodologist** (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`   -->
+<!-- Statistics Canada \hspace*{\fill} Ottawa, ON -->
 
+<!-- * wrote documentations on various topics and ideas in statistics and computations -->
+<!-- * conducted analysis and modeling requested by clients and/or senior methodologists -->
+<!-- * developed, and maintaining, packages wrtten in R and Python -->
 
 <!-- # Awards -->
 
