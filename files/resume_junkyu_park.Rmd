@@ -204,10 +204,11 @@ to_ym <- function(day_start, day_end = today()) {
 }
 ```
 
-**Statistics Canada** $\cdot$ Ottawa, ON \hspace*{\fill} `r to_ym('2020-01-06', '2021-11-01')`
+**Statistics Canada** \hspace*{\fill} `r to_ym('2020-01-06', '2021-11-01')`  
+\hspace*{\fill} Ottawa, ON
 
 \begin{adjustwidth}{0.5cm}{}
-\textbf{Methodologist} (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`  
+\textbf{Methodologist} (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`
 
 \begin{itemize}
 \tightlist
