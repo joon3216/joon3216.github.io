@@ -23,7 +23,7 @@ fontsize: 11pt
 geometry: "left=.75in,right=.75in,top=.7in,bottom=.7in"
 ---
 
-<!-- Last updated: 2021-01-22 -->
+<!-- Last updated: 2024-03-16 -->
 
 
 ```{r beginmulticols21, echo = F, results = 'asis'}
@@ -42,7 +42,7 @@ cat("
 \fontsize{10pt}{10pt}
 \texttt{joonjunkyu.park@alum.utoronto.ca}
 
-\texttt{\textcolor{linkblue}{\url{https://www.linkedin.com/in/asdfzxcvjkl1/}}}
+\texttt{\textcolor{linkblue}{\url{https://www.linkedin.com/in/junkyujoonpark/}}}
 
 \texttt{\textcolor{linkblue}{\url{https://joon3216.github.io/}}}
 \endgroup
@@ -145,16 +145,16 @@ cat("\\end{multicols}")
 
 **Package development** (work): `estime2` package in Python
 
-* built a prototype of the program that will replace the current system used by Demography Division that fixes negative end-of-period populations in various regional-level population tables
+* built a prototype of the program that will replace the current system used by Centre for Demography that fixes negative end-of-period populations in various regional-level population tables
 * incorporated various methods to fix a negative end-of-period population and evaluation metrics for each of those methods
 
 
-**Package development** (work): `sprcr` package in R
+<!-- **Package development** (work): `sprcr` package in R -->
 
-* included the following functionalities to the package:
-    + plotting kernel density estimates and empirical cdfs based on different colour and panel groups
-    + smoothing out data points based on constraints and various configurations
-    + performing k-fold cross-validation in the smoothing process
+<!-- * included the following functionalities to the package: -->
+<!--     + plotting kernel density estimates and empirical cdfs based on different colour and panel groups -->
+<!--     + smoothing out data points based on constraints and various configurations -->
+<!--     + performing k-fold cross-validation in the smoothing process -->
 
 <!-- **Modeling** (personal): credit card fraud detection -->
 
@@ -204,11 +204,13 @@ to_ym <- function(day_start, day_end = today()) {
 }
 ```
 
-**Statistics Canada** \hspace*{\fill} `r to_ym('2020-01-06', '2021-11-01')`  
+**Statistics Canada** \hspace*{\fill} `r to_ym('2020-01-06')`  
 \hspace*{\fill} Ottawa, ON
 
 \begin{adjustwidth}{0.5cm}{}
-\textbf{Methodologist} (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`
+\textbf{Methodologist} (MA-03) \hspace*{\fill} Mar 2022 - Present $\cdot$ `r to_ym('2022-04-01')`
+
+\textbf{Methodologist} (MA-02) \hspace*{\fill} Oct 2021 - Mar 2022 $\cdot$ `r to_ym('2021-10-18', '2022-03-31')`
 
 \begin{itemize}
 \tightlist
@@ -220,7 +222,7 @@ to_ym <- function(day_start, day_end = today()) {
  developed, and maintaining, packages written in R and Python
 \end{itemize}
 
-\textbf{Methodologist} (MA-01) \hspace*{\fill} Jan 2020 - Oct 2021 $\cdot$ `r to_ym('2020-01-06', '2021-11-01')`  
+\textbf{Methodologist} (MA-01) \hspace*{\fill} Jan 2020 - Oct 2021 $\cdot$ `r to_ym('2020-01-06', '2021-10-18')`  
 \end{adjustwidth}
 
 <!-- **Methodologist** (MA-02) \hspace*{\fill} Oct 2021 - Present $\cdot$ `r to_ym('2021-10-18')`   -->
